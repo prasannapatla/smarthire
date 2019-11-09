@@ -9,6 +9,11 @@
         /* //background-image: linear-gradient(to bottom, #e3f2fd, #ede7f6, #c5cae9); */
         // height: 100%;
     }
+    @media only screen and (max-width: 800px) {
+        .menu_list {
+            position: relative;
+        }
+      }
 
     .menu_list h1 {
         text-align: center;
