@@ -39,7 +39,7 @@ class Admin_register extends Myservice {
   temp_interval:any=null
   bulk_upload() {
     try {
-      this.myfileinit("/server/bulk_reg",
+      this.myfileinit("/server/bulk_reg/",
         {
           exam: $(".cur_exam").val()
         },

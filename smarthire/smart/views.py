@@ -31,7 +31,7 @@ from .serializers import UsersSerializer
 from django.db import connection
 import random
 import json
-import re
+import re,os
 import datetime,time,pytz
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
@@ -1609,11 +1609,17 @@ def cur_email_status(request):
 
 from django.core.files.storage import FileSystemStorage
 
-UPLOAD_DIR='./uploads/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/../"
+MEDIA_URL = './uploads/'
+UPLOAD_DIR = os.path.abspath(os.path.join(BASE_DIR, MEDIA_URL))
+
 
 def upload(myfile):
+    os.system("sudo chown -R :www-data "+UPLOAD_DIR)
+    os.system("sudo chmod 777 -R "+UPLOAD_DIR)
     fs = FileSystemStorage(location=UPLOAD_DIR)
     filename = fs.save(myfile.name, myfile)
+    os.system("sudo chmod 777 -R "+UPLOAD_DIR)
     return fs.url(filename)
 
 @csrf_exempt
@@ -1628,7 +1634,7 @@ def get_temp_update(request):
 
 import xlrd 
 def read_excel(file):
-    wb = xlrd.open_workbook(UPLOAD_DIR+file) 
+    wb = xlrd.open_workbook(BASE_DIR+file) 
     sheet = wb.sheet_by_index(0) 
     sheet.cell_value(0, 0) 
     data=list()
@@ -1653,13 +1659,16 @@ def bulk_reg(request):
                 if not request.POST._mutable:
                     request.POST._mutable = True
                 for val in data:
-                    request.POST["name"]=val[0]
-                    request.POST["email"]=val[1]
-                    if len(val)==3:
-                        request.POST["exam"]=Exam.objects.filter(e_name=val[2]).values("id")[0]["id"] 
-                    responce=user_signup(request).__dict__
-                    resp+="\n"+val[1]+" : "+"".join(responce["_iterator"])
-                    request.session["temp_update"]=resp
+                    if len(val)>=2 and len(val)<=3:
+                        request.POST["name"]=val[0]
+                        request.POST["email"]=val[1]
+                        if len(val)==3:
+                            request.POST["exam"]=Exam.objects.filter(e_name=val[2]).values("id")[0]["id"] 
+                        responce=user_signup(request).__dict__
+                        resp+="\n"+val[1]+" : "+"".join(responce["_iterator"])
+                        request.session["temp_update"]=resp
+                    else:
+                        resp+="\nInvalid data format"
                 request.session["temp_update"]=""
                 return HttpResponse( resp,content_type="text")
             except Exception as e:
@@ -1684,23 +1693,26 @@ def bulk_que(request):
                 if not request.POST._mutable:
                     request.POST._mutable = True
                 for val in data:
-                    request.POST["quetions"]=val[0]
-                    request.POST["formated_para"]=val[1]
-                    if val[1]=="" or val[1]=="-" or val[1].lower()=="null" or val[1].lower()=="none":
-                        request.POST["formated_para"]="nothing"
-                    request.POST["opt1"]=val[2]
-                    request.POST["opt2"]=val[3]
-                    request.POST["opt3"]=val[4]
-                    request.POST["opt4"]=val[5]
-                    request.POST["ans"]=val[int(val[6])+1]
-                    if len(val)==8 and val[7]!="":
-                        request.POST["cat"]=val[7]
-                    responce=addque(request).__dict__
-                    que_len=len(val[0])
-                    if que_len>100:
-                        que_len=100
-                    resp+="\n"+val[0][:que_len-1]+" : "+"".join(responce["_iterator"])
-                    print(resp)
+                    if len(val)>=7 and len(val)<=8:
+                        request.POST["quetions"]=val[0]
+                        request.POST["formated_para"]=val[1]
+                        if val[1]=="" or val[1]=="-" or val[1].lower()=="null" or val[1].lower()=="none":
+                            request.POST["formated_para"]="nothing"
+                        request.POST["opt1"]=val[2]
+                        request.POST["opt2"]=val[3]
+                        request.POST["opt3"]=val[4]
+                        request.POST["opt4"]=val[5]
+                        request.POST["ans"]=val[int(val[6])+1]
+                        if len(val)==8 and val[7]!="":
+                            request.POST["cat"]=val[7]
+                        responce=addque(request).__dict__
+                        que_len=len(val[0])
+                        if que_len>100:
+                            que_len=100
+                        resp+="\n"+val[0][:que_len-1]+" : "+"".join(responce["_iterator"])
+                       
+                    else:
+                        resp+="\nInvalid data format"
                     request.session["temp_update"]=resp
                 request.session["temp_update"]=""
                 return HttpResponse( resp,content_type="text")

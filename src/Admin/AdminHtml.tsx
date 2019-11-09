@@ -91,7 +91,8 @@ var page = function (_this: any) {
                                 <div className='file_upload' style={{ display: "block" }}>
                                     <p className="heading">Bulk upload questions:</p>
                                  <input type="file" className="upload_file"  />
-                                    <button  onClick={_this.bulk_upload.bind(_this)}>Upload file</button><br /><br />
+                                    <button  onClick={_this.bulk_upload.bind(_this)}>Upload file</button>
+                                    <b>Format: </b>Questions,Program,Option1,Option2,Option3,Option4,Correct Answer<br /><br />
                                     <span className='progress'>-</span>
                                 </div>
                             </div>

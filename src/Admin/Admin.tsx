@@ -63,7 +63,7 @@ class Admin extends Myservice {
     $(document).ready(function (this: any) {
 
       if ($("textarea").val().trim() == "") {
-        swal({title:"Enter the questions."})
+        swal({ title: "Enter the questions." })
         return false;
       }
 
@@ -77,7 +77,7 @@ class Admin extends Myservice {
       for (let i = 0; i < opt_val.length; i++)
         for (let j = 0; j < opt_val.length; j++) {
           if (i != j && opt_val[i] != "" && opt_val[j] != "" && opt_val[i] == opt_val[j]) {
-            swal("","Duplicate values exists: " + $("input[type='text").eq(i).attr("placeholder") + "-" + $("input[type='text").eq(j).attr("placeholder"),"error")
+            swal("", "Duplicate values exists: " + $("input[type='text").eq(i).attr("placeholder") + "-" + $("input[type='text").eq(j).attr("placeholder"), "error")
             return false;
           }
         }
@@ -89,7 +89,7 @@ class Admin extends Myservice {
 
       var sel = $("input[type='radio']:checked");
       if (typeof sel.val() === "undefined") {
-        swal("select an option before submitting.","")
+        swal("select an option before submitting.", "")
         return false;
       }
 
@@ -120,7 +120,7 @@ class Admin extends Myservice {
       let data = context.fetch_data("/server/addque/", "POST", null, json_str);
 
       if (data == "success") {
-        swal(data,"","success")
+        swal(data, "", "success")
         $("input[type='text']").each(function (this: any) {
           $("textarea").val("");
           $(this).val("");
@@ -132,15 +132,17 @@ class Admin extends Myservice {
     });
   }
 
-  temp_interval:any=null
+  temp_interval: any = null
   bulk_upload() {
     var sel2 = $('#cat :selected').val();
     if ($("#cat").prop('selectedIndex') == 0) {
-      swal(sel2 + " before submitting.")
+      swal(sel2 + " before submitting.").then(() => {
+        $("#cat").focus()
+      })
       return false;
     }
     try {
-      this.myfileinit("/server/bulk_que",
+      this.myfileinit("/server/bulk_que/",
         {
           cat: sel2
         },
@@ -149,20 +151,20 @@ class Admin extends Myservice {
       );
       var file = $(".upload_file")[0].files[0];
       new this.Upload(file).doUpload();
-      this.temp_interval=setInterval(
-        ()=>{
+      this.temp_interval = setInterval(
+        () => {
           $(".progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
         }
-      ,1000)
+        , 1000)
     }
-    catch (err) { 
-      swal(err,"Upload failed:")
+    catch (err) {
+      swal(err, "Upload failed:")
     }
   }
-  callback(data:any,context:any){
+  callback(data: any, context: any) {
     clearInterval(context.temp_interval)
     $(".progress").html("<pre>" + data + "</pre>")
-    swal("Uploaded","")
+    swal("Uploaded", "")
   }
 
 
