@@ -1,0 +1,95 @@
+.Code_editor {
+    .code {
+        font-size: 25px !important;
+        max-height: 500px;
+        width: 100%;
+    }
+
+    .top_line {
+        width: 100%;
+        // text-align: center;
+    }
+
+    .top_line {
+        height: 100%;
+        margin-bottom: 20px;
+    }
+
+    .inputs {
+        width: 200px;
+        min-width: 200px !important;
+        max-width: 100% !important;
+        min-height: 25px;
+        height: 50px;
+        resize: both;
+    }
+
+    input,
+    select {
+        height: 40px;
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+
+    // .menues {
+    //     float: left;
+    // }
+
+    .menues2 {
+        float: right;
+    }
+
+    .heading {
+        text-align: center;
+        width: 100%;
+        font-size: 30px;
+        margin: 0;
+        padding: 0;
+        text-transform: capitalize;
+    }
+
+    .ps {
+        font-size: 30px;
+        text-transform: capitalize;
+        margin-right: 10px;
+    }
+
+    .io {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .io td {
+        width: 50%;
+        vertical-align: top;
+    }
+
+    .io pre,
+    .io textarea {
+        padding: 2px;
+        min-height: 200px;
+        min-width: 200px;
+        width: 98%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .io th h2{
+        float: left;
+    }
+    .io th input{
+        float: right;
+    }
+    .testcase{
+        color:green;
+    }
+    .loading{
+        padding: 0;
+        margin: 0;
+        widows: 50px;
+        height: 50px;
+        position: relative;
+        top:-4px;
+        float: right;
+        visibility: hidden;
+    }
+}

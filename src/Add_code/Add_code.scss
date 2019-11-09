@@ -1,0 +1,44 @@
+
+.Add_code {
+    .container {
+        border-radius: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    
+    
+     .row {
+        height: 100%;
+    }
+    
+     table {
+        width: 100%;
+    }
+
+     tr td{
+        text-align: center;
+    }
+     
+    
+     textarea{
+        min-width:  100px;
+        width:100%;
+        font-size: 14px;
+    }
+    .heading{
+        vertical-align: 10px;
+    }
+    .code textarea{
+        height:250px;
+    }
+    
+    .prob textarea{
+        height:150px;
+    }
+    .sample_input textarea{
+        height:50px;
+    }
+    .btn{
+        float: right;
+    }
+}

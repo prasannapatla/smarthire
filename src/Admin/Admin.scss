@@ -1,0 +1,57 @@
+.Admin {
+
+    .container {
+        border-radius: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+
+    .row {
+        height: 100%;
+    }
+
+
+
+    table {
+        width: 100%;
+    }
+
+
+
+    tr td {
+        text-align: center;
+    }
+
+    .opt_hed * {
+        text-align: center;
+    }
+
+    .adm_btns,
+    .adm_btns td {
+        text-align: left !important;
+    }
+
+    textarea {
+        min-width: 100px;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .formated_quetions {
+        display: none
+    }
+
+    .progress {
+        height: max-content;
+        background-color: unset;
+    }
+
+    .progress pre {
+        font-size: 12px;
+    }
+
+    .heading {
+        padding-left: 0;
+    }
+}

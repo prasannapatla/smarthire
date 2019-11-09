@@ -1,0 +1,44 @@
+.Admin_register {
+
+    .file_upload div,
+    .file_upload input {
+        display: inline;
+        margin: 10px;
+    }
+
+    .file_upload input {
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .email_status {
+        margin-top: 0;
+        border-radius: 0px;
+        text-align: left;
+    }
+
+    pre {
+        background-color: rgb(236, 235, 235);
+        border: solid 1px silver;
+        min-height: 40px;
+        padding: 5px;
+    }
+
+    .refresh_status {
+        background-color: silver;
+        width: 0%;
+        min-height: 0px;
+        height: 2px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 99%;
+    }
+
+    .progress {
+        height: max-content;
+        background-color: unset;
+    }
+}

@@ -1,0 +1,206 @@
+.Login {
+
+    min-width: 800px;
+    body {
+        font-family: 'Mukta', sans-serif;
+        height: 100vh;
+
+        overflow-y: hidden;
+        display: table;
+        width: 100%;
+    }
+
+    .bg {
+        width: 100%;
+        min-height: 100%;
+        /* background-image: url("../../assets/2.jpg"); */
+        background-repeat: no-repeat;
+        background-size: cover;
+        background: #fafafa;
+        background-position: center;
+        position: fixed;
+        z-index: -100;
+    }
+
+    a {
+        text-decoration: none;
+        color: #444444;
+    }
+
+    .login-reg-panel {
+        position: relative;
+        top: -50px;
+        transform: translateY(20%);
+        text-align: center;
+        width: 70%;
+        right: 0;
+        left: 0;
+        margin: auto;
+        min-height: 500px;
+        background: #fafafa;
+
+    }
+
+    .white-panel {
+        text-align: center;
+        background-color: rgba(255, 255, 255, 1);
+        top: -50px;
+        width: 100%;
+        right: calc(50% - 50px);
+        transition: .3s ease-in-out;
+        z-index: 0;
+        box-shadow: 0 0 15px 9px #00000096;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 20px;
+        padding-bottom: 70px;
+        min-height: 200px;
+        height:100%;
+        max-width:500px;
+    }
+
+    .login-reg-panel input[type="radio"] {
+        position: relative;
+        display: none;
+    }
+
+    .login-reg-panel {
+        color: black;
+    }
+
+    .login-reg-panel #label-login,
+    .login-reg-panel #label-register {
+        border: 1px solid black;
+        padding: 5px 5px;
+        width: 150px;
+        display: block;
+        text-align: center;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .login-info-box {
+        width: 30%;
+        padding: 0 50px;
+        top: 20%;
+        left: 0;
+        position: absolute;
+        text-align: left;
+    }
+
+    .register-info-box {
+        width: 30%;
+        padding: 0 50px;
+        top: 20%;
+        right: 0;
+        position: absolute;
+        text-align: left;
+
+    }
+
+    .right-log {
+        right: 50px !important;
+    }
+
+    .login-show,
+    .register-show {
+        z-index: 1;
+        display: none;
+        opacity: 0;
+        transition: 0.3s ease-in-out;
+        color: #242424;
+        text-align: left;
+        padding: 50px;
+        padding-top: 8%;;
+    }
+
+    .show-log-panel {
+        display: block;
+        opacity: 0.9;
+    }
+
+    .login-show input[type="text"],
+    .login-show input[type="password"] {
+        width: 100%;
+        display: block;
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #b5b5b5;
+        outline: none;
+    }
+
+    .login-show input[type="button"] {
+        max-width: 150px;
+        width: 100%;
+        background: #444444;
+        color: #f9f9f9;
+        border: none;
+        padding: 10px;
+        border-radius: 2px;
+        float: right;
+        cursor: pointer;
+    }
+
+    .login-show a {
+        display: inline-block;
+        padding: 10px 0;
+    }
+
+    .register-show input[type="text"],
+    .register-show input[type="password"] {
+        width: 100%;
+        display: block;
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #b5b5b5;
+        outline: none;
+    }
+
+    .register-show input[type="button"] {
+        max-width: 150px;
+        width: 100%;
+        background: #444444;
+        color: #f9f9f9;
+        border: none;
+        padding: 10px;
+        border-radius: 2px;
+        float: right;
+        cursor: pointer;
+    }
+
+    .credit {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        color: #3B3B25;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        z-index: 99;
+    }
+
+    a {
+        text-decoration: none;
+        color: #2c7715;
+    }
+
+    .banner {
+        text-align: center;
+    }
+
+    .banner .header {
+        font-size: 50px;
+        color: black;
+    }
+
+    #invalidprompt {
+
+        color: red;
+        font-size: 20px;
+    }
+}

@@ -1,0 +1,57 @@
+.Admim_add_cat{
+
+.container {
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .row {
+    height: 100%;
+  }
+  
+   .data {
+    margin-top: 10px;
+  }
+   button {
+    margin-top: 10px;
+  }
+   table{
+    margin-top:10px;
+    border-collapse: separate;
+  }
+   table input{
+    margin-top:10px;
+    width: 97%;
+    margin-left: 0px;
+  }
+   .list_cat .list_exam {
+    border-spacing: 15px;
+  }
+  .q_list {
+    width: 100% !important;
+  }
+   
+   tr, tr td {
+    text-align: left;
+}
+
+
+
+ .table td, .table th {
+  padding: .0px;
+  vertical-align: bottom;
+  border-top: 0px solid #dee2e6;
+}
+
+.custom_date{
+  min-width: 200px;
+}
+.input_group table{
+  display: inline;
+}
+@media only screen and (max-width: 800px) {
+.input_group table input{
+  width: 300px !important;
+}
+}
+}

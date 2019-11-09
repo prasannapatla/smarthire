@@ -1,0 +1,30 @@
+.Admin_list_que{
+
+.container {
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+}
+ .row {
+    height: 100%;
+}
+ table{
+    border-collapse: separate;
+    border-spacing: 10px;
+   
+}
+ tr *{
+    margin: 0px;
+}
+ .table td,  .table th {
+    padding: 0px;
+    vertical-align: bottom;
+    border-top: 0px solid #dee2e6;
+}
+@media only screen and (max-width: 800px) {
+    input[type="button"]{
+        float: left !important;
+    }
+
+}
+}

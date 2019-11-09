@@ -1,0 +1,61 @@
+
+.Code_populate {
+    .data {
+        width: 100%;
+        height: 100%;
+      }
+    
+    
+      table {
+        border-collapse: separate;
+      }
+    
+      #category {
+        padding: 0px;
+        min-width: 600px;
+        padding-top: 20px;
+      }
+    
+      table input {
+        margin-left: 10px;
+        width: 90%;
+      }
+    
+      td {
+        padding-top: 10px;
+      }
+    
+      td:first-child {
+        display: inline;
+      }
+    
+      tr:first-child {
+        margin: 0px;
+      }
+    
+      /*  input,select{
+          height:40px;
+          min-width: 50px;
+      } */
+      .table td,
+      .table th {
+        padding: 0px;
+        vertical-align: top;
+        border-top: 0px solid #dee2e6;
+        padding-bottom: 10px;
+      }
+    
+     .populate{
+       width: unset;
+     }
+     .populate tr input[type='number']{
+      padding-bottom: 6px;
+      padding-left: 10px;
+      padding-right: 15px;
+      border-radius: 5px;
+      padding-top: 6px;
+    }
+    .populate tr input[type='button']{
+      margin-top: 0px;
+    }
+}
