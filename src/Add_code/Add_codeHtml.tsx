@@ -99,7 +99,20 @@ var page = function (_this: any) {
                                         </td>
                                     </tr>
                                 </table><br />
-                                <input type="button" value="Add" onClick={_this.add_code.bind(_this)} className="btn" />
+                                <input type="button" value="Add" onClick={_this.add_code.bind(_this)} className="btn" /><br />
+                                <div className='file_upload' style={{ display: "block" }}>
+                                    <p className="heading">Bulk upload questions:</p>
+                                    <select id="lang2">
+                                        <option value="cpp">C/C++</option>
+                                        <option value="java">Java</option>
+                                        <option value="py3">Python</option>
+                                        <option value="js">Javascript</option>
+                                    </select>
+                                    <input type="file" className="upload_file" />
+                                    <button onClick={_this.bulk_upload.bind(_this)}>Upload file</button>
+                                    <b>Format: </b>pblm_stmt,code,sample_input,t_inp_1,t_inp_2,t_inp_3,t_inp_4,lang(Optional)<br /><br />
+                                    <span className='progress'>-</span>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -79,7 +79,7 @@ class Admin_list_que extends Myservice {
     for (val1 in json_obj) {
       console.log(json_obj[val1]);
       txt += "<tr>"
-      txt += "<td colspan='4' style='max-width:100%;text-indent:-20px;'><b>Q." + (count++) + " </b>" + json_obj[val1]["question"] + "</td>";
+      txt += "<td colspan='4' class='que_ind' style='max-width:100%;text-indent:-20px;'><b>Q." + (count++) + " </b>" + json_obj[val1]["question"] + "</td>";
       txt += "<td><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /></td>"
       txt += "</tr>"
       txt += "<tr class='val'>"
@@ -125,6 +125,7 @@ class Admin_list_que extends Myservice {
     $(".val td").css({ "max-width": "250px" })
     $("td div").css({ "display": "inline" })
     $("td").css({ "padding-left": "20px"})
+    $(".que_ind pre").css({ "padding-left": "20px"})
   };
 
   logout = () => {

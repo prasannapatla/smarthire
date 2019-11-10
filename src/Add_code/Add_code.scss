@@ -41,4 +41,12 @@
     .btn{
         float: right;
     }
+    .progress {
+        height: max-content;
+        background-color: unset;
+    }
+
+    .progress pre {
+        font-size: 12px;
+    }
 }

@@ -51,6 +51,47 @@ class Add_code extends Myservice {
         $("body *").css({ cursor: "auto" })
     }
 
+
+
+    temp_interval: any = null
+    bulk_upload() {
+        var sel2 = $('#lang2 :selected').val();
+        if ($("#lang2").prop('selectedIndex') == 0) {
+            swal(sel2 + " before submitting.").then(() => {
+                $("#lang2").focus()
+            })
+            return false;
+        }
+        try {
+            $("body *").css({ cursor: "wait" })
+            this.myfileinit("/server/bulk_code_que/",
+                {
+                    lang: sel2
+                },
+                this.callback2,
+                this
+            );
+
+            this.temp_interval = setInterval(
+                () => {
+                    $(".progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
+                }
+                , 500)
+            
+            var file = $(".upload_file")[0].files[0];
+            new this.Upload(file).doUpload();
+        }
+        catch (err) {
+            swal(err, "Upload failed:")
+        }
+    }
+    callback2(data: any, context: any) {
+        clearInterval(context.temp_interval)
+        $(".progress").html("<pre>" + data + "</pre>")
+        $("body *").css({ cursor: "auto" })
+        swal("Uploaded", "")
+    }
+
     componentDidUpdate() {
         super.componentDidUpdate();
     }

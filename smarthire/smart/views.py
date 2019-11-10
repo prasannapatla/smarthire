@@ -1643,31 +1643,51 @@ def upload(myfile):
     os.system("sudo chmod 777 -R "+UPLOAD_DIR)
     return fs.url(filename)
 
+global_temp_update=None
+
 @csrf_exempt
 def get_temp_update(request):
+    global_temp_update
     if ("admin" in request.session) and (request.session["admin"]!=None):
-        if(request.session["temp_update"]!=None):
-            return HttpResponse(request.session["temp_update"],content_type="text")
+        if(global_temp_update!=None):
+            print(global_temp_update)
+            return HttpResponse(global_temp_update,content_type="text")
         else:
             return HttpResponse("No updates",content_type="text")           
     else:
         return HttpResponse("Only admin can",content_type="text")
 
 import xlrd 
-def read_excel(file):
-    wb = xlrd.open_workbook(BASE_DIR+file) 
-    sheet = wb.sheet_by_index(0) 
-    sheet.cell_value(0, 0) 
+from openpyxl import load_workbook
+
+def read_excel(file,use=1):
     data=list()
-    for i in range(1,sheet.nrows): 
-        temp=list()
-        for j in range(sheet.ncols): 
-            temp.append(sheet.cell_value(i, j))
-        data.append(temp)
+    if use==0:
+        wb = xlrd.open_workbook(BASE_DIR+file) 
+        sheet = wb.sheet_by_index(0) 
+        sheet.cell_value(0, 0) 
+        for i in range(1,sheet.nrows): 
+            temp=list()
+            for j in range(sheet.ncols): 
+                print(repr(sheet.cell_value(i, j)))
+                temp.append(sheet.cell_value(i, j))
+            data.append(temp)
+    else:
+        wb = load_workbook(filename=BASE_DIR+file, read_only=True)
+        ws = wb['Sheet1']
+        for i in range(2,ws.max_row):
+            temp=list()
+            if len(ws[i])!=0:
+                for col in ws[i]:
+                    if col.value!=None:
+                        temp.append(str(col.value))
+                if "".join(temp).strip()!="":
+                    data.append(temp)
     return data
 
 @csrf_exempt
 def bulk_reg(request):
+    global global_temp_update
     if ("admin" in request.session) and (request.session["admin"]!=None):
         if request.method == 'POST' and request.FILES['file']:
             if(not request.FILES['file'].name.lower().endswith(('.xls', '.xlsx'))):
@@ -1675,7 +1695,7 @@ def bulk_reg(request):
             uploaded=upload(request.FILES['file'])
             resp=str(uploaded)
             try:
-                data=read_excel(uploaded)
+                data=read_excel(uploaded,0)
                 # resp+="\n"+str(data)
                 if not request.POST._mutable:
                     request.POST._mutable = True
@@ -1687,10 +1707,10 @@ def bulk_reg(request):
                             request.POST["exam"]=Exam.objects.filter(e_name=val[2]).values("id")[0]["id"] 
                         responce=user_signup(request).__dict__
                         resp+="\n"+val[1]+" : "+"".join(responce["_iterator"])
-                        request.session["temp_update"]=resp
+                        global_temp_update=resp
                     else:
                         resp+="\nInvalid data format"
-                request.session["temp_update"]=""
+                global_temp_update=None
                 return HttpResponse( resp,content_type="text")
             except Exception as e:
                 return HttpResponse(resp+"\n"+str(e),content_type="text")
@@ -1702,6 +1722,7 @@ def bulk_reg(request):
 
 @csrf_exempt
 def bulk_que(request):
+    global global_temp_update
     if ("admin" in request.session) and (request.session["admin"]!=None):
         if request.method == 'POST' and request.FILES['file']:
             if(not request.FILES['file'].name.lower().endswith(('.xls', '.xlsx'))):
@@ -1734,8 +1755,63 @@ def bulk_que(request):
                        
                     else:
                         resp+="\nInvalid data format"
-                    request.session["temp_update"]=resp
-                request.session["temp_update"]=""
+                    global_temp_update=resp
+                global_temp_update=None
+                return HttpResponse( resp,content_type="text")
+            except Exception as e:
+                return HttpResponse(resp+"\n"+str(e),content_type="text")
+        else:            
+            return HttpResponse("Invalid type of Req",content_type="text")
+    else:
+        return HttpResponse("Only admin can",content_type="text")
+
+
+@csrf_exempt
+def bulk_code_que(request):
+    global global_temp_update
+    if ("admin" in request.session) and (request.session["admin"]!=None):
+        if request.method == 'POST' and request.FILES['file']:
+            if(not request.FILES['file'].name.lower().endswith(('.xls', '.xlsx'))):
+                return HttpResponse("Invalid file format",content_type="text")
+            uploaded=upload(request.FILES['file'])
+            resp=str(uploaded)
+            try:
+                data=read_excel(uploaded)
+                # resp+="\n"+str(data)
+                if not request.POST._mutable:
+                    request.POST._mutable = True
+                for val in data:
+                    if len(val)>=6 and len(val)<=8:
+                        que_len=len(val[0])
+                        if que_len>100:
+                            que_len=100
+                        resp+="\n"+val[0][:que_len-1]
+                        request.POST["pblm_stmt"]=val[0]
+                        request.POST["code"]=val[1]
+                        request.POST["sample_input"]=val[2]
+                        request.POST["t_inp_1"]=val[3]
+                        request.POST["t_inp_2"]=val[4]
+                        request.POST["t_inp_3"]=val[5]
+                        request.POST["t_inp_4"]=val[6]
+                        if len(val)==8:
+                            lang=val[7].lower()
+                            if lang=="python":
+                                lang="py3"
+                            elif lang=="javascript":
+                                lang="js"                        
+                            request.POST["lang"]=lang
+                        for i in range(1,5):
+                            try:                            
+                                request.POST["exp_out_"+str(i)]=str(escape(run_code(request.POST["lang"],request.POST["code"],"validater",request.POST["t_inp_"+str(i)])))
+                            except Exception as e:
+                                resp+="\n"+str(e)+"\n"
+                        responce=addcode(request).__dict__
+                        # resp+="\n"+str(json.dumps(request.POST))                        
+                        resp+=" : "+"".join(responce["_iterator"])                       
+                    else:
+                        resp+="\nInvalid data format"
+                    global_temp_update=resp
+                global_temp_update=None
                 return HttpResponse( resp,content_type="text")
             except Exception as e:
                 return HttpResponse(resp+"\n"+str(e),content_type="text")
@@ -1769,8 +1845,8 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
     print(run_cmd("sudo chmod 771 -R "+user_home))
     # print(run_cmd("sudo ls -l -R "+path+" && sudo tree "+path))
     pre_cmd=""
-    if(inputs!=None and len(inputs)!=0):
-        pre_cmd="printf \""+inputs+"\" | "
+    if(inputs!=None and len(str(inputs))!=0):
+        pre_cmd="printf \""+str(inputs)+"\" | "
     cmd=""
     ext=""
     file_name=user_home+"/"+pgm_dir+pgm_name+"."

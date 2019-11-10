@@ -195,12 +195,14 @@ module.exports = {
                     "^/server/get_select_que_count": "/get_select_que_count/",
                     "^/server/bulk_reg": "/bulk_reg/",
                     "^/server/bulk_que": "/bulk_que/",
+                    "^/server/bulk_code_que": "/bulk_code_que/",
                     "^/server/retrive_email_status": "/retrive_email_status/",
                     "^/server/email_status_in_db": "/email_status_in_db/",
                     "^/server/video_stream": "/video_stream/",
                     "^/server/remove_questions": "/remove_questions/",
                     "^/server/remove_code_questions": "/remove_code_questions/",
                     "^/server/get_expected_output": "/get_expected_output/",
+                    "^/server/get_temp_update": "/get_temp_update/",
                     "^/server/addcode": "/addcode/"
                 }
             }

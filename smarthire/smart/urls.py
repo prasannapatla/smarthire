@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^remove_code_questions/$', views.del_code_questions),
     url(r'^bulk_reg/$', views.bulk_reg),
     url(r'^bulk_que/$', views.bulk_que),
+    url(r'^bulk_code_que/$', views.bulk_code_que),
     url(r'^retrive_email_status/$', views.retrive_email_status),
     url(r'^cur_email_status/$', views.cur_email_status),
     url(r'^email_status_in_db/$', views.email_status_in_db),

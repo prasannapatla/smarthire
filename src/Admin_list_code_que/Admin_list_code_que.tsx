@@ -51,10 +51,10 @@ class Admin_list_code_que extends Myservice {
         let json_obj = JSON.parse(str);
         let txt = "";
         let val1: any, val2: any;
-
+        let count=1
         for (val1 in json_obj) {
 
-            txt += "<h4><b><input style=' vertical-align: top' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /> Problem statement</b></h4><pre>" + json_obj[val1]["pbm_stmt"] + "</pre>";
+            txt += "<h4>"+(count++)+". &nbsp;<b><input style=' vertical-align: top' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /> Problem statement</b></h4><pre>" + json_obj[val1]["pbm_stmt"] + "</pre>";
             txt += "<h4><b>Language:</b>" + json_obj[val1]["lang"] + "</h4><pre class='pre_tag'>" + json_obj[val1]["code"].replace(/[&]/g, "&amp;").replace(/[<]/g, "&lt;").replace(/[>]/g, "&gt;") + "</pre>";
             txt += "<table><tbody><tr>"
             txt += "<th>Example input</th><th>Test input1</th><th>Test input2</th><th>Test input3</th><th>Test input4</th></tr><tr>"

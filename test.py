@@ -29,3 +29,16 @@ print(utc_to_local('2019-11-10 06:30:00'))
 # timezone.localtime(date)
 # # datetime.datetime(2014, 8, 1, 16, 15, 0, 513000, tzinfo=<DstTzInfo 'America/New_York' EDT-1 day, 20:00:00 DST>)
 #2019-09-18T05:30:00+05:30
+from openpyxl import load_workbook
+wb = load_workbook(filename='uploads/questions.xlsx', read_only=True)
+ws = wb['Sheet1']
+rows=ws.rows
+for i in range(2,ws.max_row):
+    temp=""
+    if len(ws[i])!=0:
+        # if ws[i][0].value!=None:
+        for col in ws[i]:
+            if col.value!=None:
+                temp+=str(col.value)+","
+        if "".join(temp).strip()!="":
+            print(temp)
