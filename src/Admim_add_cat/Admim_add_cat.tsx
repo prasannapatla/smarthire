@@ -55,14 +55,13 @@ class Admim_add_cat extends Myservice {
     });
     $(document).ready(function () {
       $('#datetimepicker').datetimepicker({
-        format: 'd/m/Y h:i',
+        format: 'd/m/Y H:i',
         minDate: 0,
         minTime: 0
       });
       $('#datetimepicker2').datetimepicker({
-        format: 'd/m/Y h:i',
-        minDate: 0,
-        minTime: 0
+        format: 'd/m/Y H:i',
+        minDate: 0
       });
     });
     super.componentDidMount();

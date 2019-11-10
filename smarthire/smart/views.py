@@ -33,9 +33,11 @@ import random
 import json
 import re,os
 import datetime,time,pytz
+# from dateutil import tz
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
 from html import escape,unescape
+from collections import OrderedDict 
 from django.core.mail import EmailMultiAlternatives
 import imaplib
 import email
@@ -211,10 +213,6 @@ def addcat(request):
         return HttpResponse("invalid req",content_type="text")  
 
 
-def utc_to_ist():
-    return datetime.datetime.now(tz.gettz("Asia/Kolkata")).strftime('%m/%d/%Y %H:%M:%S %Z')
-
-
 @csrf_exempt
 def add_exam(request):  
     if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
@@ -224,9 +222,9 @@ def add_exam(request):
             e_date=datetime.datetime.strptime(request.POST.get("e_date"), "%d/%m/%Y %H:%M")
             print(today,s_date,e_date)
             if(today>s_date):
-                return HttpResponse("Inavalid start/time date",content_type="text")  
+                return HttpResponse("Inavalid start time/date",content_type="text")  
             if(s_date>e_date):
-                return HttpResponse("Inavalid date/time range",content_type="text")  
+                return HttpResponse("Inavalid time/date range",content_type="text")  
             if(len(request.POST.get("e_name"))<=1):
                 return HttpResponse("Enter exam name",content_type="text")  
                         
@@ -751,8 +749,26 @@ def default(o):
 #             temp_str[dict_arr_val]=",".join(temp_arr[dict_arr_val])
 #     return temp_str
 
-from collections import OrderedDict 
 
+
+def utc_to_ist(local):
+    # METHOD 1: Hardcode zones:
+    from_zone = pytz.timezone('UTC')
+    to_zone = pytz.timezone('Asia/Kolkata')
+
+    # # METHOD 2: Auto-detect zones:
+    # from_zone = tz.tzutc()
+    # to_zone = tz.tzlocal()
+
+    # utc = datetime.utcnow()
+    utc = datetime.datetime.strptime(local, '%Y-%m-%d %H:%M:%S')
+
+    # Tell the datetime object that it's in UTC time zone since 
+    # datetime objects are 'naive' by default
+    utc = utc.replace(tzinfo=from_zone)
+
+    # Convert time zone
+    return utc.astimezone(to_zone).strftime("%Y-%m-%d %H:%M:%S")
 
 def make_query(stmt):
     cursor = connection.cursor() 
@@ -773,7 +789,12 @@ def make_query(stmt):
             c=0
             list1=OrderedDict()
             for value in val:
-                list1.update(OrderedDict({cursor.description[c][0]: unescape(str(value))}))
+                orig_val=unescape(str(value))
+                if re.search("^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}(.\d{1,6})?$",orig_val):
+                    print(orig_val)
+                    orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val)[0])
+                    print(orig_val)
+                list1.update(OrderedDict({cursor.description[c][0]: orig_val}))
                 c+=1
             mylist.append(list1)
         except Exception as e:
@@ -1959,6 +1980,7 @@ def code_exam_logout(request):
 def video_stream(request):
     print("post",request.POST)
     print("get",request.GET)
+    return HttpResponse( "GET:\n"+str(request.GET)+"\n\nPOST:\n"+str(request.POST),content_type="text")
 
 @csrf_exempt
 def addcode(request):      
