@@ -72,19 +72,24 @@
 } */
 
 
-.select_exam_text div{
-  display: inline;
-}
-@media only screen and (max-width: 800px) {
-  .select_exam_text div{
-  display: block;
-  float: left;
+  .select_exam_text div {
+    display: inline;
   }
-}
-.print_txt{
-  float: right;
-  margin-right: 20px;
-  margin-top: 20px;
+
+  @media only screen and (max-width: 800px) {
+    .select_exam_text div {
+      display: block;
+      float: left;
+    }
+  }
+
+  .print_txt {
+    float: right;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+.download{
+  margin-left: 20px;;
 }
 
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import { callbackify } from 'util';
 // import * as $ from 'jquery';
 var $ = require("jquery");
-
+import html2canvas from "html2canvas"
 
 class Myservice extends React.Component {
 
@@ -158,6 +158,19 @@ class Myservice extends React.Component {
         },
         true // Capture event
     );
+}
+
+download_page(_this?:any,selecter=".sect",to="#screenshot") { 
+  console.log(selecter,to)
+  $("body").append("<div className='screenshot' style='display:none' id='screenshot'></div>") 
+  //@ts-ignore
+  html2canvas(document.querySelector(selecter)).then(canvas => {
+    $(to).eq(0).html(canvas)
+    var download = $("#download")[0];
+    var image = $(to+" canvas")[0].toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    download.setAttribute("href", image);
+  });
 }
 
   set_sess = (key: any, value: any) => {

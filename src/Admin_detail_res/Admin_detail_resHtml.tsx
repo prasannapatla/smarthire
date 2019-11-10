@@ -25,7 +25,10 @@ var page = function (_this: any) {
     return (
         <div className="Admin_detail_res">
             <div className="container" style={{ backgroundColor: "#fafafa" }}>
-                <div className="">
+                <div id="selected">
+                    <input type="button" value="Print" onClick={_this.print_page.bind(_this)} />
+                    <div className='screenshot' style={{display:"none"}} id='screenshot'></div>
+                    <a id="download" download="details.png" className="download">Download</a>
                     <div className="sect" style={{ display: "none" }}>
                         <table className="filter">
                             <tbody>
@@ -124,7 +127,7 @@ var page = function (_this: any) {
                                         data={_this.state.pi_json}
                                         title="Time taken for each Category(Sec)"
                                     />
-                                      {/* <canvas id="PiChart" width="400" height="400"></canvas> */}
+                                    {/* <canvas id="PiChart" width="400" height="400"></canvas> */}
 
                                 </div>
                                 <div className="chart2">
@@ -135,7 +138,7 @@ var page = function (_this: any) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <h3>MCQ Results</h3>
                         <div className="sect">
                             <div className="table-responsive mob_overflow">

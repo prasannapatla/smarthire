@@ -7,6 +7,7 @@ var jsonQuery = require('json-query')
 var $ = require("jquery");
 var swal = require("sweetalert");
 var Chart = require('chart.js');
+import html2canvas from "html2canvas"
 
 class Admin_detail_res extends Myservice {
   params: any = []
@@ -57,6 +58,16 @@ class Admin_detail_res extends Myservice {
         this.load_res(this.params[0]);
     }
     this.myfilter();
+    $(document).ready(function(){
+      //@ts-ignore
+  html2canvas(document.querySelector(".content")).then(canvas => {
+    $("#screenshot").eq(0).html(canvas)
+    var download = $("#download")[0];
+    var image = $("#screenshot canvas")[0].toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    download.setAttribute("href", image);
+  });
+})
     super.componentDidMount();
   }
 
@@ -362,6 +373,10 @@ class Admin_detail_res extends Myservice {
     this.load_res(this.params[0]);
     $(":input[type='text'").val("")
 
+  }
+
+  print_page(){
+    window.print();
   }
 
   render() {

@@ -45,7 +45,6 @@ class Admin_view_result extends Myservice {
 
 
     $("select").eq(0).focus()
-
     super.componentDidMount();
   }
 
@@ -87,7 +86,7 @@ class Admin_view_result extends Myservice {
         txt += "<td>NA</td>"
 
       txt += "<td >" + json_obj[val1]["Feedback"] + "/5</td>"
-      if (json_obj[val1]["Score"]!=-1 || json_obj[val1]["Score2"]!=-1)
+      if (json_obj[val1]["Score"] != -1 || json_obj[val1]["Score2"] != -1)
         txt += "<td className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a>View Detail</a></u></td>"
       else
         txt += "<td>No Details</td>"
@@ -190,6 +189,10 @@ class Admin_view_result extends Myservice {
       txt += "</tr>";
     }
     $(".user_det").html(txt)
+
+
+  
+
   };
 
   print = () => {
@@ -220,7 +223,10 @@ class Admin_view_result extends Myservice {
 
 
 
+
   };
+
+  
 
   render() {
     return (
