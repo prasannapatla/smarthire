@@ -9,6 +9,7 @@ import emoji from '../assets/output-onlinepngtools.png'
 class Examstart extends Myservice {
   myWindow: any = null;
   c: number = 0;
+  timeout:any=null
   constructor(props: any) {
     super(props);
 
@@ -25,16 +26,25 @@ class Examstart extends Myservice {
     //   context.fetch_data("/server/del/", "POST");
     // }
     this.available_exam();
-    setInterval(() => {
+    this.timeout=setInterval(() => {
       context.available_exam()      
     }, 1000);
     this.disable_btns();
+    window.onbeforeunload = function () {
+      if(context.timeout!=null)
+      clearInterval(context.timeout)
+  };
     super.componentDidMount();
   }
 
 
   available_exam(){
-    let json_resp = JSON.parse(this.fetch_data("/server/all_exam_status/", "POST"))
+    let json_resp=null
+    try {
+      json_resp = JSON.parse(this.fetch_data("/server/all_exam_status/", "POST"))      
+    } catch (error) {
+      return
+    }
     // alert(Number(json_resp[0].status_code))
     if (Number(json_resp[0].status_code) == 2) {
         $(".mcq").hide()
@@ -217,6 +227,8 @@ class Examstart extends Myservice {
   }
 
   signout() {
+    if(this.timeout!=null)
+    clearInterval(this.timeout)
     if (this.myWindow != null)
       this.myWindow.close()
     console.log("signout")

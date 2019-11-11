@@ -2276,8 +2276,11 @@ def get_all_exam_status(uid):
 @csrf_exempt
 def all_exam_status(request): 
     if("logged_in" in request.session):
-        uid=Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"]
-        return HttpResponse(get_all_exam_status(uid),content_type="text")
+        try:
+            uid=Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"]
+            return HttpResponse(get_all_exam_status(uid),content_type="text")
+        except:
+            return HttpResponse("error",content_type="text")
     else:
         return HttpResponse("No user logged in: \n",content_type="text")
 

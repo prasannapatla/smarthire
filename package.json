@@ -51,6 +51,7 @@
     "start": "chmod +x add remove & npm run django & webpack-dev-server  --hot --host 0.0.0.0 --open ",
     "build4": "webpack --mode production",
     "build": "webpack -p",
+    "init": "./init.sh",
     "react_demo": " webpack-dev-server  --hot --host 0.0.0.0 --open"
   },
   "eslintConfig": {

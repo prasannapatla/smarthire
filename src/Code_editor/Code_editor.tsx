@@ -79,7 +79,24 @@ class Code_editor extends Myservice {
 
     after_load() {
         this.load_sucess = true;
-        this.get_que();
+        let context=this
+        let blur=false;
+        let iframe=$('iframe')
+        iframe.mouseover(function () {
+           blur=false
+           console.log("frame  blur",blur)
+        });
+        iframe.mouseout(function () {
+           blur=true
+           console.log("frame  blur",blur)
+        });
+        $(window).blur(function () {
+            // alert( $('iframe').is(":focus"))
+            console.log("code",blur,iframe.text())
+            if(blur)
+                context.close_win()
+        });
+        this.get_que();        
     }
 
 
@@ -113,7 +130,6 @@ class Code_editor extends Myservice {
                     }
                     if (context.sec_inc > 1){
                         clearInterval(interval2)
-                        this.on_editor_load();
                     }
                 }
                 , 1000)
@@ -121,25 +137,7 @@ class Code_editor extends Myservice {
         console.log("loded" + this.loaded)
     }
 
-    on_editor_load(){
-        let context=this
-        let blur=false;
-        let iframe=$('iframe')
-        iframe.mouseover(function () {
-           blur=false
-           console.log("frame  blur",blur)
-        });
-        iframe.mouseout(function () {
-           blur=true
-           console.log("frame  blur",blur)
-        });
-        $(window).blur(function () {
-            // alert( $('iframe').is(":focus"))
-            console.log("code",blur,iframe.text())
-            if(blur)
-                context.close_win()
-        });
-    }
+
 
     set_syntax_lang(lang: any): any {
         if (this.loaded >= 2) {
@@ -205,7 +203,7 @@ class Code_editor extends Myservice {
 
     get_que() {
         $("body").css({cursor:"wait"})
-        window.setval("code","")
+       
         let questions = this.fetch_data("/server/get_code_que/", "POST");
         console.log("--------que",questions)
         $("body").css({cursor:"auto"})
@@ -298,6 +296,11 @@ class Code_editor extends Myservice {
 
     submit_code() {
         this.fetch_data("/server/submit_code/", "POST");
+        try {
+            window.setval("code","")            
+        } catch (error) {
+            
+        }
         this.get_que();
     }
 
