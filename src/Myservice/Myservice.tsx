@@ -16,16 +16,16 @@ class Myservice extends React.Component {
   componentDidUpdate() {
     console.log("----------Super class Component Updated-----------")
   }
-  shouldComponentUpdate(nextProps:any, nextState:any) {
-        
+  shouldComponentUpdate(nextProps: any, nextState: any) {
+
     return false;
   }
 
 
-  public fetch_data = (path: string, method: string = "POST", str_req: any = null, json_req: any = null, async_val: boolean = false, callback?: any,context:any=null): any => {
+  public fetch_data = (path: string, method: string = "POST", str_req: any = null, json_req: any = null, async_val: boolean = false, callback?: any, context: any = null): any => {
     let res: string = ""
     let json_str: any
-    let data_to_be_send:any = []
+    let data_to_be_send: any = []
     if (str_req != null) {
       let data_arr: any = str_req.split("&");
       if (data_arr.length > 1) {
@@ -58,8 +58,8 @@ class Myservice extends React.Component {
       success: function (response: any) {
         res = response
         if (async_val == true)
-          if(context!=null)
-            callback(res,context);
+          if (context != null)
+            callback(res, context);
           else
             callback(res);
       },
@@ -71,7 +71,7 @@ class Myservice extends React.Component {
 
 
   Upload: any
-  myfileinit(path:string,json_data:any,callback:any,context:any) {
+  myfileinit(path: string, json_data: any, callback: any, context: any) {
 
     this.Upload = function (file: any) {
       this.file = file;
@@ -91,7 +91,7 @@ class Myservice extends React.Component {
       var formData = new FormData();
 
       // add assoc key values, this will be posts values
-      for(let key in json_data){
+      for (let key in json_data) {
         formData.append(key, json_data[key]);
         console.log(key, json_data[key])
       }
@@ -107,8 +107,8 @@ class Myservice extends React.Component {
           }
           return myXhr;
         },
-        success: function (data: any,) {
-         callback(data,context)
+        success: function (data: any, ) {
+          callback(data, context)
         },
         error: function (err: any) {
           console.log(err)
@@ -136,42 +136,49 @@ class Myservice extends React.Component {
 
 
 
-  sleep(milliseconds:any) {
+  sleep(milliseconds: any) {
     var start = new Date().getTime();
     for (var i = 0; i < 1e7; i++) {
-      if ((new Date().getTime() - start) > milliseconds){
+      if ((new Date().getTime() - start) > milliseconds) {
         break;
       }
     }
   }
 
-  on_elem_load(attr_name:any,val:any,callback:any){
+  on_elem_load(attr_name: any, val: any, callback: any) {
     document.addEventListener(
-        'load',
-        function(event){
-            var elm = event.target;
-            console.log($(elm).attr(attr_name))
-            if( $(elm).attr(attr_name) === val){ // or any other filtering condition
-              console.log("loded..."+$(elm).attr(attr_name))
-                callback();
-            }
-        },
-        true // Capture event
+      'load',
+      function (event) {
+        var elm = event.target;
+        console.log($(elm).attr(attr_name))
+        if ($(elm).attr(attr_name) === val) { // or any other filtering condition
+          console.log("loded..." + $(elm).attr(attr_name))
+          callback();
+        }
+      },
+      true // Capture event
     );
-}
+  }
 
-download_page(_this?:any,selecter=".sect",to="#screenshot") { 
-  console.log(selecter,to)
-  $("body").append("<div className='screenshot' style='display:none' id='screenshot'></div>") 
-  //@ts-ignore
-  html2canvas(document.querySelector(selecter)).then(canvas => {
-    $(to).eq(0).html(canvas)
-    var download = $("#download")[0];
-    var image = $(to+" canvas")[0].toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    download.setAttribute("href", image);
-  });
-}
+  download_page(_this?: any, selecter = ".sect", to = "#screenshot") {
+    console.log(selecter, to)
+    // $(window).scrollTop(0)
+    $('html, body').animate({
+      scrollTop: 0
+    }, {
+      duration:150
+    })
+    $("body").append("<div className='screenshot' style='display:none' id='screenshot'></div>")
+    //@ts-ignore
+    html2canvas(document.querySelector(selecter)).then(canvas => {
+      $(to).eq(0).html(canvas)
+      var download = $("#download")[0];
+      var image = $(to + " canvas")[0].toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      download.setAttribute("href", image);
+      download.click();
+    });
+  }
 
   set_sess = (key: any, value: any) => {
     localStorage.setItem(key, value);
@@ -194,32 +201,29 @@ download_page(_this?:any,selecter=".sect",to="#screenshot") {
 
 
   allow_user = () => {
-    if ((this.fetch_data("/server/test/", "POST")).match("No user logged in:"))
-    {
+    if ((this.fetch_data("/server/test/", "POST")).match("No user logged in:")) {
       this.open_link("")
       return true
     }
-    else 
+    else
       return false
   }
 
   allow_admin = () => {
-    if ((this.fetch_data("/server/admin_status/", "POST")).match("No user logged in:"))
-    {
+    if ((this.fetch_data("/server/admin_status/", "POST")).match("No user logged in:")) {
       this.open_link("")
       return true
     }
-    else 
+    else
       return false
   }
 
   user_logout = () => {
-    if ( this.fetch_data("/server/del/", "POST"))
-    {
+    if (this.fetch_data("/server/del/", "POST")) {
       this.open_link("")
       return true
     }
-    else 
+    else
       return false
   }
 

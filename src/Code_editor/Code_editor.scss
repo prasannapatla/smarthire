@@ -102,7 +102,15 @@
         text-align: left;
         // display: inline;
       }
+      .ps{
+        position: relative;
+        top:15px;
+      }
       .timer span {
         vertical-align: center;
       }
+      .avatar {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
 }

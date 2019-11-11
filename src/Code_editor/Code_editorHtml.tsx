@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import loading from '../assets/loading2.gif';
+import logo from '../assets/terralogo.svg';
 var page = function (_this: any) {
     return (
         <div className="Code_editor">
             <div className="top_line">
-                <b className="heading">Smarthire</b>
+                <b className="heading"><img src={logo} className="avatar" /></b>
                 <div className="menues2">
                     <b className="ps"> <span className="glyphicon glyphicon-time"></span> &nbsp; &nbsp;<span id="timer" className="time_val">60:00</span></b>
                 </div>

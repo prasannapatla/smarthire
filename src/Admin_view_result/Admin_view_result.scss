@@ -83,13 +83,20 @@
     }
   }
 
+  .details {
+    display: table-cell;
+    padding-right: 20px;
+  }
+
   .print_txt {
     float: right;
     margin-right: 20px;
     margin-top: 20px;
   }
-.download{
-  margin-left: 20px;;
-}
+
+  .download {
+    display: none;
+    margin-left: 20px;
+  }
 
 }
