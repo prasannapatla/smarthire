@@ -5,9 +5,9 @@ class Exam(models.Model):
     e_name=models.CharField(max_length=32, blank=False,unique=True)
     start_date=models.DateTimeField()
     end_date=models.DateTimeField(blank=False)
-    duration=models.IntegerField(blank=False,default=900)
+    duration=models.IntegerField(blank=False,default=0)
     total_marks=models.IntegerField(blank=False,default=60)
-    code_duration=models.IntegerField(blank=False,default=900)
+    code_duration=models.IntegerField(blank=False,default=0)
     code_total_marks=models.IntegerField(blank=False,default=60)
 
 # Create your models here.
