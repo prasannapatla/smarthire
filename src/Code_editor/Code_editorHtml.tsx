@@ -7,7 +7,7 @@ var page = function (_this: any) {
             <div className="top_line">
                 <b className="heading">Smarthire</b>
                 <div className="menues2">
-                    <b className="ps">Duration</b>
+                    <b className="ps"> <span className="glyphicon glyphicon-time"></span> &nbsp; &nbsp;<span id="timer" className="time_val">60:00</span></b>
                 </div>
             </div>
             <div className="top_line">

@@ -53,5 +53,6 @@ urlpatterns = [
     url(r'^email_status_in_db/$', views.email_status_in_db),
     url(r'^get_temp_update/$', views.get_temp_update),
     url(r'^get_expected_output/$', views.get_expected_output),
+    url(r'^all_exam_status/$', views.all_exam_status),
     url(r'^video_stream/$', views.video_stream),
     ]

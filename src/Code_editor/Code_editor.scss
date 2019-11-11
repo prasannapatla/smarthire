@@ -92,4 +92,17 @@
         float: right;
         visibility: hidden;
     }
+    .timer {
+        width: 120px;
+        float: right;
+        color: black;
+        border: solid rgb(221, 213, 213) 1px;
+        box-shadow: inset 0px 0px 5px rgb(221, 213, 213);
+        padding: 8px;
+        text-align: left;
+        // display: inline;
+      }
+      .timer span {
+        vertical-align: center;
+      }
 }

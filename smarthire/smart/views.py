@@ -121,6 +121,13 @@ def user_login(request):
         regexp_str="^[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$"
         if not re.match(regexp_str,email_id):
             return HttpResponse("Invalid email id",content_type="text")
+
+        uid=Users.objects.filter(email=request.POST.get('email')).values()[0]["id"]
+        try:
+            if int(json.loads(get_all_exam_status(uid))[0]["status_code"])==3:
+                return HttpResponse("You have already attended exam",content_type="text")
+        except:
+            pass
         if len(user_pwd)!=6:
             return HttpResponse("Password should consist of 6 character, current length is "+str(len(user_pwd)),content_type="text")
         obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
@@ -1918,7 +1925,10 @@ def get_code_que(request):
             quetions_to_be_send=""
             quetions_to_be_send+=cur_que[1]+"&sep;"
             quetions_to_be_send+=cur_que[4]+"&sep;"
-            quetions_to_be_send+=run_code(cur_que[3],unescape(cur_que[2]),"validater",cur_que[4],"",username+"/")
+            quetions_to_be_send+=run_code(cur_que[3],unescape(cur_que[2]),"validater",cur_que[4],"",username+"/")+"&sep;"
+            print(Exam.objects.filter(id=user["exam"]).values())
+            dur=Exam.objects.filter(id=user["exam"]).values()[0]["code_duration"]
+            quetions_to_be_send+=str(dur)
             print(quetions_to_be_send)
             try:
                 crs=Coding_result_set()
@@ -2047,8 +2057,6 @@ def code_exam_status(request):
 @csrf_exempt
 def code_exam_logout(request): 
     if("logged_in" in request.session):
-        if("qno" in request.session):
-            del request.session['qno']
         if("que_cnt" in request.session):
             del request.session['que_cnt']
         return HttpResponse("Deleted",content_type="text")
@@ -2180,3 +2188,78 @@ def del_code_questions(request):
             return HttpResponse("fail",content_type="text")
     else:
         return HttpResponse("Invalid req",content_type="text")
+
+def get_all_exam_status(uid):
+    stmt='''
+    SELECT 
+        t1.total as total_code_que,
+        t2.total as total_mcq_que,
+        rs1.cnt as attended_code_que,
+        rs2.cnt as attended_mcq_que,
+        IF(t1.total>0,IF(rs1.cnt>0,1,0),1) as attended_code,
+        IF(t2.total>0,IF(rs2.cnt>0,2,0),2) as attended_mcq,
+        IF(t1.total>0,IF(rs1.cnt>0,1,0),1)+IF(t2.total>0,IF(rs2.cnt>0,2,0),2) as status_code
+        
+    from
+        (
+            SELECT
+                count(*) as total
+            from
+                smart_selected_code_questions scq 
+            where
+                scq.exam_id=
+                (
+                    select 
+                        su1.exam_id 
+                    from 
+                        smart_users su1
+                    WHERE 
+                        su1.id={0}
+                )
+        ) as t1
+    JOIN
+        (
+            SELECT
+                count(*) as total 
+            from
+                smart_selected_questions sq 
+            where
+                sq.exam_id=
+                (
+                    select 
+                        su2.exam_id 
+                    from 
+                        smart_users su2
+                    WHERE 
+                        su2.id={0}
+                )
+        ) as t2
+    JOIN
+        (
+            SELECT
+                count(*) as cnt
+            from 
+                smart_coding_result_set
+            WHERE
+                smart_coding_result_set.user_id={0}
+        ) as rs1
+    JOIN
+        (
+            SELECT
+                count(*) as cnt
+            from 
+                smart_result_set
+            WHERE
+                smart_result_set.user_id={0}
+        ) as rs2
+    '''.format(uid)
+    return make_query(stmt)
+
+@csrf_exempt
+def all_exam_status(request): 
+    if("logged_in" in request.session):
+        uid=Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"]
+        return HttpResponse(get_all_exam_status(uid),content_type="text")
+    else:
+        return HttpResponse("No user logged in: \n",content_type="text")
+

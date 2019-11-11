@@ -203,6 +203,7 @@ module.exports = {
                     "^/server/remove_code_questions": "/remove_code_questions/",
                     "^/server/get_expected_output": "/get_expected_output/",
                     "^/server/get_temp_update": "/get_temp_update/",
+                    "^/server/all_exam_status": "/all_exam_status/",
                     "^/server/addcode": "/addcode/"
                 }
             }

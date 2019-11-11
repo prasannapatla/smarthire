@@ -50,7 +50,7 @@ class Login extends Myservice {
                     $('.register-show').removeClass('show-log-panel');
                 }
             });
-            $(document).on('keypress', function (e: any) {
+            $(".Login").on('keypress', function (e: any) {
                 if (e.which === 13) {
                     $("input[type=button").trigger("click");
                 }

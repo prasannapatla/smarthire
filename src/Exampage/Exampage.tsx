@@ -1,11 +1,10 @@
 
-import React from 'react';
+
 import './Exampage.scss';
 import page from './ExampageHtml'
 import Myservice from '../Myservice/Myservice'
 var $ = require("jquery");
 var swal = require('@sweetalert/with-react')
-import emoji from '../assets/output-onlinepngtools.png'
 
 class Exampage extends Myservice {
 
@@ -57,7 +56,7 @@ class Exampage extends Myservice {
                 this.save_ans();
             }
             if (this.sec == 0) {
-                this.exam_end("Exam timeout!\n Your responses are saved");
+                this.closeWin("Exam timeout!\n Your responses are saved");
             }
 
         }, 1000);
@@ -69,7 +68,7 @@ class Exampage extends Myservice {
         var context = this
         //alert(str)
         if (str.match("&end;")) {
-            this.exam_end("Thank you. Your responses are saved!");
+            this.closeWin("Thank you. Your responses are saved!");
         }
         else
             if (str.match("&timeout;")) {
@@ -152,38 +151,7 @@ class Exampage extends Myservice {
     //   }
     // }
 
-    onPick(value: any) {
-        swal("Thanks for your rating!", `You rated us ${value}/5`, "success")
-            .then(() => {
-                this.fetch_data("/server/feedback/", "POST", "feedback=" + value)
-                this.del_sess("login_status")
-                window.close();
-                this.fetch_data("/server/exam_logout/", "POST")
-                return
-            });
-    }
-
-
-
-    MoodButton = ({ rating, onClick }: any) => {
-        let inv_rating = 5 - rating + 1
-        let scale = inv_rating * 60;
-        if (inv_rating != 1)
-            scale += 4 * inv_rating
-
-
-        return (
-            <button
-                style={{ width: "60px", height: "60px", background: "url('" + emoji + "')", backgroundPosition: scale + 'px -130px', border: "none" }}
-                data-rating={rating}
-                className="mood-btn rate"
-                onClick={() => onClick(rating)}
-            //   {_this.openWin.bind(_this)}
-            />
-
-        )
-    }
-
+   
 
 
     closeWin = (msg: any) => {
@@ -193,47 +161,8 @@ class Exampage extends Myservice {
         this.fetch_data("/server/exam_logout/", "POST")
         return
     }
-    exam_end(msg: any) {
-        swal({
-            text: "\nHow was your experience?",
-            buttons: {
-                cancel: "Close",
-            },
-            content: (
 
-                <div>
-                    <this.MoodButton
-                        rating={1}
-                        onClick={this.onPick.bind(this)}
-                    />
-                    <this.MoodButton
-                        rating={2}
-                        onClick={this.onPick.bind(this)}
-                    />
-                    <this.MoodButton
-                        rating={3}
-                        onClick={this.onPick.bind(this)}
-                    />
-                    <this.MoodButton
-                        rating={4}
-                        onClick={this.onPick.bind(this)}
-                    />
-                    <this.MoodButton
-                        rating={5}
-                        onClick={this.onPick.bind(this)}
-                    />
-                </div>
-            )
-
-        })
-            .then(() => {
-                window.close();
-                this.fetch_data("/server/exam_logout/", "POST")
-                return
-            });
-
-
-    }
+   
     myalert(txt: any) {
         swal({
             title: "Warning!",

@@ -1539,3 +1539,127 @@
 [Mon Nov 11 10:05:26.088082 2019] [wsgi:error] [pid 20634]  }
 [Mon Nov 11 10:05:26.088089 2019] [wsgi:error] [pid 20634] ]
 [Mon Nov 11 10:05:26.088103 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:01:26.758697 2019] [wsgi:error] [pid 20634] 45
+[Mon Nov 11 13:01:26.831514 2019] [wsgi:error] [pid 20634] 2019-09-18 00:00:00
+[Mon Nov 11 13:01:26.952593 2019] [wsgi:error] [pid 20634] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:01:26.970126 2019] [wsgi:error] [pid 20634] []
+[Mon Nov 11 13:01:33.220002 2019] [wsgi:error] [pid 20635] 43
+[Mon Nov 11 13:01:33.221651 2019] [wsgi:error] [pid 20635] 2019-09-18 00:00:00
+[Mon Nov 11 13:01:33.356480 2019] [wsgi:error] [pid 20635] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:01:33.356573 2019] [wsgi:error] [pid 20635] []
+[Mon Nov 11 13:12:53.725757 2019] [wsgi:error] [pid 20634] sudo userdel $(grep -oi '^smarthire_user_274_[0-9][0-9]*' /etc/passwd)
+[Mon Nov 11 13:12:55.718706 2019] [wsgi:error] [pid 20634] deluser: \t Usage: userdel [options] LOGIN
+[Mon Nov 11 13:12:55.718758 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:12:55.718766 2019] [wsgi:error] [pid 20634] Options:
+[Mon Nov 11 13:12:55.718772 2019] [wsgi:error] [pid 20634]   -f, --force                   force removal of files,
+[Mon Nov 11 13:12:55.718778 2019] [wsgi:error] [pid 20634]                                 even if not owned by user
+[Mon Nov 11 13:12:55.718784 2019] [wsgi:error] [pid 20634]   -h, --help                    display this help message and exit
+[Mon Nov 11 13:12:55.718789 2019] [wsgi:error] [pid 20634]   -r, --remove                  remove home directory and mail spool
+[Mon Nov 11 13:12:55.718794 2019] [wsgi:error] [pid 20634]   -R, --root CHROOT_DIR         directory to chroot into
+[Mon Nov 11 13:12:55.718800 2019] [wsgi:error] [pid 20634]       --extrausers              Use the extra users database
+[Mon Nov 11 13:12:55.718823 2019] [wsgi:error] [pid 20634]   -Z, --selinux-user            remove any SELinux user mapping for the user
+[Mon Nov 11 13:12:55.718830 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:12:55.718848 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:12:55.718966 2019] [wsgi:error] [pid 20634] ['274']
+[Mon Nov 11 13:12:55.718977 2019] [wsgi:error] [pid 20634] [274]
+[Mon Nov 11 13:12:55.718985 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:12:57.104491 2019] [wsgi:error] [pid 20634] (0, {'smart.Result_set': 0})
+[Mon Nov 11 13:12:57.104528 2019] [wsgi:error] [pid 20634] (1, {'smart.Coding_result_set': 1})
+[Mon Nov 11 13:12:57.104537 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:13:19.949374 2019] [wsgi:error] [pid 20634] 45
+[Mon Nov 11 13:13:19.956867 2019] [wsgi:error] [pid 20634] 2019-09-18 00:00:00
+[Mon Nov 11 13:13:19.956899 2019] [wsgi:error] [pid 20634] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:13:19.956951 2019] [wsgi:error] [pid 20634] []
+[Mon Nov 11 13:13:21.572707 2019] [wsgi:error] [pid 20635] 43
+[Mon Nov 11 13:13:21.593538 2019] [wsgi:error] [pid 20635] 2019-09-18 00:00:00
+[Mon Nov 11 13:13:21.593574 2019] [wsgi:error] [pid 20635] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:13:21.593626 2019] [wsgi:error] [pid 20635] []
+[Mon Nov 11 13:14:53.871877 2019] [wsgi:error] [pid 20634] 45
+[Mon Nov 11 13:14:53.969994 2019] [wsgi:error] [pid 20634] 2019-09-18 00:00:00
+[Mon Nov 11 13:14:53.970092 2019] [wsgi:error] [pid 20634] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:14:53.970189 2019] [wsgi:error] [pid 20634] []
+[Mon Nov 11 13:14:56.132376 2019] [wsgi:error] [pid 20634] 43
+[Mon Nov 11 13:14:56.140594 2019] [wsgi:error] [pid 20634] 2019-09-18 00:00:00
+[Mon Nov 11 13:14:56.140619 2019] [wsgi:error] [pid 20634] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:14:56.140657 2019] [wsgi:error] [pid 20634] []
+[Mon Nov 11 13:15:00.183447 2019] [wsgi:error] [pid 20634] sudo userdel $(grep -oi '^smarthire_user_274_[0-9][0-9]*' /etc/passwd)
+[Mon Nov 11 13:15:02.708082 2019] [wsgi:error] [pid 20634] deluser: \t Usage: userdel [options] LOGIN
+[Mon Nov 11 13:15:02.708119 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:15:02.708124 2019] [wsgi:error] [pid 20634] Options:
+[Mon Nov 11 13:15:02.708128 2019] [wsgi:error] [pid 20634]   -f, --force                   force removal of files,
+[Mon Nov 11 13:15:02.708132 2019] [wsgi:error] [pid 20634]                                 even if not owned by user
+[Mon Nov 11 13:15:02.708137 2019] [wsgi:error] [pid 20634]   -h, --help                    display this help message and exit
+[Mon Nov 11 13:15:02.708141 2019] [wsgi:error] [pid 20634]   -r, --remove                  remove home directory and mail spool
+[Mon Nov 11 13:15:02.708145 2019] [wsgi:error] [pid 20634]   -R, --root CHROOT_DIR         directory to chroot into
+[Mon Nov 11 13:15:02.708149 2019] [wsgi:error] [pid 20634]       --extrausers              Use the extra users database
+[Mon Nov 11 13:15:02.708155 2019] [wsgi:error] [pid 20634]   -Z, --selinux-user            remove any SELinux user mapping for the user
+[Mon Nov 11 13:15:02.708159 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:15:02.708171 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:15:02.708250 2019] [wsgi:error] [pid 20634] ['274']
+[Mon Nov 11 13:15:02.708259 2019] [wsgi:error] [pid 20634] [274]
+[Mon Nov 11 13:15:02.708264 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:15:02.830913 2019] [wsgi:error] [pid 20634] (0, {'smart.Result_set': 0})
+[Mon Nov 11 13:15:02.830948 2019] [wsgi:error] [pid 20634] (0, {'smart.Coding_result_set': 0})
+[Mon Nov 11 13:15:02.830956 2019] [wsgi:error] [pid 20634] 
+[Mon Nov 11 13:15:53.841938 2019] [wsgi:error] [pid 20634] 45
+[Mon Nov 11 13:15:53.842281 2019] [wsgi:error] [pid 20634] 2019-09-18 00:00:00
+[Mon Nov 11 13:15:53.842322 2019] [wsgi:error] [pid 20634] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:15:53.842420 2019] [wsgi:error] [pid 20634] []
+[Mon Nov 11 13:15:55.224449 2019] [wsgi:error] [pid 20634] 43
+[Mon Nov 11 13:15:55.224769 2019] [wsgi:error] [pid 20634] 2019-09-18 00:00:00
+[Mon Nov 11 13:15:55.224793 2019] [wsgi:error] [pid 20634] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:15:55.224829 2019] [wsgi:error] [pid 20634] []
+[Mon Nov 11 13:15:58.245920 2019] [wsgi:error] [pid 20635] sudo userdel $(grep -oi '^smarthire_user_274_[0-9][0-9]*' /etc/passwd)
+[Mon Nov 11 13:15:58.756327 2019] [wsgi:error] [pid 20635] deluser: \t Usage: userdel [options] LOGIN
+[Mon Nov 11 13:15:58.756362 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:15:58.756367 2019] [wsgi:error] [pid 20635] Options:
+[Mon Nov 11 13:15:58.756370 2019] [wsgi:error] [pid 20635]   -f, --force                   force removal of files,
+[Mon Nov 11 13:15:58.756375 2019] [wsgi:error] [pid 20635]                                 even if not owned by user
+[Mon Nov 11 13:15:58.756378 2019] [wsgi:error] [pid 20635]   -h, --help                    display this help message and exit
+[Mon Nov 11 13:15:58.756381 2019] [wsgi:error] [pid 20635]   -r, --remove                  remove home directory and mail spool
+[Mon Nov 11 13:15:58.756385 2019] [wsgi:error] [pid 20635]   -R, --root CHROOT_DIR         directory to chroot into
+[Mon Nov 11 13:15:58.756387 2019] [wsgi:error] [pid 20635]       --extrausers              Use the extra users database
+[Mon Nov 11 13:15:58.756393 2019] [wsgi:error] [pid 20635]   -Z, --selinux-user            remove any SELinux user mapping for the user
+[Mon Nov 11 13:15:58.756396 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:15:58.756407 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:15:58.777187 2019] [wsgi:error] [pid 20635] ['274']
+[Mon Nov 11 13:15:58.777205 2019] [wsgi:error] [pid 20635] [274]
+[Mon Nov 11 13:15:58.777210 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:15:59.943235 2019] [wsgi:error] [pid 20635] (0, {'smart.Result_set': 0})
+[Mon Nov 11 13:15:59.943283 2019] [wsgi:error] [pid 20635] (0, {'smart.Coding_result_set': 0})
+[Mon Nov 11 13:15:59.943292 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:18:59.190472 2019] [wsgi:error] [pid 20635] 45
+[Mon Nov 11 13:18:59.319935 2019] [wsgi:error] [pid 20635] 2019-09-18 00:00:00
+[Mon Nov 11 13:18:59.319993 2019] [wsgi:error] [pid 20635] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:18:59.320052 2019] [wsgi:error] [pid 20635] []
+[Mon Nov 11 13:19:09.393292 2019] [wsgi:error] [pid 20634] 45
+[Mon Nov 11 13:19:09.393646 2019] [wsgi:error] [pid 20634] 2019-09-18 00:00:00
+[Mon Nov 11 13:19:09.393668 2019] [wsgi:error] [pid 20634] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:19:09.393706 2019] [wsgi:error] [pid 20634] []
+[Mon Nov 11 13:19:12.004794 2019] [wsgi:error] [pid 20634] 43
+[Mon Nov 11 13:19:12.005152 2019] [wsgi:error] [pid 20634] 2019-09-18 00:00:00
+[Mon Nov 11 13:19:12.005176 2019] [wsgi:error] [pid 20634] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:19:12.005215 2019] [wsgi:error] [pid 20634] []
+[Mon Nov 11 13:19:15.248625 2019] [wsgi:error] [pid 20635] sudo userdel $(grep -oi '^smarthire_user_274_[0-9][0-9]*' /etc/passwd)
+[Mon Nov 11 13:19:15.511954 2019] [wsgi:error] [pid 20635] deluser: \t Usage: userdel [options] LOGIN
+[Mon Nov 11 13:19:15.511981 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:19:15.511986 2019] [wsgi:error] [pid 20635] Options:
+[Mon Nov 11 13:19:15.511989 2019] [wsgi:error] [pid 20635]   -f, --force                   force removal of files,
+[Mon Nov 11 13:19:15.511994 2019] [wsgi:error] [pid 20635]                                 even if not owned by user
+[Mon Nov 11 13:19:15.511996 2019] [wsgi:error] [pid 20635]   -h, --help                    display this help message and exit
+[Mon Nov 11 13:19:15.511999 2019] [wsgi:error] [pid 20635]   -r, --remove                  remove home directory and mail spool
+[Mon Nov 11 13:19:15.512002 2019] [wsgi:error] [pid 20635]   -R, --root CHROOT_DIR         directory to chroot into
+[Mon Nov 11 13:19:15.512005 2019] [wsgi:error] [pid 20635]       --extrausers              Use the extra users database
+[Mon Nov 11 13:19:15.512010 2019] [wsgi:error] [pid 20635]   -Z, --selinux-user            remove any SELinux user mapping for the user
+[Mon Nov 11 13:19:15.512021 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:19:15.512032 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:19:15.512115 2019] [wsgi:error] [pid 20635] ['274']
+[Mon Nov 11 13:19:15.512120 2019] [wsgi:error] [pid 20635] [274]
+[Mon Nov 11 13:19:15.512123 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:19:15.882263 2019] [wsgi:error] [pid 20635] (0, {'smart.Result_set': 0})
+[Mon Nov 11 13:19:15.882298 2019] [wsgi:error] [pid 20635] (0, {'smart.Coding_result_set': 0})
+[Mon Nov 11 13:19:15.882306 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 13:19:38.599777 2019] [wsgi:error] [pid 20635] 45
+[Mon Nov 11 13:19:38.606616 2019] [wsgi:error] [pid 20635] 2019-09-18 00:00:00
+[Mon Nov 11 13:19:38.606654 2019] [wsgi:error] [pid 20635] '_sre.SRE_Match' object is not subscriptable
+[Mon Nov 11 13:19:38.606705 2019] [wsgi:error] [pid 20635] []

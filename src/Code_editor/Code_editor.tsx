@@ -18,6 +18,8 @@ class Code_editor extends Myservice {
     load_sucess = false
     sec_inc = 0;
     time_out: any = null
+    sec: number = 0;
+    timer1: any = null
 
     componentDidMount() {
 
@@ -134,8 +136,8 @@ class Code_editor extends Myservice {
         $(window).blur(function () {
             // alert( $('iframe').is(":focus"))
             console.log("code",blur,iframe.text())
-            if(blur)
-                context.close_win()
+            // if(blur)
+            //     context.close_win()
         });
     }
 
@@ -205,6 +207,7 @@ class Code_editor extends Myservice {
         $("body").css({cursor:"wait"})
         window.setval("code","")
         let questions = this.fetch_data("/server/get_code_que/", "POST");
+        console.log("--------que",questions)
         $("body").css({cursor:"auto"})
         if (questions == "&end;") {
             swal("Exam finished")
@@ -262,6 +265,35 @@ class Code_editor extends Myservice {
         $(".recv_que table tr").find("td").css({ "vertical-align": "top" })
         $(".recv_que table tr").find("pre").css({ "vertical-align": "middle" })
         $(".inputs").val(question_arr[1])
+        if (this.timer1 == null) {
+            this.timer(question_arr[3]);
+        }
+    }
+
+
+    timer = (dur = 3600) => {
+        this.sec = dur
+        this.timer1 = setInterval(() => {
+            $("#timer").html(parseInt((this.sec / 60).toString(), 10).toFixed(0) + ":" + this.sec % 60);
+            this.sec--;
+            if (this.sec == 5) {
+                this.del_sess("login_status")
+                window.close();
+                this.fetch_data("/server/code_exam_logout/", "POST")
+                return
+            }
+            if (this.sec == 0) {
+                this.closeWin("Exam timeout!\n Your responses are saved");
+            }
+
+        }, 1000);
+    }
+    closeWin = (msg: any) => {
+        alert(msg)
+        this.del_sess("login_status")
+        window.close();
+        this.fetch_data("/server/code_exam_logout/", "POST")
+        return
     }
 
     submit_code() {
