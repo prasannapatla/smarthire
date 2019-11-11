@@ -51,8 +51,11 @@
 		height: 500px;
 		left: 80px;
 		top: 45px;
-
+		display: table;
 	}
+	// .col {
+	// 	display: table-cell; 
+	// }
 
 	.container {
 		background-color: #fafafa;
@@ -79,10 +82,12 @@
 		float: left;
 		width: 400px;
 		margin-left: 20px;
+		margin-bottom: 10px;
 	}
 	.coding{
 		float: right;
 		width: 400px;
 		margin-right: 45px;
+		margin-bottom: 10px;
 	}
 }

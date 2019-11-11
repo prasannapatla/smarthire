@@ -42,7 +42,7 @@ class Code_populate extends Myservice {
             swal("Given duration is incorrect", "", "warning")
             return
         }
-        if ($('#total').val() <= 0) {
+        if ($('#total').val() < 0) {
             swal("Value for number of questions is wrong", "", "warning")
             return
         }

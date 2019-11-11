@@ -24,10 +24,33 @@ class Examstart extends Myservice {
     // window.onbeforeunload = function () {
     //   context.fetch_data("/server/del/", "POST");
     // }
-
+    this.available_exam();
+    setInterval(() => {
+      context.available_exam()      
+    }, 1000);
     this.disable_btns();
     super.componentDidMount();
   }
+
+
+  available_exam(){
+    let json_resp = JSON.parse(this.fetch_data("/server/all_exam_status/", "POST"))
+    // alert(Number(json_resp[0].status_code))
+    if (Number(json_resp[0].status_code) == 2) {
+        $(".mcq").hide()
+        $(".coding").css({width:"100%"})
+    }
+    if (Number(json_resp[0].status_code) == 1) {
+        $(".coding").hide()
+        $(".mcq").css({width:"100%"})
+    }
+    if (Number(json_resp[0].status_code) == 3) {
+      $(".coding").hide()
+      $(".mcq").hide()
+      return false
+    }
+  }
+
 
   componentDidUpdate() {
     super.componentDidUpdate();
@@ -64,8 +87,9 @@ class Examstart extends Myservice {
 
 
   openWin2 = () => {
+    let context=this
     this.myWindow = window.open("#code_editor", "_blank", "fullscreen=yes, scrollbars=1");
-
+   
   }
 
   // redirect() {
@@ -81,6 +105,7 @@ class Examstart extends Myservice {
   close_win = (): any => {
     if (this.c >= 3) {
       this.myWindow.close();
+      this.available_exam();
       return
     }
 
@@ -117,6 +142,7 @@ class Examstart extends Myservice {
     let context = this
     swal("Thanks for your rating!", `You rated us ${value}/5`, "success")
       .then(() => {
+        this.fetch_data("/server/feedback/","POST","feedback="+value)
         context.signout()
         return
       });
