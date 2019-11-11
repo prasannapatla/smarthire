@@ -136,8 +136,8 @@ class Code_editor extends Myservice {
         $(window).blur(function () {
             // alert( $('iframe').is(":focus"))
             console.log("code",blur,iframe.text())
-            // if(blur)
-            //     context.close_win()
+            if(blur)
+                context.close_win()
         });
     }
 
