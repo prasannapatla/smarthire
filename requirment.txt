@@ -1,0 +1,10 @@
+wheel
+Django
+django-cors-headers
+djangorestframework
+mysqlclient
+openpyxl
+pycrypto
+pytz
+xlrd
+

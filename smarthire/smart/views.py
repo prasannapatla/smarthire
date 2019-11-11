@@ -264,6 +264,15 @@ def add_que_set(request):
             print(str(myjson))
             total_mark=0
             try:
+                stmt="SELECT abs(TIMESTAMPDIFF(SECOND,se.start_date,se.end_date)) as diff FROM smart_exam as se WHERE id="+str(request.POST.get("exam"))+";"
+                max_dur=json.loads(make_query(stmt))[0]["diff"]
+                dur=Exam.objects.filter(id=request.POST.get("exam")).values()[0]["code_duration"]
+                print(int(dur)+abs(int(request.POST.get("dur")))*60,max_dur)
+                if (int(dur)+abs(int(request.POST.get("dur")))*60)>int(max_dur):
+                    return HttpResponse("Maximum exam durartion is "+max_dur,content_type="text")
+            except:
+                pass
+            try:
                 Selected_questions.objects.filter(exam_id=request.POST.get("exam")).delete()
             except Exception as e:
                 print(str(e))
@@ -2132,6 +2141,15 @@ def add_code_que_set(request):
     if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
         try:
             print(request.POST.get("exam"),request.POST.get("total"),request.POST.get("dur"))
+            try:
+                stmt="SELECT abs(TIMESTAMPDIFF(SECOND,se.start_date,se.end_date)) as diff FROM smart_exam as se WHERE id="+str(request.POST.get("exam"))+";"
+                max_dur=json.loads(make_query(stmt))[0]["diff"]
+                dur=Exam.objects.filter(id=request.POST.get("exam")).values()[0]["duration"]
+                print(int(dur)+abs(int(request.POST.get("dur")))*60,max_dur)
+                if (int(dur)+abs(int(request.POST.get("dur")))*60)>int(max_dur):
+                    return HttpResponse("Maximum exam durartion is "+max_dur,content_type="text")
+            except:
+                pass
             try:
                 Selected_code_questions.objects.filter(exam_id=request.POST.get("exam")).delete()
             except Exception as e:
