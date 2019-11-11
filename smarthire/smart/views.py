@@ -2047,7 +2047,10 @@ def code_exam_status(request):
 @csrf_exempt
 def code_exam_logout(request): 
     if("logged_in" in request.session):
-        del request.session['qno']
+        if("qno" in request.session):
+            del request.session['qno']
+        if("que_cnt" in request.session):
+            del request.session['que_cnt']
         return HttpResponse("Deleted",content_type="text")
     else:
         return HttpResponse("closed",content_type="text")

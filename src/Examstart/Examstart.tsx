@@ -6,7 +6,7 @@ var $ = require("jquery");
 var swal = require("sweetalert");
 
 class Examstart extends Myservice {
-  myWindow: any;
+  myWindow: any=null;
   c: number = 0;
   constructor(props: any) {
     super(props);
@@ -62,8 +62,9 @@ class Examstart extends Myservice {
   }
 
 
-  openWin2 = () => {
-    window.open("#code_editor", "_blank", "fullscreen=yes, scrollbars=1");
+  openWin2 = () => { 
+    this.myWindow = window.open("#code_editor", "_blank", "fullscreen=yes, scrollbars=1");
+
   }
 
   // redirect() {
@@ -109,6 +110,12 @@ class Examstart extends Myservice {
       $(".mcq").find("button").css({cursor: "not-allowed"})
       $(".mcq").find("button").prop('disabled', true);     
   }
+}
+user_signout(){
+  if(this.myWindow!=null)
+    this.myWindow.close()
+    console.log("signout")
+  this.user_logout()
 }
 
   render() {

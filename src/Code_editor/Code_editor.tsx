@@ -9,6 +9,7 @@ var swal = require("sweetalert");
 
 class Code_editor extends Myservice {
 
+    c: number = 0;
     constructor(props: any) {
         super(props);
 
@@ -19,6 +20,8 @@ class Code_editor extends Myservice {
     time_out: any = null
 
     componentDidMount() {
+
+        this.c = 0;
         window.confirm = function (para = "!") {
             context.myalert(para)
             return true;
@@ -36,10 +39,35 @@ class Code_editor extends Myservice {
         let context = this;
         this.loaded = 0
         this.time_out = setInterval(() => context.set_syntax_lang("python"), 1000)
+
+        window.confirm = function (para = "!") {
+            context.myalert(para)
+            return true;
+        }
         $("#pgm_lang").change(function () {
             context.hightlight_syntax();
         });
         this.on_elem_load("id", "frame_code", this.after_load.bind(this))
+        
+
+    this.set_sess("login_status", "logged in")
+        this.go_full_screen(window.document);
+        this.toTop();
+        window.addEventListener('resize', () => {
+          console.log("resize")
+          context.toTop()
+        });
+        window.addEventListener("visibilitychange", () => {
+          console.log("visibilitychange")
+          if (window.document.visibilityState == 'hidden') {
+            if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
+              swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed","","warning")
+            if (window.screenX <= 0 || window.screenY <= 0)
+              context.close_win();
+          }
+        });
+        let n = 0;
+    
         super.componentDidMount();
     }
 
@@ -81,12 +109,34 @@ class Code_editor extends Myservice {
                         window.location.reload();
 
                     }
-                    if (context.sec_inc > 1)
+                    if (context.sec_inc > 1){
                         clearInterval(interval2)
+                        this.on_editor_load();
+                    }
                 }
                 , 1000)
         }
         console.log("loded" + this.loaded)
+    }
+
+    on_editor_load(){
+        let context=this
+        let blur=false;
+        let iframe=$('iframe')
+        iframe.mouseover(function () {
+           blur=false
+           console.log("frame  blur",blur)
+        });
+        iframe.mouseout(function () {
+           blur=true
+           console.log("frame  blur",blur)
+        });
+        $(window).blur(function () {
+            // alert( $('iframe').is(":focus"))
+            console.log("code",blur,iframe.text())
+            if(blur)
+                context.close_win()
+        });
     }
 
     set_syntax_lang(lang: any): any {
@@ -229,7 +279,41 @@ class Code_editor extends Myservice {
 
     }
 
-
+    toTop() {
+        window.moveTo(0, 0);
+        window.resizeTo(screen.availWidth, screen.availHeight)
+        window.focus();
+      }
+    
+      close_win = (): any => {
+        console.log("close",this.c)
+        if (this.c >= 3) {
+          console.log("close",this.c)
+          window.close();    
+          return
+        }
+    
+        this.c++;
+        if (this.c > 0) {
+          window.confirm("If you try to minimize or resize the window,Your exam will be closed")
+          this.fetch_data("/server/count_malpractices/", "POST");
+        }
+        this.toTop()
+          
+      }
+    
+      go_full_screen = (elem: any) => {
+        //var elem = document.documentElement;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+      }
 
     render() {
         return (

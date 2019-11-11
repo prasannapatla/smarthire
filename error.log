@@ -1485,3 +1485,57 @@
 [Sat Nov 09 22:21:34.841793 2019] [wsgi:error] [pid 6298] s@s.s send_to total:  1
 [Sat Nov 09 22:21:34.889638 2019] [wsgi:error] [pid 6298] --------------------No mails--Thread aborted...
 [Sat Nov 09 22:21:34.922951 2019] [wsgi:error] [pid 6298] --------------------No mails--Thread aborted...
+[Mon Nov 11 10:03:40.897659 2019] [wsgi:error] [pid 20635] -----------Production server---------------
+[Mon Nov 11 10:03:43.192110 2019] [wsgi:error] [pid 20635] Internal Server Error: /server/login/
+[Mon Nov 11 10:03:43.192159 2019] [wsgi:error] [pid 20635] Traceback (most recent call last):
+[Mon Nov 11 10:03:43.192166 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/core/handlers/exception.py", line 34, in inner
+[Mon Nov 11 10:03:43.192172 2019] [wsgi:error] [pid 20635]     response = get_response(request)
+[Mon Nov 11 10:03:43.192177 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/core/handlers/base.py", line 100, in _get_response
+[Mon Nov 11 10:03:43.192183 2019] [wsgi:error] [pid 20635]     resolver_match = resolver.resolve(request.path_info)
+[Mon Nov 11 10:03:43.192188 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/urls/resolvers.py", line 536, in resolve
+[Mon Nov 11 10:03:43.192194 2019] [wsgi:error] [pid 20635]     for pattern in self.url_patterns:
+[Mon Nov 11 10:03:43.192199 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/utils/functional.py", line 80, in __get__
+[Mon Nov 11 10:03:43.192205 2019] [wsgi:error] [pid 20635]     res = instance.__dict__[self.name] = self.func(instance)
+[Mon Nov 11 10:03:43.192210 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/urls/resolvers.py", line 584, in url_patterns
+[Mon Nov 11 10:03:43.192216 2019] [wsgi:error] [pid 20635]     patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+[Mon Nov 11 10:03:43.192222 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/utils/functional.py", line 80, in __get__
+[Mon Nov 11 10:03:43.192227 2019] [wsgi:error] [pid 20635]     res = instance.__dict__[self.name] = self.func(instance)
+[Mon Nov 11 10:03:43.192233 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/urls/resolvers.py", line 577, in urlconf_module
+[Mon Nov 11 10:03:43.192238 2019] [wsgi:error] [pid 20635]     return import_module(self.urlconf_name)
+[Mon Nov 11 10:03:43.192243 2019] [wsgi:error] [pid 20635]   File "/usr/lib/python3.5/importlib/__init__.py", line 126, in import_module
+[Mon Nov 11 10:03:43.192249 2019] [wsgi:error] [pid 20635]     return _bootstrap._gcd_import(name[level:], package, level)
+[Mon Nov 11 10:03:43.192254 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 986, in _gcd_import
+[Mon Nov 11 10:03:43.192259 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 969, in _find_and_load
+[Mon Nov 11 10:03:43.192264 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 958, in _find_and_load_unlocked
+[Mon Nov 11 10:03:43.192270 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 673, in _load_unlocked
+[Mon Nov 11 10:03:43.192275 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap_external>", line 665, in exec_module
+[Mon Nov 11 10:03:43.192280 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 222, in _call_with_frames_removed
+[Mon Nov 11 10:03:43.192285 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/smarthire/urls.py", line 7, in <module>
+[Mon Nov 11 10:03:43.192290 2019] [wsgi:error] [pid 20635]     url(r'^', include('smart.urls')),
+[Mon Nov 11 10:03:43.192296 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/urls/conf.py", line 34, in include
+[Mon Nov 11 10:03:43.192301 2019] [wsgi:error] [pid 20635]     urlconf_module = import_module(urlconf_module)
+[Mon Nov 11 10:03:43.192319 2019] [wsgi:error] [pid 20635]   File "/usr/lib/python3.5/importlib/__init__.py", line 126, in import_module
+[Mon Nov 11 10:03:43.192324 2019] [wsgi:error] [pid 20635]     return _bootstrap._gcd_import(name[level:], package, level)
+[Mon Nov 11 10:03:43.192329 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 986, in _gcd_import
+[Mon Nov 11 10:03:43.192334 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 969, in _find_and_load
+[Mon Nov 11 10:03:43.192338 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 958, in _find_and_load_unlocked
+[Mon Nov 11 10:03:43.192343 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 673, in _load_unlocked
+[Mon Nov 11 10:03:43.192348 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap_external>", line 665, in exec_module
+[Mon Nov 11 10:03:43.192352 2019] [wsgi:error] [pid 20635]   File "<frozen importlib._bootstrap>", line 222, in _call_with_frames_removed
+[Mon Nov 11 10:03:43.192357 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/smart/urls.py", line 2, in <module>
+[Mon Nov 11 10:03:43.192361 2019] [wsgi:error] [pid 20635]     from smart import views
+[Mon Nov 11 10:03:43.192366 2019] [wsgi:error] [pid 20635]   File "/var/www/smarthire/smarthire/smart/views.py", line 1661, in <module>
+[Mon Nov 11 10:03:43.192371 2019] [wsgi:error] [pid 20635]     from openpyxl import load_workbook
+[Mon Nov 11 10:03:43.192377 2019] [wsgi:error] [pid 20635] ImportError: No module named 'openpyxl'
+[Mon Nov 11 10:03:43.192387 2019] [wsgi:error] [pid 20635] 
+[Mon Nov 11 10:05:24.383648 2019] [wsgi:error] [pid 20634] -----------Production server---------------
+[Mon Nov 11 10:05:26.053835 2019] [wsgi:error] [pid 20634] 45
+[Mon Nov 11 10:05:26.087997 2019] [wsgi:error] [pid 20634] [
+[Mon Nov 11 10:05:26.088055 2019] [wsgi:error] [pid 20634]  {
+[Mon Nov 11 10:05:26.088062 2019] [wsgi:error] [pid 20634]   "Exam": "Android Hiring June",
+[Mon Nov 11 10:05:26.088068 2019] [wsgi:error] [pid 20634]   "Total Marks": "17",
+[Mon Nov 11 10:05:26.088072 2019] [wsgi:error] [pid 20634]   "Date": "2019-09-18",
+[Mon Nov 11 10:05:26.088078 2019] [wsgi:error] [pid 20634]   "Total Time(Mins)": "60"
+[Mon Nov 11 10:05:26.088082 2019] [wsgi:error] [pid 20634]  }
+[Mon Nov 11 10:05:26.088089 2019] [wsgi:error] [pid 20634] ]
+[Mon Nov 11 10:05:26.088103 2019] [wsgi:error] [pid 20634] 

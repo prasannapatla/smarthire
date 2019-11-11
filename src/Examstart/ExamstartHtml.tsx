@@ -32,7 +32,7 @@ var page = function (_this: any) {
                         <p>3. There are 5 test cases for each problem statement.</p>
                         <p>4. Click on submit button to submit your answers.</p>
                         <p id="start"></p>
-                        <button  id="logout" onClick={_this.user_logout.bind(_this)}>Logout</button>
+                        <button  id="logout" onClick={_this.user_signout.bind(_this)}>Logout</button>
                         <button onClick={_this.openWin2.bind(_this)}>Start Exam</button>
                     </div>
                 </div>
