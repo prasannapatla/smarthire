@@ -2,6 +2,7 @@
 import './Admin_view_result.scss';
 import page from './Admin_view_resultHtml'
 import Myservice from '../Myservice/Myservice'
+import { string } from 'prop-types';
 //import jsPDF from 'jspdf'
 declare const require: any;
 const jsPDF = require('jspdf');
@@ -66,7 +67,7 @@ class Admin_view_result extends Myservice {
       return
     }
     //alert(str+"\n"+json_obj[0])
-    let txt = "<thead><tr><th>Id</th><th>Email</th><th>Total Duration(Mins)</th><th>Score</th><th>Coding score</th><th>Feedback</th><th>View Details</th><th>Delete User Details</th></tr></thead><tbody>"
+    let txt = "<thead><tr><th>Id</th><th>Email</th><th>Total Duration(Mins)</th><th>Score</th><th>Coding score</th><th>Feedback</th><th  class='no_display'>View Details</th><th  class='no_display'>Delete User Details</th></tr></thead><tbody>"
     let val1: any, val2: any
     for (val1 in json_obj) {
       let dur = 0;
@@ -87,10 +88,10 @@ class Admin_view_result extends Myservice {
 
       txt += "<td >" + json_obj[val1]["Feedback"] + "/5</td>"
       if (json_obj[val1]["Score"] != -1 || json_obj[val1]["Score2"] != -1)
-        txt += "<td className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a>View Detail</a></u></td>"
+        txt += "<td  class='no_display' className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a>View Detail</a></u></td>"
       else
-        txt += "<td>No Details</td>"
-      txt += "<td  style={{text-align:'center'}} val='" + json_obj[val1]["ID"] + "'><input type='checkbox' className='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /></td>"
+        txt += "<td  class='no_display'>No Details</td>"
+      txt += "<td  class='no_display' style={{text-align:'center'}} val='" + json_obj[val1]["ID"] + "'><input type='checkbox' className='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /></td>"
       txt += "</tr></tbody>"
     }
 
@@ -191,7 +192,7 @@ class Admin_view_result extends Myservice {
     $(".user_det").html(txt)
 
 
-  
+
 
   };
 
@@ -221,12 +222,31 @@ class Admin_view_result extends Myservice {
         pdf.save("pdf_name.pdf");
       }, margins);
 
-
-
-
   };
 
-  
+_print(this:any,sel:string){
+  this.print_div(sel)
+}
+
+  print_div(selecter:string) {
+    // let w = window.open();
+    // if(w!=null){
+    //   w.document.write("<html><body>"+$(selecter).html()+"</html></body>");
+    //   w.print();
+    //   // w.close();
+    // }
+    // var printContents = $(selecter).html();
+    // var originalContents =  $("#root").html();
+    // console.log(originalContents)
+    // $("#root").html(printContents);
+    // window.print();
+    // $("#root").html(originalContents);
+    $("input").hide()
+    window.print()
+    $("input").show()
+  }
+
+
 
   render() {
     return (

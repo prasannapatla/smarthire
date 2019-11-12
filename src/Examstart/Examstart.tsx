@@ -28,7 +28,7 @@ class Examstart extends Myservice {
     this.available_exam();
     this.timeout=setInterval(() => {
       context.available_exam()      
-    }, 1000);
+    }, 2000);
     this.disable_btns();
     window.onbeforeunload = function () {
       if(context.timeout!=null)
@@ -46,6 +46,10 @@ class Examstart extends Myservice {
       return
     }
     // alert(Number(json_resp[0].status_code))
+    $(".mcq_dur").text(json_resp[0]["duration"])
+    $(".code_dur").text(json_resp[0]["code_duration"])
+    $(".mcq_total").text(json_resp[0]["total_mcq_que"])
+    $(".code_total").text(json_resp[0]["total_code_que"])
     if (Number(json_resp[0].status_code) == 2) {
         $(".mcq").hide()
         $(".coding").css({width:"100%"})
@@ -57,6 +61,10 @@ class Examstart extends Myservice {
     if (Number(json_resp[0].status_code) == 3) {
       $(".coding").hide()
       $(".mcq").hide()
+      let text=`
+          <h1>Thank you</h1>      
+      `
+      $(".instr").html(text)
       return false
     }
   }

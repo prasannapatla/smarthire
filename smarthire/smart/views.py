@@ -807,9 +807,7 @@ def make_query(stmt):
             for value in val:
                 orig_val=unescape(str(value))
                 if re.search("^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}(.\d{1,6})?$",orig_val):
-                    print(orig_val)
-                    orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val)[0])
-                    print(orig_val)
+                    orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val).group(0))
                 list1.update(OrderedDict({cursor.description[c][0]: orig_val}))
                 c+=1
             mylist.append(list1)
@@ -1098,10 +1096,7 @@ def view_cat_res(request):
         FROM   
         smart_exam WHERE id=\''''+request.POST.get("eid")+'''\'
         '''
-
-        print(request.POST.get("eid"))
         data=make_query(stmt)
-        print(data)
         try:
             return HttpResponse(data,content_type="text")
         except Exception as e:
@@ -2209,11 +2204,14 @@ def del_code_questions(request):
 
 def get_all_exam_status(uid):
     stmt='''
+   
     SELECT 
         t1.total as total_code_que,
         t2.total as total_mcq_que,
         rs1.cnt as attended_code_que,
         rs2.cnt as attended_mcq_que,
+        CAST(exam.duration/60 AS DECIMAL(16,0)) as  duration,
+        CAST(exam.code_duration/60 AS DECIMAL(16,0)) as  code_duration,
         IF(t1.total>0,IF(rs1.cnt>0,1,0),1) as attended_code,
         IF(t2.total>0,IF(rs2.cnt>0,2,0),2) as attended_mcq,
         IF(t1.total>0,IF(rs1.cnt>0,1,0),1)+IF(t2.total>0,IF(rs2.cnt>0,2,0),2) as status_code
@@ -2270,7 +2268,26 @@ def get_all_exam_status(uid):
             WHERE
                 smart_result_set.user_id={0}
         ) as rs2
+     JOIN
+    	(
+            SELECT 
+            	se.duration,
+            	se.code_duration
+            FROM
+            	smart_exam  se
+            WHERE
+				se.id=(
+                                select 
+                                    su2.exam_id 
+                                from 
+                                    smart_users su2
+                                WHERE 
+                                    su2.id={0}
+                           )
+         )  as exam
+    
     '''.format(uid)
+    print(stmt)
     return make_query(stmt)
 
 @csrf_exempt

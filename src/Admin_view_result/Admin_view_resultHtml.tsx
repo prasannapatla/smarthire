@@ -43,7 +43,9 @@ var page = function (_this: any) {
                                 </div>
                                 
                                 
-                            </div><input style={{ float: "right" }} type="button" value="Download" onClick={_this.download_page.bind(_this)} />
+                            </div>
+                            <input style={{ float: "right" }} type="button" value="Print" onClick={_this._print.bind(_this,"#result")} />
+                            {/* <input style={{ float: "right" }} type="button" value="Download" onClick={_this.download_page.bind(_this)} /> */}
                             <input style={{ float: "right" }} type="button" value="Delete" className="del_user_btn_complete" />
                                 <input style={{ float: "right", display: "block" }} type="button" value="Delete Result Set only" className="del_user_btn" />
                                 {/* <input style={{ float: "right", display: "block" }} type="button" value="Download" onClick={_this.download_page.bind(_this)} /> */}               

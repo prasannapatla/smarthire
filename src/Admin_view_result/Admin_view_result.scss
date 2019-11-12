@@ -5,6 +5,24 @@
     // padding: 10px;
   }
 
+  @media print {
+
+    html *,
+    .Admin_menu,.user_det,input,.no_display {
+      display: none !important;
+    }
+
+    .result * {
+      visibility: visible;
+    }
+
+    .result {
+      position: absolute;
+      top: 40px;
+      left: 10px;
+    }
+  }
+
 
 
   .row {
@@ -81,16 +99,17 @@
     display: table-cell;
     width: 2000px;
     padding-right: 20px;
-  } 
+  }
 
   @media only screen and (max-width: 800px) {
     .select_exam_text div {
       display: block;
       float: left;
     }
-  .details {
-    display: block;
-  }
+
+    .details {
+      display: block;
+    }
   }
 
   .print_txt {
