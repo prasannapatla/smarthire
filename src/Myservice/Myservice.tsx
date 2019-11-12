@@ -4,6 +4,7 @@ import { callbackify } from 'util';
 // import * as $ from 'jquery';
 var $ = require("jquery");
 import html2canvas from "html2canvas"
+var swal = require("sweetalert");
 
 class Myservice extends React.Component {
 
@@ -166,7 +167,7 @@ class Myservice extends React.Component {
     $('html, body').animate({
       scrollTop: 0
     }, {
-      duration:150
+      duration: 150
     })
     $("body").append("<div className='screenshot' style='display:none' id='screenshot'></div>")
     //@ts-ignore
@@ -225,6 +226,18 @@ class Myservice extends React.Component {
     }
     else
       return false
+  }
+
+  show_msg(resp: string,callback?:any) {
+    let status = resp
+    let msg:string[]=Array()
+    try {
+      msg = resp.split("&sep;")
+    } catch (error) { }
+    if (status.match("error&sep;") || status.match("success&sep;") || status.match("warning&sep;") ||status.match("info&sep;"))
+      swal(msg[1], "", msg[0]).then((value:any) => {callback(msg[0],value)});
+    else
+      swal(msg, "").then((value:any) => {callback(value)});
   }
 
 

@@ -64,6 +64,35 @@ class Admim_add_cat extends Myservice {
         minDate: 0
       });
     });
+    
+    // let context = this;
+    $(".del_exam_btn").on("click", function (this: any) {
+      var ids: any = []
+      $(".exam_sel").each(function (this: any) {
+        if ($(this).prop("checked"))
+          ids.push($(this).val())
+      });
+      if(ids.length>0)
+        context.fetch_data("/server/exam_del/", "POST", null, "ids=" + ids.join(","))
+      else
+        swal("Select at least one checkbox","","warning")
+      context.list_exam();
+    });
+
+    $(".del_cat_btn").on("click", function () {
+
+      var ids: any = []
+      $(".cat_sel").each(function (this: any) {
+
+        if ($(this).prop("checked"))
+          ids.push($(this).val())
+      });
+      if(ids.length>0)
+        context.fetch_data("/server/remove_cat/", "POST", null, "ids=" + ids.join(","));
+      else
+        swal("Select at least one checkbox","","warning")
+      context.list_cat();
+    });
     super.componentDidMount();
   }
 
@@ -166,18 +195,7 @@ class Admim_add_cat extends Myservice {
     $(".list_cat").html(txt)
 
 
-    $(".del_cat_btn").on("click", function () {
-
-      var ids: any = []
-      $(".cat_sel").each(function (this: any) {
-
-        if ($(this).prop("checked"))
-          ids.push($(this).val())
-      });
-
-      context.fetch_data("/server/remove_cat/", "POST", null, "ids=" + ids.join(","));
-      context.list_cat();
-    });
+   
 
     $("table .cat_view").on("click", function (this: any) {
       context.set_sess("type", "cat")
@@ -207,17 +225,19 @@ class Admim_add_cat extends Myservice {
     $(".list_exam").html(txt)
 
     let context = this;
-    $(".del_exam_btn").on("click", function (this: any) {
-      var ids: any = []
-      $(".exam_sel").each(function (this: any) {
-        if ($(this).prop("checked"))
-          ids.push($(this).val())
-      });
-
-      context.fetch_data("/server/exam_del/", "POST", null, "ids=" + ids.join(","));
-      context.list_exam();
-
-    });
+    // $(".del_exam_btn").on("click", function (this: any) {
+    //   var ids: any = []
+    //   $(".exam_sel").each(function (this: any) {
+    //     if ($(this).prop("checked"))
+    //       ids.push($(this).val())
+    //   });
+    //   if(ids.length>0)
+    //     context.fetch_data("/server/exam_del/", "POST", null, "ids=" + ids.join(","))
+    //   else
+    //     swal("Select at least one checkbox","","warning")
+    //     alert(ids.length)
+    //   context.list_exam();
+    // });
 
     $("table .exam_view").on("click", function (this: any) {
       context.set_sess("type", "exam")
