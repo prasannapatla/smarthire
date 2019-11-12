@@ -114,7 +114,7 @@ def user_login(request):
     if request.method == 'POST': 
         email_id=request.POST.get("email").strip()
         user_pwd=request.POST.get('password').strip()
-        if (email_id=="admin@terralogic.com" or email_id=="ADMIN@TERRALOGIC.COM") and (user_pwd=="terralogic" or user_pwd=="TERRALOGIC"):
+        if (email_id=="admin@terralogic.com" or email_id=="ADMIN@TERRALOGIC.COM") and (user_pwd=="terralogic" ):
             request.session["admin"]=request.POST.get('email')
             return HttpResponse("admin",content_type="text")
         

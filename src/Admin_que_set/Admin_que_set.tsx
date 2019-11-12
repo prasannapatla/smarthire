@@ -96,10 +96,6 @@ class Admin_que_set extends Myservice {
         total_score: $('#total_score').val()
       }
       if (context.fetch_data("/server/get_select_que_count/", "POST", null, "exam_id=" + sel2) != 0) {
-        // if (!window.confirm("Do you want to repopulate the exam?"))
-        // // !window.confirm("Do you want to repopulate the exam?"
-        //   return;
-
           swal2.fire({
             title: 'Do you want to re-populate the exam?',
             icon: 'warning',
