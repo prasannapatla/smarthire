@@ -122,12 +122,12 @@ def user_login(request):
         if not re.match(regexp_str,email_id):
             return HttpResponse("Invalid email id",content_type="text")
 
-        uid=Users.objects.filter(email=request.POST.get('email')).values()[0]["id"]
         try:
+            uid=Users.objects.filter(email=request.POST.get('email')).values()[0]["id"]
             if int(json.loads(get_all_exam_status(uid))[0]["status_code"])==3:
                 return HttpResponse("You have already attended exam",content_type="text")
         except:
-            pass
+            return HttpResponse("Email id is not registered",content_type="text")
         if len(user_pwd)!=6:
             return HttpResponse("Password should consist of 6 character, current length is "+str(len(user_pwd)),content_type="text")
         obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
@@ -667,6 +667,10 @@ def exam_logout(request):
 @csrf_exempt
 def view_res(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
+        max=";"
+        print(request.POST)
+        if int(request.POST.get("max"))!=0:
+            max="LIMIT "+request.POST.get("max")+";"
         if ('exam' in request.POST):
             stmt='''
                     SELECT t1.ID,Username,Score,coding_score AS Score2,total_dur AS 'Total Duration',Feedback from
@@ -701,9 +705,9 @@ def view_res(request):
                         WHERE su.exam_id= \''''+request.POST.get("exam")+'''\'
                         GROUP BY  su.id) as t2
                     ON t1.id=t2.id
-                    ORDER BY (score1+IF(score2 is NULL,0,score2)) DESC;                   
-            '''
-          
+                    ORDER BY (score1+IF(score2 is NULL,0,score2)) DESC                   
+            '''+max
+            print(stmt)
             return HttpResponse(make_query(stmt),content_type="text")
         else:        
             stmt='''
@@ -737,8 +741,8 @@ def view_res(request):
                                 ON su.id = crs.user_id
                         GROUP BY  su.id) as t2
                     ON t1.id=t2.id
-                    ORDER BY (score1+IF(score2 is NULL,0,score2)) DESC;  
-            '''
+                    ORDER BY (score1+IF(score2 is NULL,0,score2)) DESC  
+            '''+max
           
             return HttpResponse(make_query(stmt),content_type="text")
     else:
@@ -2077,6 +2081,14 @@ def video_stream(request):
 def addcode(request):      
     if ("admin" in request.session) and (request.session["admin"]!=None):
         try:
+            for key in request.POST:
+                try:
+                    print("'"+request.POST[key]+"'")
+                    if request.POST[key].strip()=="" or request.POST[key]==None:
+                        return HttpResponse("Failed",content_type="text")
+                except:
+                    pass
+
             code_que = Code_questions()
             code_que.pbm_stmt=request.POST.get("pblm_stmt")
             code_que.code=escape(request.POST.get("code"))

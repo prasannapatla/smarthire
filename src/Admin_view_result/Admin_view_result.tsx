@@ -31,6 +31,12 @@ class Admin_view_result extends Myservice {
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
       });
+      $(".intake").on("keyup", function (this: any) {
+        context.load_res($('.exam :selected').val())
+      });
+      $(".intake").on("change", function (this: any) {
+        context.load_res($('.exam :selected').val())
+      });
 
       $(".exam").change(function (this: any) {
         if ($('.exam :selected').val() == "all") {
@@ -56,9 +62,9 @@ class Admin_view_result extends Myservice {
   load_res = (eid: any = null) => {
     let str = ""
     if (eid != null)
-      str = this.fetch_data("/server/view_res/", "POST", "exam=" + eid)
+      str = this.fetch_data("/server/view_res/", "POST", "exam=" + eid+"&max="+$(".intake").val())
     else
-      str = this.fetch_data("/server/view_res/", "POST")
+      str = this.fetch_data("/server/view_res/", "POST","max="+$(".intake").val())
     let json_obj
     try {
 
