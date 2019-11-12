@@ -1,5 +1,14 @@
 from django.db import models
 
+# Create your models here.
+class Admin_users(models.Model):
+    id = models.AutoField(primary_key=True)
+    name=models.CharField(max_length=32, blank=False)
+    email=models.EmailField(unique=True, blank=False)
+    password=models.CharField(max_length=70, blank=False)
+    super_admin=models.BooleanField(blank=False,default=False)
+    
+
 class Exam(models.Model):
     id = models.AutoField(primary_key=True)
     e_name=models.CharField(max_length=32, blank=False,unique=True)

@@ -68,27 +68,39 @@ EMAIL_HOST_USER = 'terralogic.smarthire@gmail.com'
 EMAIL_HOST_PASSWORD = 'vjtohoaprxvfxfab'
 
 
+def do_enc(email_id,password=None):    
+    obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
+    if password==None:
+        password = User.objects.make_random_password(length=6) 
+    sha_code=hashlib.sha256(email_id.strip().encode()).hexdigest()
+    enc_pwd=obj.encrypt(password+sha_code[:10])
+    return base64.b64encode(enc_pwd).decode()
+
+def do_dec(password): 
+    try:
+        enc_pwd=base64.b64decode(password.encode())
+        obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
+        return str(obj.decrypt(enc_pwd).decode("utf-8"))[:6]
+    except Exception as e:
+        print(str(e))
+        return "Failed"
+
+
 @csrf_exempt
 def user_signup(request):
     if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
         try:
-            obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
             user_serializer = Users()
             user_serializer.name=request.POST.get("name").strip()
             email_id=request.POST.get("email").strip()
             regexp_str="^[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$"
             if not re.match(regexp_str,email_id):
-                return HttpResponse("Invalid email id",content_type="text")
+                return HttpResponse("error&sep;Invalid email id",content_type="text")
             user_serializer.email=email_id
             user_serializer.exam_id=request.POST.get("exam")
-            password = User.objects.make_random_password(length=6) 
-            sha_code=hashlib.sha256(email_id.strip().encode()).hexdigest()
+            user_serializer.password=do_enc(email_id)
             if re.match("^(127\.0\.0\.1)|localhost",request.get_host()):
-                password="passme"
-                sha_code=hashlib.sha256("brg".strip().encode()).hexdigest()
-                # print("------SHA-----------"+password+sha_code[:10])
-            enc_pwd=obj.encrypt(password+sha_code[:10])
-            user_serializer.password=base64.b64encode(enc_pwd).decode()
+                user_serializer.password=do_enc(email_id,"passme")
             user_serializer.score=-1
             user_serializer.save()
             if Users!=None:
@@ -98,12 +110,12 @@ def user_signup(request):
                 mythread=threading.Thread(target=delete_mail, args=(email_id,))
                 mythread.start()
                 # mythread.join()
-                return HttpResponse("success",content_type="text")
+                return HttpResponse("success&sep;Registered successfully",content_type="text")
             else:
-                return HttpResponse("Registration Failed",content_type="text")
+                return HttpResponse("error&sep;Registration Failed",content_type="text")
         except Exception as e:
             print(str(e))
-            return HttpResponse("Failed",content_type="text")
+            return HttpResponse("error&sep;Failed",content_type="text")
     else:
         return HttpResponse("Only permitted to admin",content_type="text")
 
@@ -130,15 +142,10 @@ def user_login(request):
             return HttpResponse("Email id is not registered",content_type="text")
         if len(user_pwd)!=6:
             return HttpResponse("Password should consist of 6 character, current length is "+str(len(user_pwd)),content_type="text")
-        obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
-        sha_code=hashlib.sha256(email_id.strip().encode()).hexdigest()
-        if re.match("^(127\.0\.0\.1)|localhost",request.get_host()):
-            sha_code=hashlib.sha256("brg".strip().encode()).hexdigest()
-        enc_pwd=obj.encrypt(user_pwd.strip()+sha_code[:10])
-        validuser = Users.objects.filter(email=request.POST.get('email'),password__exact=base64.b64encode(enc_pwd).decode())
+        validuser = Users.objects.filter(email=request.POST.get('email'),password__exact=do_enc(email_id,user_pwd))
         usersserializer = UsersSerializer(validuser, many=True)
         if(len(usersserializer.data)>0):
-            request.session["logged_in"]=request.POST.get('email');
+            request.session["logged_in"]=request.POST.get('email')
             return HttpResponse("valid",content_type="text")
         else:
             return HttpResponse("Invalid Credentials!",content_type="text")
@@ -1558,19 +1565,12 @@ def send_cred(request):
                     print(row) 
                     mythread=threading.Thread(target=delete_mail_delivery_status, args=(row["email"],))
                     mythread.start()
-                    mythread.join()
-                    try:
-                        enc_pwd=base64.b64decode(row["password"].encode())
-                    except Exception as e:
-                        print(str(e))
-                        continue
-                    obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
-                    pwd=str(obj.decrypt(enc_pwd).decode("utf-8"))            
+                    mythread.join()          
                     body="""
                         <h2>Your Credentials are:</h2>
                         <div style='font-size:15px;'>
                             <b>Email: </b><span style='color:red'>"""+row["email"]+"""</span><br />
-                            <b>Password: </b><span style='color:red'><i>"""+pwd[:6]+"""</i></span><br />
+                            <b>Password: </b><span style='color:red'><i>"""+do_dec(row["password"])+"""</i></span><br />
                             <a href='http://"""+request.get_host()+"""/#/?email="""+row["email"]+"""'>Click here to start Exam</a><br />
                         </div>
                     """

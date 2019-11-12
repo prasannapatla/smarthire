@@ -36,7 +36,7 @@ class Admin_register extends Myservice {
     $("input").eq(0).focus()
   }
 
-  temp_interval:any=null
+  temp_interval: any = null
   bulk_upload() {
     try {
       this.myfileinit("/server/bulk_reg/",
@@ -48,20 +48,20 @@ class Admin_register extends Myservice {
       );
       var file = $(".upload_file")[0].files[0];
       new this.Upload(file).doUpload();
-      this.temp_interval=setInterval(
-        ()=>{
+      this.temp_interval = setInterval(
+        () => {
           $(".progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
         }
-      ,1000)
+        , 1000)
     }
-    catch (err) { 
-      swal(err,"Upload failed:")
+    catch (err) {
+      swal(err, "Upload failed:")
     }
   }
-  callback(data:any,context:any){
+  callback(data: any, context: any) {
     clearInterval(context.temp_interval)
     $(".progress").html("<pre>" + data + "</pre>")
-    swal("Uploaded","")
+    swal("Uploaded", "")
   }
 
   componentDidUpdate() {
@@ -81,31 +81,35 @@ class Admin_register extends Myservice {
   }
 
 
-  async register_user() {
+  register_user() {
+
+    if ($(".remail").val().trim() == "" || $(".rname").val() == "") {
+      swal("Fill all necessary field", "", "warning")
+      return false
+    }
+
     var cur_exam = $('.cur_exam option:selected').val();
     if ($(".cur_exam").prop('selectedIndex') == 0) {
       swal(cur_exam + " before submitting.", "", "warning")
       return false;
     }
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        if (this.responseText == "success") {
-          swal("registerd successfully", "", "success");
-          $("input[type='text']").val("");
-          $("input").eq(0).focus();
-        }
-        else {
-          swal(this.responseText, "", "error");
-        }
-      }
-    };
-    xhttp.open("POST", "/server/signup/", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("email=" + $(".remail").val() + "&name=" + $(".rname").val() + "&exam=" + cur_exam);
-    await this.fetch_data("/server/email_status_in_db/", "POST")
-    this.retrive_email_status();
+    let json_str = {
+      email: $(".remail").val(),
+      name: $(".rname").val(),
+      exam: cur_exam
+    }
+
+    this.show_msg(this.fetch_data("/server/signup/", "POST", null, json_str), this.on_reg)
+  }
+
+  async on_reg(status: any,v?:any) {
+    if (status.match("success")) {
+      $("input[type='text']").val("");
+      $("input").eq(0).focus();
+      await this.fetch_data("/server/email_status_in_db/", "POST")
+      this.retrive_email_status();
+    }
   }
 
 
@@ -119,7 +123,7 @@ class Admin_register extends Myservice {
     }
 
     let json_obj = JSON.parse(this.fetch_data("/server/email_status_in_db/", "POST", null, "&exam=" + cur_exam))
-    let json_obj2 = JSON.parse(this.fetch_data("/server/view_res/", "POST", null, "exam=" + cur_exam))
+    let json_obj2 = JSON.parse(this.fetch_data("/server/view_res/", "POST", null, "exam=" + cur_exam + "&max=0"))
     let failed = 0
     try {
       failed = Number(json_obj.length)
@@ -141,7 +145,7 @@ class Admin_register extends Myservice {
             value: "all",
           },
           failed: {
-            text: "Failed",
+            text: "Unsent",
             value: "failed",
           }
         },
