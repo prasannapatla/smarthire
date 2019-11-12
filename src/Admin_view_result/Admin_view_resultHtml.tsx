@@ -21,8 +21,9 @@ var page = function (_this: any) {
                                             <td>
                                                 <span className="select_exam_text">
                                                     <div>Select the exam to view details&nbsp;</div>&nbsp;
-                                            <select id='exam' className="exam"></select>
+                                                    <select id='exam' className="exam"></select>
                                                 </span>
+                                                <input type="number" defaultValue="10" placeholder="Intake" className="intake" />
                                             </td>
                                         </tr>
                                     </tbody>
@@ -41,17 +42,17 @@ var page = function (_this: any) {
 
                                     </table>
                                 </div>
-                                
-                                
+
+
                             </div>
-                            <input style={{ float: "right" }} type="button" value="Print" onClick={_this._print.bind(_this,"#result")} />
+                            <input style={{ float: "right" }} type="button" value="Print" onClick={_this._print.bind(_this, "#result")} />
                             {/* <input style={{ float: "right" }} type="button" value="Download" onClick={_this.download_page.bind(_this)} /> */}
                             <input style={{ float: "right" }} type="button" value="Delete" className="del_user_btn_complete" />
-                                <input style={{ float: "right", display: "block" }} type="button" value="Delete Result Set only" className="del_user_btn" />
-                                {/* <input style={{ float: "right", display: "block" }} type="button" value="Download" onClick={_this.download_page.bind(_this)} /> */}               
-                                <a id="download" download="details.png" className="download" >Download</a>
+                            <input style={{ float: "right", display: "block" }} type="button" value="Delete Result Set only" className="del_user_btn" />
+                            {/* <input style={{ float: "right", display: "block" }} type="button" value="Download" onClick={_this.download_page.bind(_this)} /> */}
+                            <a id="download" download="details.png" className="download" >Download</a>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

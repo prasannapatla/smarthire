@@ -88,6 +88,8 @@ class Login extends Myservice {
             else 
                 $("#invalidprompt").text(resp) 
         }
+        else
+            $("#invalidprompt").text("Invalid email or password length") 
     }
 
     render() {

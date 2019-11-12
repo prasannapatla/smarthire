@@ -125,6 +125,9 @@ class Add_code extends Myservice {
             let data = context.fetch_data("/server/addcode/", "POST", null, json_str);
             if (data == "success")
                 swal(data, "", "success")
+            else
+                swal(data, "", "error")
+    
             $("textarea").each(function (this: any) {
                 $(this).val("")
             });

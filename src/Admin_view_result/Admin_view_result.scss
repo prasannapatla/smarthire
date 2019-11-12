@@ -61,8 +61,8 @@
     margin-bottom: 40px;
   }
 
-  .sel_exam span {
-    margin-right: 20px;
+  .sel_exam span select{
+    margin-right: 15px !important;
   }
 
   .table-bordered td,
@@ -121,6 +121,11 @@
   .download {
     display: none;
     margin-left: 20px;
+  }
+
+  .intake{
+    width: 80px;
+    padding: 7px;
   }
 
 }
