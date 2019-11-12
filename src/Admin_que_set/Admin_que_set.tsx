@@ -4,6 +4,7 @@ import page from './Admin_que_setHtml'
 import Myservice from '../Myservice/Myservice'
 var $ = require("jquery");
 var swal = require("sweetalert");
+var swal2 = require("sweetalert2");
 
 class Admin_que_set extends Myservice {
 
@@ -95,9 +96,24 @@ class Admin_que_set extends Myservice {
         total_score: $('#total_score').val()
       }
       if (context.fetch_data("/server/get_select_que_count/", "POST", null, "exam_id=" + sel2) != 0) {
-        if (!window.confirm("Do you want to repopulate the exam?"))
-          return;
+        // if (!window.confirm("Do you want to repopulate the exam?"))
+        // // !window.confirm("Do you want to repopulate the exam?"
+        //   return;
+
+          swal2.fire({
+            title: 'Do you want to re-populate the exam?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, populate'
+          }).then((result:any) => {
+            if (result.value)
+            swal(context.fetch_data("/server/addset/", "POST", null, json_str),"","success");
+          })          
+
       }
+      else
       swal(context.fetch_data("/server/addset/", "POST", null, json_str),"","success");
 
     });
