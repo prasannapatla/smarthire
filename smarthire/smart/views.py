@@ -705,7 +705,7 @@ def view_res(request):
                         WHERE su.exam_id= \''''+request.POST.get("exam")+'''\'
                         GROUP BY  su.id) as t2
                     ON t1.id=t2.id
-                    ORDER BY (score1+IF(score2 is NULL,0,score2)) DESC                   
+                    ORDER BY score1+IF(score2 is NULL,0,score2) DESC,total_dur                    
             '''+max
             print(stmt)
             return HttpResponse(make_query(stmt),content_type="text")
@@ -741,7 +741,7 @@ def view_res(request):
                                 ON su.id = crs.user_id
                         GROUP BY  su.id) as t2
                     ON t1.id=t2.id
-                    ORDER BY (score1+IF(score2 is NULL,0,score2)) DESC  
+                    ORDER BY score1+IF(score2 is NULL,0,score2) DESC,total_dur   
             '''+max
           
             return HttpResponse(make_query(stmt),content_type="text")
