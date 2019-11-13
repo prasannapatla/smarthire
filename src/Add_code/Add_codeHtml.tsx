@@ -109,9 +109,9 @@ var page = function (_this: any) {
                                         <option value="py3">Python</option>
                                         <option value="js">Javascript</option>
                                     </select>
-                                    <input type="file" className="upload_file" />
-                                    <button onClick={_this.bulk_upload.bind(_this)}>Upload file</button>
-                                    <b>Format: </b>pblm_stmt,code,sample_input,t_inp_1,t_inp_2,t_inp_3,t_inp_4,lang(Optional)<br /><br />
+                                    <input type="file" className="upload_file" />File type:xls&nbsp;&nbsp;
+                                    <button onClick={_this.bulk_upload.bind(_this)}>Upload file</button><br />
+                                    <b>Format: </b>Problem statement,code,sample input,test input 1,test input 2,test input 3,test input4,Programming language(Optional)<br /><br />
                                     <span className='progress'>-</span>
                                 </div>
                             </div>

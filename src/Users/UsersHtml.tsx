@@ -33,16 +33,16 @@ var page = function (_this: any) {
                                     </tbody>
 
                                </table>
-                                <input type="button" value="update" className="update" onClick={_this.update.bind(_this)} />
-
+                                <input type="button" value="Delete" className="delete" onClick={_this.del_user.bind(_this)} />
+                                <span className='update_status'></span>
 
                                 <form onSubmit={_this.add.bind(_this)} className="add_user">
-                                    <input type="text" placeholder="name" className="name" />
-                                    <input type="email" placeholder="email" className="email" />
-                                    <input type="password" placeholder="password" className="password" />
+                                    <input type="text" placeholder="name" className="name" required />
+                                    <input type="email" placeholder="email" className="email" required/>
+                                    <input type="password" maxLength={6} placeholder="password" className="password" required />
                                     <label>As super admin <input type="checkbox" className="admin" /></label>
-                                    <input type="submit"  className="Add" />&nbsp;&nbsp;&nbsp;
-                                    <input type="reset"  className="clear" />
+                                    <input type="submit"  value="Add user" />&nbsp;&nbsp;&nbsp;
+                                    <input type="reset"  className="clear" value='Clear fields' />
                                 </form>
 
                             </div>

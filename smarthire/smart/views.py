@@ -73,14 +73,14 @@ def do_enc(email_id,password=None):
     if password==None:
         password = User.objects.make_random_password(length=6) 
     sha_code=hashlib.sha256(email_id.strip().encode()).hexdigest()
-    enc_pwd=obj.encrypt(password+sha_code[:10])
-    return base64.b64encode(enc_pwd).decode()
+    enc_pwd=obj.encrypt(password+(16-len(password))*"=")
+    return sha_code[:10]+base64.b64encode(enc_pwd).decode()
 
 def do_dec(password): 
     try:
-        enc_pwd=base64.b64decode(password.encode())
+        enc_pwd=base64.b64decode(password[10:].encode())
         obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
-        return str(obj.decrypt(enc_pwd).decode("utf-8"))[:6]
+        return str(obj.decrypt(enc_pwd).decode("utf-8")).replace("=","")
     except Exception as e:
         print(str(e))
         return "Failed"
@@ -89,13 +89,14 @@ def do_dec(password):
 def add_admin(request):
     if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
 
-        if len(Admin_users.objects.filter(email=request.POST.get("email").strip()).values())==0:
+        if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())==0:
             return HttpResponse("error&sep;You are not permitted to this operation",content_type="text")
         try:
+            email=request.POST.get("email").strip().lower()
             admin=Admin_users()
             admin.name=request.POST.get("name").strip()
-            admin.email=request.POST.get("email").strip()
-            admin.password=request.POST.get("password").strip()
+            admin.email=email
+            admin.password=do_enc(email,request.POST.get("password").strip())
             admin.super_admin=request.POST.get("super_admin").strip()
             admin.save()
             if admin!=None:
@@ -111,9 +112,13 @@ def add_admin(request):
 @csrf_exempt
 def view_admin(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
-        print(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())
+        print(len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values()))
         if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())!=0:
-            return HttpResponse(json.dumps([dict(item) for item in Admin_users.objects.all().values('name','email','password','super_admin')]),content_type="text")
+            orig_json=[dict(item) for item in Admin_users.objects.all().values('id','name','email','password','super_admin')]
+            for i in range(0,len(orig_json)):
+                if orig_json[i]["password"]!="":
+                    orig_json[i]["password"]=do_dec(orig_json[i]["password"])
+            return HttpResponse(json.dumps(orig_json),content_type="text")
         else:
             stmt='''
             SELECT 
@@ -125,7 +130,11 @@ def view_admin(request):
             FROM
                 smart_admin_users 
             '''      
-            return HttpResponse(make_query(stmt),content_type="text")
+            orig_json=json.loads(make_query(stmt))
+            for i in range(0,len(orig_json)):
+                if orig_json[i]["password"]!="":
+                    orig_json[i]["password"]=do_dec(orig_json[i]["password"])
+            return HttpResponse(json.dumps(orig_json),content_type="text")
     else:
         return HttpResponse("Only permitted to admin",content_type="text")
 
@@ -136,18 +145,58 @@ def remove_admin(request):
         if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())!=0:
             try:
                 int_list=list(map(int,request.POST.get("ids").split(",")))
+                total_admin=len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())
+                admin_to_be_deleted=len(Admin_users.objects.filter(id__in=int_list,email=request.session["admin"],super_admin=True).values())
+                if total_admin-admin_to_be_deleted==0:
+                    return HttpResponse("error&sep;Not allowed to delete all the admins",content_type="text")
                 Admin_users.objects.filter(id__in=int_list).delete()
                 return HttpResponse("success&sep;deleted successfully",content_type="text")
-            except:
-                return HttpResponse("error&sep;deleted successfully",content_type="text")
+            except Exception as e:
+                print(str(e))
+                return HttpResponse("error&sep;Failed to delete user",content_type="text")
         else:
             return HttpResponse("error&sep;You are not permitted to this operation",content_type="text")
         
     else:
         return HttpResponse("Only permitted to admin",content_type="text")
 
-
-
+@csrf_exempt
+def update_admin(request):
+    if ("admin" in request.session) and (request.session["admin"]!=None):
+        pwd=""
+        try:
+            pwd=request.POST.get("password").strip()
+            if len(pwd)<4 or len(pwd)>10:
+                return HttpResponse("error&sep;Invalid password length",content_type="text")
+        except Exception as e:
+            print(str(e))
+            return HttpResponse("error&sep;An error occurred",content_type="text")
+        if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())!=0:
+            email=""
+            try:
+                email=Admin_users.objects.filter(id=request.POST.get("uid")).values()[0]["email"]
+                password=do_enc(email,pwd)
+                Admin_users.objects.filter(id=request.POST.get("uid")).update(password=password,super_admin=request.POST.get("super_admin"))
+                return HttpResponse("success&sep;"+str(email)+" : Updated successfully",content_type="text")
+            except Exception as e:
+                print(str(e))
+                return HttpResponse("error&sep;Failed to update user "+email,content_type="text")
+        else:
+            try:
+                email=request.session["admin"]
+                password=do_enc(email,pwd)
+                resp=Admin_users.objects.filter(email=email).update(password=password)
+                print(resp)
+                if resp>0:
+                    return HttpResponse("success&sep;"+str(email)+" : Updated successfully",content_type="text")
+                else:
+                    return HttpResponse("error&sep;Failed to update user "+email,content_type="text")
+            except Exception as e:
+                print(str(e))
+                return HttpResponse("error&sep;Failed to update user "+email,content_type="text")
+        
+    else:
+        return HttpResponse("Only permitted to admin",content_type="text")
 
 @csrf_exempt
 def user_signup(request):
@@ -186,32 +235,42 @@ def user_signup(request):
 @csrf_exempt
 def user_login(request):
     request.session["logged_in"]=None
-    if request.method == 'POST': 
-        email_id=request.POST.get("email").strip()
-        user_pwd=request.POST.get('password').strip()
-        if (email_id=="admin@terralogic.com" or email_id=="ADMIN@TERRALOGIC.COM") and (user_pwd=="terralogic" ):
-            request.session["admin"]=request.POST.get('email')
-            return HttpResponse("admin",content_type="text")
-        
-        regexp_str="^[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$"
-        if not re.match(regexp_str,email_id):
-            return HttpResponse("Invalid email id",content_type="text")
-
+    if request.method == 'POST' and 'email' in request.POST and 'password' in request.POST: 
         try:
-            uid=Users.objects.filter(email=request.POST.get('email')).values()[0]["id"]
-            if int(json.loads(get_all_exam_status(uid))[0]["status_code"])==3:
-                return HttpResponse("You have already attended exam",content_type="text")
-        except:
-            return HttpResponse("Email id is not registered",content_type="text")
-        if len(user_pwd)!=6:
-            return HttpResponse("Password should consist of 6 character, current length is "+str(len(user_pwd)),content_type="text")
-        validuser = Users.objects.filter(email=request.POST.get('email'),password__exact=do_enc(email_id,user_pwd))
-        usersserializer = UsersSerializer(validuser, many=True)
-        if(len(usersserializer.data)>0):
-            request.session["logged_in"]=request.POST.get('email')
-            return HttpResponse("valid",content_type="text")
-        else:
-            return HttpResponse("Invalid Credentials!",content_type="text")
+            email_id=request.POST.get("email").strip().lower()
+            user_pwd=request.POST.get('password').strip()
+            if len(user_pwd)<4 or len(user_pwd)>10:
+                return HttpResponse("Password should consist of minimum 4 character and maximum 10 character, current length is "+str(len(user_pwd)),content_type="text")
+            regexp_str="^[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$"
+            if not re.match(regexp_str,email_id):
+                return HttpResponse("Invalid email id",content_type="text")
+            try:
+                pwd=Admin_users.objects.filter(email=email_id).values()[0]["password"]
+                if pwd==do_enc(email_id,user_pwd):
+                    request.session["admin"]=email_id
+                    return HttpResponse("admin",content_type="text")
+                else:
+                    return HttpResponse("Invalid admin credentials",content_type="text")
+            except Exception as e:
+                pass              
+
+            try:
+                uid=Users.objects.filter(email=email_id).values()[0]["id"]
+                if int(json.loads(get_all_exam_status(uid))[0]["status_code"])==3:
+                    return HttpResponse("You have already attended exam",content_type="text")
+            except:
+                return HttpResponse("Email id is not registered",content_type="text")
+           
+            validuser = Users.objects.filter(email=email_id,password__exact=do_enc(email_id,user_pwd))
+            usersserializer = UsersSerializer(validuser, many=True)
+            if(len(usersserializer.data)>0):
+                request.session["logged_in"]=email_id
+                return HttpResponse("valid",content_type="text")
+            else:
+                return HttpResponse("Invalid Credentials!",content_type="text")
+        except Exception as e:
+            print(str(e))
+            return HttpResponse("An error occurred")
     else:
         return HttpResponse("Failed to login")
 
@@ -1747,7 +1806,6 @@ def read_excel(file,use=1):
         for i in range(1,sheet.nrows): 
             temp=list()
             for j in range(sheet.ncols): 
-                print(repr(sheet.cell_value(i, j)))
                 temp.append(sheet.cell_value(i, j))
             data.append(temp)
     else:
@@ -1756,13 +1814,10 @@ def read_excel(file,use=1):
         for i in range(2,ws.max_row):
             temp=list()
             if len(ws[i])!=0:
-                all_cell=True
                 for col in ws[i]:
-                    if col.value==None:
-                        all_cell=False
-                    temp.append(str(col.value))
-                print(temp)
-                if "".join(temp).strip()!="" and all_cell:
+                    if col.value!=None:
+                        temp.append(str(col.value))
+                if "".join(temp).strip()!="" and len(temp)!=0:
                     data.append(temp)
     return data
 

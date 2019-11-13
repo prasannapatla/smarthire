@@ -90,7 +90,7 @@ var page = function (_this: any) {
                                 <p> <b>*</b> Check this option for programming questions</p><br />
                                 <div className='file_upload' style={{ display: "block" }}>
                                     <p className="heading">Bulk upload questions:</p>
-                                 <input type="file" className="upload_file"  />
+                                 <input type="file" className="upload_file"  />File type:xls&nbsp;&nbsp;
                                     <button  onClick={_this.bulk_upload.bind(_this)}>Upload file</button>
                                     <b>Format: </b>Questions,Program,Option1,Option2,Option3,Option4,Correct Answer<br /><br />
                                     <span className='progress'>-</span>

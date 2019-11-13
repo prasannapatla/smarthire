@@ -230,16 +230,16 @@ class Myservice extends React.Component {
       return false
   }
 
-  show_msg(resp: string,callback?:any) {
+  show_msg(resp: string,callback?:any,context?:any) {
     let status = resp
     let msg:string[]=Array()
     try {
       msg = resp.split("&sep;")
     } catch (error) { }
     if (status.match("error&sep;") || status.match("success&sep;") || status.match("warning&sep;") ||status.match("info&sep;"))
-      swal(msg[1], "", msg[0]).then((value:any) => {callback(msg[0],value)});
+      swal(msg[1], "", msg[0]).then((value:any) => {callback(context,msg[0],value)});
     else
-      swal(msg, "").then((value:any) => {callback(value)});
+      swal(msg, "").then((value:any) => {context.callback(value)});
   }
 
 

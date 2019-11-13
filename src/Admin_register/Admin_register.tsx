@@ -105,15 +105,15 @@ class Admin_register extends Myservice {
       exam: cur_exam
     }
 
-    this.show_msg(this.fetch_data("/server/signup/", "POST", null, json_str), this.on_reg)
+    this.show_msg(this.fetch_data("/server/signup/", "POST", null, json_str), this.on_reg,this)
   }
 
-  async on_reg(status: any,v?:any) {
+  async on_reg(_this:any,status: any,v?:any) {
     if (status.match("success")) {
       $("input[type='text']").val("");
       $("input").eq(0).focus();
-      await this.fetch_data("/server/email_status_in_db/", "POST")
-      this.retrive_email_status();
+      await _this.fetch_data("/server/email_status_in_db/", "POST")
+      _this.retrive_email_status();
     }
   }
 
