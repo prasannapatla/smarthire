@@ -103,6 +103,7 @@ var page = function (_this: any) {
                                 <div className='file_upload' style={{ display: "block" }}>
                                     <p className="heading">Bulk upload questions:</p>
                                     <select id="lang2">
+                                        <option value="Select programming language">Select programming language</option>
                                         <option value="cpp">C/C++</option>
                                         <option value="java">Java</option>
                                         <option value="py3">Python</option>

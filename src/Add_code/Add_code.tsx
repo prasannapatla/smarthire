@@ -57,7 +57,7 @@ class Add_code extends Myservice {
     bulk_upload() {
         var sel2 = $('#lang2 :selected').val();
         if ($("#lang2").prop('selectedIndex') == 0) {
-            swal(sel2 + " before submitting.").then(() => {
+            swal(sel2 + " before submitting.","","warning").then(() => {
                 $("#lang2").focus()
             })
             return false;
@@ -82,14 +82,14 @@ class Add_code extends Myservice {
             new this.Upload(file).doUpload();
         }
         catch (err) {
-            swal(err, "Upload failed:")
+            swal(err, "Upload failed","error")
         }
     }
     callback2(data: any, context: any) {
         clearInterval(context.temp_interval)
         $(".progress").html("<pre>" + data + "</pre>")
-        $("body *").css({ cursor: "auto" })
-        swal("Uploaded", "")
+        $("body *").css({ cursor: "auto" })        
+        swal("Uploaded", "","success")
     }
 
     componentDidUpdate() {

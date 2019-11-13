@@ -96,6 +96,8 @@ class Myservice extends React.Component {
         formData.append(key, json_data[key]);
         console.log(key, json_data[key])
       }
+      if (typeof this.file === "undefined")
+        swal("Choose file before upload","","warning")
       formData.append("file", this.file, this.getName());
       // formData.append("upload_file", true);
       $.ajax({

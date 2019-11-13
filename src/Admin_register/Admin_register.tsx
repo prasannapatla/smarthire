@@ -38,6 +38,11 @@ class Admin_register extends Myservice {
 
   temp_interval: any = null
   bulk_upload() {
+    var cur_exam = $('.cur_exam option:selected').val();
+    if ($(".cur_exam").prop('selectedIndex') == 0) {
+      swal(cur_exam + " before submitting.", "", "warning")
+      return false;
+    }
     try {
       this.myfileinit("/server/bulk_reg/",
         {
@@ -55,13 +60,13 @@ class Admin_register extends Myservice {
         , 1000)
     }
     catch (err) {
-      swal(err, "Upload failed:")
+      swal(err, "Upload failed","error")
     }
   }
   callback(data: any, context: any) {
     clearInterval(context.temp_interval)
     $(".progress").html("<pre>" + data + "</pre>")
-    swal("Uploaded", "")
+    swal("Uploaded", "","success")
   }
 
   componentDidUpdate() {

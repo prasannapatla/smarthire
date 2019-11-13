@@ -74,10 +74,17 @@ class Admin_que_set extends Myservice {
         return false;
       }
 
+      let next=true
+
       $("input[type='checkbox']").each(function (this: any) {
         if ($(this).prop('checked')) {
           var row = $("#cat" + $(this).val());
           var total = (row.find("#total")).val();
+          row.find("#total").css({border:"solid silver 1px"})
+          if(total<0){           
+            row.find("#total").css({border:"solid red 1px"})
+            next=false
+          }
           var cat = $(this).val()
           myjson = '{'
           myjson += '"total":"' + total + '",'
@@ -86,6 +93,13 @@ class Admin_que_set extends Myservice {
           json_arr.push(myjson)
         }
       });
+
+      if(!next){
+        swal("Incorrect value","","error")
+        return
+      }
+
+
       myjson = "[" + json_arr.join(",") + "]"
 
       let json_str =

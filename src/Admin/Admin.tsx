@@ -63,7 +63,7 @@ class Admin extends Myservice {
     $(document).ready(function (this: any) {
 
       if ($("textarea").val().trim() == "") {
-        swal({ title: "Enter the questions." })
+        swal("Enter the questions." ,"","warning")
         return false;
       }
 
@@ -83,20 +83,20 @@ class Admin extends Myservice {
         }
 
       if (opt.length != 0) {
-        swal("Enter the value for these: " + opt.join(","))
+        swal("Enter the value for these: " + opt.join(","),"","warning")
         return false;
       }
 
       var sel = $("input[type='radio']:checked");
       if (typeof sel.val() === "undefined") {
-        swal("select an option before submitting.", "")
+        swal("select an option before submitting.", "","warning")
         return false;
       }
 
 
       var sel2 = $('#cat :selected').val();
       if ($("#cat").prop('selectedIndex') == 0) {
-        swal(sel2 + " before submitting.")
+        swal(sel2 + " before submitting.","","warning")
         return false;
       }
 
@@ -136,7 +136,7 @@ class Admin extends Myservice {
   bulk_upload() {
     var sel2 = $('#cat :selected').val();
     if ($("#cat").prop('selectedIndex') == 0) {
-      swal(sel2 + " before submitting.").then(() => {
+      swal(sel2 + " before submitting.","","warning").then(() => {
         $("#cat").focus()
       })
       return false;
@@ -158,13 +158,13 @@ class Admin extends Myservice {
         , 1000)
     }
     catch (err) {
-      swal(err, "Upload failed:")
+      swal(err, "Upload failed","error")
     }
   }
   callback(data: any, context: any) {
     clearInterval(context.temp_interval)
     $(".progress").html("<pre>" + data + "</pre>")
-    swal("Uploaded", "")
+    swal("Uploaded", "","success")
   }
 
 
