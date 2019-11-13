@@ -22,6 +22,7 @@ var page = function (_this: any) {
                     <li><Link to='/admin_que_set'>Populate Exam</Link></li>
                     <li><Link to='/code_populate'>Populate Coding Exam</Link></li>
                     <li><Link to='/admin_register'>Register Candidate</Link></li>
+                    <li><Link to='/users'>Admin users</Link></li>
                     <li ><a href="javascript:void(0)" onClick={_this.user_logout.bind(_this)}>Logout</a> </li>
                 </ul>
             </div>

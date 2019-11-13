@@ -108,6 +108,7 @@ input[type='checkbox']:checked {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"] {
   width: 100%;
   margin-top: 10px;
@@ -132,6 +133,8 @@ textarea {
 }
 
 input[type="button"],
+input[type="submit"],
+input[type="reset"],
 select {
   background-color: rgb(184, 184, 184);
   color: black;

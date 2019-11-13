@@ -24,7 +24,7 @@ from rest_framework import status
 
 from django.http.response import StreamingHttpResponse as HttpResponse
      
-from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set
+from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set,Admin_users
 from .serializers import UsersSerializer
 
 
@@ -85,6 +85,47 @@ def do_dec(password):
         print(str(e))
         return "Failed"
 
+@csrf_exempt
+def add_admin(request):
+    if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
+
+        if len(Admin_users.objects.filter(email=request.POST.get("email").strip()).values())==0:
+            return HttpResponse("error&sep;You are not permitted to this operation",content_type="text")
+        try:
+            admin=Admin_users()
+            admin.name=request.POST.get("name").strip()
+            admin.email=request.POST.get("email").strip()
+            admin.password=request.POST.get("password").strip()
+            admin.super_admin=request.POST.get("super_admin").strip()
+            admin.save()
+            if admin!=None:
+                return HttpResponse("success&sep;Registered successfully",content_type="text")
+            else:
+                return HttpResponse("error&sep;Registration Failed",content_type="text")
+        except Exception as e:
+            print(str(e))
+            return HttpResponse("error&sep;Failed",content_type="text")
+    else:
+        return HttpResponse("Only permitted to admin",content_type="text")
+
+@csrf_exempt
+def view_admin(request):
+    if ("admin" in request.session) and (request.session["admin"]!=None):
+        if len(Admin_users.objects.filter(email=request.POST.get("email").strip()).values())!=0:
+            return HttpResponse(json.dumps([dict(item) for item in Admin_users.objects.all().values('name','email','password','super_admin')]),content_type="text")
+        else:
+            stmt='''
+            SELECT 
+                id,
+                name,
+                email,
+                IF(email="'''+request.session["admin"]+'''",password,"") as "password",
+                super_admin
+            FROM
+                smart_admin_users 
+            '''      
+            return HttpResponse(make_query(stmt),content_type="text")
+
 
 @csrf_exempt
 def user_signup(request):
@@ -103,7 +144,7 @@ def user_signup(request):
                 user_serializer.password=do_enc(email_id,"passme")
             user_serializer.score=-1
             user_serializer.save()
-            if Users!=None:
+            if user_serializer!=None:
                 mythread=threading.Thread(target=delete_mail_delivery_status, args=(email_id,))
                 mythread.start()
                 # mythread.join()

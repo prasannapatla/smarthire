@@ -27,6 +27,7 @@
 				<Link to='/add_code'>add_code</Link><br />
 				<Link to='/code_populate'>code_populate</Link><br />
 				<Link to='/admin_list_code_que'>admin_list_code_que</Link><br />
+				<Link to='/users'>users</Link><br />
 
             </div>
         )
