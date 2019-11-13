@@ -54,5 +54,8 @@ urlpatterns = [
     url(r'^get_temp_update/$', views.get_temp_update),
     url(r'^get_expected_output/$', views.get_expected_output),
     url(r'^all_exam_status/$', views.all_exam_status),
+    url(r'^add_admin/$', views.add_admin),
+    url(r'^view_admin/$', views.view_admin),
+    url(r'^remove_admin/$', views.remove_admin),
     url(r'^video_stream/$', views.video_stream),
     ]

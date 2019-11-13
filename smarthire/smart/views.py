@@ -111,7 +111,8 @@ def add_admin(request):
 @csrf_exempt
 def view_admin(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
-        if len(Admin_users.objects.filter(email=request.POST.get("email").strip()).values())!=0:
+        print(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())
+        if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())!=0:
             return HttpResponse(json.dumps([dict(item) for item in Admin_users.objects.all().values('name','email','password','super_admin')]),content_type="text")
         else:
             stmt='''
@@ -125,6 +126,27 @@ def view_admin(request):
                 smart_admin_users 
             '''      
             return HttpResponse(make_query(stmt),content_type="text")
+    else:
+        return HttpResponse("Only permitted to admin",content_type="text")
+
+
+@csrf_exempt
+def remove_admin(request):
+    if ("admin" in request.session) and (request.session["admin"]!=None):
+        if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())!=0:
+            try:
+                int_list=list(map(int,request.POST.get("ids").split(",")))
+                Admin_users.objects.filter(id__in=int_list).delete()
+                return HttpResponse("success&sep;deleted successfully",content_type="text")
+            except:
+                return HttpResponse("error&sep;deleted successfully",content_type="text")
+        else:
+            return HttpResponse("error&sep;You are not permitted to this operation",content_type="text")
+        
+    else:
+        return HttpResponse("Only permitted to admin",content_type="text")
+
+
 
 
 @csrf_exempt
@@ -1734,10 +1756,13 @@ def read_excel(file,use=1):
         for i in range(2,ws.max_row):
             temp=list()
             if len(ws[i])!=0:
+                all_cell=True
                 for col in ws[i]:
-                    if col.value!=None:
-                        temp.append(str(col.value))
-                if "".join(temp).strip()!="":
+                    if col.value==None:
+                        all_cell=False
+                    temp.append(str(col.value))
+                print(temp)
+                if "".join(temp).strip()!="" and all_cell:
                     data.append(temp)
     return data
 
@@ -1807,9 +1832,10 @@ def bulk_que(request):
                         que_len=len(val[0])
                         if que_len>100:
                             que_len=100
-                        resp+="\n"+val[0][:que_len-1]+" : "+"".join(responce["_iterator"])
-                       
+                        resp+="\n"+val[0][:que_len-1]+" : "+"".join(responce["_iterator"])                    
                     else:
+                        print(len(val))
+                        print(val)
                         resp+="\nInvalid data format"
                     global_temp_update=resp
                 global_temp_update=None

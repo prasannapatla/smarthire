@@ -204,6 +204,9 @@ module.exports = {
                     "^/server/get_expected_output": "/get_expected_output/",
                     "^/server/get_temp_update": "/get_temp_update/",
                     "^/server/all_exam_status": "/all_exam_status/",
+                    "^/server/add_admin": "/add_admin/",
+                    "^/server/view_admin": "/view_admin/",
+                    "^/server/remove_admin": "/remove_admin/",
                     "^/server/addcode": "/addcode/"
                 }
             }

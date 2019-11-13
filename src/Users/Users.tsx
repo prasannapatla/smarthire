@@ -21,30 +21,37 @@ class Users extends Myservice {
     }
 
     list_user() {
-        let json_data = [
-            {
-                id: 1,
-                name: "guru",
-                email: "email@gmail.com",
-                password: "1234",
-                super_admin: true
-            },
+        // let json_data = [
+        //     {
+        //         id: 1,
+        //         name: "guru",
+        //         email: "email@gmail.com",
+        //         password: "1234",
+        //         super_admin: true
+        //     },
 
-            {
-                id: 2,
-                name: "raj",
-                email: "emai2@gmail.com",
-                password: "1234",
-                super_admin: true
-            },
+        //     {
+        //         id: 2,
+        //         name: "raj",
+        //         email: "emai2@gmail.com",
+        //         password: "1234",
+        //         super_admin: true
+        //     },
 
-            {
-                id: 2,
-                name: "someone",
-                email: "emai3@gmail.com",
-                super_admin: false
-            }
-        ]
+        //     {
+        //         id: 2,
+        //         name: "someone",
+        //         email: "emai3@gmail.com",
+        //         super_admin: false
+        //     }
+        // ]
+        let json_data=this.fetch_data("/server/view_admin/", "POST")
+        console.log("json_data",json_data)
+        try {
+            json_data=JSON.parse(json_data)
+        } catch (error) {
+            return
+        }
         for (let row in json_data) {
             let html_data = "<tr class='id" + json_data[row]["id"] + "'>"
             html_data += "<td>" + json_data[row]["name"] + "</td>\n"
