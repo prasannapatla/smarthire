@@ -28,7 +28,7 @@ class Users extends Myservice {
             context.update($(this).parent().find(".user_id").val(), $(this).val(), $(this).parent().find(".full").is(":checked"))
         });
         $("tr td .full").on('change click', function (this: any) {
-            context.update($(this).parent().parent().find(".user_id").val(), $(this).parent().parent().find(".pwd").val(), $(this).find(".full").is(":checked"))
+            context.update($(this).parent().parent().find(".user_id").val(), $(this).parent().parent().find(".pwd").val(), $(this).is(":checked"))
         });
         super.componentDidMount();
     }
