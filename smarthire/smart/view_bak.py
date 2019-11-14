@@ -165,7 +165,8 @@ def update_admin(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
         pwd=""
         try:
-            print(len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values()))
+            test=Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values()
+            print(len(test),test)
             pwd=request.POST.get("password").strip()
             if len(pwd)<4 or len(pwd)>10:
                 return HttpResponse("error&sep;Invalid password length",content_type="text")
@@ -175,10 +176,9 @@ def update_admin(request):
         if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())!=0:
             email=""
             try:
-                if len(Admin_users.objects.filter(super_admin=True).values())==1 and int(request.POST.get("super_admin"))==0:
-                    return HttpResponse("error&sep;There should be at least one admin -"+email,content_type="text")
-
                 email=Admin_users.objects.filter(id=request.POST.get("uid")).values()[0]["email"]
+                if len(Admin_users.objects.filter(super_admin=True).values())==1 and int(request.POST.get("super_admin"))==0:
+                    return HttpResponse("error&sep;There should be at least one admin - "+email,content_type="text")
                 password=do_enc(email,pwd)
                 Admin_users.objects.filter(id=request.POST.get("uid")).update(password=password,super_admin=request.POST.get("super_admin"))
                 return HttpResponse("success&sep;"+str(email)+" : Updated successfully",content_type="text")
@@ -240,6 +240,7 @@ def user_login(request):
     request.session["logged_in"]=None
     if request.method == 'POST' and 'email' in request.POST and 'password' in request.POST: 
         try:
+            request.session.clear()
             email_id=request.POST.get("email").strip().lower()
             user_pwd=request.POST.get('password').strip()
             if len(user_pwd)<4 or len(user_pwd)>10:
@@ -401,7 +402,8 @@ def add_que_set(request):
                 dur=Exam.objects.filter(id=request.POST.get("exam")).values()[0]["code_duration"]
                 print(int(dur)+abs(int(request.POST.get("dur")))*60,max_dur)
                 if (int(dur)+abs(int(request.POST.get("dur")))*60)>int(max_dur):
-                    return HttpResponse("Maximum exam durartion is "+max_dur,content_type="text")
+                    return HttpResponse("error&sep;Maximum exam durartion is "+str(int(int(max_dur)/60))+" Mins",content_type="text")
+
             except:
                 pass
             try:
@@ -430,9 +432,10 @@ def add_que_set(request):
                     except:
                         pass  
 
-            return HttpResponse("Exam Populated",content_type="text")  
+            return HttpResponse("success&sep;Exam Populated",content_type="text")  
+
         except Exception as e:
-            return HttpResponse("Enter valid details",content_type="text")  
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
     else:
         return HttpResponse("Invalid req",content_type="text")  
 
@@ -610,13 +613,18 @@ def get_q(request):
         txt=""
         q_set=[]
 
+        today=timezone.now()
+
         try:
-            today=timezone.now()
-            print(today)
-            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],start_date__lte=today,end_date__gte=today).values()[0]
+            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],start_date__lte=today).values()[0]
         except Exception as e:
             print("range: "+str(e))
-            return HttpResponse("&range;",content_type="text")
+            return HttpResponse("&start;",content_type="text")
+        try:
+            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],end_date__gte=today).values()[0]
+        except Exception as e:
+            print("range: "+str(e))
+            return HttpResponse("&close;",content_type="text")
         if ("timer" not in request.session):
             request.session["timer"]=datetime.datetime.now().strftime("%H:%M:%S")
         
@@ -796,23 +804,45 @@ def exam_logout(request):
     else:
         return HttpResponse("closed",content_type="text")
 
+
+
+import xlwt
+
+hex_no=8
+def set_xl_color(workbook,color_name,r,g,b,bold):
+    global hex_no
+    font = xlwt.Font()
+    font.name = 'Times New Roman'
+    font.bold = bold
+    if hex_no >=64:
+        hex_no=8
+    xlwt.add_palette_colour(color_name, hex_no) 
+    workbook.set_colour_RGB(hex_no,r,g,b) 
+    font.colour_index = xlwt.Style.colour_map[color_name]
+    style = xlwt.XFStyle() 
+    style.font = font
+    hex_no+=1
+    return style
+
+
+
+
 @csrf_exempt
 def view_res(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
         max=";"
-        print(request.POST)
         if int(request.POST.get("max"))!=0:
             max="LIMIT "+request.POST.get("max")+";"
         if ('exam' in request.POST):
             stmt='''
-                    SELECT t1.ID,Username,Score,coding_score AS Score2,total_dur AS 'Total Duration',Feedback from
+ SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback from
                     (
                         SELECT 
                             su.id AS ID,
                             su.email AS Username,
                             su.score AS Score,      
                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
-                            SUM(Round(Abs(TIMEDIFF(rs.s_time , rs.e_time)), 0)) AS total_dur,
+                            SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time - rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time - rs.e_time)), 0),0)) AS total_dur1,
                             su.coding_score AS coding_score,
                             su.feedback AS Feedback
                 
@@ -829,6 +859,7 @@ def view_res(request):
                         SELECT 
                             su.id AS ID  ,
                             count(*) AS count,
+                            SUM(IF(Round(Abs(TIME_TO_SEC(crs.s_time - crs.e_time)), 0),Round(Abs(TIME_TO_SEC(crs.s_time - crs.e_time)), 0),0)) AS total_dur2,
                             SUM(crs.total_testcase_passed) AS score2
     
                         FROM smart_coding_result_set AS crs              
@@ -837,10 +868,56 @@ def view_res(request):
                         WHERE su.exam_id= \''''+request.POST.get("exam")+'''\'
                         GROUP BY  su.id) as t2
                     ON t1.id=t2.id
-                    ORDER BY score1+IF(score2 is NULL,0,score2) DESC,total_dur                    
+                    ORDER BY IF(score1 is NULL,0,score1)+IF(score2 is NULL,0,score2) DESC,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0)          
             '''+max
             print(stmt)
-            return HttpResponse(make_query(stmt),content_type="text")
+            resp=make_query(stmt)
+            json_data=json.loads(resp)
+            workbook = xlwt.Workbook(encoding = 'ascii')
+            worksheet = workbook.add_sheet('Smarthire')
+
+            heading=set_xl_color(workbook,"head_color", 245, 66, 152,True)
+            body=set_xl_color(workbook,"body_color",  27, 11, 77,False)
+            inch=3333 # 3333 = 1" (one inch).
+
+
+
+            worksheet.write(0, 0, label = 'User ID', style=heading)
+            worksheet.write(0, 1, label = 'Email', style=heading)
+            worksheet.write(0, 2, label = 'Score', style=heading)
+            worksheet.write(0, 3, label = 'Coding score', style=heading)
+            worksheet.write(0, 4, label = 'Total Duration(Mins)', style=heading)
+            worksheet.write(0, 5, label = 'Feedback', style=heading)
+
+
+            for i in range(0,len(json_data)):
+                score1=json_data[i]["Score"]
+                score2=json_data[i]["Score2"]
+                if score1=="-1":
+                    score1="NA"
+                if score2=="-1":
+                    score2="NA"
+                dur=0
+                if json_data[i]["Total Duration"]!="None":
+                    print(json_data[i]["Total Duration"])
+                    dur=round(float(json_data[i]["Total Duration"])/60)
+                worksheet.write(i+1, 0, label = json_data[i]["ID"], style=body)
+                worksheet.write(i+1, 1, label = json_data[i]["Username"], style=body)
+                worksheet.write(i+1, 2, label =score1, style=body)
+                worksheet.write(i+1, 3, label = score2, style=body)
+                worksheet.write(i+1, 4, label = str(dur), style=body)
+                worksheet.write(i+1, 5, label = json_data[i]["Feedback"], style=body)
+
+            for c in range(0,6):
+                worksheet.col(c).width = round(inch*1.5)
+            worksheet.col(1).width = round(inch*3)
+            path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/../"
+            print(path)
+            workbook.save(path+'./docs/details.xls')
+            workbook.save(path+'./public/details.xls')
+            os.system("sudo chmod 777  "+path+"./docs/details.xls "+path+"./public/details.xls")
+
+            return HttpResponse(resp,content_type="text")
         else:        
             stmt='''
              SELECT t1.ID,Username,Score,coding_score AS Score2,total_dur AS 'Total Duration',Feedback from
@@ -2037,13 +2114,17 @@ def get_expected_output(request):
 @csrf_exempt
 def get_code_que(request):
     if ("logged_in" in request.session):
+        today=timezone.now()
         try:
-            today=timezone.now()
-            print(today)
-            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],start_date__lte=today,end_date__gte=today).values()[0]
+            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],start_date__lte=today).values()[0]
         except Exception as e:
             print("range: "+str(e))
-            return HttpResponse("&range;",content_type="text")
+            return HttpResponse("&start;",content_type="text")
+        try:
+            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],end_date__gte=today).values()[0]
+        except Exception as e:
+            print("range: "+str(e))
+            return HttpResponse("&close;",content_type="text")
         user=Users.objects.filter(email=request.session["logged_in"]).values("id","exam")[0]
         username="smarthire_user_"+str(user["id"])+"_"+str(user["exam"])
         if "que_cnt" not in request.session:
@@ -2245,11 +2326,11 @@ def view_code_res(request):
         if request.method == 'POST':
             stmt='''
             SELECT 
-                cq.pbm_stmt AS 'Probleom statement',
+                cq.pbm_stmt AS 'Problem statement',
                 crs.user_code AS 'User code',
                 crs.lang 'Programming language',
                 crs.total_testcase_passed AS "Number of testcase passed",
-                ABS(TIME_TO_SEC(crs.e_time)-TIME_TO_SEC(crs.s_time)) AS 'Duration'
+                ABS(TIMEDIFF(crs.e_time,crs.s_time)) AS 'Duration'''+escape("(Mins)")+''''
 
             FROM smart_coding_result_set AS crs
                 INNER JOIN smart_code_questions AS cq
@@ -2279,7 +2360,7 @@ def add_code_que_set(request):
                 dur=Exam.objects.filter(id=request.POST.get("exam")).values()[0]["duration"]
                 print(int(dur)+abs(int(request.POST.get("dur")))*60,max_dur)
                 if (int(dur)+abs(int(request.POST.get("dur")))*60)>int(max_dur):
-                    return HttpResponse("Maximum exam durartion is "+max_dur,content_type="text")
+                    return HttpResponse("error&sep;Maximum exam durartion is "+str(int(int(max_dur)/60))+" Mins",content_type="text")
             except:
                 pass
             try:
@@ -2305,9 +2386,9 @@ def add_code_que_set(request):
                     selected_questions.save()
                 except:
                     pass  
-            return HttpResponse("Exam Populated",content_type="text")  
+            return HttpResponse("success&sep;Exam Populated",content_type="text")  
         except Exception as e:
-            return HttpResponse("Enter valid details",content_type="text")  
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
     else:
         return HttpResponse("Invalid req",content_type="text")  
 
@@ -2347,6 +2428,8 @@ def get_all_exam_status(uid):
         t2.total as total_mcq_que,
         rs1.cnt as attended_code_que,
         rs2.cnt as attended_mcq_que,
+        exam.start_date,
+        exam.end_date,
         CAST(exam.duration/60 AS DECIMAL(16,0)) as  duration,
         CAST(exam.code_duration/60 AS DECIMAL(16,0)) as  code_duration,
         IF(t1.total>0,IF(rs1.cnt>0,1,0),1) as attended_code,
@@ -2409,7 +2492,9 @@ def get_all_exam_status(uid):
     	(
             SELECT 
             	se.duration,
-            	se.code_duration
+            	se.code_duration,
+            	se.start_date,
+            	se.end_date
             FROM
             	smart_exam  se
             WHERE
@@ -2424,7 +2509,7 @@ def get_all_exam_status(uid):
          )  as exam
     
     '''.format(uid)
-    print(stmt)
+    # print(stmt)
     return make_query(stmt)
 
 @csrf_exempt
@@ -2438,3 +2523,5 @@ def all_exam_status(request):
     else:
         return HttpResponse("No user logged in: \n",content_type="text")
 
+
+    

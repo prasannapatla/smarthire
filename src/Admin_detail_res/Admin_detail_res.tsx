@@ -58,16 +58,16 @@ class Admin_detail_res extends Myservice {
         this.load_res(this.params[0]);
     }
     this.myfilter();
-    $(document).ready(function(){
+    $(document).ready(function () {
       //@ts-ignore
-  html2canvas(document.querySelector(".content")).then(canvas => {
-    $("#screenshot").eq(0).html(canvas)
-    var download = $("#download")[0];
-    var image = $("#screenshot canvas")[0].toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    download.setAttribute("href", image);
-  });
-})
+      html2canvas(document.querySelector(".content")).then(canvas => {
+        $("#screenshot").eq(0).html(canvas)
+        var download = $("#download")[0];
+        var image = $("#screenshot canvas")[0].toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+        download.setAttribute("href", image);
+      });
+    })
     super.componentDidMount();
   }
 
@@ -129,8 +129,8 @@ class Admin_detail_res extends Myservice {
         wrong.push(bar_grap_str[val][2])
       }
 
-      let chart_colors=["#311b92","#ef5350","#ab47bc","#26c6da","#ffa726","#d4e157","#bdbdbd","#26a69a","#01579b","#1de9b6","#66bb6a","#ff8f00","#bdbdbd"]
-      let req_color=chart_colors.slice(0,correct.length)
+      let chart_colors = ["#311b92", "#ef5350", "#ab47bc", "#26c6da", "#ffa726", "#d4e157", "#bdbdbd", "#26a69a", "#01579b", "#1de9b6", "#66bb6a", "#ff8f00", "#bdbdbd"]
+      let req_color = chart_colors.slice(0, correct.length)
 
       //Line chart
       var ctx = $('#myChart');
@@ -138,32 +138,32 @@ class Admin_detail_res extends Myservice {
         type: 'line',
         data: {
           labels: lab,
-          
+
           datasets: [{
             label: 'Correct',
             data: correct,
             fill: false,
-            backgroundColor:"blue",
+            backgroundColor: "blue",
             borderColor: "Green",
-    
+
           }, {
             label: 'Wrong',
             data: wrong,
             fill: false,
-            backgroundColor:"pink",
+            backgroundColor: "pink",
             borderColor: "Red",
-    
+
           }]
         },
         options: {
           responsive: true,
-				legend: {
-					position: 'top',
-        },
-        animation: {
-					animateScale: true,
-					animateRotate: true
-				},
+          legend: {
+            position: 'top',
+          },
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          },
           scales: {
             yAxes: [{
               scaleLabel: {
@@ -191,21 +191,21 @@ class Admin_detail_res extends Myservice {
             label: 'Correct',
             data: correct,
             fill: false,
-            backgroundColor:req_color,
+            backgroundColor: req_color,
             borderColor: "white",
             borderWidth: 2
-    
+
           }]
         },
         options: {
           responsive: true,
-				legend: {
-					position: 'top',
-        },
-        animation: {
-					animateScale: true,
-					animateRotate: true
-				},
+          legend: {
+            position: 'top',
+          },
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          },
           scales: {
             yAxes: [{
               scaleLabel: {
@@ -324,11 +324,11 @@ class Admin_detail_res extends Myservice {
       for (val2 in json_obj[val1])
         if (val2 == "User code")
           txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'><pre>" + json_obj[val1][val2] + "</pre></td>";
+        else if (val2 == "Duration(Mins)")
+          txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>" + Math.floor(json_obj[val1][val2] / 60)+"Min "+json_obj[val1][val2]%60 + "Secs</td>";
         else
           txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>" + json_obj[val1][val2] + "</td>";
-          if (val2 == "Duration(Mins)")
-            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>" + Math.round(json_obj[val1][val2]/60) + "</td>";
-          txt += "</tr></tbody>";
+      txt += "</tr></tbody>";
     }
     $("#code_result").html(txt)
   }
@@ -377,7 +377,7 @@ class Admin_detail_res extends Myservice {
 
   }
 
-  print_page(){
+  print_page() {
     window.print();
   }
 

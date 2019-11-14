@@ -78,7 +78,7 @@ class Admin_view_result extends Myservice {
     for (val1 in json_obj) {
       let dur = 0;
       if (json_obj[val1]["Total Duration"] != "None")
-        dur = parseFloat((json_obj[val1]["Total Duration"] / 60).toFixed(2));
+        dur = Math.floor(json_obj[val1]["Total Duration"]/60)+"Min "+json_obj[val1]["Total Duration"]%60+" Secs"
       txt += "<tr>"
       txt += "<td >" + json_obj[val1]["ID"] + "</td>"
       txt += "<td >" + json_obj[val1]["Username"] + "</td>"

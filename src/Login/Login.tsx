@@ -74,8 +74,8 @@ class Login extends Myservice {
     }
 
     login_user() {
-        let email=$("input").eq(0).val()
-        let password=$("input").eq(1).val()
+        let email=$("input").eq(0).val().trim()
+        let password=$("input").eq(1).val().trim()
         let req="email=" + email + "&password=" + password
         let resp=""
         if (email.length >= 4 && password.length >= 4)

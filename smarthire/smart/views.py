@@ -240,6 +240,7 @@ def user_login(request):
     request.session["logged_in"]=None
     if request.method == 'POST' and 'email' in request.POST and 'password' in request.POST: 
         try:
+            request.session.clear()
             email_id=request.POST.get("email").strip().lower()
             user_pwd=request.POST.get('password').strip()
             if len(user_pwd)<4 or len(user_pwd)>10:
@@ -813,6 +814,8 @@ def set_xl_color(workbook,color_name,r,g,b,bold):
     font = xlwt.Font()
     font.name = 'Times New Roman'
     font.bold = bold
+    if hex_no >=64:
+        hex_no=8
     xlwt.add_palette_colour(color_name, hex_no) 
     workbook.set_colour_RGB(hex_no,r,g,b) 
     font.colour_index = xlwt.Style.colour_map[color_name]
@@ -839,7 +842,7 @@ def view_res(request):
                             su.email AS Username,
                             su.score AS Score,      
                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
-                            SUM(Round(Abs(TIMEDIFF(rs.s_time , rs.e_time)), 0)) AS total_dur1,
+                            SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time) - TIME_TO_SEC(rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time) -TIME_TO_SEC(rs.e_time)), 0),0)) AS total_dur1,
                             su.coding_score AS coding_score,
                             su.feedback AS Feedback
                 
@@ -856,7 +859,7 @@ def view_res(request):
                         SELECT 
                             su.id AS ID  ,
                             count(*) AS count,
-                            SUM(Round(Abs(TIMEDIFF(crs.s_time , crs.e_time)), 0)) AS total_dur2,
+                            SUM(IF(Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),0)) AS total_dur2,
                             SUM(crs.total_testcase_passed) AS score2
     
                         FROM smart_coding_result_set AS crs              
@@ -2337,7 +2340,6 @@ def view_code_res(request):
                 WHERE su.id=\''''+request.POST.get("id")+'''\'
 
             '''
-
             return HttpResponse(make_query(stmt),content_type="text")
         else:
             return HttpResponse("Invalid req",content_type="text")
@@ -2506,7 +2508,7 @@ def get_all_exam_status(uid):
          )  as exam
     
     '''.format(uid)
-    print(stmt)
+    # print(stmt)
     return make_query(stmt)
 
 @csrf_exempt

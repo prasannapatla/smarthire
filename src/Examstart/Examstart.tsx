@@ -54,11 +54,11 @@ class Examstart extends Myservice {
     $(".end_date").text(json_resp[0]["end_date"])
     if (Number(json_resp[0].status_code) == 2) {
         $(".mcq").hide()
-        $(".coding").css({width:"100%"})
+        $(".coding").css({width:"100%",float:"unset"})
     }
     if (Number(json_resp[0].status_code) == 1) {
         $(".coding").hide()
-        $(".mcq").css({width:"100%"})
+        $(".mcq").css({width:"100%",float:"unset"})
     }
     if (Number(json_resp[0].status_code) == 3) {
       $(".coding").hide()
@@ -88,8 +88,10 @@ class Examstart extends Myservice {
     // document.addEventListener("keydown", event => event.preventDefault());
     this.go_full_screen(this.myWindow.document);
     this.toTop();
+    this.go_full_screen(this.myWindow.document);
+
     this.myWindow.addEventListener('resize', () => {
-      context.toTop()
+      context.toTop();
     });
     this.myWindow.addEventListener("blur", () => context.close_win());
     this.myWindow.addEventListener("visibilitychange", () => {

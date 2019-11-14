@@ -20,6 +20,7 @@ class Code_editor extends Myservice {
     time_out: any = null
     sec: number = 0;
     timer1: any = null
+    blur:boolean = false;
 
     componentDidMount() {
 
@@ -29,7 +30,7 @@ class Code_editor extends Myservice {
             return true;
         }
 
-        $(".Code_editor").css({display:"none"})
+        $(".Code_editor").css({ display: "none" })
         if (this.fetch_data("/server/code_exam_status/", "POST").match("closed")) {
             swal("Exam closed")
                 .then(() => {
@@ -46,30 +47,47 @@ class Code_editor extends Myservice {
             context.myalert(para)
             return true;
         }
+
+
+        $(window).blur(function () {
+            // alert( $('iframe').is(":focus"))
+            console.log("code", blur)
+            if (context.blur)
+                context.close_win()
+        });
+
         $("#pgm_lang").change(function () {
             context.hightlight_syntax();
         });
         this.on_elem_load("id", "frame_code", this.after_load.bind(this))
-        
 
-    this.set_sess("login_status", "logged in")
+
+        document.addEventListener("contextmenu", event => event.preventDefault());
+        document.addEventListener("keydown", event => event.preventDefault());
+
+
+        this.set_sess("login_status", "logged in")
         this.go_full_screen(window.document);
         this.toTop();
         window.addEventListener('resize', () => {
-          console.log("resize")
-          context.toTop()
+            console.log("resize")
+            context.toTop()
         });
         window.addEventListener("visibilitychange", () => {
-          console.log("visibilitychange")
-          if (window.document.visibilityState == 'hidden') {
-            if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
-              swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed","","warning")
-            if (window.screenX <= 0 || window.screenY <= 0)
-              context.close_win();
-          }
+            console.log("visibilitychange")
+            if (window.document.visibilityState == 'hidden') {
+                if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
+                    swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
+                if (window.screenX <= 0 || window.screenY <= 0)
+                    context.close_win();
+            }
         });
         let n = 0;
-    
+
+        window.onbeforeunload = function () {
+            context.submit_code();
+        };
+
         super.componentDidMount();
     }
 
@@ -79,24 +97,17 @@ class Code_editor extends Myservice {
 
     after_load() {
         this.load_sucess = true;
-        let context=this
-        let blur=false;
-        let iframe=$('iframe')
+        let context = this
+        let iframe = $('iframe')
         iframe.mouseover(function () {
-           blur=false
-           console.log("frame  blur",blur)
+            context.blur = false
+            console.log("frame  blur", blur)
         });
         iframe.mouseout(function () {
-           blur=true
-           console.log("frame  blur",blur)
+            context.blur = true
+            console.log("frame  blur", blur)
         });
-        $(window).blur(function () {
-            // alert( $('iframe').is(":focus"))
-            console.log("code",blur,iframe.text())
-            if(blur)
-                context.close_win()
-        });
-        this.get_que();        
+        this.get_que();
     }
 
 
@@ -128,7 +139,7 @@ class Code_editor extends Myservice {
                         window.location.reload();
 
                     }
-                    if (context.sec_inc > 1){
+                    if (context.sec_inc > 1) {
                         clearInterval(interval2)
                     }
                 }
@@ -168,8 +179,8 @@ class Code_editor extends Myservice {
     }
 
     run_code() {
-        $("body").css({cursor:"wait"})
-        $(".loading").css({visibility:"visible"})
+        $("body").css({ cursor: "wait" })
+        $(".loading").css({ visibility: "visible" })
         // this.hightlight_syntax();
         let json_str =
         {
@@ -179,59 +190,60 @@ class Code_editor extends Myservice {
             arg: "test1 test2"
         }
         console.log(json_str)
-        let out = this.fetch_data("/server/test_code/", "POST", null, json_str,true,this.callback)     
-    } 
+        let out = this.fetch_data("/server/test_code/", "POST", null, json_str, true, this.callback)
+    }
 
-    callback(out:any){ let json_obj=null
+    callback(out: any) {
+        let json_obj = null
         try {
 
             json_obj = JSON.parse(out)
-          } catch (error) {
+        } catch (error) {
             return
-          }
-        $("#output").val(json_obj["user"]+"\n"+json_obj["output"])
-        $(".testcase").text(json_obj["score"]+" testcase are passed")
-        if(json_obj["score"]==5)
-            $(".testcase").css({color:"green"})
-        else if(json_obj["score"]>0)
-            $(".testcase").css({color:"yellow"})
-        else 
-            $(".testcase").css({color:"red"})
-        $(".loading").css({visibility:"hidden"})
-        $("body").css({cursor:"auto"})
+        }
+        $("#output").val(json_obj["user"] + "\n" + json_obj["output"])
+        $(".testcase").text(json_obj["score"] + " testcase are passed")
+        if (json_obj["score"] == 5)
+            $(".testcase").css({ color: "green" })
+        else if (json_obj["score"] > 0)
+            $(".testcase").css({ color: "yellow" })
+        else
+            $(".testcase").css({ color: "red" })
+        $(".loading").css({ visibility: "hidden" })
+        $("body").css({ cursor: "auto" })
     }
 
     get_que() {
-        $("body").css({cursor:"wait"})
-       
+        $("body").css({ cursor: "wait" })
+
         let questions = this.fetch_data("/server/get_code_que/", "POST");
-        console.log("--------que",questions)
-        $("body").css({cursor:"auto"})
+        console.log("--------que", questions)
+        $("body").css({ cursor: "auto" })
         if (questions == "&end;") {
-            swal("Exam finished","","info")
+            swal("Exam finished", "", "info")
                 .then(() => {
                     window.close();
                     return
                 })
         }
         else if (questions == "&close;") {
-            $(".Code_editor").css({display:"none"})
-            swal("Exam has been closed","","info")
+            $(".Code_editor").css({ display: "none" })
+            swal("Exam has been closed", "", "info")
                 .then(() => {
                     window.close();
                     return
                 })
         }
         else if (questions == "&start;") {
-            $(".Code_editor").css({display:"none"})
-            swal("Exam has not yet started","","info")
+            $(".Code_editor").css({ display: "none" })
+            swal("Exam has not yet started", "", "info")
                 .then(() => {
                     window.close();
                     return
                 })
         }
         else if (questions == "&range;") {
-            $(".Code_editor").css({display:"none"})
+            $(".Code_editor").css({ display: "none" })
             swal("Exam has not yet started or the exam has been closed")
                 .then(() => {
                     window.close();
@@ -239,7 +251,7 @@ class Code_editor extends Myservice {
                 })
         }
         else
-            $(".Code_editor").css({display:"block"})
+            $(".Code_editor").css({ display: "block" })
 
         let question_arr = questions.split("&sep;")
         $(".recv_que").text(question_arr[0])
@@ -305,9 +317,9 @@ class Code_editor extends Myservice {
     submit_code() {
         this.fetch_data("/server/submit_code/", "POST");
         try {
-            window.setval("code","")            
+            window.setval("code", "")
         } catch (error) {
-            
+
         }
         this.get_que();
     }
@@ -326,37 +338,37 @@ class Code_editor extends Myservice {
         window.moveTo(0, 0);
         window.resizeTo(screen.availWidth, screen.availHeight)
         window.focus();
-      }
-    
-      close_win = (): any => {
-        console.log("close",this.c)
+    }
+
+    close_win = (): any => {
+        console.log("close", this.c)
         if (this.c >= 3) {
-          console.log("close",this.c)
-          window.close();    
-          return
+            console.log("close", this.c)
+            window.close();
+            return
         }
-    
+
         this.c++;
         if (this.c > 0) {
-          window.confirm("If you try to minimize or resize the window,Your exam will be closed")
-          this.fetch_data("/server/count_malpractices/", "POST");
+            window.confirm("If you try to minimize or resize the window,Your exam will be closed")
+            this.fetch_data("/server/count_malpractices/", "POST");
         }
         this.toTop()
-          
-      }
-    
-      go_full_screen = (elem: any) => {
+
+    }
+
+    go_full_screen = (elem: any) => {
         //var elem = document.documentElement;
         if (elem.requestFullscreen) {
-          elem.requestFullscreen();
+            elem.requestFullscreen();
         } else if (elem.msRequestFullscreen) {
-          elem.msRequestFullscreen();
+            elem.msRequestFullscreen();
         } else if (elem.mozRequestFullScreen) {
-          elem.mozRequestFullScreen();
+            elem.mozRequestFullScreen();
         } else if (elem.webkitRequestFullscreen) {
-          elem.webkitRequestFullscreen();
+            elem.webkitRequestFullscreen();
         }
-      }
+    }
 
     render() {
         return (
