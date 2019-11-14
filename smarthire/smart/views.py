@@ -896,7 +896,7 @@ def view_res(request):
                 dur=0
                 if json_data[i]["Total Duration"]!="None":
                     print(json_data[i]["Total Duration"])
-                    dur=round(float(json_data[i]["Total Duration"]))
+                    dur=round(float(json_data[i]["Total Duration"])/60)
                 worksheet.write(i+1, 0, label = json_data[i]["ID"], style=body)
                 worksheet.write(i+1, 1, label = json_data[i]["Username"], style=body)
                 worksheet.write(i+1, 2, label =score1, style=body)
