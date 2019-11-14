@@ -129,11 +129,11 @@ module.exports = {
     // },
     plugins: [
 
-        new ForkTsCheckerWebpackPlugin({
-            tslint: true, // change to 'true' later
-            useTypescriptIncrementalApi: true,
-            checkSyntacticErrors: true,
-        }),
+        // new ForkTsCheckerWebpackPlugin({
+        //     tslint: true, // change to 'true' later
+        //     useTypescriptIncrementalApi: true,
+        //     checkSyntacticErrors: true,
+        // }),
 
     ],
     // plugins: [

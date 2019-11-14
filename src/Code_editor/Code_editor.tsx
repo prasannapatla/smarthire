@@ -208,15 +208,23 @@ class Code_editor extends Myservice {
         console.log("--------que",questions)
         $("body").css({cursor:"auto"})
         if (questions == "&end;") {
-            swal("Exam finished")
+            swal("Exam finished","","info")
                 .then(() => {
                     window.close();
                     return
                 })
         }
-        else if (questions == "&closed;") {
+        else if (questions == "&close;") {
             $(".Code_editor").css({display:"none"})
-            swal("Exam Closed")
+            swal("Exam has been closed","","info")
+                .then(() => {
+                    window.close();
+                    return
+                })
+        }
+        else if (questions == "&start;") {
+            $(".Code_editor").css({display:"none"})
+            swal("Exam has not yet started","","info")
                 .then(() => {
                     window.close();
                     return

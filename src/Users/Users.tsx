@@ -12,24 +12,9 @@ class Users extends Myservice {
     }
 
     timeout: any = null
+    timeout2: any = null
     componentDidMount() {
-        let context = this
         this.list_user();
-        $("tr").on('keyup', function (this: any) {
-            if (context.timeout != null)
-                clearTimeout(context.timeout)
-            context.timeout = setTimeout(
-                () => {
-                    context.update($(this).find(".user_id").val(), $(this).find(".pwd").val(), $(this).find(".full").is(":checked"))
-                }
-                , 1000)
-        });
-        $("tr").find("td").eq(2).on('change', function (this: any) {
-            context.update($(this).parent().find(".user_id").val(), $(this).val(), $(this).parent().find(".full").is(":checked"))
-        });
-        $("tr td .full").on('change click', function (this: any) {
-            context.update($(this).parent().parent().find(".user_id").val(), $(this).parent().parent().find(".pwd").val(), $(this).is(":checked"))
-        });
         super.componentDidMount();
     }
 
@@ -45,6 +30,8 @@ class Users extends Myservice {
         } catch (error) {
             return
         }
+
+        $(".user_data").html("")
         for (let row in json_data) {
             let html_data = "<tr class='id" + json_data[row]["id"] + "' uid='" + json_data[row]["id"] + "' >"
             html_data += "<td>" + json_data[row]["name"] + "</td>\n"
@@ -72,6 +59,7 @@ class Users extends Myservice {
                 $(".add_user").hide()
             }
         }
+        this.update_event_reg()
     }
 
     del_user() {
@@ -97,7 +85,33 @@ class Users extends Myservice {
         return false
     }
 
+
+    update_event_reg() {
+        let context = this
+        $("tr").on('keyup', function (this: any) {
+            if (context.timeout != null)
+                clearTimeout(context.timeout)
+            context.timeout = setTimeout(
+                () => {
+                    context.update($(this).find(".user_id").val(), $(this).find(".pwd").val(), $(this).find(".full").is(":checked"))
+                }
+                , 1000)
+        });
+        $("tr td .pwd").on('change', function (this: any) {
+            context.update($(this).parent().parent().find(".user_id").val(), $(this).parent().parent().find(".pwd").val(), $(this).parent().parent().find(".full").is(":checked"))
+        });
+        $("tr td .full").on('change', function (this: any) {
+            context.update($(this).parent().parent().find(".user_id").val(), $(this).parent().parent().find(".pwd").val(), $(this).is(":checked"))
+
+        });
+        // $("tr").on('change', function (this: any) {
+        //     alert("hi")
+        // });
+
+    }
+
     update(uid: number, pwd: string, admin: boolean) {
+        let context=this
         let json_data = {
             uid: uid,
             password: pwd,
@@ -105,13 +119,21 @@ class Users extends Myservice {
         }
         console.log(json_data)
         $(".update_status").text(this.fetch_data("/server/update_admin/", "POST", null, json_data).split("&sep;")[1])
+        if (this.timeout != null)
+            clearTimeout(this.timeout)
+        this.timeout = setTimeout(
+            () => {
+                context.list_user();
+            }
+            , 1000)
+        // $(".user_data").html("")
+        // this.list_user();
     }
 
 
 
     reload_users(_this: any, status: string, v: any) {
         console.log(status, v, _this)
-        $(".user_data").html("")
         _this.list_user();
     }
 

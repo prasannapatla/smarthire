@@ -50,6 +50,8 @@ class Examstart extends Myservice {
     $(".code_dur").text(json_resp[0]["code_duration"])
     $(".mcq_total").text(json_resp[0]["total_mcq_que"])
     $(".code_total").text(json_resp[0]["total_code_que"])
+    $(".start_date").text(json_resp[0]["start_date"])
+    $(".end_date").text(json_resp[0]["end_date"])
     if (Number(json_resp[0].status_code) == 2) {
         $(".mcq").hide()
         $(".coding").css({width:"100%"})

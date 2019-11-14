@@ -80,6 +80,12 @@ class Exampage extends Myservice {
             else if (str.match("&range;")) {
                 this.closeWin("Exam has not yet started or the exam has been closed");
             }
+            else if (str.match("&start;")) {
+                this.closeWin("Exam has not yet started");
+            }
+            else if (str.match("&close;")) {
+                this.closeWin("Exam has been closed");
+            }
             else {
                 $(".save_btn").prop('disabled', true);
                 let data = str.split("&sep;");
@@ -151,18 +157,22 @@ class Exampage extends Myservice {
     //   }
     // }
 
-   
+
 
 
     closeWin = (msg: any) => {
-        alert(msg)
-        this.del_sess("login_status")
-        window.close();
-        this.fetch_data("/server/exam_logout/", "POST")
+        let context = this
+        swal(msg, "", "info")
+            .then((value: any) => {
+                context.del_sess("login_status")
+                window.close();
+                context.fetch_data("/server/exam_logout/", "POST")
+            });
+
         return
     }
 
-   
+
     myalert(txt: any) {
         swal({
             title: "Warning!",

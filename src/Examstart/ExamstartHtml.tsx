@@ -17,6 +17,8 @@ var page = function (_this: any) {
                     <p id="title">WELCOME TO EXAM PAGE</p>
                     <br />
                     <div className="instr">
+                        <p><b>Start date: </b><span className='start_date'></span></p>
+                        <p><b>End date: </b><span className='end_date'></span></p>
                         <p>1. Once you click the start button exam time starts.</p>
                         <p>2. Don't move the cursor out of the border, it's considered as malpractice and the exam will be closed forcefully. </p>
                         <p>3. Once you move to next question, you can't go back to previous question.</p>

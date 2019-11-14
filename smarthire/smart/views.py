@@ -165,6 +165,8 @@ def update_admin(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
         pwd=""
         try:
+            test=Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values()
+            print(len(test),test)
             pwd=request.POST.get("password").strip()
             if len(pwd)<4 or len(pwd)>10:
                 return HttpResponse("error&sep;Invalid password length",content_type="text")
@@ -175,6 +177,8 @@ def update_admin(request):
             email=""
             try:
                 email=Admin_users.objects.filter(id=request.POST.get("uid")).values()[0]["email"]
+                if len(Admin_users.objects.filter(super_admin=True).values())==1 and int(request.POST.get("super_admin"))==0:
+                    return HttpResponse("error&sep;There should be at least one admin - "+email,content_type="text")
                 password=do_enc(email,pwd)
                 Admin_users.objects.filter(id=request.POST.get("uid")).update(password=password,super_admin=request.POST.get("super_admin"))
                 return HttpResponse("success&sep;"+str(email)+" : Updated successfully",content_type="text")
@@ -186,7 +190,6 @@ def update_admin(request):
                 email=request.session["admin"]
                 password=do_enc(email,pwd)
                 resp=Admin_users.objects.filter(email=email).update(password=password)
-                print(resp)
                 if resp>0:
                     return HttpResponse("success&sep;"+str(email)+" : Updated successfully",content_type="text")
                 else:
@@ -607,13 +610,18 @@ def get_q(request):
         txt=""
         q_set=[]
 
+        today=timezone.now()
+
         try:
-            today=timezone.now()
-            print(today)
-            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],start_date__lte=today,end_date__gte=today).values()[0]
+            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],start_date__lte=today).values()[0]
         except Exception as e:
             print("range: "+str(e))
-            return HttpResponse("&range;",content_type="text")
+            return HttpResponse("&start;",content_type="text")
+        try:
+            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],end_date__gte=today).values()[0]
+        except Exception as e:
+            print("range: "+str(e))
+            return HttpResponse("&close;",content_type="text")
         if ("timer" not in request.session):
             request.session["timer"]=datetime.datetime.now().strftime("%H:%M:%S")
         
@@ -2034,13 +2042,17 @@ def get_expected_output(request):
 @csrf_exempt
 def get_code_que(request):
     if ("logged_in" in request.session):
+        today=timezone.now()
         try:
-            today=timezone.now()
-            print(today)
-            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],start_date__lte=today,end_date__gte=today).values()[0]
+            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],start_date__lte=today).values()[0]
         except Exception as e:
             print("range: "+str(e))
-            return HttpResponse("&range;",content_type="text")
+            return HttpResponse("&start;",content_type="text")
+        try:
+            exam=Exam.objects.filter(id=(Users.objects.filter(email=request.session["logged_in"]).values())[0]["exam_id"],end_date__gte=today).values()[0]
+        except Exception as e:
+            print("range: "+str(e))
+            return HttpResponse("&close;",content_type="text")
         user=Users.objects.filter(email=request.session["logged_in"]).values("id","exam")[0]
         username="smarthire_user_"+str(user["id"])+"_"+str(user["exam"])
         if "que_cnt" not in request.session:
@@ -2344,6 +2356,8 @@ def get_all_exam_status(uid):
         t2.total as total_mcq_que,
         rs1.cnt as attended_code_que,
         rs2.cnt as attended_mcq_que,
+        exam.start_date,
+        exam.end_date,
         CAST(exam.duration/60 AS DECIMAL(16,0)) as  duration,
         CAST(exam.code_duration/60 AS DECIMAL(16,0)) as  code_duration,
         IF(t1.total>0,IF(rs1.cnt>0,1,0),1) as attended_code,
@@ -2406,7 +2420,9 @@ def get_all_exam_status(uid):
     	(
             SELECT 
             	se.duration,
-            	se.code_duration
+            	se.code_duration,
+            	se.start_date,
+            	se.end_date
             FROM
             	smart_exam  se
             WHERE
