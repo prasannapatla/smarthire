@@ -2256,7 +2256,7 @@ def view_code_res(request):
         if request.method == 'POST':
             stmt='''
             SELECT 
-                cq.pbm_stmt AS 'Probleom statement',
+                cq.pbm_stmt AS 'Problem statement',
                 crs.user_code AS 'User code',
                 crs.lang 'Programming language',
                 crs.total_testcase_passed AS "Number of testcase passed",

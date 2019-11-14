@@ -119,12 +119,12 @@ class Admin_que_set extends Myservice {
             confirmButtonText: 'Yes, populate'
           }).then((result:any) => {
             if (result.value)
-            swal(context.fetch_data("/server/addset/", "POST", null, json_str),"","success");
+            context.show_msg(context.fetch_data("/server/addset/", "POST", null, json_str));
           })          
 
       }
       else
-      swal(context.fetch_data("/server/addset/", "POST", null, json_str),"","success");
+      context.show_msg(context.fetch_data("/server/addset/", "POST", null, json_str));
 
     });
   }

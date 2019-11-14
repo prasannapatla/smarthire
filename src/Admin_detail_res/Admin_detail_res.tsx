@@ -326,7 +326,7 @@ class Admin_detail_res extends Myservice {
           txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'><pre>" + json_obj[val1][val2] + "</pre></td>";
         else
           txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>" + json_obj[val1][val2] + "</td>";
-          if (val2 == "Duration")
+          if (val2 == "Duration(Mins)")
             txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>" + Math.round(json_obj[val1][val2]/60) + "</td>";
           txt += "</tr></tbody>";
     }
