@@ -890,9 +890,9 @@ def view_res(request):
                 score1=json_data[i]["Score"]
                 score2=json_data[i]["Score2"]
                 if score1=="-1":
-                    score1="Absent"
+                    score1="NA"
                 if score2=="-1":
-                    score2="Absent"
+                    score2="NA"
                 worksheet.write(i+1, 0, label = json_data[i]["ID"], style=body)
                 worksheet.write(i+1, 1, label = json_data[i]["Username"], style=body)
                 worksheet.write(i+1, 2, label =score1, style=body)
