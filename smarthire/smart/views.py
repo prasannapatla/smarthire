@@ -903,9 +903,11 @@ def view_res(request):
             for c in range(0,6):
                 worksheet.col(c).width = round(inch*1.5)
             worksheet.col(1).width = round(inch*3)
-            workbook.save('./docs/details.xls')
-            workbook.save('./public/details.xls')
-            os.system("sudo chmod 777  ./docs/details.xls ./public/details.xls")
+            path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/../"
+            print(path)
+            workbook.save(path+'./docs/details.xls')
+            workbook.save(path+'./public/details.xls')
+            os.system("sudo chmod 777  "+path+"./docs/details.xls "+path+"./public/details.xls")
 
             return HttpResponse(resp,content_type="text")
         else:        
