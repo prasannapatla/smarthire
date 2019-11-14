@@ -880,9 +880,9 @@ def view_res(request):
 
             worksheet.write(0, 0, label = 'User ID', style=heading)
             worksheet.write(0, 1, label = 'Email', style=heading)
-            worksheet.write(0, 2, label = 'Total Duration(Mins)', style=heading)
-            worksheet.write(0, 3, label = 'Score', style=heading)
-            worksheet.write(0, 4, label = 'Coding score', style=heading)
+            worksheet.write(0, 2, label = 'Score', style=heading)
+            worksheet.write(0, 3, label = 'Coding score', style=heading)
+            worksheet.write(0, 4, label = 'Total Duration(Mins)', style=heading)
             worksheet.write(0, 5, label = 'Feedback', style=heading)
 
 
@@ -893,11 +893,15 @@ def view_res(request):
                     score1="NA"
                 if score2=="-1":
                     score2="NA"
+                dur=0
+                if json_data[i]["Total Duration"]!="None":
+                    print(json_data[i]["Total Duration"])
+                    dur=round(float(json_data[i]["Total Duration"]))
                 worksheet.write(i+1, 0, label = json_data[i]["ID"], style=body)
                 worksheet.write(i+1, 1, label = json_data[i]["Username"], style=body)
                 worksheet.write(i+1, 2, label =score1, style=body)
                 worksheet.write(i+1, 3, label = score2, style=body)
-                worksheet.write(i+1, 4, label = json_data[i]["Total Duration"], style=body)
+                worksheet.write(i+1, 4, label = str(dur), style=body)
                 worksheet.write(i+1, 5, label = json_data[i]["Feedback"], style=body)
 
             for c in range(0,6):
