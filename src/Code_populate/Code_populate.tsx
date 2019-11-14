@@ -48,7 +48,7 @@ class Code_populate extends Myservice {
         }
         let dur = $('#dur').val()
         let total = $('#total').val()
-        swal(this.fetch_data("/server/add_code_que_set/", "POST", "exam="+exam_id+"&dur="+dur+"&total="+total, null), "", "success");
+        this.show_msg(this.fetch_data("/server/add_code_que_set/", "POST", "exam="+exam_id+"&dur="+dur+"&total="+total, null));
     }
 
     render() {

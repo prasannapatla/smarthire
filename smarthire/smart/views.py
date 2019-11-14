@@ -401,7 +401,8 @@ def add_que_set(request):
                 dur=Exam.objects.filter(id=request.POST.get("exam")).values()[0]["code_duration"]
                 print(int(dur)+abs(int(request.POST.get("dur")))*60,max_dur)
                 if (int(dur)+abs(int(request.POST.get("dur")))*60)>int(max_dur):
-                    return HttpResponse("Maximum exam durartion is "+max_dur,content_type="text")
+                    return HttpResponse("error&sep;Maximum exam durartion is "+str(int(int(max_dur)/60))+" Mins",content_type="text")
+
             except:
                 pass
             try:
@@ -430,9 +431,10 @@ def add_que_set(request):
                     except:
                         pass  
 
-            return HttpResponse("Exam Populated",content_type="text")  
+            return HttpResponse("success&sep;Exam Populated",content_type="text")  
+
         except Exception as e:
-            return HttpResponse("Enter valid details",content_type="text")  
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
     else:
         return HttpResponse("Invalid req",content_type="text")  
 
@@ -2258,7 +2260,7 @@ def view_code_res(request):
                 crs.user_code AS 'User code',
                 crs.lang 'Programming language',
                 crs.total_testcase_passed AS "Number of testcase passed",
-                ABS(TIME_TO_SEC(crs.e_time)-TIME_TO_SEC(crs.s_time)) AS 'Duration'
+                ABS(TIME_TO_SEC(crs.e_time)-TIME_TO_SEC(crs.s_time)) AS 'Duration'''+escape("(Mins)")+''''
 
             FROM smart_coding_result_set AS crs
                 INNER JOIN smart_code_questions AS cq
@@ -2288,7 +2290,7 @@ def add_code_que_set(request):
                 dur=Exam.objects.filter(id=request.POST.get("exam")).values()[0]["duration"]
                 print(int(dur)+abs(int(request.POST.get("dur")))*60,max_dur)
                 if (int(dur)+abs(int(request.POST.get("dur")))*60)>int(max_dur):
-                    return HttpResponse("Maximum exam durartion is "+max_dur,content_type="text")
+                    return HttpResponse("error&sep;Maximum exam durartion is "+str(int(int(max_dur)/60))+" Mins",content_type="text")
             except:
                 pass
             try:
@@ -2314,9 +2316,9 @@ def add_code_que_set(request):
                     selected_questions.save()
                 except:
                     pass  
-            return HttpResponse("Exam Populated",content_type="text")  
+            return HttpResponse("success&sep;Exam Populated",content_type="text")  
         except Exception as e:
-            return HttpResponse("Enter valid details",content_type="text")  
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
     else:
         return HttpResponse("Invalid req",content_type="text")  
 
