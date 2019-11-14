@@ -832,14 +832,14 @@ def view_res(request):
             max="LIMIT "+request.POST.get("max")+";"
         if ('exam' in request.POST):
             stmt='''
-                    SELECT t1.ID,Username,Score,coding_score AS Score2,total_dur AS 'Total Duration',Feedback from
+ SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback from
                     (
                         SELECT 
                             su.id AS ID,
                             su.email AS Username,
                             su.score AS Score,      
                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
-                            SUM(Round(Abs(TIMEDIFF(rs.s_time , rs.e_time)), 0)) AS total_dur,
+                            SUM(Round(Abs(TIMEDIFF(rs.s_time , rs.e_time)), 0)) AS total_dur1,
                             su.coding_score AS coding_score,
                             su.feedback AS Feedback
                 
@@ -856,6 +856,7 @@ def view_res(request):
                         SELECT 
                             su.id AS ID  ,
                             count(*) AS count,
+                            SUM(Round(Abs(TIMEDIFF(crs.s_time , crs.e_time)), 0)) AS total_dur2,
                             SUM(crs.total_testcase_passed) AS score2
     
                         FROM smart_coding_result_set AS crs              
@@ -864,9 +865,9 @@ def view_res(request):
                         WHERE su.exam_id= \''''+request.POST.get("exam")+'''\'
                         GROUP BY  su.id) as t2
                     ON t1.id=t2.id
-                    ORDER BY score1+IF(score2 is NULL,0,score2) DESC,total_dur                    
+                    ORDER BY IF(score1 is NULL,0,score1)+IF(score2 is NULL,0,score2) DESC,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0)          
             '''+max
-
+            print(stmt)
             resp=make_query(stmt)
             json_data=json.loads(resp)
             workbook = xlwt.Workbook(encoding = 'ascii')
