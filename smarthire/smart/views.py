@@ -803,11 +803,31 @@ def exam_logout(request):
     else:
         return HttpResponse("closed",content_type="text")
 
+
+
+import xlwt
+
+hex_no=8
+def set_xl_color(workbook,color_name,r,g,b,bold):
+    global hex_no
+    font = xlwt.Font()
+    font.name = 'Times New Roman'
+    font.bold = bold
+    xlwt.add_palette_colour(color_name, hex_no) 
+    workbook.set_colour_RGB(hex_no,r,g,b) 
+    font.colour_index = xlwt.Style.colour_map[color_name]
+    style = xlwt.XFStyle() 
+    style.font = font
+    hex_no+=1
+    return style
+
+
+
+
 @csrf_exempt
 def view_res(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
         max=";"
-        print(request.POST)
         if int(request.POST.get("max"))!=0:
             max="LIMIT "+request.POST.get("max")+";"
         if ('exam' in request.POST):
@@ -846,8 +866,48 @@ def view_res(request):
                     ON t1.id=t2.id
                     ORDER BY score1+IF(score2 is NULL,0,score2) DESC,total_dur                    
             '''+max
-            print(stmt)
-            return HttpResponse(make_query(stmt),content_type="text")
+
+            resp=make_query(stmt)
+            json_data=json.loads(resp)
+            workbook = xlwt.Workbook(encoding = 'ascii')
+            worksheet = workbook.add_sheet('Smarthire')
+
+            heading=set_xl_color(workbook,"head_color", 245, 66, 152,True)
+            body=set_xl_color(workbook,"body_color",  27, 11, 77,False)
+            inch=3333 # 3333 = 1" (one inch).
+
+
+
+            worksheet.write(0, 0, label = 'User ID', style=heading)
+            worksheet.write(0, 1, label = 'Email', style=heading)
+            worksheet.write(0, 2, label = 'Total Duration(Mins)', style=heading)
+            worksheet.write(0, 3, label = 'Score', style=heading)
+            worksheet.write(0, 4, label = 'Coding score', style=heading)
+            worksheet.write(0, 5, label = 'Feedback', style=heading)
+
+
+            for i in range(0,len(json_data)):
+                score1=json_data[i]["Score"]
+                score2=json_data[i]["Score2"]
+                if score1==-1:
+                    score1="absent"
+                if score2==-1:
+                    score2="absent"
+                worksheet.write(i+1, 0, label = json_data[i]["ID"], style=body)
+                worksheet.write(i+1, 1, label = json_data[i]["Username"], style=body)
+                worksheet.write(i+1, 2, label =score1, style=body)
+                worksheet.write(i+1, 3, label = score2, style=body)
+                worksheet.write(i+1, 4, label = json_data[i]["Total Duration"], style=body)
+                worksheet.write(i+1, 5, label = json_data[i]["Feedback"], style=body)
+
+            for c in range(0,6):
+                worksheet.col(c).width = round(inch*1.5)
+            worksheet.col(1).width = round(inch*3)
+            workbook.save('./docs/details.xls')
+            workbook.save('./public/details.xls')
+            os.system("sudo chmod 777  ./docs/details.xls ./public/details.xls")
+
+            return HttpResponse(resp,content_type="text")
         else:        
             stmt='''
              SELECT t1.ID,Username,Score,coding_score AS Score2,total_dur AS 'Total Duration',Feedback from
@@ -2453,3 +2513,5 @@ def all_exam_status(request):
     else:
         return HttpResponse("No user logged in: \n",content_type="text")
 
+
+    

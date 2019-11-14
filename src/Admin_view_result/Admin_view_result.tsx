@@ -252,6 +252,10 @@ _print(this:any,sel:string){
     $("input").show()
   }
 
+  download_excel(){
+    window.open("./details.xls")
+  }
+
 
 
   render() {
