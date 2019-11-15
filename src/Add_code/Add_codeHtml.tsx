@@ -34,7 +34,7 @@ var page = function (_this: any) {
                                     </tr>
                                     <tr>
                                         <td colSpan={2}>
-                                            <div className="sample_input">
+                                            <div>
                                                 <div className='heading'>Sample Input</div>
                                                 <textarea id="spl_inp" rows={5} required></textarea>
                                             </div>

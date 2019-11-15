@@ -19,6 +19,7 @@ var page = function (_this: any) {
                                         <div className='heading'>Register Candidate</div>
                                         <input type="text" placeholder="Name" className="form-control rname" required />
                                         <input type="text" placeholder="Email" className="form-control remail" required />
+                                        <input type="number" placeholder="Mobile number" maxLength={10} className="form-control mob" />
                                         <select id="cur_exam" className="cur_exam" style={{marginTop: "10px"}}></select>
                                         <input type="button" onClick={_this.register_user.bind(_this)} value="Register" />
                                     </div>

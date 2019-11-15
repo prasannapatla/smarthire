@@ -49,11 +49,11 @@ from multiprocessing import Manager
 # def user_signup(request):
 #     if request.method == 'POST':
 #         user_data = JSONParser().parse(request)
-#         user_serializer = UsersSerializer(data=user_data)
-#         if user_serializer.is_valid():
-#             if(user_serializer.save()):
-#             return JsonResponse(user_serializer.data, status=status.HTTP_201_CREATED) 
-#         return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         users = UsersSerializer(data=user_data)
+#         if users.is_valid():
+#             if(users.save()):
+#             return JsonResponse(users.data, status=status.HTTP_201_CREATED) 
+#         return JsonResponse(users.errors, status=status.HTTP_400_BAD_REQUEST)
   
  
 from django.contrib.auth.models import User
@@ -205,20 +205,21 @@ def update_admin(request):
 def user_signup(request):
     if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
         try:
-            user_serializer = Users()
-            user_serializer.name=request.POST.get("name").strip()
+            users = Users()
+            users.name=request.POST.get("name").strip()
             email_id=request.POST.get("email").strip()
             regexp_str="^[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$"
             if not re.match(regexp_str,email_id):
                 return HttpResponse("error&sep;Invalid email id",content_type="text")
-            user_serializer.email=email_id
-            user_serializer.exam_id=request.POST.get("exam")
-            user_serializer.password=do_enc(email_id)
+            users.email=email_id
+            users.exam_id=request.POST.get("exam")
+            users.password=do_enc(email_id)
+            users.mobile_no=request.POST.get("mob")
             if re.match("^(127\.0\.0\.1)|localhost",request.get_host()):
-                user_serializer.password=do_enc(email_id,"passme")
-            user_serializer.score=-1
-            user_serializer.save()
-            if user_serializer!=None:
+                users.password=do_enc(email_id,"passme")
+            users.score=-1
+            users.save()
+            if users!=None:
                 mythread=threading.Thread(target=delete_mail_delivery_status, args=(email_id,))
                 mythread.start()
                 # mythread.join()
@@ -835,7 +836,7 @@ def view_res(request):
             max="LIMIT "+request.POST.get("max")+";"
         if ('exam' in request.POST):
             stmt='''
- SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback from
+                SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback,mobile_no AS "Mobile No" from
                     (
                         SELECT 
                             su.id AS ID,
@@ -844,7 +845,8 @@ def view_res(request):
                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
                             SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time) - TIME_TO_SEC(rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time) -TIME_TO_SEC(rs.e_time)), 0),0)) AS total_dur1,
                             su.coding_score AS coding_score,
-                            su.feedback AS Feedback
+                            su.feedback AS Feedback,
+                            su.mobile_no
                 
                         FROM smart_result_set AS rs               
                             INNER JOIN smart_questions AS q
@@ -888,6 +890,7 @@ def view_res(request):
             worksheet.write(0, 3, label = 'Coding score', style=heading)
             worksheet.write(0, 4, label = 'Total Duration(Mins)', style=heading)
             worksheet.write(0, 5, label = 'Feedback', style=heading)
+            worksheet.write(0, 6, label = 'Mobile number', style=heading)
 
 
             for i in range(0,len(json_data)):
@@ -907,8 +910,9 @@ def view_res(request):
                 worksheet.write(i+1, 3, label = score2, style=body)
                 worksheet.write(i+1, 4, label = str(dur), style=body)
                 worksheet.write(i+1, 5, label = json_data[i]["Feedback"], style=body)
+                worksheet.write(i+1, 6, label = json_data[i]["Mobile No"], style=body)
 
-            for c in range(0,6):
+            for c in range(0,7):
                 worksheet.col(c).width = round(inch*1.5)
             worksheet.col(1).width = round(inch*3)
             path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/../"
@@ -1458,9 +1462,9 @@ def view_res_user(request):
         SELECT 
                     DISTINCT su.name AS Name,
                     su.email AS Username,
-                    su.score AS Score,
                     rs.date_f AS Date,
-                    s_exam.e_name AS Exam
+                    s_exam.e_name AS Exam,
+                    su.mobile_no AS "Mobile number"
                 
                 FROM   smart_users AS su
                     INNER JOIN smart_result_set AS rs

@@ -40,62 +40,73 @@ var page = function (_this: any) {
                                     </tr>
                                 </table>
                                 <table className="list_cat"></table>
-                                <input type="button" value="Delete" className="del_cat_btn" />
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <input type="button" value="Delete" className="del_cat_btn" /></td>
+                                    </tr>
+                                </table>
                             </div>
                             <div className="sect">
                                 <div className='heading'>Create a new exam</div>
                                 <div className="input_group">
-                                <table >
-                                    <tr>
-                                        <td>
-                                            Exam name
+                                    <table >
+                                        <tr>
+                                            <td>
+                                                Exam name
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="text" className="form-control" id="e_name" />
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="text" className="form-control" id="e_name" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table >
+                                        <tr>
+                                            <td>
+                                                Start date
                                         </td>
-                                    </tr>
-                                </table>
-                                <table >
-                                    <tr>
-                                        <td>
-                                        Start date
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input className="form-control custom_date s_date" type="text" id="datetimepicker" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table >
+                                        <tr>
+                                            <td>
+                                                End date
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        <input className="form-control custom_date s_date" type="text" id="datetimepicker" />
-                                        </td>
-                                    </tr>
-                                </table>
-                                <table >
-                                    <tr>
-                                        <td>
-                                        End date
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        <input className="form-control custom_date e_date" type="text"  id="datetimepicker2" />
-                                        </td>
-                                    </tr>
-                                </table>
-                                <table >
-                                    <tr>
-                                        <td>
-                                       
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                        <input type="button" value="Create" onClick={_this.add_exam.bind(_this)} />
-                                        </td>
-                                    </tr>
-                                </table>
-                                </div>                               
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input className="form-control custom_date e_date" type="text" id="datetimepicker2" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table >
+                                        <tr>
+                                            <td>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="button" value="Create" onClick={_this.add_exam.bind(_this)} />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                                 <table className="list_exam"></table>
-                                <input type="button" value="Delete" className="del_exam_btn" />
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <input type="button" value="Delete" className="del_exam_btn" />
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>

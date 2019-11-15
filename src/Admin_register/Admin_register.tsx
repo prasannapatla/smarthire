@@ -88,7 +88,7 @@ class Admin_register extends Myservice {
 
   register_user() {
 
-    if ($(".remail").val().trim() == "" || $(".rname").val() == "") {
+    if ($(".remail").val().trim() == "" || $(".rname").val() == "" || $(".mob").val() == "") {
       swal("Fill all necessary field", "", "warning")
       return false
     }
@@ -102,7 +102,8 @@ class Admin_register extends Myservice {
     let json_str = {
       email: $(".remail").val(),
       name: $(".rname").val(),
-      exam: cur_exam
+      exam: cur_exam,
+      mob: $(".mob").val()
     }
 
     this.show_msg(this.fetch_data("/server/signup/", "POST", null, json_str), this.on_reg,this)

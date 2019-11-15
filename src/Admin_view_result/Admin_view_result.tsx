@@ -76,7 +76,7 @@ class Admin_view_result extends Myservice {
     let txt = "<thead><tr><th>Id</th><th>Email</th><th>Total Duration(Mins)</th><th>Score</th><th>Coding score</th><th>Feedback</th><th  class='no_display'>View Details</th><th  class='no_display'>Delete User Details</th></tr></thead><tbody>"
     let val1: any, val2: any
     for (val1 in json_obj) {
-      let dur = 0;
+      let dur:any = 0;
       if (json_obj[val1]["Total Duration"] != "None")
         dur = Math.floor(json_obj[val1]["Total Duration"]/60)+"Min "+json_obj[val1]["Total Duration"]%60+" Secs"
       txt += "<tr>"

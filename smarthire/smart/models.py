@@ -31,6 +31,7 @@ class Users(models.Model):
     malpractices=models.IntegerField(blank=False,default=0)   
     email_sent_status=models.BooleanField(blank=False,default=False)
     feedback=models.IntegerField(blank=False,default=0) 
+    mobile_no=models.CharField(max_length=10, blank=False,default=None,unique=True)
 
 class Categories(models.Model):
     id = models.AutoField(primary_key=True)

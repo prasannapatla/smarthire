@@ -41,4 +41,8 @@
         height: max-content;
         background-color: unset;
     }
+    input[type="number"]{
+        margin-top:10px;
+        max-width: 100%;
+    }
 }

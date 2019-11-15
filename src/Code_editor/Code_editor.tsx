@@ -322,6 +322,11 @@ class Code_editor extends Myservice {
 
         }
         this.get_que();
+        $('html, body').animate({
+            scrollTop: 0
+          }, {
+            duration: 200
+        })
     }
 
     myalert(txt: any) {
