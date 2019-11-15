@@ -214,6 +214,10 @@ def user_signup(request):
             users.email=email_id
             users.exam_id=request.POST.get("exam")
             users.password=do_enc(email_id)
+            if not request.POST.get("mob").isnumeric():
+                return HttpResponse("error&sep;Incorrect value for mobile number",content_type="text")
+            if len(request.POST.get("mob"))!=10:
+                return HttpResponse("error&sep;Length of mobile number is incorrect",content_type="text")
             users.mobile_no=request.POST.get("mob")
             if re.match("^(127\.0\.0\.1)|localhost",request.get_host()):
                 users.password=do_enc(email_id,"passme")

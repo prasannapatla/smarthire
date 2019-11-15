@@ -88,8 +88,16 @@ class Admin_register extends Myservice {
 
   register_user() {
 
-    if ($(".remail").val().trim() == "" || $(".rname").val() == "" || $(".mob").val() == "") {
+    if ($(".remail").val().trim() == "" || $(".rname").val() == "") {
       swal("Fill all necessary field", "", "warning")
+      return false
+    }
+    if($(".mob").val() == ""){
+      swal("Incorrect details", "", "warning").then(
+        (v:any)=>{
+          $(".mob").focus()
+        }
+      )
       return false
     }
 
@@ -112,6 +120,7 @@ class Admin_register extends Myservice {
   async on_reg(_this:any,status: any,v?:any) {
     if (status.match("success")) {
       $("input[type='text']").val("");
+      $("input[type='number']").val("");
       $("input").eq(0).focus();
       await _this.fetch_data("/server/email_status_in_db/", "POST")
       _this.retrive_email_status();
