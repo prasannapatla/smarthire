@@ -8,9 +8,9 @@ def main():
     cwd=os.getcwd()
     print("-----------Development server---------------")
     print(cwd)
-    os.system("sudo chown -R :www-data "+cwd)
-    os.system("sudo chmod 771 -R  "+cwd)
-    os.system("sudo chmod 777 -R  "+cwd+"/smarthire/myenv")
+    # os.system("sudo chown -R :www-data "+cwd)
+    # os.system("sudo chmod 771 -R  "+cwd)
+    # os.system("sudo chmod 777 -R  "+cwd+"/smarthire/myenv")
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'smarthire.settings')
     try:
         from django.core.management import execute_from_command_line
