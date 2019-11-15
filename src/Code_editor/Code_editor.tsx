@@ -49,12 +49,12 @@ class Code_editor extends Myservice {
         }
 
 
-        $(window).blur(function () {
-            // alert( $('iframe').is(":focus"))
-            console.log("code", blur)
-            if (context.blur)
-                context.close_win()
-        });
+        // $(window).blur(function () {
+        //     // alert( $('iframe').is(":focus"))
+        //     console.log("code", blur)
+        //     if (context.blur)
+        //         context.close_win()
+        // });
 
         $("#pgm_lang").change(function () {
             context.hightlight_syntax();
@@ -62,8 +62,8 @@ class Code_editor extends Myservice {
         this.on_elem_load("id", "frame_code", this.after_load.bind(this))
 
 
-        document.addEventListener("contextmenu", event => event.preventDefault());
-        document.addEventListener("keydown", event => event.preventDefault());
+        // document.addEventListener("contextmenu", event => event.preventDefault());
+        // document.addEventListener("keydown", event => event.preventDefault());
 
 
         this.set_sess("login_status", "logged in")
@@ -73,15 +73,15 @@ class Code_editor extends Myservice {
             console.log("resize")
             context.toTop()
         });
-        window.addEventListener("visibilitychange", () => {
-            console.log("visibilitychange")
-            if (window.document.visibilityState == 'hidden') {
-                if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
-                    swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
-                if (window.screenX <= 0 || window.screenY <= 0)
-                    context.close_win();
-            }
-        });
+        // window.addEventListener("visibilitychange", () => {
+        //     console.log("visibilitychange")
+        //     if (window.document.visibilityState == 'hidden') {
+        //         if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
+        //             swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
+        //         if (window.screenX <= 0 || window.screenY <= 0)
+        //             context.close_win();
+        //     }
+        // });
         let n = 0;
 
         window.onbeforeunload = function () {

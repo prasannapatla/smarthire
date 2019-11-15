@@ -1,1 +1,2059 @@
 
+[Fri Nov 15 12:44:49.176361 2019] [wsgi:error] [pid 17219] -----------Production server---------------
+[Fri Nov 15 12:44:50.784647 2019] [wsgi:error] [pid 17218] -----------Production server---------------
+[Fri Nov 15 12:44:52.068522 2019] [wsgi:error] [pid 17218] 
+[Fri Nov 15 12:44:52.068556 2019] [wsgi:error] [pid 17218]  SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback from
+[Fri Nov 15 12:44:52.068560 2019] [wsgi:error] [pid 17218]                     (
+[Fri Nov 15 12:44:52.068563 2019] [wsgi:error] [pid 17218]                         SELECT 
+[Fri Nov 15 12:44:52.068565 2019] [wsgi:error] [pid 17218]                             su.id AS ID,
+[Fri Nov 15 12:44:52.068568 2019] [wsgi:error] [pid 17218]                             su.email AS Username,
+[Fri Nov 15 12:44:52.068570 2019] [wsgi:error] [pid 17218]                             su.score AS Score,      
+[Fri Nov 15 12:44:52.068572 2019] [wsgi:error] [pid 17218]                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
+[Fri Nov 15 12:44:52.068575 2019] [wsgi:error] [pid 17218]                             SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time) - TIME_TO_SEC(rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time) -TIME_TO_SEC(rs.e_time)), 0),0)) AS total_dur1,
+[Fri Nov 15 12:44:52.068577 2019] [wsgi:error] [pid 17218]                             su.coding_score AS coding_score,
+[Fri Nov 15 12:44:52.068580 2019] [wsgi:error] [pid 17218]                             su.feedback AS Feedback
+[Fri Nov 15 12:44:52.068582 2019] [wsgi:error] [pid 17218]                 
+[Fri Nov 15 12:44:52.068585 2019] [wsgi:error] [pid 17218]                         FROM smart_result_set AS rs               
+[Fri Nov 15 12:44:52.068587 2019] [wsgi:error] [pid 17218]                             INNER JOIN smart_questions AS q
+[Fri Nov 15 12:44:52.068590 2019] [wsgi:error] [pid 17218]                                     ON q.id = rs.que_id 
+[Fri Nov 15 12:44:52.068592 2019] [wsgi:error] [pid 17218]                             RIGHT JOIN   smart_users AS su
+[Fri Nov 15 12:44:52.068594 2019] [wsgi:error] [pid 17218]                                     ON su.id = rs.user_id
+[Fri Nov 15 12:44:52.068597 2019] [wsgi:error] [pid 17218]                             WHERE su.exam_id='66'
+[Fri Nov 15 12:44:52.068599 2019] [wsgi:error] [pid 17218]                             GROUP BY  su.id
+[Fri Nov 15 12:44:52.068602 2019] [wsgi:error] [pid 17218]                     ) as t1
+[Fri Nov 15 12:44:52.068604 2019] [wsgi:error] [pid 17218]                     LEFT JOIN
+[Fri Nov 15 12:44:52.068606 2019] [wsgi:error] [pid 17218]                     (
+[Fri Nov 15 12:44:52.068609 2019] [wsgi:error] [pid 17218]                         SELECT 
+[Fri Nov 15 12:44:52.068611 2019] [wsgi:error] [pid 17218]                             su.id AS ID  ,
+[Fri Nov 15 12:44:52.068614 2019] [wsgi:error] [pid 17218]                             count(*) AS count,
+[Fri Nov 15 12:44:52.068616 2019] [wsgi:error] [pid 17218]                             SUM(IF(Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),0)) AS total_dur2,
+[Fri Nov 15 12:44:52.068619 2019] [wsgi:error] [pid 17218]                             SUM(crs.total_testcase_passed) AS score2
+[Fri Nov 15 12:44:52.068621 2019] [wsgi:error] [pid 17218]     
+[Fri Nov 15 12:44:52.068623 2019] [wsgi:error] [pid 17218]                         FROM smart_coding_result_set AS crs              
+[Fri Nov 15 12:44:52.068625 2019] [wsgi:error] [pid 17218]                         INNER JOIN   smart_users AS su
+[Fri Nov 15 12:44:52.068627 2019] [wsgi:error] [pid 17218]                                 ON su.id = crs.user_id
+[Fri Nov 15 12:44:52.068630 2019] [wsgi:error] [pid 17218]                         WHERE su.exam_id= '66'
+[Fri Nov 15 12:44:52.068632 2019] [wsgi:error] [pid 17218]                         GROUP BY  su.id) as t2
+[Fri Nov 15 12:44:52.068634 2019] [wsgi:error] [pid 17218]                     ON t1.id=t2.id
+[Fri Nov 15 12:44:52.068636 2019] [wsgi:error] [pid 17218]                     ORDER BY IF(score1 is NULL,0,score1)+IF(score2 is NULL,0,score2) DESC,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0)          
+[Fri Nov 15 12:44:52.068649 2019] [wsgi:error] [pid 17218]             LIMIT 10;
+[Fri Nov 15 12:44:52.068659 2019] [wsgi:error] [pid 17218] 
+[Fri Nov 15 12:44:52.117262 2019] [wsgi:error] [pid 17218] 23044
+[Fri Nov 15 12:44:52.117344 2019] [wsgi:error] [pid 17218] 322
+[Fri Nov 15 12:44:52.117394 2019] [wsgi:error] [pid 17218] 389
+[Fri Nov 15 12:44:52.117440 2019] [wsgi:error] [pid 17218] 23096
+[Fri Nov 15 12:44:52.117539 2019] [wsgi:error] [pid 17218] /var/www/smarthire/smarthire/../
+[Fri Nov 15 12:45:08.233490 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:08.233526 2019] [wsgi:error] [pid 17219]  SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback from
+[Fri Nov 15 12:45:08.233532 2019] [wsgi:error] [pid 17219]                     (
+[Fri Nov 15 12:45:08.233535 2019] [wsgi:error] [pid 17219]                         SELECT 
+[Fri Nov 15 12:45:08.233538 2019] [wsgi:error] [pid 17219]                             su.id AS ID,
+[Fri Nov 15 12:45:08.233541 2019] [wsgi:error] [pid 17219]                             su.email AS Username,
+[Fri Nov 15 12:45:08.233544 2019] [wsgi:error] [pid 17219]                             su.score AS Score,      
+[Fri Nov 15 12:45:08.233547 2019] [wsgi:error] [pid 17219]                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
+[Fri Nov 15 12:45:08.233551 2019] [wsgi:error] [pid 17219]                             SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time) - TIME_TO_SEC(rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time) -TIME_TO_SEC(rs.e_time)), 0),0)) AS total_dur1,
+[Fri Nov 15 12:45:08.233554 2019] [wsgi:error] [pid 17219]                             su.coding_score AS coding_score,
+[Fri Nov 15 12:45:08.233557 2019] [wsgi:error] [pid 17219]                             su.feedback AS Feedback
+[Fri Nov 15 12:45:08.233560 2019] [wsgi:error] [pid 17219]                 
+[Fri Nov 15 12:45:08.233563 2019] [wsgi:error] [pid 17219]                         FROM smart_result_set AS rs               
+[Fri Nov 15 12:45:08.233566 2019] [wsgi:error] [pid 17219]                             INNER JOIN smart_questions AS q
+[Fri Nov 15 12:45:08.233569 2019] [wsgi:error] [pid 17219]                                     ON q.id = rs.que_id 
+[Fri Nov 15 12:45:08.233572 2019] [wsgi:error] [pid 17219]                             RIGHT JOIN   smart_users AS su
+[Fri Nov 15 12:45:08.233575 2019] [wsgi:error] [pid 17219]                                     ON su.id = rs.user_id
+[Fri Nov 15 12:45:08.233579 2019] [wsgi:error] [pid 17219]                             WHERE su.exam_id='66'
+[Fri Nov 15 12:45:08.233582 2019] [wsgi:error] [pid 17219]                             GROUP BY  su.id
+[Fri Nov 15 12:45:08.233585 2019] [wsgi:error] [pid 17219]                     ) as t1
+[Fri Nov 15 12:45:08.233587 2019] [wsgi:error] [pid 17219]                     LEFT JOIN
+[Fri Nov 15 12:45:08.233590 2019] [wsgi:error] [pid 17219]                     (
+[Fri Nov 15 12:45:08.233593 2019] [wsgi:error] [pid 17219]                         SELECT 
+[Fri Nov 15 12:45:08.233596 2019] [wsgi:error] [pid 17219]                             su.id AS ID  ,
+[Fri Nov 15 12:45:08.233599 2019] [wsgi:error] [pid 17219]                             count(*) AS count,
+[Fri Nov 15 12:45:08.233602 2019] [wsgi:error] [pid 17219]                             SUM(IF(Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),0)) AS total_dur2,
+[Fri Nov 15 12:45:08.233606 2019] [wsgi:error] [pid 17219]                             SUM(crs.total_testcase_passed) AS score2
+[Fri Nov 15 12:45:08.233609 2019] [wsgi:error] [pid 17219]     
+[Fri Nov 15 12:45:08.233617 2019] [wsgi:error] [pid 17219]                         FROM smart_coding_result_set AS crs              
+[Fri Nov 15 12:45:08.233620 2019] [wsgi:error] [pid 17219]                         INNER JOIN   smart_users AS su
+[Fri Nov 15 12:45:08.233633 2019] [wsgi:error] [pid 17219]                                 ON su.id = crs.user_id
+[Fri Nov 15 12:45:08.233637 2019] [wsgi:error] [pid 17219]                         WHERE su.exam_id= '66'
+[Fri Nov 15 12:45:08.233640 2019] [wsgi:error] [pid 17219]                         GROUP BY  su.id) as t2
+[Fri Nov 15 12:45:08.233643 2019] [wsgi:error] [pid 17219]                     ON t1.id=t2.id
+[Fri Nov 15 12:45:08.233646 2019] [wsgi:error] [pid 17219]                     ORDER BY IF(score1 is NULL,0,score1)+IF(score2 is NULL,0,score2) DESC,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0)          
+[Fri Nov 15 12:45:08.233651 2019] [wsgi:error] [pid 17219]             LIMIT 10;
+[Fri Nov 15 12:45:08.233658 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:08.236257 2019] [wsgi:error] [pid 17219] 23044
+[Fri Nov 15 12:45:08.236358 2019] [wsgi:error] [pid 17219] 322
+[Fri Nov 15 12:45:08.236435 2019] [wsgi:error] [pid 17219] 389
+[Fri Nov 15 12:45:08.236508 2019] [wsgi:error] [pid 17219] 23096
+[Fri Nov 15 12:45:08.236658 2019] [wsgi:error] [pid 17219] /var/www/smarthire/smarthire/../
+[Fri Nov 15 12:45:28.232333 2019] [wsgi:error] [pid 17219] ------------
+[Fri Nov 15 12:45:28.232379 2019] [wsgi:error] [pid 17219] 294
+[Fri Nov 15 12:45:28.232385 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:28.232389 2019] [wsgi:error] [pid 17219] ll
+[Fri Nov 15 12:45:28.232393 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:28.232397 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:28.232406 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:28.232709 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:28.232718 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:28.232722 2019] [wsgi:error] [pid 17219]         SELECT 
+[Fri Nov 15 12:45:28.232726 2019] [wsgi:error] [pid 17219]         
+[Fri Nov 15 12:45:28.232730 2019] [wsgi:error] [pid 17219]             q.question AS Questions,
+[Fri Nov 15 12:45:28.232734 2019] [wsgi:error] [pid 17219]             q.ans AS  'Correct Answer',
+[Fri Nov 15 12:45:28.232738 2019] [wsgi:error] [pid 17219]             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
+[Fri Nov 15 12:45:28.232769 2019] [wsgi:error] [pid 17219]             IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+[Fri Nov 15 12:45:28.232775 2019] [wsgi:error] [pid 17219]             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
+[Fri Nov 15 12:45:28.232779 2019] [wsgi:error] [pid 17219]             ct.cat AS Category
+[Fri Nov 15 12:45:28.232782 2019] [wsgi:error] [pid 17219]         
+[Fri Nov 15 12:45:28.232786 2019] [wsgi:error] [pid 17219]         FROM   smart_users AS su
+[Fri Nov 15 12:45:28.232790 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_result_set AS rs
+[Fri Nov 15 12:45:28.232794 2019] [wsgi:error] [pid 17219]                     ON su.id = rs.user_id
+[Fri Nov 15 12:45:28.232798 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_questions AS q
+[Fri Nov 15 12:45:28.232802 2019] [wsgi:error] [pid 17219]                     ON rs.que_id = q.id
+[Fri Nov 15 12:45:28.232806 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_categories AS ct
+[Fri Nov 15 12:45:28.232810 2019] [wsgi:error] [pid 17219]                     ON ct.id = q.cat_id  
+[Fri Nov 15 12:45:28.232814 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_users AS user
+[Fri Nov 15 12:45:28.232817 2019] [wsgi:error] [pid 17219]                     ON su.id = user.id    
+[Fri Nov 15 12:45:28.232821 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 12:45:28.232825 2019] [wsgi:error] [pid 17219]                     ON s_exam.id = rs.exam_id       WHERE rs.user_id='294'       ;
+[Fri Nov 15 12:45:28.232835 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:28.325820 2019] [wsgi:error] [pid 17219] where_case:\t
+[Fri Nov 15 12:45:28.325865 2019] [wsgi:error] [pid 17219] stmt
+[Fri Nov 15 12:45:28.325870 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:28.325874 2019] [wsgi:error] [pid 17219]         SELECT 
+[Fri Nov 15 12:45:28.325885 2019] [wsgi:error] [pid 17219]             s_cat.cat as category,
+[Fri Nov 15 12:45:28.325888 2019] [wsgi:error] [pid 17219]  \t\t\tSUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
+[Fri Nov 15 12:45:28.325891 2019] [wsgi:error] [pid 17219]             SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+[Fri Nov 15 12:45:28.325893 2019] [wsgi:error] [pid 17219]             count(*) AS Total,
+[Fri Nov 15 12:45:28.325896 2019] [wsgi:error] [pid 17219]             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
+[Fri Nov 15 12:45:28.325898 2019] [wsgi:error] [pid 17219]             
+[Fri Nov 15 12:45:28.325900 2019] [wsgi:error] [pid 17219]             FROM   smart_users AS su
+[Fri Nov 15 12:45:28.325903 2019] [wsgi:error] [pid 17219]                 INNER JOIN smart_result_set AS rs
+[Fri Nov 15 12:45:28.325905 2019] [wsgi:error] [pid 17219]                         ON su.id = rs.user_id
+[Fri Nov 15 12:45:28.325907 2019] [wsgi:error] [pid 17219]                 INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 12:45:28.325910 2019] [wsgi:error] [pid 17219]                         ON s_exam.id = rs.exam_id  
+[Fri Nov 15 12:45:28.325912 2019] [wsgi:error] [pid 17219]                 INNER JOIN smart_questions AS s_que
+[Fri Nov 15 12:45:28.325914 2019] [wsgi:error] [pid 17219]                     ON s_que.id = rs.que_id
+[Fri Nov 15 12:45:28.325917 2019] [wsgi:error] [pid 17219]                 INNER JOIN smart_categories AS s_cat
+[Fri Nov 15 12:45:28.325919 2019] [wsgi:error] [pid 17219]                     ON s_cat.id = s_que.cat_id  
+[Fri Nov 15 12:45:28.325921 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:28.325923 2019] [wsgi:error] [pid 17219]                            WHERE rs.user_id='294'
+[Fri Nov 15 12:45:28.325926 2019] [wsgi:error] [pid 17219]             GROUP BY(s_que.cat_id )
+[Fri Nov 15 12:45:28.325929 2019] [wsgi:error] [pid 17219]         
+[Fri Nov 15 12:45:28.325933 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:30.930827 2019] [wsgi:error] [pid 17219] ------------
+[Fri Nov 15 12:45:30.930895 2019] [wsgi:error] [pid 17219] 294
+[Fri Nov 15 12:45:30.930907 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:30.930915 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:30.930923 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:30.930930 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:30.930942 2019] [wsgi:error] [pid 17219] yes
+[Fri Nov 15 12:45:30.930958 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:30.931016 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:30.931027 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:30.931035 2019] [wsgi:error] [pid 17219]         SELECT 
+[Fri Nov 15 12:45:30.931043 2019] [wsgi:error] [pid 17219]         
+[Fri Nov 15 12:45:30.931051 2019] [wsgi:error] [pid 17219]             q.question AS Questions,
+[Fri Nov 15 12:45:30.931060 2019] [wsgi:error] [pid 17219]             q.ans AS  'Correct Answer',
+[Fri Nov 15 12:45:30.931068 2019] [wsgi:error] [pid 17219]             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
+[Fri Nov 15 12:45:30.931077 2019] [wsgi:error] [pid 17219]             IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+[Fri Nov 15 12:45:30.931085 2019] [wsgi:error] [pid 17219]             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
+[Fri Nov 15 12:45:30.931094 2019] [wsgi:error] [pid 17219]             ct.cat AS Category
+[Fri Nov 15 12:45:30.931102 2019] [wsgi:error] [pid 17219]         
+[Fri Nov 15 12:45:30.931110 2019] [wsgi:error] [pid 17219]         FROM   smart_users AS su
+[Fri Nov 15 12:45:30.931118 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_result_set AS rs
+[Fri Nov 15 12:45:30.931127 2019] [wsgi:error] [pid 17219]                     ON su.id = rs.user_id
+[Fri Nov 15 12:45:30.931135 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_questions AS q
+[Fri Nov 15 12:45:30.931144 2019] [wsgi:error] [pid 17219]                     ON rs.que_id = q.id
+[Fri Nov 15 12:45:30.931152 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_categories AS ct
+[Fri Nov 15 12:45:30.931179 2019] [wsgi:error] [pid 17219]                     ON ct.id = q.cat_id  
+[Fri Nov 15 12:45:30.931188 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_users AS user
+[Fri Nov 15 12:45:30.931197 2019] [wsgi:error] [pid 17219]                     ON su.id = user.id    
+[Fri Nov 15 12:45:30.931204 2019] [wsgi:error] [pid 17219]             INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 12:45:30.931212 2019] [wsgi:error] [pid 17219]                     ON s_exam.id = rs.exam_id       WHERE rs.user_id='294'       ;
+[Fri Nov 15 12:45:30.931226 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:31.081580 2019] [wsgi:error] [pid 17219] where_case:\t
+[Fri Nov 15 12:45:31.081630 2019] [wsgi:error] [pid 17219] stmt
+[Fri Nov 15 12:45:31.081636 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:31.081639 2019] [wsgi:error] [pid 17219]         SELECT 
+[Fri Nov 15 12:45:31.081642 2019] [wsgi:error] [pid 17219]             s_cat.cat as category,
+[Fri Nov 15 12:45:31.081646 2019] [wsgi:error] [pid 17219]  \t\t\tSUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
+[Fri Nov 15 12:45:31.081649 2019] [wsgi:error] [pid 17219]             SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+[Fri Nov 15 12:45:31.081652 2019] [wsgi:error] [pid 17219]             count(*) AS Total,
+[Fri Nov 15 12:45:31.081655 2019] [wsgi:error] [pid 17219]             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
+[Fri Nov 15 12:45:31.081658 2019] [wsgi:error] [pid 17219]             
+[Fri Nov 15 12:45:31.081661 2019] [wsgi:error] [pid 17219]             FROM   smart_users AS su
+[Fri Nov 15 12:45:31.081664 2019] [wsgi:error] [pid 17219]                 INNER JOIN smart_result_set AS rs
+[Fri Nov 15 12:45:31.081667 2019] [wsgi:error] [pid 17219]                         ON su.id = rs.user_id
+[Fri Nov 15 12:45:31.081670 2019] [wsgi:error] [pid 17219]                 INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 12:45:31.081673 2019] [wsgi:error] [pid 17219]                         ON s_exam.id = rs.exam_id  
+[Fri Nov 15 12:45:31.081676 2019] [wsgi:error] [pid 17219]                 INNER JOIN smart_questions AS s_que
+[Fri Nov 15 12:45:31.081679 2019] [wsgi:error] [pid 17219]                     ON s_que.id = rs.que_id
+[Fri Nov 15 12:45:31.081682 2019] [wsgi:error] [pid 17219]                 INNER JOIN smart_categories AS s_cat
+[Fri Nov 15 12:45:31.081685 2019] [wsgi:error] [pid 17219]                     ON s_cat.id = s_que.cat_id  
+[Fri Nov 15 12:45:31.081688 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:45:31.081690 2019] [wsgi:error] [pid 17219]                            WHERE rs.user_id='294'
+[Fri Nov 15 12:45:31.081693 2019] [wsgi:error] [pid 17219]             GROUP BY(s_que.cat_id )
+[Fri Nov 15 12:45:31.081697 2019] [wsgi:error] [pid 17219]         
+[Fri Nov 15 12:45:31.081702 2019] [wsgi:error] [pid 17219] 
+[Fri Nov 15 12:57:37.543789 2019] [wsgi:error] [pid 21053] -----------Production server---------------
+[Fri Nov 15 12:57:38.593979 2019] [wsgi:error] [pid 21053] sudo userdel $(grep -oi '^smarthire_user_294_[0-9][0-9]*' /etc/passwd)
+[Fri Nov 15 12:57:39.306641 2019] [wsgi:error] [pid 21053] deluser: \t 
+[Fri Nov 15 12:57:39.306716 2019] [wsgi:error] [pid 21053] sudo userdel $(grep -oi '^smarthire_user_293_[0-9][0-9]*' /etc/passwd)
+[Fri Nov 15 12:57:39.777200 2019] [wsgi:error] [pid 21053] deluser: \t 
+[Fri Nov 15 12:57:39.777328 2019] [wsgi:error] [pid 21053] ['294', '293']
+[Fri Nov 15 12:57:39.777339 2019] [wsgi:error] [pid 21053] [294, 293]
+[Fri Nov 15 12:57:39.777345 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:57:40.183229 2019] [wsgi:error] [pid 21053] (87, {'smart.Result_set': 87})
+[Fri Nov 15 12:57:40.183325 2019] [wsgi:error] [pid 21053] (8, {'smart.Coding_result_set': 8})
+[Fri Nov 15 12:57:40.183339 2019] [wsgi:error] [pid 21053] (2, {'smart.Users': 2, 'smart.Coding_result_set': 0, 'smart.Result_set': 0})
+[Fri Nov 15 12:57:40.183354 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:57:40.234744 2019] [wsgi:error] [pid 21054] -----------Production server---------------
+[Fri Nov 15 12:57:41.387667 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:57:41.387707 2019] [wsgi:error] [pid 21054]  SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback from
+[Fri Nov 15 12:57:41.387711 2019] [wsgi:error] [pid 21054]                     (
+[Fri Nov 15 12:57:41.387713 2019] [wsgi:error] [pid 21054]                         SELECT 
+[Fri Nov 15 12:57:41.387715 2019] [wsgi:error] [pid 21054]                             su.id AS ID,
+[Fri Nov 15 12:57:41.387717 2019] [wsgi:error] [pid 21054]                             su.email AS Username,
+[Fri Nov 15 12:57:41.387719 2019] [wsgi:error] [pid 21054]                             su.score AS Score,      
+[Fri Nov 15 12:57:41.387721 2019] [wsgi:error] [pid 21054]                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
+[Fri Nov 15 12:57:41.387723 2019] [wsgi:error] [pid 21054]                             SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time) - TIME_TO_SEC(rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time) -TIME_TO_SEC(rs.e_time)), 0),0)) AS total_dur1,
+[Fri Nov 15 12:57:41.387726 2019] [wsgi:error] [pid 21054]                             su.coding_score AS coding_score,
+[Fri Nov 15 12:57:41.387728 2019] [wsgi:error] [pid 21054]                             su.feedback AS Feedback
+[Fri Nov 15 12:57:41.387730 2019] [wsgi:error] [pid 21054]                 
+[Fri Nov 15 12:57:41.387732 2019] [wsgi:error] [pid 21054]                         FROM smart_result_set AS rs               
+[Fri Nov 15 12:57:41.387734 2019] [wsgi:error] [pid 21054]                             INNER JOIN smart_questions AS q
+[Fri Nov 15 12:57:41.387736 2019] [wsgi:error] [pid 21054]                                     ON q.id = rs.que_id 
+[Fri Nov 15 12:57:41.387738 2019] [wsgi:error] [pid 21054]                             RIGHT JOIN   smart_users AS su
+[Fri Nov 15 12:57:41.387740 2019] [wsgi:error] [pid 21054]                                     ON su.id = rs.user_id
+[Fri Nov 15 12:57:41.387742 2019] [wsgi:error] [pid 21054]                             WHERE su.exam_id='66'
+[Fri Nov 15 12:57:41.387744 2019] [wsgi:error] [pid 21054]                             GROUP BY  su.id
+[Fri Nov 15 12:57:41.387746 2019] [wsgi:error] [pid 21054]                     ) as t1
+[Fri Nov 15 12:57:41.387748 2019] [wsgi:error] [pid 21054]                     LEFT JOIN
+[Fri Nov 15 12:57:41.387750 2019] [wsgi:error] [pid 21054]                     (
+[Fri Nov 15 12:57:41.387752 2019] [wsgi:error] [pid 21054]                         SELECT 
+[Fri Nov 15 12:57:41.387754 2019] [wsgi:error] [pid 21054]                             su.id AS ID  ,
+[Fri Nov 15 12:57:41.387756 2019] [wsgi:error] [pid 21054]                             count(*) AS count,
+[Fri Nov 15 12:57:41.387758 2019] [wsgi:error] [pid 21054]                             SUM(IF(Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),0)) AS total_dur2,
+[Fri Nov 15 12:57:41.387760 2019] [wsgi:error] [pid 21054]                             SUM(crs.total_testcase_passed) AS score2
+[Fri Nov 15 12:57:41.387762 2019] [wsgi:error] [pid 21054]     
+[Fri Nov 15 12:57:41.387764 2019] [wsgi:error] [pid 21054]                         FROM smart_coding_result_set AS crs              
+[Fri Nov 15 12:57:41.387766 2019] [wsgi:error] [pid 21054]                         INNER JOIN   smart_users AS su
+[Fri Nov 15 12:57:41.387768 2019] [wsgi:error] [pid 21054]                                 ON su.id = crs.user_id
+[Fri Nov 15 12:57:41.387770 2019] [wsgi:error] [pid 21054]                         WHERE su.exam_id= '66'
+[Fri Nov 15 12:57:41.387772 2019] [wsgi:error] [pid 21054]                         GROUP BY  su.id) as t2
+[Fri Nov 15 12:57:41.387774 2019] [wsgi:error] [pid 21054]                     ON t1.id=t2.id
+[Fri Nov 15 12:57:41.387776 2019] [wsgi:error] [pid 21054]                     ORDER BY IF(score1 is NULL,0,score1)+IF(score2 is NULL,0,score2) DESC,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0)          
+[Fri Nov 15 12:57:41.387780 2019] [wsgi:error] [pid 21054]             LIMIT 10;
+[Fri Nov 15 12:57:41.387789 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:57:41.389489 2019] [wsgi:error] [pid 21054] 23044
+[Fri Nov 15 12:57:41.389561 2019] [wsgi:error] [pid 21054] 23096
+[Fri Nov 15 12:57:41.389657 2019] [wsgi:error] [pid 21054] /var/www/smarthire/smarthire/../
+[Fri Nov 15 12:58:09.835141 2019] [wsgi:error] [pid 21053] data:  
+[Fri Nov 15 12:58:09.835182 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:09.835191 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:14.857365 2019] [wsgi:error] [pid 21054] data:Sent :\t2019-11-15 12:58:13\tneha.kr@terralogic.com
+[Fri Nov 15 12:58:14.857423 2019] [wsgi:error] [pid 21054] data:All mail are sent.
+[Fri Nov 15 12:58:14.857430 2019] [wsgi:error] [pid 21054] data: 
+[Fri Nov 15 12:58:14.857435 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:14.857445 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:19.873128 2019] [wsgi:error] [pid 21053] data:Sent :\t2019-11-15 12:58:13\tneha.kr@terralogic.com
+[Fri Nov 15 12:58:19.873208 2019] [wsgi:error] [pid 21053] data:All mail are sent.
+[Fri Nov 15 12:58:19.873220 2019] [wsgi:error] [pid 21053] data: 
+[Fri Nov 15 12:58:19.873228 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:19.873247 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:24.884204 2019] [wsgi:error] [pid 21054] data:Sent :\t2019-11-15 12:58:13\tneha.kr@terralogic.com
+[Fri Nov 15 12:58:24.884253 2019] [wsgi:error] [pid 21054] data:All mail are sent.
+[Fri Nov 15 12:58:24.884258 2019] [wsgi:error] [pid 21054] data: 
+[Fri Nov 15 12:58:24.884262 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:24.884270 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:26.980755 2019] [wsgi:error] [pid 21054] exam 66
+[Fri Nov 15 12:58:29.359968 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:29.360024 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:29.368264 2019] [wsgi:error] [pid 21054] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 12:58:29.368339 2019] [wsgi:error] [pid 21054] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 12:58:29.405074 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:29.446776 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:29.896276 2019] [wsgi:error] [pid 21054] data:Sent :\t2019-11-15 12:58:13\tneha.kr@terralogic.com
+[Fri Nov 15 12:58:29.896307 2019] [wsgi:error] [pid 21054] data:All mail are sent.
+[Fri Nov 15 12:58:29.896312 2019] [wsgi:error] [pid 21054] data: 
+[Fri Nov 15 12:58:29.896316 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:29.896323 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:30.283118 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:30.283162 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:30.322358 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:30.889629 2019] [wsgi:error] [pid 21053] del all total:  1
+[Fri Nov 15 12:58:31.797655 2019] [wsgi:error] [pid 21053] del delivery total:  0
+[Fri Nov 15 12:58:31.800661 2019] [wsgi:error] [pid 21053] deleting2...  saimanasa.ps@terralogic.com
+[Fri Nov 15 12:58:32.181972 2019] [wsgi:error] [pid 21053] Move to trash status2:   ('OK', [b'168'])
+[Fri Nov 15 12:58:32.186210 2019] [wsgi:error] [pid 21053] Delete status1:   ('OK', [b'168'])
+[Fri Nov 15 12:58:32.401867 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 12:58:32.402880 2019] [wsgi:error] [pid 21054] exam 66
+[Fri Nov 15 12:58:33.553615 2019] [wsgi:error] [pid 21053] delete from trash status2:   ('OK', [b'1'])
+[Fri Nov 15 12:58:33.635326 2019] [wsgi:error] [pid 21053] saimanasa.ps@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:33.635440 2019] [wsgi:error] [pid 21053] saimanasa.ps@terralogic.com send_to total:  0
+[Fri Nov 15 12:58:33.658804 2019] [wsgi:error] [pid 21053] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:33.658855 2019] [wsgi:error] [pid 21053] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:33.673412 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:33.715169 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:33.932587 2019] [wsgi:error] [pid 21053] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 12:58:33.932652 2019] [wsgi:error] [pid 21053] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 12:58:33.973920 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:34.509023 2019] [wsgi:error] [pid 21053] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:34.509077 2019] [wsgi:error] [pid 21053] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:34.548902 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:34.682217 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:34.682267 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com send_to total:  0
+[Fri Nov 15 12:58:34.707846 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:34.707868 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:34.723891 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:34.765780 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:34.802813 2019] [wsgi:error] [pid 21054] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 12:58:34.802843 2019] [wsgi:error] [pid 21054] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 12:58:34.814142 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:34.814169 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:34.849228 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:34.890915 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:34.907845 2019] [wsgi:error] [pid 21054] data:Sent :\t2019-11-15 12:58:13\tneha.kr@terralogic.com
+[Fri Nov 15 12:58:34.907867 2019] [wsgi:error] [pid 21054] data:All mail are sent.
+[Fri Nov 15 12:58:34.907869 2019] [wsgi:error] [pid 21054] data: 
+[Fri Nov 15 12:58:34.907871 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:34.907876 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:35.226048 2019] [wsgi:error] [pid 21053] email status: threads can only be started once
+[Fri Nov 15 12:58:35.227079 2019] [wsgi:error] [pid 21053] exam 66
+[Fri Nov 15 12:58:35.241680 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:35.241706 2019] [wsgi:error] [pid 21054]  SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback from
+[Fri Nov 15 12:58:35.241711 2019] [wsgi:error] [pid 21054]                     (
+[Fri Nov 15 12:58:35.241713 2019] [wsgi:error] [pid 21054]                         SELECT 
+[Fri Nov 15 12:58:35.241715 2019] [wsgi:error] [pid 21054]                             su.id AS ID,
+[Fri Nov 15 12:58:35.241718 2019] [wsgi:error] [pid 21054]                             su.email AS Username,
+[Fri Nov 15 12:58:35.241720 2019] [wsgi:error] [pid 21054]                             su.score AS Score,      
+[Fri Nov 15 12:58:35.241722 2019] [wsgi:error] [pid 21054]                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
+[Fri Nov 15 12:58:35.241724 2019] [wsgi:error] [pid 21054]                             SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time) - TIME_TO_SEC(rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time) -TIME_TO_SEC(rs.e_time)), 0),0)) AS total_dur1,
+[Fri Nov 15 12:58:35.241727 2019] [wsgi:error] [pid 21054]                             su.coding_score AS coding_score,
+[Fri Nov 15 12:58:35.241729 2019] [wsgi:error] [pid 21054]                             su.feedback AS Feedback
+[Fri Nov 15 12:58:35.241731 2019] [wsgi:error] [pid 21054]                 
+[Fri Nov 15 12:58:35.241741 2019] [wsgi:error] [pid 21054]                         FROM smart_result_set AS rs               
+[Fri Nov 15 12:58:35.241744 2019] [wsgi:error] [pid 21054]                             INNER JOIN smart_questions AS q
+[Fri Nov 15 12:58:35.241746 2019] [wsgi:error] [pid 21054]                                     ON q.id = rs.que_id 
+[Fri Nov 15 12:58:35.241748 2019] [wsgi:error] [pid 21054]                             RIGHT JOIN   smart_users AS su
+[Fri Nov 15 12:58:35.241750 2019] [wsgi:error] [pid 21054]                                     ON su.id = rs.user_id
+[Fri Nov 15 12:58:35.241752 2019] [wsgi:error] [pid 21054]                             WHERE su.exam_id='66'
+[Fri Nov 15 12:58:35.241754 2019] [wsgi:error] [pid 21054]                             GROUP BY  su.id
+[Fri Nov 15 12:58:35.241756 2019] [wsgi:error] [pid 21054]                     ) as t1
+[Fri Nov 15 12:58:35.241758 2019] [wsgi:error] [pid 21054]                     LEFT JOIN
+[Fri Nov 15 12:58:35.241760 2019] [wsgi:error] [pid 21054]                     (
+[Fri Nov 15 12:58:35.241762 2019] [wsgi:error] [pid 21054]                         SELECT 
+[Fri Nov 15 12:58:35.241764 2019] [wsgi:error] [pid 21054]                             su.id AS ID  ,
+[Fri Nov 15 12:58:35.241766 2019] [wsgi:error] [pid 21054]                             count(*) AS count,
+[Fri Nov 15 12:58:35.241768 2019] [wsgi:error] [pid 21054]                             SUM(IF(Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),0)) AS total_dur2,
+[Fri Nov 15 12:58:35.241770 2019] [wsgi:error] [pid 21054]                             SUM(crs.total_testcase_passed) AS score2
+[Fri Nov 15 12:58:35.241772 2019] [wsgi:error] [pid 21054]     
+[Fri Nov 15 12:58:35.241774 2019] [wsgi:error] [pid 21054]                         FROM smart_coding_result_set AS crs              
+[Fri Nov 15 12:58:35.241777 2019] [wsgi:error] [pid 21054]                         INNER JOIN   smart_users AS su
+[Fri Nov 15 12:58:35.241779 2019] [wsgi:error] [pid 21054]                                 ON su.id = crs.user_id
+[Fri Nov 15 12:58:35.241781 2019] [wsgi:error] [pid 21054]                         WHERE su.exam_id= '66'
+[Fri Nov 15 12:58:35.241783 2019] [wsgi:error] [pid 21054]                         GROUP BY  su.id) as t2
+[Fri Nov 15 12:58:35.241785 2019] [wsgi:error] [pid 21054]                     ON t1.id=t2.id
+[Fri Nov 15 12:58:35.241787 2019] [wsgi:error] [pid 21054]                     ORDER BY IF(score1 is NULL,0,score1)+IF(score2 is NULL,0,score2) DESC,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0)          
+[Fri Nov 15 12:58:35.241790 2019] [wsgi:error] [pid 21054]             ;
+[Fri Nov 15 12:58:35.241795 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:35.243189 2019] [wsgi:error] [pid 21054] 23044
+[Fri Nov 15 12:58:35.243263 2019] [wsgi:error] [pid 21054] 23096
+[Fri Nov 15 12:58:35.243339 2019] [wsgi:error] [pid 21054] 0
+[Fri Nov 15 12:58:35.243392 2019] [wsgi:error] [pid 21054] 0
+[Fri Nov 15 12:58:35.243500 2019] [wsgi:error] [pid 21054] /var/www/smarthire/smarthire/../
+[Fri Nov 15 12:58:35.278221 2019] [wsgi:error] [pid 21053] data:Sent :\t2019-11-15 12:58:13\tneha.kr@terralogic.com
+[Fri Nov 15 12:58:35.278245 2019] [wsgi:error] [pid 21053] data:All mail are sent.
+[Fri Nov 15 12:58:35.278247 2019] [wsgi:error] [pid 21053] data: 
+[Fri Nov 15 12:58:35.278249 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:35.278254 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:36.633814 2019] [wsgi:error] [pid 21054] None
+[Fri Nov 15 12:58:36.734859 2019] [wsgi:error] [pid 21054] sending failed...
+[Fri Nov 15 12:58:36.736048 2019] [wsgi:error] [pid 21054] {'score': '-1', 'coding_score': '-1', 'malpractices': 0, 'feedback': 0, 'exam_id': 66, 'password': '569d6576e8O7K/Wl/sIE0QPmgAzufFuA==', 'name': 'manasa', 'id': 296, 'email_sent_status': False, 'email': 'saimanasa.ps@terralogic.com'}
+[Fri Nov 15 12:58:37.873112 2019] [wsgi:error] [pid 21053] saimanasa.ps@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:37.873234 2019] [wsgi:error] [pid 21053] saimanasa.ps@terralogic.com send_to total:  0
+[Fri Nov 15 12:58:37.919223 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:38.252099 2019] [wsgi:error] [pid 21053] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:38.252151 2019] [wsgi:error] [pid 21053] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:38.294373 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:38.524019 2019] [wsgi:error] [pid 21053] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:38.524096 2019] [wsgi:error] [pid 21053] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:38.535184 2019] [wsgi:error] [pid 21053] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 12:58:38.535257 2019] [wsgi:error] [pid 21053] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 12:58:38.569708 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:38.611641 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:39.578115 2019] [wsgi:error] [pid 21054] del delivery total:  0
+[Fri Nov 15 12:58:39.916187 2019] [wsgi:error] [pid 21054] data:  
+[Fri Nov 15 12:58:39.916255 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:39.916268 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:39.945020 2019] [wsgi:error] [pid 21054] Delete status1:   ('OK', [None])
+[Fri Nov 15 12:58:40.298342 2019] [wsgi:error] [pid 21053] data:  
+[Fri Nov 15 12:58:40.298393 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:40.298406 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:42.679926 2019] [wsgi:error] [pid 21054] del all total:  0
+[Fri Nov 15 12:58:43.049208 2019] [wsgi:error] [pid 21054] Move to trash status2:   ('OK', [None])
+[Fri Nov 15 12:58:43.127518 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 12:58:43.127570 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 12:58:43.129082 2019] [wsgi:error] [pid 21054] exam 66
+[Fri Nov 15 12:58:43.954244 2019] [wsgi:error] [pid 21054] None
+[Fri Nov 15 12:58:43.995952 2019] [wsgi:error] [pid 21054] None
+[Fri Nov 15 12:58:44.239058 2019] [wsgi:error] [pid 21054] delete from trash status2:   ('OK', [None])
+[Fri Nov 15 12:58:44.924214 2019] [wsgi:error] [pid 21053] data:Sent :\t2019-11-15 12:58:43\tsaimanasa.ps@terralogic.com
+[Fri Nov 15 12:58:44.924246 2019] [wsgi:error] [pid 21053] data:All mail are sent.
+[Fri Nov 15 12:58:44.924250 2019] [wsgi:error] [pid 21053] data: 
+[Fri Nov 15 12:58:44.924254 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:44.924261 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:45.306622 2019] [wsgi:error] [pid 21054] data:Sent :\t2019-11-15 12:58:43\tsaimanasa.ps@terralogic.com
+[Fri Nov 15 12:58:45.306655 2019] [wsgi:error] [pid 21054] data:All mail are sent.
+[Fri Nov 15 12:58:45.306658 2019] [wsgi:error] [pid 21054] data: 
+[Fri Nov 15 12:58:45.306660 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:45.306666 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:45.426141 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:45.426172 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:45.488444 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:45.546107 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:45.546142 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:45.588576 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:46.165307 2019] [wsgi:error] [pid 21054] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 12:58:46.165351 2019] [wsgi:error] [pid 21054] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 12:58:46.195216 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:46.195248 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:46.205442 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:46.247288 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:49.931525 2019] [wsgi:error] [pid 21053] data:Sent :\t2019-11-15 12:58:43\tsaimanasa.ps@terralogic.com
+[Fri Nov 15 12:58:49.931569 2019] [wsgi:error] [pid 21053] data:All mail are sent.
+[Fri Nov 15 12:58:49.931575 2019] [wsgi:error] [pid 21053] data: 
+[Fri Nov 15 12:58:49.931579 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:49.931587 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:50.315221 2019] [wsgi:error] [pid 21054] data:Sent :\t2019-11-15 12:58:43\tsaimanasa.ps@terralogic.com
+[Fri Nov 15 12:58:50.315255 2019] [wsgi:error] [pid 21054] data:All mail are sent.
+[Fri Nov 15 12:58:50.315259 2019] [wsgi:error] [pid 21054] data: 
+[Fri Nov 15 12:58:50.315262 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:50.315268 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:54.943324 2019] [wsgi:error] [pid 21053] data:Sent :\t2019-11-15 12:58:43\tsaimanasa.ps@terralogic.com
+[Fri Nov 15 12:58:54.943377 2019] [wsgi:error] [pid 21053] data:All mail are sent.
+[Fri Nov 15 12:58:54.943382 2019] [wsgi:error] [pid 21053] data: 
+[Fri Nov 15 12:58:54.943386 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:54.943394 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:55.002182 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 12:58:55.002228 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 12:58:55.002239 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 12:58:55.331042 2019] [wsgi:error] [pid 21053] data:Sent :\t2019-11-15 12:58:43\tsaimanasa.ps@terralogic.com
+[Fri Nov 15 12:58:55.331116 2019] [wsgi:error] [pid 21053] data:All mail are sent.
+[Fri Nov 15 12:58:55.331127 2019] [wsgi:error] [pid 21053] data: 
+[Fri Nov 15 12:58:55.331136 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:55.331153 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:58:56.020498 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 12:58:56.021489 2019] [wsgi:error] [pid 21054] exam 66
+[Fri Nov 15 12:58:57.299687 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:57.299734 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:57.320087 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:57.320124 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:57.349660 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:57.392223 2019] [wsgi:error] [pid 21054] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 12:58:57.392256 2019] [wsgi:error] [pid 21054] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 12:58:57.399706 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:57.449909 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:58.314830 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:58.314875 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:58.367007 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:58.477370 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:58.477404 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:58.525513 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:59.232994 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:59.233042 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:59.283024 2019] [wsgi:error] [pid 21054] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 12:58:59.283067 2019] [wsgi:error] [pid 21054] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 12:58:59.284203 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:59.284561 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 12:58:59.284649 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 12:58:59.334268 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:59.384299 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 12:58:59.951900 2019] [wsgi:error] [pid 21054] data:Sent :\t2019-11-15 12:58:43\tsaimanasa.ps@terralogic.com
+[Fri Nov 15 12:58:59.951927 2019] [wsgi:error] [pid 21054] data:All mail are sent.
+[Fri Nov 15 12:58:59.951930 2019] [wsgi:error] [pid 21054] data: 
+[Fri Nov 15 12:58:59.951932 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:58:59.951938 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:00.340532 2019] [wsgi:error] [pid 21053] data:Sent :\t2019-11-15 12:58:43\tsaimanasa.ps@terralogic.com
+[Fri Nov 15 12:59:00.340561 2019] [wsgi:error] [pid 21053] data:All mail are sent.
+[Fri Nov 15 12:59:00.340564 2019] [wsgi:error] [pid 21053] data: 
+[Fri Nov 15 12:59:00.340566 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:00.340572 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:04.959147 2019] [wsgi:error] [pid 21053] Only for admin
+[Fri Nov 15 12:59:04.959182 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:05.349665 2019] [wsgi:error] [pid 21054] Only for admin
+[Fri Nov 15 12:59:05.349697 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:07.911773 2019] [wsgi:error] [pid 21053] command:  cpp
+[Fri Nov 15 12:59:07.911810 2019] [wsgi:error] [pid 21053] username: validater
+[Fri Nov 15 12:59:07.919296 2019] [wsgi:error] [pid 21053] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:07.919322 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:07.952333 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:07.965434 2019] [wsgi:error] [pid 21053] mkdir: cannot create directory '/temp/validater': File exists
+[Fri Nov 15 12:59:07.965457 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:08.019603 2019] [wsgi:error] [pid 21053] useradd: user 'validater' already exists
+[Fri Nov 15 12:59:08.019632 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:08.134561 2019] [wsgi:error] [pid 21053] passwd: password expiry information changed.
+[Fri Nov 15 12:59:08.134603 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:08.169698 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:08.251373 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:08.260845 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:08.261063 2019] [wsgi:error] [pid 21053] cd /temp/validater/smarthire_user_296_66/ && sudo su validater -c 'g++ /temp/validater/smarthire_user_296_66/pgm.cpp -o /temp/validater/a.out && printf "a" | /temp/validater/a.out '
+[Fri Nov 15 12:59:13.002979 2019] [wsgi:error] [pid 21053] <QuerySet [{'total_marks': 79, 'end_date': datetime.datetime(2019, 11, 16, 4, 50, tzinfo=<UTC>), 'id': 66, 'code_duration': 3600, 'duration': 3600, 'e_name': 'Freshers Hiring November', 'code_total_marks': 20, 'start_date': datetime.datetime(2019, 11, 15, 4, 51, tzinfo=<UTC>)}]>
+[Fri Nov 15 12:59:13.006451 2019] [wsgi:error] [pid 21053] C program to check whether the character is an alphabet or not&sep;a&sep;
+[Fri Nov 15 12:59:13.006476 2019] [wsgi:error] [pid 21053] Enter a character: 
+[Fri Nov 15 12:59:13.006479 2019] [wsgi:error] [pid 21053] a is an alphabet
+[Fri Nov 15 12:59:13.006481 2019] [wsgi:error] [pid 21053] &sep;3600
+[Fri Nov 15 12:59:13.006485 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:29.564026 2019] [wsgi:error] [pid 21054] print("character");
+[Fri Nov 15 12:59:29.564484 2019] [wsgi:error] [pid 21054] command:  cpp
+[Fri Nov 15 12:59:29.564527 2019] [wsgi:error] [pid 21054] username: validater
+[Fri Nov 15 12:59:29.583653 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:29.583720 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.604034 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.621120 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/validater': File exists
+[Fri Nov 15 12:59:29.621164 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.636199 2019] [wsgi:error] [pid 21054] useradd: user 'validater' already exists
+[Fri Nov 15 12:59:29.636243 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.735390 2019] [wsgi:error] [pid 21054] passwd: password expiry information changed.
+[Fri Nov 15 12:59:29.735472 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.756994 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/validater/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:29.757054 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.775297 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.792570 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.793071 2019] [wsgi:error] [pid 21054] cd /temp/validater/smarthire_user_296_66/ && sudo su validater -c 'g++ /temp/validater/smarthire_user_296_66/pgm.cpp -o /temp/validater/a.out && printf "a" | /temp/validater/a.out '
+[Fri Nov 15 12:59:29.934412 2019] [wsgi:error] [pid 21054] command:  cpp
+[Fri Nov 15 12:59:29.934450 2019] [wsgi:error] [pid 21054] username: smarthire_user_296_66
+[Fri Nov 15 12:59:29.948133 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:29.948182 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.957233 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:29.973957 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:30.813614 2019] [wsgi:error] [pid 21054] useradd: warning: the home directory already exists.
+[Fri Nov 15 12:59:30.813646 2019] [wsgi:error] [pid 21054] Not copying any file from skel directory into it.
+[Fri Nov 15 12:59:30.813662 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:30.970512 2019] [wsgi:error] [pid 21054] passwd: password expiry information changed.
+[Fri Nov 15 12:59:30.970541 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:30.977895 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:30.977922 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:30.985564 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:30.993063 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:30.993249 2019] [wsgi:error] [pid 21054] cd /temp/smarthire_user_296_66/ && sudo su smarthire_user_296_66 -c 'g++ /temp/smarthire_user_296_66/pgm.cpp -o /temp/smarthire_user_296_66/a.out && printf "a" | /temp/smarthire_user_296_66/a.out test1 test2'
+[Fri Nov 15 12:59:31.073099 2019] [wsgi:error] [pid 21054] command:  cpp
+[Fri Nov 15 12:59:31.073137 2019] [wsgi:error] [pid 21054] username: smarthire_user_296_66
+[Fri Nov 15 12:59:31.086954 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:31.086985 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.108427 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.142579 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66': File exists
+[Fri Nov 15 12:59:31.142604 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.151969 2019] [wsgi:error] [pid 21054] useradd: user 'smarthire_user_296_66' already exists
+[Fri Nov 15 12:59:31.151995 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.295800 2019] [wsgi:error] [pid 21054] passwd: password expiry information changed.
+[Fri Nov 15 12:59:31.295838 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.304722 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:31.304748 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.313557 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.322005 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.322212 2019] [wsgi:error] [pid 21054] cd /temp/smarthire_user_296_66/ && sudo su smarthire_user_296_66 -c 'g++ /temp/smarthire_user_296_66/pgm.cpp -o /temp/smarthire_user_296_66/a.out && printf "1" | /temp/smarthire_user_296_66/a.out test1 test2'
+[Fri Nov 15 12:59:31.399323 2019] [wsgi:error] [pid 21054] command:  cpp
+[Fri Nov 15 12:59:31.399348 2019] [wsgi:error] [pid 21054] username: smarthire_user_296_66
+[Fri Nov 15 12:59:31.415884 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:31.415954 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.423456 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.446557 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66': File exists
+[Fri Nov 15 12:59:31.446592 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.457795 2019] [wsgi:error] [pid 21054] useradd: user 'smarthire_user_296_66' already exists
+[Fri Nov 15 12:59:31.457820 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.598956 2019] [wsgi:error] [pid 21054] passwd: password expiry information changed.
+[Fri Nov 15 12:59:31.598988 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.610254 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:31.610289 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.624300 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.634219 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.634482 2019] [wsgi:error] [pid 21054] cd /temp/smarthire_user_296_66/ && sudo su smarthire_user_296_66 -c 'g++ /temp/smarthire_user_296_66/pgm.cpp -o /temp/smarthire_user_296_66/a.out && printf "z" | /temp/smarthire_user_296_66/a.out test1 test2'
+[Fri Nov 15 12:59:31.704156 2019] [wsgi:error] [pid 21054] command:  cpp
+[Fri Nov 15 12:59:31.704182 2019] [wsgi:error] [pid 21054] username: smarthire_user_296_66
+[Fri Nov 15 12:59:31.721804 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:31.721844 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.748825 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.764738 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66': File exists
+[Fri Nov 15 12:59:31.764821 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.776445 2019] [wsgi:error] [pid 21054] useradd: user 'smarthire_user_296_66' already exists
+[Fri Nov 15 12:59:31.776471 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.977094 2019] [wsgi:error] [pid 21054] passwd: password expiry information changed.
+[Fri Nov 15 12:59:31.977167 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:31.999383 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:31.999448 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.019680 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.037364 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.037842 2019] [wsgi:error] [pid 21054] cd /temp/smarthire_user_296_66/ && sudo su smarthire_user_296_66 -c 'g++ /temp/smarthire_user_296_66/pgm.cpp -o /temp/smarthire_user_296_66/a.out && printf "A" | /temp/smarthire_user_296_66/a.out test1 test2'
+[Fri Nov 15 12:59:32.153542 2019] [wsgi:error] [pid 21054] command:  cpp
+[Fri Nov 15 12:59:32.153579 2019] [wsgi:error] [pid 21054] username: smarthire_user_296_66
+[Fri Nov 15 12:59:32.171212 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:32.171251 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.204199 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.214489 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66': File exists
+[Fri Nov 15 12:59:32.214519 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.247418 2019] [wsgi:error] [pid 21054] useradd: user 'smarthire_user_296_66' already exists
+[Fri Nov 15 12:59:32.247446 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.409586 2019] [wsgi:error] [pid 21054] passwd: password expiry information changed.
+[Fri Nov 15 12:59:32.409621 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.423357 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:32.423425 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.432690 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.440394 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.440604 2019] [wsgi:error] [pid 21054] cd /temp/smarthire_user_296_66/ && sudo su smarthire_user_296_66 -c 'g++ /temp/smarthire_user_296_66/pgm.cpp -o /temp/smarthire_user_296_66/a.out && printf "0" | /temp/smarthire_user_296_66/a.out test1 test2'
+[Fri Nov 15 12:59:32.501031 2019] [wsgi:error] [pid 21054] command:  cpp
+[Fri Nov 15 12:59:32.501059 2019] [wsgi:error] [pid 21054] username: smarthire_user_296_66
+[Fri Nov 15 12:59:32.514303 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:32.514334 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.522178 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.550552 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66': File exists
+[Fri Nov 15 12:59:32.550582 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.562336 2019] [wsgi:error] [pid 21054] useradd: user 'smarthire_user_296_66' already exists
+[Fri Nov 15 12:59:32.562364 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.761625 2019] [wsgi:error] [pid 21054] passwd: password expiry information changed.
+[Fri Nov 15 12:59:32.761661 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.771314 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:32.771347 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.780562 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.789568 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.789829 2019] [wsgi:error] [pid 21054] cd /temp/smarthire_user_296_66/ && sudo su smarthire_user_296_66 -c 'g++ /temp/smarthire_user_296_66/pgm.cpp -o /temp/smarthire_user_296_66/a.out && printf "a" | /temp/smarthire_user_296_66/a.out test1 test2'
+[Fri Nov 15 12:59:32.876748 2019] [wsgi:error] [pid 21054] command:  cpp
+[Fri Nov 15 12:59:32.876778 2019] [wsgi:error] [pid 21054] username: validater
+[Fri Nov 15 12:59:32.888450 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:32.888484 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.896293 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.923086 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/validater': File exists
+[Fri Nov 15 12:59:32.923143 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:32.940908 2019] [wsgi:error] [pid 21054] useradd: user 'validater' already exists
+[Fri Nov 15 12:59:32.940935 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:33.120778 2019] [wsgi:error] [pid 21054] passwd: password expiry information changed.
+[Fri Nov 15 12:59:33.120821 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:33.131846 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/validater/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:33.131873 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:33.139596 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:33.147237 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:33.147549 2019] [wsgi:error] [pid 21054] cd /temp/validater/smarthire_user_296_66/ && sudo su validater -c 'g++ /temp/validater/smarthire_user_296_66/pgm.cpp -o /temp/validater/a.out && printf "a" | /temp/validater/a.out '
+[Fri Nov 15 12:59:34.770219 2019] [wsgi:error] [pid 21054] ----------------next que--------------------
+[Fri Nov 15 12:59:34.904459 2019] [wsgi:error] [pid 21053] command:  java
+[Fri Nov 15 12:59:34.904499 2019] [wsgi:error] [pid 21053] username: validater
+[Fri Nov 15 12:59:34.912391 2019] [wsgi:error] [pid 21053] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:34.912416 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:34.919767 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:34.927299 2019] [wsgi:error] [pid 21053] mkdir: cannot create directory '/temp/validater': File exists
+[Fri Nov 15 12:59:34.927327 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:34.935614 2019] [wsgi:error] [pid 21053] useradd: user 'validater' already exists
+[Fri Nov 15 12:59:34.935637 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:35.050604 2019] [wsgi:error] [pid 21053] passwd: password expiry information changed.
+[Fri Nov 15 12:59:35.050696 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:35.065667 2019] [wsgi:error] [pid 21053] mkdir: cannot create directory '/temp/validater/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:35.065702 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:35.078723 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:35.091063 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:35.091416 2019] [wsgi:error] [pid 21053] cd /temp/validater/smarthire_user_296_66/ && sudo su validater -c 'javac /temp/validater/smarthire_user_296_66/pgm.java && cd /temp/validater/smarthire_user_296_66/ && printf "guru" |  java pgm '
+[Fri Nov 15 12:59:37.263730 2019] [wsgi:error] [pid 21053] <QuerySet [{'total_marks': 79, 'end_date': datetime.datetime(2019, 11, 16, 4, 50, tzinfo=<UTC>), 'id': 66, 'code_duration': 3600, 'duration': 3600, 'e_name': 'Freshers Hiring November', 'code_total_marks': 20, 'start_date': datetime.datetime(2019, 11, 15, 4, 51, tzinfo=<UTC>)}]>
+[Fri Nov 15 12:59:37.265046 2019] [wsgi:error] [pid 21053] do java pgm&sep;guru&sep;
+[Fri Nov 15 12:59:37.265071 2019] [wsgi:error] [pid 21053] Enter username
+[Fri Nov 15 12:59:37.265074 2019] [wsgi:error] [pid 21053] Username is: guru
+[Fri Nov 15 12:59:37.265078 2019] [wsgi:error] [pid 21053] &sep;3600
+[Fri Nov 15 12:59:37.265082 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:46.628971 2019] [wsgi:error] [pid 21053] ----------------next que--------------------
+[Fri Nov 15 12:59:46.788554 2019] [wsgi:error] [pid 21054] command:  java
+[Fri Nov 15 12:59:46.788602 2019] [wsgi:error] [pid 21054] username: validater
+[Fri Nov 15 12:59:46.799088 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:46.799125 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:46.808732 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:46.820581 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/validater': File exists
+[Fri Nov 15 12:59:46.820611 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:46.830714 2019] [wsgi:error] [pid 21054] useradd: user 'validater' already exists
+[Fri Nov 15 12:59:46.830743 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:46.920053 2019] [wsgi:error] [pid 21054] passwd: password expiry information changed.
+[Fri Nov 15 12:59:46.920083 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:46.928100 2019] [wsgi:error] [pid 21054] mkdir: cannot create directory '/temp/validater/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:46.928126 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:46.936413 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:46.944604 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:46.944858 2019] [wsgi:error] [pid 21054] cd /temp/validater/smarthire_user_296_66/ && sudo su validater -c 'javac /temp/validater/smarthire_user_296_66/pgm.java && cd /temp/validater/smarthire_user_296_66/ && printf "example1" |  java pgm '
+[Fri Nov 15 12:59:47.551310 2019] [wsgi:error] [pid 21054] <QuerySet [{'e_name': 'Freshers Hiring November', 'start_date': datetime.datetime(2019, 11, 15, 4, 51, tzinfo=<UTC>), 'code_duration': 3600, 'end_date': datetime.datetime(2019, 11, 16, 4, 50, tzinfo=<UTC>), 'code_total_marks': 20, 'total_marks': 79, 'duration': 3600, 'id': 66}]>
+[Fri Nov 15 12:59:47.554376 2019] [wsgi:error] [pid 21054] testcase2&sep;example1&sep;
+[Fri Nov 15 12:59:47.554436 2019] [wsgi:error] [pid 21054] Enter name
+[Fri Nov 15 12:59:47.554447 2019] [wsgi:error] [pid 21054] UR name is: example1
+[Fri Nov 15 12:59:47.554452 2019] [wsgi:error] [pid 21054] &sep;3600
+[Fri Nov 15 12:59:47.554459 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 12:59:53.532274 2019] [wsgi:error] [pid 21054] ----------------next que--------------------
+[Fri Nov 15 12:59:53.711779 2019] [wsgi:error] [pid 21053] command:  java
+[Fri Nov 15 12:59:53.711819 2019] [wsgi:error] [pid 21053] username: validater
+[Fri Nov 15 12:59:53.719506 2019] [wsgi:error] [pid 21053] mkdir: cannot create directory '/temp': File exists
+[Fri Nov 15 12:59:53.719532 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:53.726812 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:53.741489 2019] [wsgi:error] [pid 21053] mkdir: cannot create directory '/temp/validater': File exists
+[Fri Nov 15 12:59:53.741521 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:53.750846 2019] [wsgi:error] [pid 21053] useradd: user 'validater' already exists
+[Fri Nov 15 12:59:53.750869 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:53.865678 2019] [wsgi:error] [pid 21053] passwd: password expiry information changed.
+[Fri Nov 15 12:59:53.865703 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:53.873360 2019] [wsgi:error] [pid 21053] mkdir: cannot create directory '/temp/validater/smarthire_user_296_66/': File exists
+[Fri Nov 15 12:59:53.873386 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:53.881254 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:53.888865 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:53.889103 2019] [wsgi:error] [pid 21053] cd /temp/validater/smarthire_user_296_66/ && sudo su validater -c 'javac /temp/validater/smarthire_user_296_66/pgm.java && cd /temp/validater/smarthire_user_296_66/ && printf "a" |  java pgm '
+[Fri Nov 15 12:59:54.848084 2019] [wsgi:error] [pid 21053] <QuerySet [{'total_marks': 79, 'end_date': datetime.datetime(2019, 11, 16, 4, 50, tzinfo=<UTC>), 'id': 66, 'code_duration': 3600, 'duration': 3600, 'e_name': 'Freshers Hiring November', 'code_total_marks': 20, 'start_date': datetime.datetime(2019, 11, 15, 4, 51, tzinfo=<UTC>)}]>
+[Fri Nov 15 12:59:54.849601 2019] [wsgi:error] [pid 21053] Java program to find the ASCII value of a character&sep;a&sep;
+[Fri Nov 15 12:59:54.849656 2019] [wsgi:error] [pid 21053] ASCII of a is 97
+[Fri Nov 15 12:59:54.849665 2019] [wsgi:error] [pid 21053] &sep;3600
+[Fri Nov 15 12:59:54.849670 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 12:59:57.816274 2019] [wsgi:error] [pid 21054] ----------------next que--------------------
+[Fri Nov 15 13:00:28.542725 2019] [wsgi:error] [pid 21053] ----------------next que--------------------
+[Fri Nov 15 13:00:28.563621 2019] [wsgi:error] [pid 21053] Internal Server Error: /server/submit_code/
+[Fri Nov 15 13:00:28.563646 2019] [wsgi:error] [pid 21053] Traceback (most recent call last):
+[Fri Nov 15 13:00:28.563651 2019] [wsgi:error] [pid 21053]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/core/handlers/exception.py", line 34, in inner
+[Fri Nov 15 13:00:28.563655 2019] [wsgi:error] [pid 21053]     response = get_response(request)
+[Fri Nov 15 13:00:28.563659 2019] [wsgi:error] [pid 21053]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/core/handlers/base.py", line 115, in _get_response
+[Fri Nov 15 13:00:28.563663 2019] [wsgi:error] [pid 21053]     response = self.process_exception_by_middleware(e, request)
+[Fri Nov 15 13:00:28.563666 2019] [wsgi:error] [pid 21053]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/core/handlers/base.py", line 113, in _get_response
+[Fri Nov 15 13:00:28.563670 2019] [wsgi:error] [pid 21053]     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+[Fri Nov 15 13:00:28.563674 2019] [wsgi:error] [pid 21053]   File "/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+[Fri Nov 15 13:00:28.563677 2019] [wsgi:error] [pid 21053]     return view_func(*args, **kwargs)
+[Fri Nov 15 13:00:28.563681 2019] [wsgi:error] [pid 21053]   File "/var/www/smarthire/smarthire/smart/views.py", line 2247, in submit_code
+[Fri Nov 15 13:00:28.563684 2019] [wsgi:error] [pid 21053]     cur_que=request.session["selected_code_questions"][request.session["que_cnt"]]
+[Fri Nov 15 13:00:28.563689 2019] [wsgi:error] [pid 21053] IndexError: list index out of range
+[Fri Nov 15 13:00:28.563706 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:32.611999 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.612026 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.612031 2019] [wsgi:error] [pid 21054] --------------------------------------------------------------------
+[Fri Nov 15 13:00:32.612035 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.613044 2019] [wsgi:error] [pid 21054] ----------------get_q----------------------------------------------------
+[Fri Nov 15 13:00:32.616532 2019] [wsgi:error] [pid 21054] ['13', '00', '32']
+[Fri Nov 15 13:00:32.616557 2019] [wsgi:error] [pid 21054] ['13', '00', '32']
+[Fri Nov 15 13:00:32.658067 2019] [wsgi:error] [pid 21054] UPDATE smart_users SET score = '0' WHERE email='saimanasa.ps@terralogic.com' and score = '-1';
+[Fri Nov 15 13:00:32.658091 2019] [wsgi:error] [pid 21054] Update smart_users:1
+[Fri Nov 15 13:00:32.658097 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658117 2019] [wsgi:error] [pid 21054] 9
+[Fri Nov 15 13:00:32.658126 2019] [wsgi:error] [pid 21054] <div>A boat can travel with a speed of 13 km/hr in still water. If the speed of the stream is 4 km/hr, find the time taken by the boat to go 68 km downstream.</div>
+[Fri Nov 15 13:00:32.658130 2019] [wsgi:error] [pid 21054] 2 hours
+[Fri Nov 15 13:00:32.658134 2019] [wsgi:error] [pid 21054] 3 hours
+[Fri Nov 15 13:00:32.658138 2019] [wsgi:error] [pid 21054] 4 hours
+[Fri Nov 15 13:00:32.658142 2019] [wsgi:error] [pid 21054] 5 hours
+[Fri Nov 15 13:00:32.658146 2019] [wsgi:error] [pid 21054] 3 hours
+[Fri Nov 15 13:00:32.658150 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658167 2019] [wsgi:error] [pid 21054] 12
+[Fri Nov 15 13:00:32.658171 2019] [wsgi:error] [pid 21054] <div>The sum of ages of 5 children born at the intervals of 3 years each is 50 years. What is the age of the youngest child?</div>
+[Fri Nov 15 13:00:32.658176 2019] [wsgi:error] [pid 21054] 4 years
+[Fri Nov 15 13:00:32.658180 2019] [wsgi:error] [pid 21054] 8 years
+[Fri Nov 15 13:00:32.658183 2019] [wsgi:error] [pid 21054] 10 years
+[Fri Nov 15 13:00:32.658187 2019] [wsgi:error] [pid 21054] None of these
+[Fri Nov 15 13:00:32.658191 2019] [wsgi:error] [pid 21054] 4 years
+[Fri Nov 15 13:00:32.658195 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658204 2019] [wsgi:error] [pid 21054] 14
+[Fri Nov 15 13:00:32.658209 2019] [wsgi:error] [pid 21054] <div>If 6 men and 8 boys can do a piece of work in 10 days while 26 men and 48 boys can do the same in 2 days, the time taken by 15 men and 20 boys in doing the same type of work will be:</div>
+[Fri Nov 15 13:00:32.658213 2019] [wsgi:error] [pid 21054] 4 days
+[Fri Nov 15 13:00:32.658217 2019] [wsgi:error] [pid 21054] 5 days
+[Fri Nov 15 13:00:32.658221 2019] [wsgi:error] [pid 21054] 6 days
+[Fri Nov 15 13:00:32.658225 2019] [wsgi:error] [pid 21054] 7 days
+[Fri Nov 15 13:00:32.658228 2019] [wsgi:error] [pid 21054] 4 days
+[Fri Nov 15 13:00:32.658232 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658244 2019] [wsgi:error] [pid 21054] 18
+[Fri Nov 15 13:00:32.658248 2019] [wsgi:error] [pid 21054] <div>The square root of 64009 is:
+[Fri Nov 15 13:00:32.658251 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658253 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658258 2019] [wsgi:error] [pid 21054] 253
+[Fri Nov 15 13:00:32.658262 2019] [wsgi:error] [pid 21054] 347
+[Fri Nov 15 13:00:32.658265 2019] [wsgi:error] [pid 21054] 363
+[Fri Nov 15 13:00:32.658269 2019] [wsgi:error] [pid 21054] 803
+[Fri Nov 15 13:00:32.658273 2019] [wsgi:error] [pid 21054] 253
+[Fri Nov 15 13:00:32.658276 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658283 2019] [wsgi:error] [pid 21054] 20
+[Fri Nov 15 13:00:32.658288 2019] [wsgi:error] [pid 21054] <div>A can contains a mixture of two liquids A and B is the ratio 7 : 5. When 9 litres of mixture are drawn off and the can is filled with B, the ratio of A and B becomes 7 : 9. How many litres of liquid A was contained by the can initially?</div>
+[Fri Nov 15 13:00:32.658300 2019] [wsgi:error] [pid 21054] 10
+[Fri Nov 15 13:00:32.658304 2019] [wsgi:error] [pid 21054] 20
+[Fri Nov 15 13:00:32.658307 2019] [wsgi:error] [pid 21054] 21
+[Fri Nov 15 13:00:32.658311 2019] [wsgi:error] [pid 21054] 25
+[Fri Nov 15 13:00:32.658315 2019] [wsgi:error] [pid 21054] 21
+[Fri Nov 15 13:00:32.658318 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658328 2019] [wsgi:error] [pid 21054] 22
+[Fri Nov 15 13:00:32.658332 2019] [wsgi:error] [pid 21054] <div>Which of the following is the correct order of evaluation for the below expression?&lt;br&gt;
+[Fri Nov 15 13:00:32.658335 2019] [wsgi:error] [pid 21054] z = x + y * z / 4 % 2 - 1
+[Fri Nov 15 13:00:32.658337 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658340 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658362 2019] [wsgi:error] [pid 21054] * / % + - =
+[Fri Nov 15 13:00:32.658367 2019] [wsgi:error] [pid 21054] = * / % + -
+[Fri Nov 15 13:00:32.658371 2019] [wsgi:error] [pid 21054] / * % - + =
+[Fri Nov 15 13:00:32.658375 2019] [wsgi:error] [pid 21054] * % / - + =
+[Fri Nov 15 13:00:32.658378 2019] [wsgi:error] [pid 21054] * / % + - =
+[Fri Nov 15 13:00:32.658382 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658390 2019] [wsgi:error] [pid 21054] 25
+[Fri Nov 15 13:00:32.658394 2019] [wsgi:error] [pid 21054] <div>To print out a and b given below, which of the following printf() statement will you use? 
+[Fri Nov 15 13:00:32.658397 2019] [wsgi:error] [pid 21054] <pre>
+[Fri Nov 15 13:00:32.658399 2019] [wsgi:error] [pid 21054] #include &amp;lt stdio.h&amp;gt
+[Fri Nov 15 13:00:32.658401 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658402 2019] [wsgi:error] [pid 21054] float a=3.14;
+[Fri Nov 15 13:00:32.658404 2019] [wsgi:error] [pid 21054] double b=3.14;
+[Fri Nov 15 13:00:32.658406 2019] [wsgi:error] [pid 21054] </pre>
+[Fri Nov 15 13:00:32.658408 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658411 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658419 2019] [wsgi:error] [pid 21054] printf(&quot;%f %lf&quot;, a, b);
+[Fri Nov 15 13:00:32.658428 2019] [wsgi:error] [pid 21054] printf(&quot;%Lf %f&quot;, a, b);
+[Fri Nov 15 13:00:32.658435 2019] [wsgi:error] [pid 21054] printf(&quot;%Lf %Lf&quot;, a, b);
+[Fri Nov 15 13:00:32.658442 2019] [wsgi:error] [pid 21054] printf(&quot;%f %Lf&quot;, a, b);
+[Fri Nov 15 13:00:32.658449 2019] [wsgi:error] [pid 21054] printf(&quot;%f %lf&quot;, a, b);
+[Fri Nov 15 13:00:32.658455 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658466 2019] [wsgi:error] [pid 21054] 31
+[Fri Nov 15 13:00:32.658470 2019] [wsgi:error] [pid 21054] <div>Which of the following cannot be checked in a switch-case statement?
+[Fri Nov 15 13:00:32.658473 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658476 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658479 2019] [wsgi:error] [pid 21054] Character
+[Fri Nov 15 13:00:32.658483 2019] [wsgi:error] [pid 21054] Integer
+[Fri Nov 15 13:00:32.658487 2019] [wsgi:error] [pid 21054] Float
+[Fri Nov 15 13:00:32.658491 2019] [wsgi:error] [pid 21054] enum
+[Fri Nov 15 13:00:32.658495 2019] [wsgi:error] [pid 21054] Float
+[Fri Nov 15 13:00:32.658498 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658507 2019] [wsgi:error] [pid 21054] 34
+[Fri Nov 15 13:00:32.658511 2019] [wsgi:error] [pid 21054] <div> How will you free the allocated memory ?</div>
+[Fri Nov 15 13:00:32.658516 2019] [wsgi:error] [pid 21054] remove(var-name);
+[Fri Nov 15 13:00:32.658519 2019] [wsgi:error] [pid 21054] free(var-name);
+[Fri Nov 15 13:00:32.658523 2019] [wsgi:error] [pid 21054] delete(var-name);
+[Fri Nov 15 13:00:32.658527 2019] [wsgi:error] [pid 21054] dalloc(var-name);
+[Fri Nov 15 13:00:32.658531 2019] [wsgi:error] [pid 21054] free(var-name);
+[Fri Nov 15 13:00:32.658535 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658541 2019] [wsgi:error] [pid 21054] 35
+[Fri Nov 15 13:00:32.658545 2019] [wsgi:error] [pid 21054] <div> What do the &#x27;c&#x27; and &#x27;v&#x27; in argv stands for?
+[Fri Nov 15 13:00:32.658547 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658552 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658578 2019] [wsgi:error] [pid 21054] &#x27;c&#x27; means argument control &#x27;v&#x27; means argument vector
+[Fri Nov 15 13:00:32.658591 2019] [wsgi:error] [pid 21054] &#x27;c&#x27; means argument count &#x27;v&#x27; means argument vertex
+[Fri Nov 15 13:00:32.658602 2019] [wsgi:error] [pid 21054] &#x27;c&#x27; means argument count &#x27;v&#x27; means argument vector
+[Fri Nov 15 13:00:32.658614 2019] [wsgi:error] [pid 21054] &#x27;c&#x27; means argument configuration &#x27;v&#x27; means argument visibility
+[Fri Nov 15 13:00:32.658625 2019] [wsgi:error] [pid 21054] &#x27;c&#x27; means argument count &#x27;v&#x27; means argument vector
+[Fri Nov 15 13:00:32.658637 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658645 2019] [wsgi:error] [pid 21054] 36
+[Fri Nov 15 13:00:32.658649 2019] [wsgi:error] [pid 21054] <div>In the following code what is &#x27;P&#x27;?&lt;/div&gt;
+[Fri Nov 15 13:00:32.658651 2019] [wsgi:error] [pid 21054] &lt;pre&gt;
+[Fri Nov 15 13:00:32.658653 2019] [wsgi:error] [pid 21054] typedef char *charp;
+[Fri Nov 15 13:00:32.658655 2019] [wsgi:error] [pid 21054] const charp P;
+[Fri Nov 15 13:00:32.658657 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658660 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658674 2019] [wsgi:error] [pid 21054] P is a constant
+[Fri Nov 15 13:00:32.658678 2019] [wsgi:error] [pid 21054] P is a character constant
+[Fri Nov 15 13:00:32.658682 2019] [wsgi:error] [pid 21054] P is character type
+[Fri Nov 15 13:00:32.658686 2019] [wsgi:error] [pid 21054] P is character type
+[Fri Nov 15 13:00:32.658690 2019] [wsgi:error] [pid 21054] P is a constant
+[Fri Nov 15 13:00:32.658694 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658700 2019] [wsgi:error] [pid 21054] 37
+[Fri Nov 15 13:00:32.658705 2019] [wsgi:error] [pid 21054] <div>Which header file should be included to use functions like malloc() and calloc()?
+[Fri Nov 15 13:00:32.658707 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658710 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658714 2019] [wsgi:error] [pid 21054] memory.h
+[Fri Nov 15 13:00:32.658717 2019] [wsgi:error] [pid 21054] stdlib.h
+[Fri Nov 15 13:00:32.658721 2019] [wsgi:error] [pid 21054] string.h
+[Fri Nov 15 13:00:32.658725 2019] [wsgi:error] [pid 21054] dos.h
+[Fri Nov 15 13:00:32.658729 2019] [wsgi:error] [pid 21054] stdlib.h
+[Fri Nov 15 13:00:32.658733 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658739 2019] [wsgi:error] [pid 21054] 38
+[Fri Nov 15 13:00:32.658743 2019] [wsgi:error] [pid 21054] <div>In C, if you pass an array as an argument to a function, what actually gets passed?</div>
+[Fri Nov 15 13:00:32.658747 2019] [wsgi:error] [pid 21054] Value of elements in array
+[Fri Nov 15 13:00:32.658751 2019] [wsgi:error] [pid 21054] First element of the array
+[Fri Nov 15 13:00:32.658755 2019] [wsgi:error] [pid 21054] Base address of the array
+[Fri Nov 15 13:00:32.658759 2019] [wsgi:error] [pid 21054] Address of the last element of array
+[Fri Nov 15 13:00:32.658763 2019] [wsgi:error] [pid 21054] Base address of the array
+[Fri Nov 15 13:00:32.658767 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658774 2019] [wsgi:error] [pid 21054] 40
+[Fri Nov 15 13:00:32.658778 2019] [wsgi:error] [pid 21054] <div>What do the following declaration signify?&lt;/div&gt;
+[Fri Nov 15 13:00:32.658781 2019] [wsgi:error] [pid 21054] &lt;pre&gt;                                                                                                    
+[Fri Nov 15 13:00:32.658783 2019] [wsgi:error] [pid 21054]   int (*pf)();
+[Fri Nov 15 13:00:32.658785 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658788 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658797 2019] [wsgi:error] [pid 21054] pf is a pointer to a function which return int 
+[Fri Nov 15 13:00:32.658801 2019] [wsgi:error] [pid 21054] pf is a function pointer.
+[Fri Nov 15 13:00:32.658805 2019] [wsgi:error] [pid 21054] pf is a pointer to function.
+[Fri Nov 15 13:00:32.658809 2019] [wsgi:error] [pid 21054] pf is a function of pointer variable
+[Fri Nov 15 13:00:32.658817 2019] [wsgi:error] [pid 21054] pf is a pointer to a function which return int 
+[Fri Nov 15 13:00:32.658821 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658829 2019] [wsgi:error] [pid 21054] 41
+[Fri Nov 15 13:00:32.658833 2019] [wsgi:error] [pid 21054] <div>choose the word which is the exact OPPOSITE of the given words.
+[Fri Nov 15 13:00:32.658835 2019] [wsgi:error] [pid 21054] ENORMOUS
+[Fri Nov 15 13:00:32.658837 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658840 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658844 2019] [wsgi:error] [pid 21054] Soft
+[Fri Nov 15 13:00:32.658847 2019] [wsgi:error] [pid 21054] Average
+[Fri Nov 15 13:00:32.658851 2019] [wsgi:error] [pid 21054] Tiny
+[Fri Nov 15 13:00:32.658855 2019] [wsgi:error] [pid 21054] Weak
+[Fri Nov 15 13:00:32.658859 2019] [wsgi:error] [pid 21054] Tiny
+[Fri Nov 15 13:00:32.658862 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658869 2019] [wsgi:error] [pid 21054] 42
+[Fri Nov 15 13:00:32.658873 2019] [wsgi:error] [pid 21054] <div>Read each sentence to find out whether there is any grammatical error in it. The error, if any will be in one part of the sentence. The letter of that part is the answer. If there is no error, the answer is &#x27;D&#x27;. (Ignore the errors of punctuation, if any)
+[Fri Nov 15 13:00:32.658876 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658878 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658888 2019] [wsgi:error] [pid 21054] We discussed about the problem so thoroughly
+[Fri Nov 15 13:00:32.658892 2019] [wsgi:error] [pid 21054] on the eve of the examination
+[Fri Nov 15 13:00:32.658896 2019] [wsgi:error] [pid 21054] that I found it very easy to work it out
+[Fri Nov 15 13:00:32.658900 2019] [wsgi:error] [pid 21054] No error
+[Fri Nov 15 13:00:32.658904 2019] [wsgi:error] [pid 21054] We discussed about the problem so thoroughly
+[Fri Nov 15 13:00:32.658908 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658916 2019] [wsgi:error] [pid 21054] 43
+[Fri Nov 15 13:00:32.658920 2019] [wsgi:error] [pid 21054] <div> Find the correctly spelt words.</div>
+[Fri Nov 15 13:00:32.658924 2019] [wsgi:error] [pid 21054] Benefitted
+[Fri Nov 15 13:00:32.658928 2019] [wsgi:error] [pid 21054] Benefited
+[Fri Nov 15 13:00:32.658931 2019] [wsgi:error] [pid 21054] Benifited
+[Fri Nov 15 13:00:32.658935 2019] [wsgi:error] [pid 21054] Benefeted
+[Fri Nov 15 13:00:32.658939 2019] [wsgi:error] [pid 21054] Benefited
+[Fri Nov 15 13:00:32.658943 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.658949 2019] [wsgi:error] [pid 21054] 44
+[Fri Nov 15 13:00:32.658953 2019] [wsgi:error] [pid 21054] <div> Since the beginning of history &lt;br&gt;
+[Fri Nov 15 13:00:32.658955 2019] [wsgi:error] [pid 21054] P :\thave managed to catch&lt;br&gt;
+[Fri Nov 15 13:00:32.658957 2019] [wsgi:error] [pid 21054] Q :\tthe Eskimos and Red Indians&lt;br&gt;
+[Fri Nov 15 13:00:32.658959 2019] [wsgi:error] [pid 21054] R :\tby a very difficulty method&lt;br&gt;
+[Fri Nov 15 13:00:32.658961 2019] [wsgi:error] [pid 21054] S :\ta few specimens of this aquatic animal&lt;br&gt;
+[Fri Nov 15 13:00:32.658963 2019] [wsgi:error] [pid 21054] The Proper sequence should be:
+[Fri Nov 15 13:00:32.658965 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.658968 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.658982 2019] [wsgi:error] [pid 21054] QRPS
+[Fri Nov 15 13:00:32.658986 2019] [wsgi:error] [pid 21054] SQPR
+[Fri Nov 15 13:00:32.658990 2019] [wsgi:error] [pid 21054] SQRP
+[Fri Nov 15 13:00:32.658993 2019] [wsgi:error] [pid 21054] QPSR
+[Fri Nov 15 13:00:32.658997 2019] [wsgi:error] [pid 21054] QPSR
+[Fri Nov 15 13:00:32.659001 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659007 2019] [wsgi:error] [pid 21054] 45
+[Fri Nov 15 13:00:32.659011 2019] [wsgi:error] [pid 21054] <div>Choose the correct alternative. In case no improvement is needed, option &#x27;D&#x27; is the answer.
+[Fri Nov 15 13:00:32.659014 2019] [wsgi:error] [pid 21054] The workers are hell bent at getting what is due to them.
+[Fri Nov 15 13:00:32.659018 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659021 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659031 2019] [wsgi:error] [pid 21054] hell bent on getting
+[Fri Nov 15 13:00:32.659035 2019] [wsgi:error] [pid 21054] hell bent for getting
+[Fri Nov 15 13:00:32.659039 2019] [wsgi:error] [pid 21054] hell bent upon getting
+[Fri Nov 15 13:00:32.659043 2019] [wsgi:error] [pid 21054] No improvement
+[Fri Nov 15 13:00:32.659047 2019] [wsgi:error] [pid 21054] hell bent upon getting
+[Fri Nov 15 13:00:32.659051 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659057 2019] [wsgi:error] [pid 21054] 46
+[Fri Nov 15 13:00:32.659062 2019] [wsgi:error] [pid 21054] <div> The first and sixth sentence are given in the begining.The middle four sentences in each have been removed and jumbled up. These are labelled as P, Q, R and S. Find out the proper order for the four sentences&lt;br&gt;
+[Fri Nov 15 13:00:32.659064 2019] [wsgi:error] [pid 21054] S1:\tCalcutta unlike other cities kepts its trams.&lt;br&gt;
+[Fri Nov 15 13:00:32.659066 2019] [wsgi:error] [pid 21054] P :\tAs a result there horrendous congestion.&lt;br&gt;
+[Fri Nov 15 13:00:32.659068 2019] [wsgi:error] [pid 21054] Q :\tIt was going to be the first in South Asia.&lt;br&gt;
+[Fri Nov 15 13:00:32.659070 2019] [wsgi:error] [pid 21054] R :\tThey run down the centre of the road&lt;br&gt;
+[Fri Nov 15 13:00:32.659073 2019] [wsgi:error] [pid 21054] S :\tTo ease in the city decided to build an underground railway line.&lt;br&gt;
+[Fri Nov 15 13:00:32.659075 2019] [wsgi:error] [pid 21054] S6:\tThe foundation stone was laid in 1972.&lt;br&gt;
+[Fri Nov 15 13:00:32.659077 2019] [wsgi:error] [pid 21054] The Proper sequence should be:
+[Fri Nov 15 13:00:32.659079 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659082 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659099 2019] [wsgi:error] [pid 21054] PRSQ
+[Fri Nov 15 13:00:32.659103 2019] [wsgi:error] [pid 21054] PSQR
+[Fri Nov 15 13:00:32.659107 2019] [wsgi:error] [pid 21054] SQRP
+[Fri Nov 15 13:00:32.659110 2019] [wsgi:error] [pid 21054] RPSQ
+[Fri Nov 15 13:00:32.659114 2019] [wsgi:error] [pid 21054] RPSQ
+[Fri Nov 15 13:00:32.659118 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659125 2019] [wsgi:error] [pid 21054] 47
+[Fri Nov 15 13:00:32.659128 2019] [wsgi:error] [pid 21054] <div>choose the one which can be substituted for the given word/sentence.&lt;br&gt;&lt;br&gt;
+[Fri Nov 15 13:00:32.659131 2019] [wsgi:error] [pid 21054] A person of good understanding knowledge and reasoning power
+[Fri Nov 15 13:00:32.659133 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659136 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659144 2019] [wsgi:error] [pid 21054] Expert
+[Fri Nov 15 13:00:32.659148 2019] [wsgi:error] [pid 21054] Intellectual
+[Fri Nov 15 13:00:32.659152 2019] [wsgi:error] [pid 21054] Snob
+[Fri Nov 15 13:00:32.659156 2019] [wsgi:error] [pid 21054] Literate
+[Fri Nov 15 13:00:32.659160 2019] [wsgi:error] [pid 21054] Intellectual
+[Fri Nov 15 13:00:32.659164 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659170 2019] [wsgi:error] [pid 21054] 48
+[Fri Nov 15 13:00:32.659174 2019] [wsgi:error] [pid 21054] <div>choose the one which best expresses the given sentence in Passive/Active voice&lt;br&gt;&lt;br&gt;
+[Fri Nov 15 13:00:32.659177 2019] [wsgi:error] [pid 21054] After driving professor Kumar to the museum she dropped him at his hotel.
+[Fri Nov 15 13:00:32.659179 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659181 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659190 2019] [wsgi:error] [pid 21054] After being driven to the museum, Professor Kumar was dropped at his hotel.
+[Fri Nov 15 13:00:32.659195 2019] [wsgi:error] [pid 21054] Professor Kumar was being driven dropped at his hotel.
+[Fri Nov 15 13:00:32.659199 2019] [wsgi:error] [pid 21054] After she had driven Professor Kumar to the museum she had dropped him at his hotel.
+[Fri Nov 15 13:00:32.659203 2019] [wsgi:error] [pid 21054] After she was driven Professor Kumar to the museum she had dropped him at his hotel.
+[Fri Nov 15 13:00:32.659210 2019] [wsgi:error] [pid 21054] After being driven to the museum, Professor Kumar was dropped at his hotel.
+[Fri Nov 15 13:00:32.659214 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659221 2019] [wsgi:error] [pid 21054] 49
+[Fri Nov 15 13:00:32.659225 2019] [wsgi:error] [pid 21054] <div>Select the pair which has the same relationship.
+[Fri Nov 15 13:00:32.659227 2019] [wsgi:error] [pid 21054] &lt;br&gt;&lt;br&gt;
+[Fri Nov 15 13:00:32.659229 2019] [wsgi:error] [pid 21054] DIVA:OPERA</div>
+[Fri Nov 15 13:00:32.659232 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659240 2019] [wsgi:error] [pid 21054] producer:theatre
+[Fri Nov 15 13:00:32.659245 2019] [wsgi:error] [pid 21054] director:drama
+[Fri Nov 15 13:00:32.659248 2019] [wsgi:error] [pid 21054] conductor:bus
+[Fri Nov 15 13:00:32.659252 2019] [wsgi:error] [pid 21054] thespian:play
+[Fri Nov 15 13:00:32.659256 2019] [wsgi:error] [pid 21054] thespian:play
+[Fri Nov 15 13:00:32.659260 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659267 2019] [wsgi:error] [pid 21054] 50
+[Fri Nov 15 13:00:32.659279 2019] [wsgi:error] [pid 21054] <div>Choose the word which best expresses the meaning of the given word.
+[Fri Nov 15 13:00:32.659282 2019] [wsgi:error] [pid 21054] &lt;br&gt;&lt;br&gt;
+[Fri Nov 15 13:00:32.659284 2019] [wsgi:error] [pid 21054] CANNY
+[Fri Nov 15 13:00:32.659286 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659289 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659298 2019] [wsgi:error] [pid 21054] Obstinate
+[Fri Nov 15 13:00:32.659302 2019] [wsgi:error] [pid 21054] Handsome
+[Fri Nov 15 13:00:32.659306 2019] [wsgi:error] [pid 21054] Clever
+[Fri Nov 15 13:00:32.659310 2019] [wsgi:error] [pid 21054] Stout
+[Fri Nov 15 13:00:32.659314 2019] [wsgi:error] [pid 21054] Clever
+[Fri Nov 15 13:00:32.659318 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659324 2019] [wsgi:error] [pid 21054] 51
+[Fri Nov 15 13:00:32.659328 2019] [wsgi:error] [pid 21054] <div>Pick out the most effective word(s) from the given words to fill in the blank to make the sentence meaningfully complete.
+[Fri Nov 15 13:00:32.659331 2019] [wsgi:error] [pid 21054] &lt;br&gt;
+[Fri Nov 15 13:00:32.659333 2019] [wsgi:error] [pid 21054] Rohan and Rohit are twin brothers, but they do not look ......
+[Fri Nov 15 13:00:32.659335 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659338 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659345 2019] [wsgi:error] [pid 21054] unique
+[Fri Nov 15 13:00:32.659349 2019] [wsgi:error] [pid 21054] different
+[Fri Nov 15 13:00:32.659353 2019] [wsgi:error] [pid 21054] likely
+[Fri Nov 15 13:00:32.659356 2019] [wsgi:error] [pid 21054] alike
+[Fri Nov 15 13:00:32.659360 2019] [wsgi:error] [pid 21054] alike
+[Fri Nov 15 13:00:32.659364 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659370 2019] [wsgi:error] [pid 21054] 52
+[Fri Nov 15 13:00:32.659375 2019] [wsgi:error] [pid 21054] <div>A sentence broken into five or six parts. Join these parts to make a meaningful sentence. The correct order of parts is the answer
+[Fri Nov 15 13:00:32.659377 2019] [wsgi:error] [pid 21054] &lt;br&gt;
+[Fri Nov 15 13:00:32.659379 2019] [wsgi:error] [pid 21054] 1. do \xc2\xa0 &lt;br&gt;2. today &lt;br&gt; \xc2\xa03. you &lt;br&gt; \xc2\xa04. must &lt;br&gt; \xc2\xa05. it
+[Fri Nov 15 13:00:32.659382 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659384 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659399 2019] [wsgi:error] [pid 21054] 34152
+[Fri Nov 15 13:00:32.659403 2019] [wsgi:error] [pid 21054] 25413
+[Fri Nov 15 13:00:32.659407 2019] [wsgi:error] [pid 21054] 12543
+[Fri Nov 15 13:00:32.659411 2019] [wsgi:error] [pid 21054] 51324
+[Fri Nov 15 13:00:32.659414 2019] [wsgi:error] [pid 21054] 34152
+[Fri Nov 15 13:00:32.659418 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659426 2019] [wsgi:error] [pid 21054] 54
+[Fri Nov 15 13:00:32.659431 2019] [wsgi:error] [pid 21054] <div>An incomplete statement (Stem) followed by fillers is given. Pick out the best one which can complete incomplete stem correctly and meaningfully.\t
+[Fri Nov 15 13:00:32.659436 2019] [wsgi:error] [pid 21054] &lt;br&gt;
+[Fri Nov 15 13:00:32.659438 2019] [wsgi:error] [pid 21054] Despite his best efforts to conceal his anger ......
+[Fri Nov 15 13:00:32.659440 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659442 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659445 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659452 2019] [wsgi:error] [pid 21054] we could detect that he was very happy
+[Fri Nov 15 13:00:32.659456 2019] [wsgi:error] [pid 21054] he failed to give us an impression of his agony
+[Fri Nov 15 13:00:32.659460 2019] [wsgi:error] [pid 21054] he succeeded in camouflaging his emotions
+[Fri Nov 15 13:00:32.659464 2019] [wsgi:error] [pid 21054] people came to know that he was annoyed
+[Fri Nov 15 13:00:32.659468 2019] [wsgi:error] [pid 21054] people came to know that he was annoyed
+[Fri Nov 15 13:00:32.659472 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659479 2019] [wsgi:error] [pid 21054] 55
+[Fri Nov 15 13:00:32.659485 2019] [wsgi:error] [pid 21054] <div>Rearrange the following five sentences in proper sequence so as to for a meaningful paragraph, then answer the questions given below them.&lt;br&gt;
+[Fri Nov 15 13:00:32.659487 2019] [wsgi:error] [pid 21054]  \xc2\xa0 \xc2\xa0 \xc2\xa0 \xc2\xa01 After Examining him, the doctor smiled at him mischievously and took out a syringe.&lt;br&gt;
+[Fri Nov 15 13:00:32.659490 2019] [wsgi:error] [pid 21054] \t2 Thinking that he was really sick, his father summoned the family doctor.&lt;br&gt;
+[Fri Nov 15 13:00:32.659492 2019] [wsgi:error] [pid 21054] \t3 That day, Mintu wanted to take a day off from school&lt;br&gt;
+[Fri Nov 15 13:00:32.659494 2019] [wsgi:error] [pid 21054] \t4 Immediately, Mintu jumped up from his bed and swore the he was fine&lt;br&gt;
+[Fri Nov 15 13:00:32.659496 2019] [wsgi:error] [pid 21054] \t5 Therefor; he pretended to be sick and remained in bed.&lt;br&gt;
+[Fri Nov 15 13:00:32.659498 2019] [wsgi:error] [pid 21054] &lt;br&gt;
+[Fri Nov 15 13:00:32.659500 2019] [wsgi:error] [pid 21054] Which sentence should come fourth in the paragraph?</div>
+[Fri Nov 15 13:00:32.659503 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659521 2019] [wsgi:error] [pid 21054] 1
+[Fri Nov 15 13:00:32.659525 2019] [wsgi:error] [pid 21054] 2
+[Fri Nov 15 13:00:32.659529 2019] [wsgi:error] [pid 21054] 3
+[Fri Nov 15 13:00:32.659533 2019] [wsgi:error] [pid 21054] 4
+[Fri Nov 15 13:00:32.659537 2019] [wsgi:error] [pid 21054] 1
+[Fri Nov 15 13:00:32.659541 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659548 2019] [wsgi:error] [pid 21054] 56
+[Fri Nov 15 13:00:32.659552 2019] [wsgi:error] [pid 21054] <div>I felt the wall of the tunnel shiver. The master alarm squealed through my earphones. Almost simultaneously, Jack yelled down to me that there was a warning light on. Fleeting but spectacular sights snapped into ans out of view, the snow, the shower of debris, the moon, looming close and big, the dazzling sunshine for once unfiltered by layers of air. The last twelve hours before re-entry were particular bone-chilling. During this period, I had to go up in to command module. Even after the fiery re-entry splashing down in 81o water in south pacific, we could still see our frosty breath inside the command module.
+[Fri Nov 15 13:00:32.659556 2019] [wsgi:error] [pid 21054] &lt;br&gt;
+[Fri Nov 15 13:00:32.659558 2019] [wsgi:error] [pid 21054] The word &#x27;Command Module&#x27; used twice in the given passage indicates perhaps that it deals with
+[Fri Nov 15 13:00:32.659560 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659563 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659576 2019] [wsgi:error] [pid 21054] an alarming journey
+[Fri Nov 15 13:00:32.659581 2019] [wsgi:error] [pid 21054] a commanding situation
+[Fri Nov 15 13:00:32.659585 2019] [wsgi:error] [pid 21054] a journey into outer space
+[Fri Nov 15 13:00:32.659589 2019] [wsgi:error] [pid 21054] a frightful battle.
+[Fri Nov 15 13:00:32.659595 2019] [wsgi:error] [pid 21054] a journey into outer space
+[Fri Nov 15 13:00:32.659599 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659607 2019] [wsgi:error] [pid 21054] 57
+[Fri Nov 15 13:00:32.659611 2019] [wsgi:error] [pid 21054] <div>Some proverbs/idioms are given below together with their meanings. Choose the correct meaning of proverb/idiom
+[Fri Nov 15 13:00:32.659613 2019] [wsgi:error] [pid 21054] To have an axe to grind
+[Fri Nov 15 13:00:32.659615 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659618 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659621 2019] [wsgi:error] [pid 21054] A private end to serve
+[Fri Nov 15 13:00:32.659625 2019] [wsgi:error] [pid 21054] To fail to arouse interest
+[Fri Nov 15 13:00:32.659629 2019] [wsgi:error] [pid 21054] To have no result
+[Fri Nov 15 13:00:32.659633 2019] [wsgi:error] [pid 21054] To work for both sides
+[Fri Nov 15 13:00:32.659637 2019] [wsgi:error] [pid 21054] A private end to serve
+[Fri Nov 15 13:00:32.659641 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659647 2019] [wsgi:error] [pid 21054] 58
+[Fri Nov 15 13:00:32.659651 2019] [wsgi:error] [pid 21054] <div>the sentences have been given in Direct/Indirect speech. From the given alternatives, choose the one which best expresses the given sentence in Indirect/Direct speech\t
+[Fri Nov 15 13:00:32.659653 2019] [wsgi:error] [pid 21054] &lt;br&gt;
+[Fri Nov 15 13:00:32.659655 2019] [wsgi:error] [pid 21054] He said to his father, &quot;Please increase my pocket-money.&quot;
+[Fri Nov 15 13:00:32.659658 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659660 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659670 2019] [wsgi:error] [pid 21054] He told his father, &quot;Please increase the pocket-money&quot;
+[Fri Nov 15 13:00:32.659677 2019] [wsgi:error] [pid 21054] He requested his father to increase his pocket-money.
+[Fri Nov 15 13:00:32.659682 2019] [wsgi:error] [pid 21054] He pleaded his father to please increase my pocket money.
+[Fri Nov 15 13:00:32.659686 2019] [wsgi:error] [pid 21054] He asked his father to increase his pocket-money.
+[Fri Nov 15 13:00:32.659690 2019] [wsgi:error] [pid 21054] He requested his father to increase his pocket-money.
+[Fri Nov 15 13:00:32.659694 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659701 2019] [wsgi:error] [pid 21054] 59
+[Fri Nov 15 13:00:32.659705 2019] [wsgi:error] [pid 21054] <div>choose the one which can be substituted for the given word/sentence.&lt;br&gt;
+[Fri Nov 15 13:00:32.659707 2019] [wsgi:error] [pid 21054] Extreme old age when a man behaves like a fool
+[Fri Nov 15 13:00:32.659709 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659712 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659719 2019] [wsgi:error] [pid 21054] Imbecility
+[Fri Nov 15 13:00:32.659724 2019] [wsgi:error] [pid 21054] Senility
+[Fri Nov 15 13:00:32.659727 2019] [wsgi:error] [pid 21054] Dotage
+[Fri Nov 15 13:00:32.659731 2019] [wsgi:error] [pid 21054] Superannuation
+[Fri Nov 15 13:00:32.659735 2019] [wsgi:error] [pid 21054] Dotage
+[Fri Nov 15 13:00:32.659739 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659746 2019] [wsgi:error] [pid 21054] 60
+[Fri Nov 15 13:00:32.659750 2019] [wsgi:error] [pid 21054] <div>Find the correctly spelt words</div>
+[Fri Nov 15 13:00:32.659754 2019] [wsgi:error] [pid 21054] Judicious
+[Fri Nov 15 13:00:32.659757 2019] [wsgi:error] [pid 21054] Cancious
+[Fri Nov 15 13:00:32.659761 2019] [wsgi:error] [pid 21054] Dotage
+[Fri Nov 15 13:00:32.659765 2019] [wsgi:error] [pid 21054] Gracous
+[Fri Nov 15 13:00:32.659769 2019] [wsgi:error] [pid 21054] Judicious
+[Fri Nov 15 13:00:32.659773 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659778 2019] [wsgi:error] [pid 21054] 61
+[Fri Nov 15 13:00:32.659782 2019] [wsgi:error] [pid 21054] <div>Each IP packet must contain
+[Fri Nov 15 13:00:32.659785 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659787 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659791 2019] [wsgi:error] [pid 21054] Source or Destination address
+[Fri Nov 15 13:00:32.659797 2019] [wsgi:error] [pid 21054] Only Source address
+[Fri Nov 15 13:00:32.659801 2019] [wsgi:error] [pid 21054] Only Destination address
+[Fri Nov 15 13:00:32.659805 2019] [wsgi:error] [pid 21054] Source and Destination address
+[Fri Nov 15 13:00:32.659809 2019] [wsgi:error] [pid 21054] Source and Destination address
+[Fri Nov 15 13:00:32.659813 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659819 2019] [wsgi:error] [pid 21054] 62
+[Fri Nov 15 13:00:32.659823 2019] [wsgi:error] [pid 21054] <div>Bridge works in which layer of the OSI model?
+[Fri Nov 15 13:00:32.659826 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659828 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659832 2019] [wsgi:error] [pid 21054] Appliation layer
+[Fri Nov 15 13:00:32.659836 2019] [wsgi:error] [pid 21054] Transport layer
+[Fri Nov 15 13:00:32.659840 2019] [wsgi:error] [pid 21054] Network layer
+[Fri Nov 15 13:00:32.659844 2019] [wsgi:error] [pid 21054] Datalink layer
+[Fri Nov 15 13:00:32.659848 2019] [wsgi:error] [pid 21054] Datalink layer
+[Fri Nov 15 13:00:32.659852 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659857 2019] [wsgi:error] [pid 21054] 63
+[Fri Nov 15 13:00:32.659862 2019] [wsgi:error] [pid 21054] <div> _______ provides a connection-oriented reliable service for sending messages</div>
+[Fri Nov 15 13:00:32.659866 2019] [wsgi:error] [pid 21054] TCP
+[Fri Nov 15 13:00:32.659870 2019] [wsgi:error] [pid 21054] IP
+[Fri Nov 15 13:00:32.659873 2019] [wsgi:error] [pid 21054] UDP
+[Fri Nov 15 13:00:32.659877 2019] [wsgi:error] [pid 21054] All of the above
+[Fri Nov 15 13:00:32.659881 2019] [wsgi:error] [pid 21054] TCP
+[Fri Nov 15 13:00:32.659885 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659891 2019] [wsgi:error] [pid 21054] 64
+[Fri Nov 15 13:00:32.659895 2019] [wsgi:error] [pid 21054] <div>Which layers of the OSI model are host-to-host layers?
+[Fri Nov 15 13:00:32.659897 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659900 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659904 2019] [wsgi:error] [pid 21054] Transport, Session, Presentation, Application
+[Fri Nov 15 13:00:32.659908 2019] [wsgi:error] [pid 21054] Network, Transport, Session, Presentation
+[Fri Nov 15 13:00:32.659912 2019] [wsgi:error] [pid 21054] Datalink, Network, Transport, Session
+[Fri Nov 15 13:00:32.659916 2019] [wsgi:error] [pid 21054] Physical, Datalink, Network, Transport
+[Fri Nov 15 13:00:32.659920 2019] [wsgi:error] [pid 21054] Transport, Session, Presentation, Application
+[Fri Nov 15 13:00:32.659924 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659929 2019] [wsgi:error] [pid 21054] 65
+[Fri Nov 15 13:00:32.659933 2019] [wsgi:error] [pid 21054] <div>Which of the following IP address class is Multicast
+[Fri Nov 15 13:00:32.659936 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659938 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659942 2019] [wsgi:error] [pid 21054] Class A
+[Fri Nov 15 13:00:32.659946 2019] [wsgi:error] [pid 21054] Class B
+[Fri Nov 15 13:00:32.659950 2019] [wsgi:error] [pid 21054] Class C
+[Fri Nov 15 13:00:32.659953 2019] [wsgi:error] [pid 21054] Class D
+[Fri Nov 15 13:00:32.659957 2019] [wsgi:error] [pid 21054] Class D
+[Fri Nov 15 13:00:32.659961 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659967 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.659971 2019] [wsgi:error] [pid 21054] <div>The last address of IP address represents
+[Fri Nov 15 13:00:32.659973 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.659976 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.659980 2019] [wsgi:error] [pid 21054] Unicast address
+[Fri Nov 15 13:00:32.659983 2019] [wsgi:error] [pid 21054] Network address
+[Fri Nov 15 13:00:32.659987 2019] [wsgi:error] [pid 21054] Broadcast address
+[Fri Nov 15 13:00:32.659991 2019] [wsgi:error] [pid 21054] None of above
+[Fri Nov 15 13:00:32.659995 2019] [wsgi:error] [pid 21054] Broadcast address
+[Fri Nov 15 13:00:32.659999 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660005 2019] [wsgi:error] [pid 21054] 67
+[Fri Nov 15 13:00:32.660011 2019] [wsgi:error] [pid 21054] <div>How many bits are there in the Ethernet address?
+[Fri Nov 15 13:00:32.660014 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660016 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660020 2019] [wsgi:error] [pid 21054] 64 bits
+[Fri Nov 15 13:00:32.660024 2019] [wsgi:error] [pid 21054] 48 bits
+[Fri Nov 15 13:00:32.660028 2019] [wsgi:error] [pid 21054] 32 bits
+[Fri Nov 15 13:00:32.660031 2019] [wsgi:error] [pid 21054] 16 bits
+[Fri Nov 15 13:00:32.660035 2019] [wsgi:error] [pid 21054] 48 bits
+[Fri Nov 15 13:00:32.660039 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660045 2019] [wsgi:error] [pid 21054] 68
+[Fri Nov 15 13:00:32.660049 2019] [wsgi:error] [pid 21054] <div>How many layers are in the TCP/IP model?</div>
+[Fri Nov 15 13:00:32.660053 2019] [wsgi:error] [pid 21054] 4 layers
+[Fri Nov 15 13:00:32.660057 2019] [wsgi:error] [pid 21054] 5 layers
+[Fri Nov 15 13:00:32.660061 2019] [wsgi:error] [pid 21054] 6 layers
+[Fri Nov 15 13:00:32.660064 2019] [wsgi:error] [pid 21054] 7 layers
+[Fri Nov 15 13:00:32.660068 2019] [wsgi:error] [pid 21054] 4 layers
+[Fri Nov 15 13:00:32.660072 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660078 2019] [wsgi:error] [pid 21054] 69
+[Fri Nov 15 13:00:32.660082 2019] [wsgi:error] [pid 21054] <div> What is the minimum header size of an IP packet?
+[Fri Nov 15 13:00:32.660084 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660087 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660090 2019] [wsgi:error] [pid 21054] 16 bytes
+[Fri Nov 15 13:00:32.660094 2019] [wsgi:error] [pid 21054] 10 bytes
+[Fri Nov 15 13:00:32.660098 2019] [wsgi:error] [pid 21054] 20 bytes
+[Fri Nov 15 13:00:32.660101 2019] [wsgi:error] [pid 21054] 32 bytes
+[Fri Nov 15 13:00:32.660105 2019] [wsgi:error] [pid 21054] 20 bytes
+[Fri Nov 15 13:00:32.660109 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660115 2019] [wsgi:error] [pid 21054] 70
+[Fri Nov 15 13:00:32.660119 2019] [wsgi:error] [pid 21054] <div>Which of following provides reliable communication?
+[Fri Nov 15 13:00:32.660121 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660124 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660127 2019] [wsgi:error] [pid 21054] TCP
+[Fri Nov 15 13:00:32.660131 2019] [wsgi:error] [pid 21054] IP
+[Fri Nov 15 13:00:32.660135 2019] [wsgi:error] [pid 21054] UDP
+[Fri Nov 15 13:00:32.660139 2019] [wsgi:error] [pid 21054] All of the above
+[Fri Nov 15 13:00:32.660142 2019] [wsgi:error] [pid 21054] TCP
+[Fri Nov 15 13:00:32.660146 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660152 2019] [wsgi:error] [pid 21054] 71
+[Fri Nov 15 13:00:32.660156 2019] [wsgi:error] [pid 21054] <div>What is the address size of IPv6 ?
+[Fri Nov 15 13:00:32.660158 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660161 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660165 2019] [wsgi:error] [pid 21054] 32 bit
+[Fri Nov 15 13:00:32.660168 2019] [wsgi:error] [pid 21054] 64 bit
+[Fri Nov 15 13:00:32.660172 2019] [wsgi:error] [pid 21054] 128 bit
+[Fri Nov 15 13:00:32.660176 2019] [wsgi:error] [pid 21054] 256 bit
+[Fri Nov 15 13:00:32.660180 2019] [wsgi:error] [pid 21054] 128 bit
+[Fri Nov 15 13:00:32.660183 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660189 2019] [wsgi:error] [pid 21054] 72
+[Fri Nov 15 13:00:32.660194 2019] [wsgi:error] [pid 21054] <div>What is the size of Network bits &amp; Host bits of Class A of IP address?</div>
+[Fri Nov 15 13:00:32.660201 2019] [wsgi:error] [pid 21054] Network bits 7, Host bits 24
+[Fri Nov 15 13:00:32.660205 2019] [wsgi:error] [pid 21054] Network bits 8, Host bits 24
+[Fri Nov 15 13:00:32.660209 2019] [wsgi:error] [pid 21054] Network bits 7, Host bits 23
+[Fri Nov 15 13:00:32.660213 2019] [wsgi:error] [pid 21054] Network bits 8, Host bits 23
+[Fri Nov 15 13:00:32.660217 2019] [wsgi:error] [pid 21054] Network bits 7, Host bits 24
+[Fri Nov 15 13:00:32.660221 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660227 2019] [wsgi:error] [pid 21054] 74
+[Fri Nov 15 13:00:32.660233 2019] [wsgi:error] [pid 21054] <div>The Internet is an example of
+[Fri Nov 15 13:00:32.660236 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660239 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660242 2019] [wsgi:error] [pid 21054] Cell switched network
+[Fri Nov 15 13:00:32.660246 2019] [wsgi:error] [pid 21054] circuit switched network
+[Fri Nov 15 13:00:32.660250 2019] [wsgi:error] [pid 21054] Packet switched network
+[Fri Nov 15 13:00:32.660254 2019] [wsgi:error] [pid 21054] All of above
+[Fri Nov 15 13:00:32.660258 2019] [wsgi:error] [pid 21054] Packet switched network
+[Fri Nov 15 13:00:32.660262 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660268 2019] [wsgi:error] [pid 21054] 75
+[Fri Nov 15 13:00:32.660272 2019] [wsgi:error] [pid 21054] <div>What does protocol defines?
+[Fri Nov 15 13:00:32.660274 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660276 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660280 2019] [wsgi:error] [pid 21054] Protocol defines what data is communicated.
+[Fri Nov 15 13:00:32.660284 2019] [wsgi:error] [pid 21054] Protocol defines how data is communicated.
+[Fri Nov 15 13:00:32.660288 2019] [wsgi:error] [pid 21054] Protocol defines when data is communicated.
+[Fri Nov 15 13:00:32.660292 2019] [wsgi:error] [pid 21054] All of above
+[Fri Nov 15 13:00:32.660296 2019] [wsgi:error] [pid 21054] All of above
+[Fri Nov 15 13:00:32.660300 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660306 2019] [wsgi:error] [pid 21054] 76
+[Fri Nov 15 13:00:32.660310 2019] [wsgi:error] [pid 21054] <div>What is the uses of subnetting?
+[Fri Nov 15 13:00:32.660312 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660315 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660318 2019] [wsgi:error] [pid 21054] It divides one large network into several smaller ones
+[Fri Nov 15 13:00:32.660322 2019] [wsgi:error] [pid 21054] It divides network into network classes
+[Fri Nov 15 13:00:32.660326 2019] [wsgi:error] [pid 21054] It speeds up the speed of network
+[Fri Nov 15 13:00:32.660330 2019] [wsgi:error] [pid 21054] None of above
+[Fri Nov 15 13:00:32.660334 2019] [wsgi:error] [pid 21054] It divides one large network into several smaller ones
+[Fri Nov 15 13:00:32.660338 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660344 2019] [wsgi:error] [pid 21054] 77
+[Fri Nov 15 13:00:32.660348 2019] [wsgi:error] [pid 21054] <div>Repeater operates in which layer of the OSI model?
+[Fri Nov 15 13:00:32.660350 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660353 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660357 2019] [wsgi:error] [pid 21054] Physical layer
+[Fri Nov 15 13:00:32.660361 2019] [wsgi:error] [pid 21054] Data link layer
+[Fri Nov 15 13:00:32.660364 2019] [wsgi:error] [pid 21054] Network layer
+[Fri Nov 15 13:00:32.660368 2019] [wsgi:error] [pid 21054] Transport layer
+[Fri Nov 15 13:00:32.660372 2019] [wsgi:error] [pid 21054] Transport layer
+[Fri Nov 15 13:00:32.660376 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660382 2019] [wsgi:error] [pid 21054] 78
+[Fri Nov 15 13:00:32.660386 2019] [wsgi:error] [pid 21054] <div>Which of the following network device has the slowest type of
+[Fri Nov 15 13:00:32.660388 2019] [wsgi:error] [pid 21054] connection?
+[Fri Nov 15 13:00:32.660390 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660393 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660396 2019] [wsgi:error] [pid 21054] DSL
+[Fri Nov 15 13:00:32.660400 2019] [wsgi:error] [pid 21054] Router
+[Fri Nov 15 13:00:32.660404 2019] [wsgi:error] [pid 21054] Bridges
+[Fri Nov 15 13:00:32.660408 2019] [wsgi:error] [pid 21054] Dial-up modems
+[Fri Nov 15 13:00:32.660412 2019] [wsgi:error] [pid 21054] Dial-up modems
+[Fri Nov 15 13:00:32.660415 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660421 2019] [wsgi:error] [pid 21054] 79
+[Fri Nov 15 13:00:32.660426 2019] [wsgi:error] [pid 21054] <div>Which of the following is an example of Personal Area Networking?</div>
+[Fri Nov 15 13:00:32.660430 2019] [wsgi:error] [pid 21054] WAN
+[Fri Nov 15 13:00:32.660440 2019] [wsgi:error] [pid 21054] WLAN
+[Fri Nov 15 13:00:32.660444 2019] [wsgi:error] [pid 21054] Bluetooth
+[Fri Nov 15 13:00:32.660448 2019] [wsgi:error] [pid 21054] All of the above
+[Fri Nov 15 13:00:32.660451 2019] [wsgi:error] [pid 21054] Bluetooth
+[Fri Nov 15 13:00:32.660455 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660461 2019] [wsgi:error] [pid 21054] 80
+[Fri Nov 15 13:00:32.660465 2019] [wsgi:error] [pid 21054] <div>Which networking device connect one LAN to other LAN using
+[Fri Nov 15 13:00:32.660467 2019] [wsgi:error] [pid 21054] same protocol?
+[Fri Nov 15 13:00:32.660469 2019] [wsgi:error] [pid 21054] </div>
+[Fri Nov 15 13:00:32.660472 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660476 2019] [wsgi:error] [pid 21054] Router
+[Fri Nov 15 13:00:32.660480 2019] [wsgi:error] [pid 21054] Switch
+[Fri Nov 15 13:00:32.660483 2019] [wsgi:error] [pid 21054] Bridge
+[Fri Nov 15 13:00:32.660487 2019] [wsgi:error] [pid 21054] Modem
+[Fri Nov 15 13:00:32.660491 2019] [wsgi:error] [pid 21054] Switch
+[Fri Nov 15 13:00:32.660495 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660500 2019] [wsgi:error] [pid 21054] 96
+[Fri Nov 15 13:00:32.660505 2019] [wsgi:error] [pid 21054] <div>The protocol data unit(PDU) for the application layer in the Internet stack is</div>
+[Fri Nov 15 13:00:32.660509 2019] [wsgi:error] [pid 21054] Segment
+[Fri Nov 15 13:00:32.660512 2019] [wsgi:error] [pid 21054] Datagram
+[Fri Nov 15 13:00:32.660516 2019] [wsgi:error] [pid 21054] Message
+[Fri Nov 15 13:00:32.660520 2019] [wsgi:error] [pid 21054] Frame
+[Fri Nov 15 13:00:32.660524 2019] [wsgi:error] [pid 21054] Message
+[Fri Nov 15 13:00:32.660528 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660533 2019] [wsgi:error] [pid 21054] 101
+[Fri Nov 15 13:00:32.660538 2019] [wsgi:error] [pid 21054] <div>Two pipes A and B can separately fill a tank in 2 minutes and 15 minutes respectively. Both the pipes are opened together but 4 minutes after the start the pipe A is turned off. How much time will it take to fill the tank?</div>
+[Fri Nov 15 13:00:32.660543 2019] [wsgi:error] [pid 21054] 9 min
+[Fri Nov 15 13:00:32.660546 2019] [wsgi:error] [pid 21054] 10 min
+[Fri Nov 15 13:00:32.660550 2019] [wsgi:error] [pid 21054] 11 min
+[Fri Nov 15 13:00:32.660554 2019] [wsgi:error] [pid 21054] 12 min
+[Fri Nov 15 13:00:32.660558 2019] [wsgi:error] [pid 21054] 10 min
+[Fri Nov 15 13:00:32.660561 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660567 2019] [wsgi:error] [pid 21054] 102
+[Fri Nov 15 13:00:32.660572 2019] [wsgi:error] [pid 21054] <div>A cistern has a leak which would empty the cistern in 20 minutes. A tap is turned on which admits 4 liters a minute into the cistern, and it is emptied in 24 minutes. How many liters does the cistern hold?</div>
+[Fri Nov 15 13:00:32.660576 2019] [wsgi:error] [pid 21054] 480 liters
+[Fri Nov 15 13:00:32.660580 2019] [wsgi:error] [pid 21054] 600 liters
+[Fri Nov 15 13:00:32.660584 2019] [wsgi:error] [pid 21054] 720 liters
+[Fri Nov 15 13:00:32.660588 2019] [wsgi:error] [pid 21054] 800 liters
+[Fri Nov 15 13:00:32.660591 2019] [wsgi:error] [pid 21054] 480 liters
+[Fri Nov 15 13:00:32.660595 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660601 2019] [wsgi:error] [pid 21054] 103
+[Fri Nov 15 13:00:32.660605 2019] [wsgi:error] [pid 21054] <div>What percent of 120 are 90?</div>
+[Fri Nov 15 13:00:32.660609 2019] [wsgi:error] [pid 21054] 25%
+[Fri Nov 15 13:00:32.660613 2019] [wsgi:error] [pid 21054] 50%
+[Fri Nov 15 13:00:32.660617 2019] [wsgi:error] [pid 21054] 75%
+[Fri Nov 15 13:00:32.660620 2019] [wsgi:error] [pid 21054] 33%
+[Fri Nov 15 13:00:32.660624 2019] [wsgi:error] [pid 21054] 75%
+[Fri Nov 15 13:00:32.660628 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660634 2019] [wsgi:error] [pid 21054] 104
+[Fri Nov 15 13:00:32.660638 2019] [wsgi:error] [pid 21054] <div>How much is 80% of 40 is greater than 4/5 of 25?</div>
+[Fri Nov 15 13:00:32.660642 2019] [wsgi:error] [pid 21054] 4
+[Fri Nov 15 13:00:32.660646 2019] [wsgi:error] [pid 21054] 6
+[Fri Nov 15 13:00:32.660650 2019] [wsgi:error] [pid 21054] 9
+[Fri Nov 15 13:00:32.660656 2019] [wsgi:error] [pid 21054] 12
+[Fri Nov 15 13:00:32.660659 2019] [wsgi:error] [pid 21054] 12
+[Fri Nov 15 13:00:32.660663 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660669 2019] [wsgi:error] [pid 21054] 105
+[Fri Nov 15 13:00:32.660673 2019] [wsgi:error] [pid 21054] <div>Find the one which does not belong to that group ?<br /></div>
+[Fri Nov 15 13:00:32.660677 2019] [wsgi:error] [pid 21054] 3
+[Fri Nov 15 13:00:32.660681 2019] [wsgi:error] [pid 21054] 4
+[Fri Nov 15 13:00:32.660685 2019] [wsgi:error] [pid 21054] 7
+[Fri Nov 15 13:00:32.660688 2019] [wsgi:error] [pid 21054] 9
+[Fri Nov 15 13:00:32.660692 2019] [wsgi:error] [pid 21054] 4
+[Fri Nov 15 13:00:32.660696 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660702 2019] [wsgi:error] [pid 21054] 109
+[Fri Nov 15 13:00:32.660706 2019] [wsgi:error] [pid 21054] <div>HCF of 3/16, 5/12, 7/8 is:</div>
+[Fri Nov 15 13:00:32.660710 2019] [wsgi:error] [pid 21054] 2/47
+[Fri Nov 15 13:00:32.660713 2019] [wsgi:error] [pid 21054] 3/47
+[Fri Nov 15 13:00:32.660717 2019] [wsgi:error] [pid 21054] 1/48
+[Fri Nov 15 13:00:32.660721 2019] [wsgi:error] [pid 21054] 5/48
+[Fri Nov 15 13:00:32.660725 2019] [wsgi:error] [pid 21054] 1/48
+[Fri Nov 15 13:00:32.660729 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660735 2019] [wsgi:error] [pid 21054] 115
+[Fri Nov 15 13:00:32.660739 2019] [wsgi:error] [pid 21054] <div>bulk que 3</div>
+[Fri Nov 15 13:00:32.660742 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660746 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.660750 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660754 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660757 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660761 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660767 2019] [wsgi:error] [pid 21054] 116
+[Fri Nov 15 13:00:32.660771 2019] [wsgi:error] [pid 21054] <div>bulk que 4</div>
+[Fri Nov 15 13:00:32.660775 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660779 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.660782 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660786 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660790 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660793 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660799 2019] [wsgi:error] [pid 21054] 117
+[Fri Nov 15 13:00:32.660803 2019] [wsgi:error] [pid 21054] <div>bulk que 1</div>
+[Fri Nov 15 13:00:32.660807 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660811 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.660815 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660818 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660822 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660826 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660832 2019] [wsgi:error] [pid 21054] 119
+[Fri Nov 15 13:00:32.660836 2019] [wsgi:error] [pid 21054] <div>bulk que 3</div>
+[Fri Nov 15 13:00:32.660839 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660843 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.660847 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660850 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660854 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660858 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660864 2019] [wsgi:error] [pid 21054] 122
+[Fri Nov 15 13:00:32.660868 2019] [wsgi:error] [pid 21054] <div>bulk que 1</div>
+[Fri Nov 15 13:00:32.660871 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660875 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.660879 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660882 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660886 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660890 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660896 2019] [wsgi:error] [pid 21054] 124
+[Fri Nov 15 13:00:32.660900 2019] [wsgi:error] [pid 21054] <div>bulk que 3</div>
+[Fri Nov 15 13:00:32.660907 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660911 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.660914 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660918 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660922 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660926 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660932 2019] [wsgi:error] [pid 21054] 125
+[Fri Nov 15 13:00:32.660935 2019] [wsgi:error] [pid 21054] <div>bulk que 4</div>
+[Fri Nov 15 13:00:32.660939 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660943 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.660947 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660950 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660954 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660958 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.660964 2019] [wsgi:error] [pid 21054] 128
+[Fri Nov 15 13:00:32.660967 2019] [wsgi:error] [pid 21054] <div>bulk que 2</div>
+[Fri Nov 15 13:00:32.660970 2019] [wsgi:error] [pid 21054] <pre>pgm</pre>
+[Fri Nov 15 13:00:32.660972 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.660976 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.660980 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.660983 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.660987 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.660991 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.660995 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661000 2019] [wsgi:error] [pid 21054] 129
+[Fri Nov 15 13:00:32.661004 2019] [wsgi:error] [pid 21054] <div>bulk que 3</div>
+[Fri Nov 15 13:00:32.661008 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661012 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661016 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661019 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661023 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661027 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661033 2019] [wsgi:error] [pid 21054] 130
+[Fri Nov 15 13:00:32.661037 2019] [wsgi:error] [pid 21054] <div>bulk que 4</div>
+[Fri Nov 15 13:00:32.661040 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661044 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661048 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661052 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661055 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661059 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661065 2019] [wsgi:error] [pid 21054] 172
+[Fri Nov 15 13:00:32.661069 2019] [wsgi:error] [pid 21054] <div>bulk que 1</div>
+[Fri Nov 15 13:00:32.661073 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661076 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661080 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661084 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661087 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661091 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661097 2019] [wsgi:error] [pid 21054] 173
+[Fri Nov 15 13:00:32.661101 2019] [wsgi:error] [pid 21054] <div>bulk que 2</div>
+[Fri Nov 15 13:00:32.661103 2019] [wsgi:error] [pid 21054] <pre>pgm</pre>
+[Fri Nov 15 13:00:32.661106 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.661109 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661113 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661117 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661120 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661124 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661128 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661134 2019] [wsgi:error] [pid 21054] 174
+[Fri Nov 15 13:00:32.661138 2019] [wsgi:error] [pid 21054] <div>bulk que 3</div>
+[Fri Nov 15 13:00:32.661142 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661145 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661149 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661155 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661159 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661162 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661168 2019] [wsgi:error] [pid 21054] 177
+[Fri Nov 15 13:00:32.661172 2019] [wsgi:error] [pid 21054] <div>gfh</div>
+[Fri Nov 15 13:00:32.661176 2019] [wsgi:error] [pid 21054] 1
+[Fri Nov 15 13:00:32.661180 2019] [wsgi:error] [pid 21054] 2
+[Fri Nov 15 13:00:32.661184 2019] [wsgi:error] [pid 21054] 5
+[Fri Nov 15 13:00:32.661187 2019] [wsgi:error] [pid 21054] 6
+[Fri Nov 15 13:00:32.661191 2019] [wsgi:error] [pid 21054] 1
+[Fri Nov 15 13:00:32.661195 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661200 2019] [wsgi:error] [pid 21054] 181
+[Fri Nov 15 13:00:32.661204 2019] [wsgi:error] [pid 21054] <div>bulk que apti</div>
+[Fri Nov 15 13:00:32.661208 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661212 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661216 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661219 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661223 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661227 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661233 2019] [wsgi:error] [pid 21054] 189
+[Fri Nov 15 13:00:32.661237 2019] [wsgi:error] [pid 21054] <div>bulk que apti</div>
+[Fri Nov 15 13:00:32.661241 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661244 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661248 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661252 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661255 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661259 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661265 2019] [wsgi:error] [pid 21054] 193
+[Fri Nov 15 13:00:32.661269 2019] [wsgi:error] [pid 21054] <div>bulk que apti</div>
+[Fri Nov 15 13:00:32.661273 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661276 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661280 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661284 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661287 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661291 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661297 2019] [wsgi:error] [pid 21054] 213
+[Fri Nov 15 13:00:32.661301 2019] [wsgi:error] [pid 21054] <div>bulk que apti</div>
+[Fri Nov 15 13:00:32.661305 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661309 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661312 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661316 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661320 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661324 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661329 2019] [wsgi:error] [pid 21054] 217
+[Fri Nov 15 13:00:32.661333 2019] [wsgi:error] [pid 21054] <div>bulk que apti</div>
+[Fri Nov 15 13:00:32.661337 2019] [wsgi:error] [pid 21054] opt1
+[Fri Nov 15 13:00:32.661341 2019] [wsgi:error] [pid 21054] opt2
+[Fri Nov 15 13:00:32.661345 2019] [wsgi:error] [pid 21054] opt3
+[Fri Nov 15 13:00:32.661348 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661352 2019] [wsgi:error] [pid 21054] opt4
+[Fri Nov 15 13:00:32.661356 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661362 2019] [wsgi:error] [pid 21054] 226
+[Fri Nov 15 13:00:32.661365 2019] [wsgi:error] [pid 21054] <div>test pgm</div>
+[Fri Nov 15 13:00:32.661368 2019] [wsgi:error] [pid 21054] <pre>#include &amp;amp;lt stdio.h &amp;amp;gt
+[Fri Nov 15 13:00:32.661369 2019] [wsgi:error] [pid 21054] int main()
+[Fri Nov 15 13:00:32.661371 2019] [wsgi:error] [pid 21054] {
+[Fri Nov 15 13:00:32.661373 2019] [wsgi:error] [pid 21054]     const int x=5;
+[Fri Nov 15 13:00:32.661375 2019] [wsgi:error] [pid 21054]     const int *ptrx;
+[Fri Nov 15 13:00:32.661377 2019] [wsgi:error] [pid 21054]     ptrx = &amp;amp;x;
+[Fri Nov 15 13:00:32.661379 2019] [wsgi:error] [pid 21054]     *ptrx = 10;
+[Fri Nov 15 13:00:32.661381 2019] [wsgi:error] [pid 21054]     printf(&amp;quot;%d\\n&amp;quot;, x);
+[Fri Nov 15 13:00:32.661385 2019] [wsgi:error] [pid 21054]     return 0;
+[Fri Nov 15 13:00:32.661387 2019] [wsgi:error] [pid 21054] }</pre>
+[Fri Nov 15 13:00:32.661390 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.661400 2019] [wsgi:error] [pid 21054] ip1
+[Fri Nov 15 13:00:32.661404 2019] [wsgi:error] [pid 21054] ip2
+[Fri Nov 15 13:00:32.661408 2019] [wsgi:error] [pid 21054] ip3
+[Fri Nov 15 13:00:32.661412 2019] [wsgi:error] [pid 21054] ip4
+[Fri Nov 15 13:00:32.661415 2019] [wsgi:error] [pid 21054] ip1
+[Fri Nov 15 13:00:32.661419 2019] [wsgi:error] [pid 21054] 66
+[Fri Nov 15 13:00:32.661454 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.661457 2019] [wsgi:error] [pid 21054]  prepared quetion saved to session
+[Fri Nov 15 13:00:32.661459 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.661648 2019] [wsgi:error] [pid 21054] ['63&sep;<div> _______ provides a connection-oriented reliable service for sending messages</div>&sep;TCP&sep;IP&sep;UDP&sep;All of the above&sep;TCP&sep;66', '48&sep;<div>choose the one which best expresses the given sentence in Passive/Active voice&lt;br&gt;&lt;br&gt;\\nAfter driving professor Kumar to the museum she dropped him at his hotel.\\n</div>&sep;After being driven to the museum, Professor Kumar was dropped at his hotel.&sep;Professor Kumar was being driven dropped at his hotel.&sep;After she had driven Professor Kumar to the museum she had dropped him at his hotel.&sep;After she was driven Professor Kumar to the museum she had dropped him at his hotel.&sep;After being driven to the museum, Professor Kumar was dropped at his hotel.&sep;66', '117&sep;<div>bulk que 1</div>&sep;opt1&sep;opt2&sep;opt3&sep;opt4&sep;opt1&sep;66', '57&sep;<div>Some proverbs/idioms are given below together with their meanings. Choose the correct meaning of proverb/idiom\\nTo have an axe to grind\\n</div>&sep;A private end to serve&sep;To fail to arouse interest&sep;To have no result&sep;To work for both sides&sep;A private end to serve&sep;66', '105&sep;<div>Find the one which does not belong to that group ?<br /></div>&sep;3&sep;4&sep;7&sep;9&sep;4&sep;66', '119&sep;<div>bulk que 3</div>&sep;opt1&sep;opt2&sep;opt3&sep;opt4&sep;opt3&sep;66', '70&sep;<div>Which of following provides reliable communication?\\n</div>&sep;TCP&sep;IP&sep;UDP&sep;All of the above&sep;TCP&sep;66', '38&sep;<div>In C, if you pass an array as an argument to a function, what actually gets passed?</div>&sep;Value of elements in array&sep;First element of the array&sep;Base address of the array&sep;Address of the last element of array&sep;Base address of the array&sep;66', '177&sep;<div>gfh</div>&sep;1&sep;2&sep;5&sep;6&sep;1&sep;66', '109&sep;<div>HCF of 3/16, 5/12, 7/8 is:</div>&sep;2/47&sep;3/47&sep;1/48&sep;5/48&sep;1/48&sep;66', '56&sep;<div>I felt the wall of the tunnel shiver. The master alarm squealed through my earphones. Almost simultaneously, Jack yelled down to me that there was a warning light on. Fleeting but spectacular sights snapped into ans out of view, the snow, the shower of debris, the moon, looming close and big, the dazzling sunshine for once unfiltered by layers of air. The last twelve hours before re-entry were particular bone-chilling. During this period, I had to go up in to command module. Even after the fiery re-entry splashing down in 81o water in south pacific, we could still see our frosty breath inside the command module.\\n&lt;br&gt;\\nThe word &#x27;Command Module&#x27; used twice in the given passage indicates perhaps that it deals with\\n</div>&sep;an alarming journey&sep;a commanding situation&sep;a journey into outer space&sep;a frightful battle.&sep;a journey into outer space&sep;66', '64&sep;<div>Which layers of the OSI model are host-to-host layers?\\n</div>&sep;Transport, Session, Presentation, Application&sep;Network, Transport, Session, Presentation&sep;Datalink, Network, Transport, Session&sep;Physical, Datalink, Network, Transport&sep;Transport, Session, Presentation, Application&sep;66', '46&sep;<div> The first and sixth sentence are given in the begining.The middle four sentences in each have been removed and jumbled up. These are labelled as P, Q, R and S. Find out the proper order for the four sentences&lt;br&gt;\\nS1:\\tCalcutta unlike other cities kepts its trams.&lt;br&gt;\\nP :\\tAs a result there horrendous congestion.&lt;br&gt;\\nQ :\\tIt was going to be the first in South Asia.&lt;br&gt;\\nR :\\tThey run down the centre of the road&lt;br&gt;\\nS :\\tTo ease in the city decided to build an underground railway line.&lt;br&gt;\\nS6:\\tThe foundation stone was laid in 1972.&lt;br&gt;\\nThe Proper sequence should be:\\n</div>&sep;PRSQ&sep;PSQR&sep;SQRP&sep;RPSQ&sep;RPSQ&sep;66', '60&sep;<div>Find the correctly spelt words</div>&sep;Judicious&sep;Cancious&sep;Dotage&sep;Gracous&sep;Judicious&sep;66', '103&sep;<div>What percent of 120 are 90?</div>&sep;25%&sep;50%&sep;75%&sep;33%&sep;75%&sep;66', '172&sep;<div>bulk que 1</div>&sep;opt1&sep;opt2&sep;opt3&sep;opt4&sep;opt1&sep;66', '77&sep;<div>Repeater operates in which layer of the OSI model?\\n</div>&sep;Physical layer&sep;Data link layer&sep;Network layer&sep;Transport layer&sep;Transport layer&sep;66', '62&sep;<div>Bridge works in which layer of the OSI model?\\n</div>&sep;Appliation layer&sep;Transport layer&sep;Network layer&sep;Datalink layer&sep;Datalink layer&sep;66', '25&sep;<div>To print out a and b given below, which of the following printf() statement will you use? \\n<pre>\\n#include &amp;lt stdio.h&amp;gt\\n\\nfloat a=3.14;\\ndouble b=3.14;\\n</pre>\\n</div>&sep;printf("%f %lf", a, b);&sep;printf("%Lf %f", a, b);&sep;printf("%Lf %Lf", a, b);&sep;printf("%f %Lf", a, b);&sep;printf("%f %lf", a, b);&sep;66', '66&sep;<div>The last address of IP address represents\\n</div>&sep;Unicast address&sep;Network address&sep;Broadcast address&sep;None of above&sep;Broadcast address&sep;66', '122&sep;<div>bulk que 1</div>&sep;opt1&sep;opt2&sep;opt3&sep;opt4&sep;opt1&sep;66', '55&sep;<div>Rearrange the following five sentences in proper sequence so as to for a meaningful paragraph, then answer the questions given below them.&lt;br&gt;\\n \\xa0 \\xa0 \\xa0 \\xa01 After Examining him, the doctor smiled at him mischievously and took out a syringe.&lt;br&gt;\\n\\t2 Thinking that he was really sick, his father summoned the family doctor.&lt;br&gt;\\n\\t3 That day, Mintu wanted to take a day off from school&lt;br&gt;\\n\\t4 Immediately, Mintu jumped up from his bed and swore the he was fine&lt;br&gt;\\n\\t5 Therefor; he pretended to be sick and remained in bed.&lt;br&gt;\\n&lt;br&gt;\\nWhich sentence should come fourth in the paragraph?</div>&sep;1&sep;2&sep;3&sep;4&sep;1&sep;66', '31&sep;<div>Which of the following cannot be checked in a switch-case statement?\\n</div>&sep;Character&sep;Integer&sep;Float&sep;enum&sep;Float&sep;66', '78&sep;<div>Which of the following network device has the slowest type of\\nconnection?\\n</div>&sep;DSL&sep;Router&sep;Bridges&sep;Dial-up modems&sep;Dial-up modems&sep;66', '49&sep;<div>Select the pair which has the same relationship.\\n&lt;br&gt;&lt;br&gt;\\nDIVA:OPERA</div>&sep;producer:theatre&sep;director:drama&sep;conductor:bus&sep;thespian:play&sep;thespian:play&sep;66', '54&sep;<div>An incomplete statement (Stem) followed by fillers is given. Pick out the best one which can complete incomplete stem correctly and meaningfully.\\t\\n&lt;br&gt;\\nDespite his best efforts to conceal his anger ......\\n\\n</div>&sep;we could detect that he was very happy&sep;he failed to give us an impression of his agony&sep;he succeeded in camouflaging his emotions&sep;people came to know that he was annoyed&sep;people came to know that he was annoyed&sep;66', '75&sep;<div>What does protocol defines?\\n</div>&sep;Protocol defines what data is communicated.&sep;Protocol defines how data is communicated.&sep;Protocol defines when data is communicated.&sep;All of above&sep;All of above&sep;66', '76&sep;<div>What is the uses of subnetting?\\n</div>&sep;It divides one large network into several smaller ones&sep;It divides network into network classes&sep;It speeds up the speed of network&sep;None of above&sep;It divides one large network into several smaller ones&sep;66', '174&sep;<div>bulk que 3</div>&sep;opt1&sep;opt2&sep;opt3&sep;opt4&sep;opt3&sep;66', '125&sep;<div>bulk que 4</div>&sep;opt1&sep;opt2&sep;opt3&sep;opt4&sep;opt4&sep;66', '52&sep;<div>A sentence broken into five or six parts. Join these parts to make a meaningful sentence. The correct order of parts is the answer\\n&lt;br&gt;\\n1. do \\xa0 &lt;br&gt;2. today &lt;br&gt; \\xa03. you &lt;br&gt; \\xa04. must &lt;br&gt; \\xa05. it\\n</div>&sep;34152&sep;25413&sep;12543&sep;51324&sep;34152&sep;66', '40&sep;<div>What do the following declaration signify?&lt;/div&gt;\\n&lt;pre&gt;                                                                                                    \\n  int (*pf)();\\n</div>&sep;pf is a pointer to a function which return int 
+[Fri Nov 15 13:00:32.661672 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.661686 2019] [wsgi:error] [pid 21054] 63&sep;<div> _______ provides a connection-oriented reliable service for sending messages</div>&sep;TCP&sep;IP&sep;UDP&sep;All of the above&sep;1&sep;79
+[Fri Nov 15 13:00:32.708168 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:32.708187 2019] [wsgi:error] [pid 21054] sucess:
+[Fri Nov 15 13:00:32.708192 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:37.645687 2019] [wsgi:error] [pid 21053] ----------------ver_q----------------------------------------------------
+[Fri Nov 15 13:00:37.646094 2019] [wsgi:error] [pid 21053] Recived from candidate
+[Fri Nov 15 13:00:37.646150 2019] [wsgi:error] [pid 21053] 0)saimanasa.ps@terralogic.com,63,All of the above
+[Fri Nov 15 13:00:37.646167 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:37.646199 2019] [wsgi:error] [pid 21053] In the DB
+[Fri Nov 15 13:00:37.646218 2019] [wsgi:error] [pid 21053] id=63,ans=TCP
+[Fri Nov 15 13:00:37.646230 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:37.677054 2019] [wsgi:error] [pid 21053] UPDATE smart_result_set: 1
+[Fri Nov 15 13:00:37.677104 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:37.677136 2019] [wsgi:error] [pid 21053] ----Current score Before Match: 0
+[Fri Nov 15 13:00:37.750698 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:37.750745 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:37.750753 2019] [wsgi:error] [pid 21054] --------------------------------------------------------------------
+[Fri Nov 15 13:00:37.750762 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:37.752560 2019] [wsgi:error] [pid 21054] ----------------get_q----------------------------------------------------
+[Fri Nov 15 13:00:37.758535 2019] [wsgi:error] [pid 21054] ['13', '00', '37']
+[Fri Nov 15 13:00:37.758573 2019] [wsgi:error] [pid 21054] ['13', '00', '32']
+[Fri Nov 15 13:00:37.758606 2019] [wsgi:error] [pid 21054] 48&sep;<div>choose the one which best expresses the given sentence in Passive/Active voice&lt;br&gt;&lt;br&gt;
+[Fri Nov 15 13:00:37.758611 2019] [wsgi:error] [pid 21054] After driving professor Kumar to the museum she dropped him at his hotel.
+[Fri Nov 15 13:00:37.758616 2019] [wsgi:error] [pid 21054] </div>&sep;After being driven to the museum, Professor Kumar was dropped at his hotel.&sep;Professor Kumar was being driven dropped at his hotel.&sep;After she had driven Professor Kumar to the museum she had dropped him at his hotel.&sep;After she was driven Professor Kumar to the museum she had dropped him at his hotel.&sep;2&sep;79
+[Fri Nov 15 13:00:37.758623 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:37.810588 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:37.810611 2019] [wsgi:error] [pid 21054] sucess:
+[Fri Nov 15 13:00:37.810618 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:39.308638 2019] [wsgi:error] [pid 21053] ----------------ver_q----------------------------------------------------
+[Fri Nov 15 13:00:39.308995 2019] [wsgi:error] [pid 21053] Recived from candidate
+[Fri Nov 15 13:00:39.309043 2019] [wsgi:error] [pid 21053] 1)saimanasa.ps@terralogic.com,48,After she was driven Professor Kumar to the museum she had dropped him at his hotel.
+[Fri Nov 15 13:00:39.309081 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:39.309122 2019] [wsgi:error] [pid 21053] In the DB
+[Fri Nov 15 13:00:39.309142 2019] [wsgi:error] [pid 21053] id=48,ans=After being driven to the museum, Professor Kumar was dropped at his hotel.
+[Fri Nov 15 13:00:39.309154 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:39.361747 2019] [wsgi:error] [pid 21053] UPDATE smart_result_set: 1
+[Fri Nov 15 13:00:39.361791 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:39.361822 2019] [wsgi:error] [pid 21053] ----Current score Before Match: 0
+[Fri Nov 15 13:00:39.466388 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:39.466441 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:39.466451 2019] [wsgi:error] [pid 21054] --------------------------------------------------------------------
+[Fri Nov 15 13:00:39.466461 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:39.467955 2019] [wsgi:error] [pid 21054] ----------------get_q----------------------------------------------------
+[Fri Nov 15 13:00:39.472000 2019] [wsgi:error] [pid 21054] ['13', '00', '39']
+[Fri Nov 15 13:00:39.472027 2019] [wsgi:error] [pid 21054] ['13', '00', '32']
+[Fri Nov 15 13:00:39.472046 2019] [wsgi:error] [pid 21054] 117&sep;<div>bulk que 1</div>&sep;opt1&sep;opt2&sep;opt3&sep;opt4&sep;3&sep;79
+[Fri Nov 15 13:00:39.503788 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:39.503815 2019] [wsgi:error] [pid 21054] sucess:
+[Fri Nov 15 13:00:39.503820 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:41.013716 2019] [wsgi:error] [pid 21053] ----------------ver_q----------------------------------------------------
+[Fri Nov 15 13:00:41.014009 2019] [wsgi:error] [pid 21053] Recived from candidate
+[Fri Nov 15 13:00:41.014039 2019] [wsgi:error] [pid 21053] 2)saimanasa.ps@terralogic.com,117,null
+[Fri Nov 15 13:00:41.014046 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:41.014060 2019] [wsgi:error] [pid 21053] In the DB
+[Fri Nov 15 13:00:41.014068 2019] [wsgi:error] [pid 21053] id=117,ans=opt1
+[Fri Nov 15 13:00:41.014074 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:41.113276 2019] [wsgi:error] [pid 21053] UPDATE smart_result_set: 1
+[Fri Nov 15 13:00:41.113373 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:41.113426 2019] [wsgi:error] [pid 21053] ----Current score Before Match: 0
+[Fri Nov 15 13:00:41.376232 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:41.376267 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:41.376273 2019] [wsgi:error] [pid 21054] --------------------------------------------------------------------
+[Fri Nov 15 13:00:41.376280 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:41.377840 2019] [wsgi:error] [pid 21054] ----------------get_q----------------------------------------------------
+[Fri Nov 15 13:00:41.383367 2019] [wsgi:error] [pid 21054] ['13', '00', '41']
+[Fri Nov 15 13:00:41.383401 2019] [wsgi:error] [pid 21054] ['13', '00', '32']
+[Fri Nov 15 13:00:41.383429 2019] [wsgi:error] [pid 21054] 57&sep;<div>Some proverbs/idioms are given below together with their meanings. Choose the correct meaning of proverb/idiom
+[Fri Nov 15 13:00:41.383434 2019] [wsgi:error] [pid 21054] To have an axe to grind
+[Fri Nov 15 13:00:41.383438 2019] [wsgi:error] [pid 21054] </div>&sep;A private end to serve&sep;To fail to arouse interest&sep;To have no result&sep;To work for both sides&sep;4&sep;79
+[Fri Nov 15 13:00:41.383444 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:41.429957 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:41.429989 2019] [wsgi:error] [pid 21054] sucess:
+[Fri Nov 15 13:00:41.429997 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:43.420099 2019] [wsgi:error] [pid 21054] ----------------ver_q----------------------------------------------------
+[Fri Nov 15 13:00:43.420542 2019] [wsgi:error] [pid 21054] Recived from candidate
+[Fri Nov 15 13:00:43.420598 2019] [wsgi:error] [pid 21054] 3)saimanasa.ps@terralogic.com,57,To work for both sides
+[Fri Nov 15 13:00:43.420615 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:43.420646 2019] [wsgi:error] [pid 21054] In the DB
+[Fri Nov 15 13:00:43.420665 2019] [wsgi:error] [pid 21054] id=57,ans=A private end to serve
+[Fri Nov 15 13:00:43.420703 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:43.482406 2019] [wsgi:error] [pid 21054] UPDATE smart_result_set: 1
+[Fri Nov 15 13:00:43.482461 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:43.482500 2019] [wsgi:error] [pid 21054] ----Current score Before Match: 0
+[Fri Nov 15 13:00:43.551692 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:43.551758 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:43.551771 2019] [wsgi:error] [pid 21053] --------------------------------------------------------------------
+[Fri Nov 15 13:00:43.551786 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:43.555142 2019] [wsgi:error] [pid 21053] ----------------get_q----------------------------------------------------
+[Fri Nov 15 13:00:43.566577 2019] [wsgi:error] [pid 21053] ['13', '00', '43']
+[Fri Nov 15 13:00:43.566645 2019] [wsgi:error] [pid 21053] ['13', '00', '32']
+[Fri Nov 15 13:00:43.566701 2019] [wsgi:error] [pid 21053] 105&sep;<div>Find the one which does not belong to that group ?<br /></div>&sep;3&sep;4&sep;7&sep;9&sep;5&sep;79
+[Fri Nov 15 13:00:43.607727 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:43.607764 2019] [wsgi:error] [pid 21053] sucess:
+[Fri Nov 15 13:00:43.607775 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:47.031314 2019] [wsgi:error] [pid 21054] ----------------ver_q----------------------------------------------------
+[Fri Nov 15 13:00:47.031594 2019] [wsgi:error] [pid 21054] Recived from candidate
+[Fri Nov 15 13:00:47.031630 2019] [wsgi:error] [pid 21054] 4)saimanasa.ps@terralogic.com,105,null
+[Fri Nov 15 13:00:47.031641 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:47.031659 2019] [wsgi:error] [pid 21054] In the DB
+[Fri Nov 15 13:00:47.031671 2019] [wsgi:error] [pid 21054] id=105,ans=4
+[Fri Nov 15 13:00:47.031679 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:47.075580 2019] [wsgi:error] [pid 21054] UPDATE smart_result_set: 1
+[Fri Nov 15 13:00:47.075625 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:00:47.075656 2019] [wsgi:error] [pid 21054] ----Current score Before Match: 0
+[Fri Nov 15 13:00:47.129438 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:47.129468 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:47.129473 2019] [wsgi:error] [pid 21053] --------------------------------------------------------------------
+[Fri Nov 15 13:00:47.129479 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:47.130605 2019] [wsgi:error] [pid 21053] ----------------get_q----------------------------------------------------
+[Fri Nov 15 13:00:47.134269 2019] [wsgi:error] [pid 21053] ['13', '00', '47']
+[Fri Nov 15 13:00:47.134296 2019] [wsgi:error] [pid 21053] ['13', '00', '32']
+[Fri Nov 15 13:00:47.134316 2019] [wsgi:error] [pid 21053] 119&sep;<div>bulk que 3</div>&sep;opt1&sep;opt2&sep;opt3&sep;opt4&sep;6&sep;79
+[Fri Nov 15 13:00:47.175787 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:47.175820 2019] [wsgi:error] [pid 21053] sucess:
+[Fri Nov 15 13:00:47.175828 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:48.906061 2019] [wsgi:error] [pid 21053] ----------------ver_q----------------------------------------------------
+[Fri Nov 15 13:00:48.906382 2019] [wsgi:error] [pid 21053] Recived from candidate
+[Fri Nov 15 13:00:48.906422 2019] [wsgi:error] [pid 21053] 5)saimanasa.ps@terralogic.com,119,null
+[Fri Nov 15 13:00:48.906435 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:48.906458 2019] [wsgi:error] [pid 21053] In the DB
+[Fri Nov 15 13:00:48.906471 2019] [wsgi:error] [pid 21053] id=119,ans=opt3
+[Fri Nov 15 13:00:48.906480 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:48.951577 2019] [wsgi:error] [pid 21053] UPDATE smart_result_set: 1
+[Fri Nov 15 13:00:48.951604 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:48.951622 2019] [wsgi:error] [pid 21053] ----Current score Before Match: 0
+[Fri Nov 15 13:00:49.135519 2019] [wsgi:error] [pid 21053] UPDATE smart_result_set: 1
+[Fri Nov 15 13:00:49.135590 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:00:52.486698 2019] [wsgi:error] [pid 21054] UPDATE smart_result_set: 1
+[Fri Nov 15 13:00:52.486746 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:07.706427 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:07.706461 2019] [wsgi:error] [pid 21054]  SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback from
+[Fri Nov 15 13:01:07.706467 2019] [wsgi:error] [pid 21054]                     (
+[Fri Nov 15 13:01:07.706470 2019] [wsgi:error] [pid 21054]                         SELECT 
+[Fri Nov 15 13:01:07.706473 2019] [wsgi:error] [pid 21054]                             su.id AS ID,
+[Fri Nov 15 13:01:07.706477 2019] [wsgi:error] [pid 21054]                             su.email AS Username,
+[Fri Nov 15 13:01:07.706480 2019] [wsgi:error] [pid 21054]                             su.score AS Score,      
+[Fri Nov 15 13:01:07.706483 2019] [wsgi:error] [pid 21054]                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
+[Fri Nov 15 13:01:07.706486 2019] [wsgi:error] [pid 21054]                             SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time) - TIME_TO_SEC(rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time) -TIME_TO_SEC(rs.e_time)), 0),0)) AS total_dur1,
+[Fri Nov 15 13:01:07.706490 2019] [wsgi:error] [pid 21054]                             su.coding_score AS coding_score,
+[Fri Nov 15 13:01:07.706493 2019] [wsgi:error] [pid 21054]                             su.feedback AS Feedback
+[Fri Nov 15 13:01:07.706496 2019] [wsgi:error] [pid 21054]                 
+[Fri Nov 15 13:01:07.706499 2019] [wsgi:error] [pid 21054]                         FROM smart_result_set AS rs               
+[Fri Nov 15 13:01:07.706502 2019] [wsgi:error] [pid 21054]                             INNER JOIN smart_questions AS q
+[Fri Nov 15 13:01:07.706505 2019] [wsgi:error] [pid 21054]                                     ON q.id = rs.que_id 
+[Fri Nov 15 13:01:07.706508 2019] [wsgi:error] [pid 21054]                             RIGHT JOIN   smart_users AS su
+[Fri Nov 15 13:01:07.706512 2019] [wsgi:error] [pid 21054]                                     ON su.id = rs.user_id
+[Fri Nov 15 13:01:07.706515 2019] [wsgi:error] [pid 21054]                             WHERE su.exam_id='66'
+[Fri Nov 15 13:01:07.706518 2019] [wsgi:error] [pid 21054]                             GROUP BY  su.id
+[Fri Nov 15 13:01:07.706521 2019] [wsgi:error] [pid 21054]                     ) as t1
+[Fri Nov 15 13:01:07.706524 2019] [wsgi:error] [pid 21054]                     LEFT JOIN
+[Fri Nov 15 13:01:07.706527 2019] [wsgi:error] [pid 21054]                     (
+[Fri Nov 15 13:01:07.706530 2019] [wsgi:error] [pid 21054]                         SELECT 
+[Fri Nov 15 13:01:07.706533 2019] [wsgi:error] [pid 21054]                             su.id AS ID  ,
+[Fri Nov 15 13:01:07.706536 2019] [wsgi:error] [pid 21054]                             count(*) AS count,
+[Fri Nov 15 13:01:07.706539 2019] [wsgi:error] [pid 21054]                             SUM(IF(Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),0)) AS total_dur2,
+[Fri Nov 15 13:01:07.706543 2019] [wsgi:error] [pid 21054]                             SUM(crs.total_testcase_passed) AS score2
+[Fri Nov 15 13:01:07.706546 2019] [wsgi:error] [pid 21054]     
+[Fri Nov 15 13:01:07.706549 2019] [wsgi:error] [pid 21054]                         FROM smart_coding_result_set AS crs              
+[Fri Nov 15 13:01:07.706552 2019] [wsgi:error] [pid 21054]                         INNER JOIN   smart_users AS su
+[Fri Nov 15 13:01:07.706555 2019] [wsgi:error] [pid 21054]                                 ON su.id = crs.user_id
+[Fri Nov 15 13:01:07.706559 2019] [wsgi:error] [pid 21054]                         WHERE su.exam_id= '66'
+[Fri Nov 15 13:01:07.706562 2019] [wsgi:error] [pid 21054]                         GROUP BY  su.id) as t2
+[Fri Nov 15 13:01:07.706565 2019] [wsgi:error] [pid 21054]                     ON t1.id=t2.id
+[Fri Nov 15 13:01:07.706568 2019] [wsgi:error] [pid 21054]                     ORDER BY IF(score1 is NULL,0,score1)+IF(score2 is NULL,0,score2) DESC,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0)          
+[Fri Nov 15 13:01:07.706584 2019] [wsgi:error] [pid 21054]             LIMIT 10;
+[Fri Nov 15 13:01:07.706591 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:07.708485 2019] [wsgi:error] [pid 21054] 35367
+[Fri Nov 15 13:01:07.708575 2019] [wsgi:error] [pid 21054] 35419
+[Fri Nov 15 13:01:07.708644 2019] [wsgi:error] [pid 21054] 29
+[Fri Nov 15 13:01:07.708709 2019] [wsgi:error] [pid 21054] 167
+[Fri Nov 15 13:01:07.708854 2019] [wsgi:error] [pid 21054] /var/www/smarthire/smarthire/../
+[Fri Nov 15 13:01:11.589175 2019] [wsgi:error] [pid 21053] ------------
+[Fri Nov 15 13:01:11.589220 2019] [wsgi:error] [pid 21053] 296
+[Fri Nov 15 13:01:11.589227 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:11.589231 2019] [wsgi:error] [pid 21053] ll
+[Fri Nov 15 13:01:11.589235 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:11.589240 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:11.589250 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:11.589511 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:11.589524 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:11.589529 2019] [wsgi:error] [pid 21053]         SELECT 
+[Fri Nov 15 13:01:11.589533 2019] [wsgi:error] [pid 21053]         
+[Fri Nov 15 13:01:11.589537 2019] [wsgi:error] [pid 21053]             q.question AS Questions,
+[Fri Nov 15 13:01:11.589542 2019] [wsgi:error] [pid 21053]             q.ans AS  'Correct Answer',
+[Fri Nov 15 13:01:11.589546 2019] [wsgi:error] [pid 21053]             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
+[Fri Nov 15 13:01:11.589551 2019] [wsgi:error] [pid 21053]             IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+[Fri Nov 15 13:01:11.589556 2019] [wsgi:error] [pid 21053]             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
+[Fri Nov 15 13:01:11.589560 2019] [wsgi:error] [pid 21053]             ct.cat AS Category
+[Fri Nov 15 13:01:11.589564 2019] [wsgi:error] [pid 21053]         
+[Fri Nov 15 13:01:11.589568 2019] [wsgi:error] [pid 21053]         FROM   smart_users AS su
+[Fri Nov 15 13:01:11.589572 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:11.589577 2019] [wsgi:error] [pid 21053]                     ON su.id = rs.user_id
+[Fri Nov 15 13:01:11.589581 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_questions AS q
+[Fri Nov 15 13:01:11.589585 2019] [wsgi:error] [pid 21053]                     ON rs.que_id = q.id
+[Fri Nov 15 13:01:11.589589 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_categories AS ct
+[Fri Nov 15 13:01:11.589593 2019] [wsgi:error] [pid 21053]                     ON ct.id = q.cat_id  
+[Fri Nov 15 13:01:11.589598 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_users AS user
+[Fri Nov 15 13:01:11.589602 2019] [wsgi:error] [pid 21053]                     ON su.id = user.id    
+[Fri Nov 15 13:01:11.589606 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:11.589610 2019] [wsgi:error] [pid 21053]                     ON s_exam.id = rs.exam_id       WHERE rs.user_id='296'       ;
+[Fri Nov 15 13:01:11.589618 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:11.612836 2019] [wsgi:error] [pid 21054] where_case:\t
+[Fri Nov 15 13:01:11.612931 2019] [wsgi:error] [pid 21054] stmt
+[Fri Nov 15 13:01:11.612939 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:11.612943 2019] [wsgi:error] [pid 21054]         SELECT 
+[Fri Nov 15 13:01:11.612947 2019] [wsgi:error] [pid 21054]             s_cat.cat as category,
+[Fri Nov 15 13:01:11.612951 2019] [wsgi:error] [pid 21054]  \t\t\tSUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
+[Fri Nov 15 13:01:11.612955 2019] [wsgi:error] [pid 21054]             SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+[Fri Nov 15 13:01:11.612959 2019] [wsgi:error] [pid 21054]             count(*) AS Total,
+[Fri Nov 15 13:01:11.612963 2019] [wsgi:error] [pid 21054]             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
+[Fri Nov 15 13:01:11.612967 2019] [wsgi:error] [pid 21054]             
+[Fri Nov 15 13:01:11.612980 2019] [wsgi:error] [pid 21054]             FROM   smart_users AS su
+[Fri Nov 15 13:01:11.612984 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:11.612988 2019] [wsgi:error] [pid 21054]                         ON su.id = rs.user_id
+[Fri Nov 15 13:01:11.612991 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:11.612995 2019] [wsgi:error] [pid 21054]                         ON s_exam.id = rs.exam_id  
+[Fri Nov 15 13:01:11.612999 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_questions AS s_que
+[Fri Nov 15 13:01:11.613003 2019] [wsgi:error] [pid 21054]                     ON s_que.id = rs.que_id
+[Fri Nov 15 13:01:11.613006 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_categories AS s_cat
+[Fri Nov 15 13:01:11.613010 2019] [wsgi:error] [pid 21054]                     ON s_cat.id = s_que.cat_id  
+[Fri Nov 15 13:01:11.613014 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:11.613018 2019] [wsgi:error] [pid 21054]                            WHERE rs.user_id='296'
+[Fri Nov 15 13:01:11.613021 2019] [wsgi:error] [pid 21054]             GROUP BY(s_que.cat_id )
+[Fri Nov 15 13:01:11.613026 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:11.613032 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:12.855195 2019] [wsgi:error] [pid 21054] ------------
+[Fri Nov 15 13:01:12.855266 2019] [wsgi:error] [pid 21054] 296
+[Fri Nov 15 13:01:12.855318 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:12.855327 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:12.855334 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:12.855341 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:12.855352 2019] [wsgi:error] [pid 21054] yes
+[Fri Nov 15 13:01:12.855368 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:12.855447 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:12.855464 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:12.855472 2019] [wsgi:error] [pid 21054]         SELECT 
+[Fri Nov 15 13:01:12.855479 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:12.855486 2019] [wsgi:error] [pid 21054]             q.question AS Questions,
+[Fri Nov 15 13:01:12.855494 2019] [wsgi:error] [pid 21054]             q.ans AS  'Correct Answer',
+[Fri Nov 15 13:01:12.855502 2019] [wsgi:error] [pid 21054]             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
+[Fri Nov 15 13:01:12.855510 2019] [wsgi:error] [pid 21054]             IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+[Fri Nov 15 13:01:12.855517 2019] [wsgi:error] [pid 21054]             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
+[Fri Nov 15 13:01:12.855524 2019] [wsgi:error] [pid 21054]             ct.cat AS Category
+[Fri Nov 15 13:01:12.855531 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:12.855538 2019] [wsgi:error] [pid 21054]         FROM   smart_users AS su
+[Fri Nov 15 13:01:12.855546 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:12.855553 2019] [wsgi:error] [pid 21054]                     ON su.id = rs.user_id
+[Fri Nov 15 13:01:12.855560 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_questions AS q
+[Fri Nov 15 13:01:12.855567 2019] [wsgi:error] [pid 21054]                     ON rs.que_id = q.id
+[Fri Nov 15 13:01:12.855574 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_categories AS ct
+[Fri Nov 15 13:01:12.855581 2019] [wsgi:error] [pid 21054]                     ON ct.id = q.cat_id  
+[Fri Nov 15 13:01:12.855588 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_users AS user
+[Fri Nov 15 13:01:12.855595 2019] [wsgi:error] [pid 21054]                     ON su.id = user.id    
+[Fri Nov 15 13:01:12.855602 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:12.855609 2019] [wsgi:error] [pid 21054]                     ON s_exam.id = rs.exam_id       WHERE rs.user_id='296'       ;
+[Fri Nov 15 13:01:12.855623 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:12.888565 2019] [wsgi:error] [pid 21053] where_case:\t
+[Fri Nov 15 13:01:12.888655 2019] [wsgi:error] [pid 21053] stmt
+[Fri Nov 15 13:01:12.888665 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:12.888670 2019] [wsgi:error] [pid 21053]         SELECT 
+[Fri Nov 15 13:01:12.888675 2019] [wsgi:error] [pid 21053]             s_cat.cat as category,
+[Fri Nov 15 13:01:12.888680 2019] [wsgi:error] [pid 21053]  \t\t\tSUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
+[Fri Nov 15 13:01:12.888685 2019] [wsgi:error] [pid 21053]             SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+[Fri Nov 15 13:01:12.888690 2019] [wsgi:error] [pid 21053]             count(*) AS Total,
+[Fri Nov 15 13:01:12.888695 2019] [wsgi:error] [pid 21053]             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
+[Fri Nov 15 13:01:12.888699 2019] [wsgi:error] [pid 21053]             
+[Fri Nov 15 13:01:12.888704 2019] [wsgi:error] [pid 21053]             FROM   smart_users AS su
+[Fri Nov 15 13:01:12.888709 2019] [wsgi:error] [pid 21053]                 INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:12.888714 2019] [wsgi:error] [pid 21053]                         ON su.id = rs.user_id
+[Fri Nov 15 13:01:12.888719 2019] [wsgi:error] [pid 21053]                 INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:12.888723 2019] [wsgi:error] [pid 21053]                         ON s_exam.id = rs.exam_id  
+[Fri Nov 15 13:01:12.888728 2019] [wsgi:error] [pid 21053]                 INNER JOIN smart_questions AS s_que
+[Fri Nov 15 13:01:12.888733 2019] [wsgi:error] [pid 21053]                     ON s_que.id = rs.que_id
+[Fri Nov 15 13:01:12.888737 2019] [wsgi:error] [pid 21053]                 INNER JOIN smart_categories AS s_cat
+[Fri Nov 15 13:01:12.888742 2019] [wsgi:error] [pid 21053]                     ON s_cat.id = s_que.cat_id  
+[Fri Nov 15 13:01:12.888746 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:12.888751 2019] [wsgi:error] [pid 21053]                            WHERE rs.user_id='296'
+[Fri Nov 15 13:01:12.888755 2019] [wsgi:error] [pid 21053]             GROUP BY(s_que.cat_id )
+[Fri Nov 15 13:01:12.888761 2019] [wsgi:error] [pid 21053]         
+[Fri Nov 15 13:01:12.888768 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:21.309979 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 13:01:21.310047 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 13:01:21.310070 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 13:01:21.310085 2019] [wsgi:error] [pid 21054] email status: threads can only be started once
+[Fri Nov 15 13:01:21.313324 2019] [wsgi:error] [pid 21054] exam 66
+[Fri Nov 15 13:01:23.517298 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com delivary total:  0
+[Fri Nov 15 13:01:23.517350 2019] [wsgi:error] [pid 21054] saimanasa.ps@terralogic.com send_to total:  1
+[Fri Nov 15 13:01:23.559944 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:23.790069 2019] [wsgi:error] [pid 21054] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 13:01:23.790145 2019] [wsgi:error] [pid 21054] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 13:01:23.835139 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:24.558159 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 13:01:24.558202 2019] [wsgi:error] [pid 21054] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 13:01:24.581925 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 13:01:24.581951 2019] [wsgi:error] [pid 21054] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 13:01:24.601770 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:24.643582 2019] [wsgi:error] [pid 21054] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:25.758076 2019] [wsgi:error] [pid 21053] ------------
+[Fri Nov 15 13:01:25.758106 2019] [wsgi:error] [pid 21053] 296
+[Fri Nov 15 13:01:25.758110 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:25.758123 2019] [wsgi:error] [pid 21053] ll
+[Fri Nov 15 13:01:25.758126 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:25.758128 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:25.758135 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:25.758175 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:25.758181 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:25.758183 2019] [wsgi:error] [pid 21053]         SELECT 
+[Fri Nov 15 13:01:25.758185 2019] [wsgi:error] [pid 21053]         
+[Fri Nov 15 13:01:25.758188 2019] [wsgi:error] [pid 21053]             q.question AS Questions,
+[Fri Nov 15 13:01:25.758190 2019] [wsgi:error] [pid 21053]             q.ans AS  'Correct Answer',
+[Fri Nov 15 13:01:25.758192 2019] [wsgi:error] [pid 21053]             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
+[Fri Nov 15 13:01:25.758194 2019] [wsgi:error] [pid 21053]             IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+[Fri Nov 15 13:01:25.758196 2019] [wsgi:error] [pid 21053]             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
+[Fri Nov 15 13:01:25.758198 2019] [wsgi:error] [pid 21053]             ct.cat AS Category
+[Fri Nov 15 13:01:25.758200 2019] [wsgi:error] [pid 21053]         
+[Fri Nov 15 13:01:25.758202 2019] [wsgi:error] [pid 21053]         FROM   smart_users AS su
+[Fri Nov 15 13:01:25.758204 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:25.758206 2019] [wsgi:error] [pid 21053]                     ON su.id = rs.user_id
+[Fri Nov 15 13:01:25.758208 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_questions AS q
+[Fri Nov 15 13:01:25.758210 2019] [wsgi:error] [pid 21053]                     ON rs.que_id = q.id
+[Fri Nov 15 13:01:25.758212 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_categories AS ct
+[Fri Nov 15 13:01:25.758214 2019] [wsgi:error] [pid 21053]                     ON ct.id = q.cat_id  
+[Fri Nov 15 13:01:25.758216 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_users AS user
+[Fri Nov 15 13:01:25.758218 2019] [wsgi:error] [pid 21053]                     ON su.id = user.id    
+[Fri Nov 15 13:01:25.758220 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:25.758222 2019] [wsgi:error] [pid 21053]                     ON s_exam.id = rs.exam_id       WHERE rs.user_id='296'       ;
+[Fri Nov 15 13:01:25.758226 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:25.779081 2019] [wsgi:error] [pid 21054] where_case:\t
+[Fri Nov 15 13:01:25.779119 2019] [wsgi:error] [pid 21054] stmt
+[Fri Nov 15 13:01:25.779124 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:25.779126 2019] [wsgi:error] [pid 21054]         SELECT 
+[Fri Nov 15 13:01:25.779128 2019] [wsgi:error] [pid 21054]             s_cat.cat as category,
+[Fri Nov 15 13:01:25.779130 2019] [wsgi:error] [pid 21054]  \t\t\tSUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
+[Fri Nov 15 13:01:25.779133 2019] [wsgi:error] [pid 21054]             SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+[Fri Nov 15 13:01:25.779135 2019] [wsgi:error] [pid 21054]             count(*) AS Total,
+[Fri Nov 15 13:01:25.779137 2019] [wsgi:error] [pid 21054]             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
+[Fri Nov 15 13:01:25.779139 2019] [wsgi:error] [pid 21054]             
+[Fri Nov 15 13:01:25.779141 2019] [wsgi:error] [pid 21054]             FROM   smart_users AS su
+[Fri Nov 15 13:01:25.779143 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:25.779145 2019] [wsgi:error] [pid 21054]                         ON su.id = rs.user_id
+[Fri Nov 15 13:01:25.779147 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:25.779149 2019] [wsgi:error] [pid 21054]                         ON s_exam.id = rs.exam_id  
+[Fri Nov 15 13:01:25.779151 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_questions AS s_que
+[Fri Nov 15 13:01:25.779153 2019] [wsgi:error] [pid 21054]                     ON s_que.id = rs.que_id
+[Fri Nov 15 13:01:25.779165 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_categories AS s_cat
+[Fri Nov 15 13:01:25.779167 2019] [wsgi:error] [pid 21054]                     ON s_cat.id = s_que.cat_id  
+[Fri Nov 15 13:01:25.779169 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:25.779171 2019] [wsgi:error] [pid 21054]                            WHERE rs.user_id='296'
+[Fri Nov 15 13:01:25.779173 2019] [wsgi:error] [pid 21054]             GROUP BY(s_que.cat_id )
+[Fri Nov 15 13:01:25.779176 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:25.779179 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.109491 2019] [wsgi:error] [pid 21054] ------------
+[Fri Nov 15 13:01:27.109525 2019] [wsgi:error] [pid 21054] 296
+[Fri Nov 15 13:01:27.109528 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.109530 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.109532 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.109534 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.109537 2019] [wsgi:error] [pid 21054] yes
+[Fri Nov 15 13:01:27.109542 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.109561 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.109564 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.109566 2019] [wsgi:error] [pid 21054]         SELECT 
+[Fri Nov 15 13:01:27.109568 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:27.109570 2019] [wsgi:error] [pid 21054]             q.question AS Questions,
+[Fri Nov 15 13:01:27.109572 2019] [wsgi:error] [pid 21054]             q.ans AS  'Correct Answer',
+[Fri Nov 15 13:01:27.109575 2019] [wsgi:error] [pid 21054]             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
+[Fri Nov 15 13:01:27.109577 2019] [wsgi:error] [pid 21054]             IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+[Fri Nov 15 13:01:27.109579 2019] [wsgi:error] [pid 21054]             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
+[Fri Nov 15 13:01:27.109581 2019] [wsgi:error] [pid 21054]             ct.cat AS Category
+[Fri Nov 15 13:01:27.109583 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:27.109585 2019] [wsgi:error] [pid 21054]         FROM   smart_users AS su
+[Fri Nov 15 13:01:27.109588 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:27.109590 2019] [wsgi:error] [pid 21054]                     ON su.id = rs.user_id
+[Fri Nov 15 13:01:27.109592 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_questions AS q
+[Fri Nov 15 13:01:27.109594 2019] [wsgi:error] [pid 21054]                     ON rs.que_id = q.id
+[Fri Nov 15 13:01:27.109596 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_categories AS ct
+[Fri Nov 15 13:01:27.109598 2019] [wsgi:error] [pid 21054]                     ON ct.id = q.cat_id  
+[Fri Nov 15 13:01:27.109600 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_users AS user
+[Fri Nov 15 13:01:27.109602 2019] [wsgi:error] [pid 21054]                     ON su.id = user.id    
+[Fri Nov 15 13:01:27.109605 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:27.109607 2019] [wsgi:error] [pid 21054]                     ON s_exam.id = rs.exam_id       WHERE rs.user_id='296'       ;
+[Fri Nov 15 13:01:27.109610 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.133527 2019] [wsgi:error] [pid 21054] where_case:\t
+[Fri Nov 15 13:01:27.133562 2019] [wsgi:error] [pid 21054] stmt
+[Fri Nov 15 13:01:27.133566 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.133569 2019] [wsgi:error] [pid 21054]         SELECT 
+[Fri Nov 15 13:01:27.133571 2019] [wsgi:error] [pid 21054]             s_cat.cat as category,
+[Fri Nov 15 13:01:27.133573 2019] [wsgi:error] [pid 21054]  \t\t\tSUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
+[Fri Nov 15 13:01:27.133575 2019] [wsgi:error] [pid 21054]             SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+[Fri Nov 15 13:01:27.133577 2019] [wsgi:error] [pid 21054]             count(*) AS Total,
+[Fri Nov 15 13:01:27.133580 2019] [wsgi:error] [pid 21054]             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
+[Fri Nov 15 13:01:27.133595 2019] [wsgi:error] [pid 21054]             
+[Fri Nov 15 13:01:27.133597 2019] [wsgi:error] [pid 21054]             FROM   smart_users AS su
+[Fri Nov 15 13:01:27.133599 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:27.133601 2019] [wsgi:error] [pid 21054]                         ON su.id = rs.user_id
+[Fri Nov 15 13:01:27.133603 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:27.133605 2019] [wsgi:error] [pid 21054]                         ON s_exam.id = rs.exam_id  
+[Fri Nov 15 13:01:27.133607 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_questions AS s_que
+[Fri Nov 15 13:01:27.133609 2019] [wsgi:error] [pid 21054]                     ON s_que.id = rs.que_id
+[Fri Nov 15 13:01:27.133611 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_categories AS s_cat
+[Fri Nov 15 13:01:27.133613 2019] [wsgi:error] [pid 21054]                     ON s_cat.id = s_que.cat_id  
+[Fri Nov 15 13:01:27.133615 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:27.133616 2019] [wsgi:error] [pid 21054]                            WHERE rs.user_id='296'
+[Fri Nov 15 13:01:27.133618 2019] [wsgi:error] [pid 21054]             GROUP BY(s_que.cat_id )
+[Fri Nov 15 13:01:27.133621 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:27.133624 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:38.364050 2019] [wsgi:error] [pid 21053] ------------
+[Fri Nov 15 13:01:38.364105 2019] [wsgi:error] [pid 21053] 295
+[Fri Nov 15 13:01:38.364113 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:38.364118 2019] [wsgi:error] [pid 21053] ll
+[Fri Nov 15 13:01:38.364123 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:38.364128 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:38.364140 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:38.364236 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:38.364312 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:38.364324 2019] [wsgi:error] [pid 21053]         SELECT 
+[Fri Nov 15 13:01:38.364330 2019] [wsgi:error] [pid 21053]         
+[Fri Nov 15 13:01:38.364335 2019] [wsgi:error] [pid 21053]             q.question AS Questions,
+[Fri Nov 15 13:01:38.364340 2019] [wsgi:error] [pid 21053]             q.ans AS  'Correct Answer',
+[Fri Nov 15 13:01:38.364350 2019] [wsgi:error] [pid 21053]             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
+[Fri Nov 15 13:01:38.364356 2019] [wsgi:error] [pid 21053]             IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+[Fri Nov 15 13:01:38.364361 2019] [wsgi:error] [pid 21053]             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
+[Fri Nov 15 13:01:38.364368 2019] [wsgi:error] [pid 21053]             ct.cat AS Category
+[Fri Nov 15 13:01:38.364373 2019] [wsgi:error] [pid 21053]         
+[Fri Nov 15 13:01:38.364378 2019] [wsgi:error] [pid 21053]         FROM   smart_users AS su
+[Fri Nov 15 13:01:38.364384 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:38.364389 2019] [wsgi:error] [pid 21053]                     ON su.id = rs.user_id
+[Fri Nov 15 13:01:38.364395 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_questions AS q
+[Fri Nov 15 13:01:38.364400 2019] [wsgi:error] [pid 21053]                     ON rs.que_id = q.id
+[Fri Nov 15 13:01:38.364405 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_categories AS ct
+[Fri Nov 15 13:01:38.364411 2019] [wsgi:error] [pid 21053]                     ON ct.id = q.cat_id  
+[Fri Nov 15 13:01:38.364416 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_users AS user
+[Fri Nov 15 13:01:38.364421 2019] [wsgi:error] [pid 21053]                     ON su.id = user.id    
+[Fri Nov 15 13:01:38.364427 2019] [wsgi:error] [pid 21053]             INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:38.364432 2019] [wsgi:error] [pid 21053]                     ON s_exam.id = rs.exam_id       WHERE rs.user_id='295'       ;
+[Fri Nov 15 13:01:38.364462 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:38.381879 2019] [wsgi:error] [pid 21054] where_case:\t
+[Fri Nov 15 13:01:38.381951 2019] [wsgi:error] [pid 21054] stmt
+[Fri Nov 15 13:01:38.381961 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:38.381966 2019] [wsgi:error] [pid 21054]         SELECT 
+[Fri Nov 15 13:01:38.381971 2019] [wsgi:error] [pid 21054]             s_cat.cat as category,
+[Fri Nov 15 13:01:38.381976 2019] [wsgi:error] [pid 21054]  \t\t\tSUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
+[Fri Nov 15 13:01:38.381982 2019] [wsgi:error] [pid 21054]             SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+[Fri Nov 15 13:01:38.381987 2019] [wsgi:error] [pid 21054]             count(*) AS Total,
+[Fri Nov 15 13:01:38.381992 2019] [wsgi:error] [pid 21054]             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
+[Fri Nov 15 13:01:38.381997 2019] [wsgi:error] [pid 21054]             
+[Fri Nov 15 13:01:38.382002 2019] [wsgi:error] [pid 21054]             FROM   smart_users AS su
+[Fri Nov 15 13:01:38.382007 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:38.382012 2019] [wsgi:error] [pid 21054]                         ON su.id = rs.user_id
+[Fri Nov 15 13:01:38.382017 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:38.382022 2019] [wsgi:error] [pid 21054]                         ON s_exam.id = rs.exam_id  
+[Fri Nov 15 13:01:38.382027 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_questions AS s_que
+[Fri Nov 15 13:01:38.382032 2019] [wsgi:error] [pid 21054]                     ON s_que.id = rs.que_id
+[Fri Nov 15 13:01:38.382037 2019] [wsgi:error] [pid 21054]                 INNER JOIN smart_categories AS s_cat
+[Fri Nov 15 13:01:38.382042 2019] [wsgi:error] [pid 21054]                     ON s_cat.id = s_que.cat_id  
+[Fri Nov 15 13:01:38.382047 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:38.382052 2019] [wsgi:error] [pid 21054]                            WHERE rs.user_id='295'
+[Fri Nov 15 13:01:38.382056 2019] [wsgi:error] [pid 21054]             GROUP BY(s_que.cat_id )
+[Fri Nov 15 13:01:38.382063 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:38.382071 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:38.400247 2019] [wsgi:error] [pid 21053] email status: threads can only be started once
+[Fri Nov 15 13:01:38.400293 2019] [wsgi:error] [pid 21053] email status: threads can only be started once
+[Fri Nov 15 13:01:38.400316 2019] [wsgi:error] [pid 21053] email status: threads can only be started once
+[Fri Nov 15 13:01:38.401736 2019] [wsgi:error] [pid 21053] exam 66
+[Fri Nov 15 13:01:39.260546 2019] [wsgi:error] [pid 21054] ------------
+[Fri Nov 15 13:01:39.260587 2019] [wsgi:error] [pid 21054] 295
+[Fri Nov 15 13:01:39.260593 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:39.260597 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:39.260601 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:39.260604 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:39.260610 2019] [wsgi:error] [pid 21054] yes
+[Fri Nov 15 13:01:39.260618 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:39.260650 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:39.260656 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:39.260660 2019] [wsgi:error] [pid 21054]         SELECT 
+[Fri Nov 15 13:01:39.260664 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:39.260668 2019] [wsgi:error] [pid 21054]             q.question AS Questions,
+[Fri Nov 15 13:01:39.260672 2019] [wsgi:error] [pid 21054]             q.ans AS  'Correct Answer',
+[Fri Nov 15 13:01:39.260676 2019] [wsgi:error] [pid 21054]             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
+[Fri Nov 15 13:01:39.260680 2019] [wsgi:error] [pid 21054]             IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+[Fri Nov 15 13:01:39.260684 2019] [wsgi:error] [pid 21054]             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
+[Fri Nov 15 13:01:39.260689 2019] [wsgi:error] [pid 21054]             ct.cat AS Category
+[Fri Nov 15 13:01:39.260705 2019] [wsgi:error] [pid 21054]         
+[Fri Nov 15 13:01:39.260709 2019] [wsgi:error] [pid 21054]         FROM   smart_users AS su
+[Fri Nov 15 13:01:39.260713 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:39.260717 2019] [wsgi:error] [pid 21054]                     ON su.id = rs.user_id
+[Fri Nov 15 13:01:39.260720 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_questions AS q
+[Fri Nov 15 13:01:39.260724 2019] [wsgi:error] [pid 21054]                     ON rs.que_id = q.id
+[Fri Nov 15 13:01:39.260728 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_categories AS ct
+[Fri Nov 15 13:01:39.260732 2019] [wsgi:error] [pid 21054]                     ON ct.id = q.cat_id  
+[Fri Nov 15 13:01:39.260735 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_users AS user
+[Fri Nov 15 13:01:39.260739 2019] [wsgi:error] [pid 21054]                     ON su.id = user.id    
+[Fri Nov 15 13:01:39.260743 2019] [wsgi:error] [pid 21054]             INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:39.260747 2019] [wsgi:error] [pid 21054]                     ON s_exam.id = rs.exam_id       WHERE rs.user_id='295'       ;
+[Fri Nov 15 13:01:39.260754 2019] [wsgi:error] [pid 21054] 
+[Fri Nov 15 13:01:39.274762 2019] [wsgi:error] [pid 21053] where_case:\t
+[Fri Nov 15 13:01:39.274820 2019] [wsgi:error] [pid 21053] stmt
+[Fri Nov 15 13:01:39.274828 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:39.274832 2019] [wsgi:error] [pid 21053]         SELECT 
+[Fri Nov 15 13:01:39.274835 2019] [wsgi:error] [pid 21053]             s_cat.cat as category,
+[Fri Nov 15 13:01:39.274839 2019] [wsgi:error] [pid 21053]  \t\t\tSUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
+[Fri Nov 15 13:01:39.274843 2019] [wsgi:error] [pid 21053]             SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+[Fri Nov 15 13:01:39.274847 2019] [wsgi:error] [pid 21053]             count(*) AS Total,
+[Fri Nov 15 13:01:39.274850 2019] [wsgi:error] [pid 21053]             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
+[Fri Nov 15 13:01:39.274854 2019] [wsgi:error] [pid 21053]             
+[Fri Nov 15 13:01:39.274858 2019] [wsgi:error] [pid 21053]             FROM   smart_users AS su
+[Fri Nov 15 13:01:39.274861 2019] [wsgi:error] [pid 21053]                 INNER JOIN smart_result_set AS rs
+[Fri Nov 15 13:01:39.274865 2019] [wsgi:error] [pid 21053]                         ON su.id = rs.user_id
+[Fri Nov 15 13:01:39.274869 2019] [wsgi:error] [pid 21053]                 INNER JOIN smart_exam AS s_exam
+[Fri Nov 15 13:01:39.274873 2019] [wsgi:error] [pid 21053]                         ON s_exam.id = rs.exam_id  
+[Fri Nov 15 13:01:39.274877 2019] [wsgi:error] [pid 21053]                 INNER JOIN smart_questions AS s_que
+[Fri Nov 15 13:01:39.274881 2019] [wsgi:error] [pid 21053]                     ON s_que.id = rs.que_id
+[Fri Nov 15 13:01:39.274885 2019] [wsgi:error] [pid 21053]                 INNER JOIN smart_categories AS s_cat
+[Fri Nov 15 13:01:39.274889 2019] [wsgi:error] [pid 21053]                     ON s_cat.id = s_que.cat_id  
+[Fri Nov 15 13:01:39.274892 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:39.274896 2019] [wsgi:error] [pid 21053]                            WHERE rs.user_id='295'
+[Fri Nov 15 13:01:39.274899 2019] [wsgi:error] [pid 21053]             GROUP BY(s_que.cat_id )
+[Fri Nov 15 13:01:39.274904 2019] [wsgi:error] [pid 21053]         
+[Fri Nov 15 13:01:39.274911 2019] [wsgi:error] [pid 21053] 
+[Fri Nov 15 13:01:40.912864 2019] [wsgi:error] [pid 21053] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 13:01:40.912948 2019] [wsgi:error] [pid 21053] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 13:01:40.959551 2019] [wsgi:error] [pid 21053] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 13:01:40.959609 2019] [wsgi:error] [pid 21053] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 13:01:40.962737 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:41.012441 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:41.153656 2019] [wsgi:error] [pid 21053] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 13:01:41.153736 2019] [wsgi:error] [pid 21053] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 13:01:41.195987 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:41.780328 2019] [wsgi:error] [pid 21053] saimanasa.ps@terralogic.com delivary total:  0
+[Fri Nov 15 13:01:41.780394 2019] [wsgi:error] [pid 21053] saimanasa.ps@terralogic.com send_to total:  1
+[Fri Nov 15 13:01:41.829384 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:55.435804 2019] [wsgi:error] [pid 21053] email status: threads can only be started once
+[Fri Nov 15 13:01:55.435920 2019] [wsgi:error] [pid 21053] email status: threads can only be started once
+[Fri Nov 15 13:01:55.435955 2019] [wsgi:error] [pid 21053] email status: threads can only be started once
+[Fri Nov 15 13:01:55.438170 2019] [wsgi:error] [pid 21053] exam 66
+[Fri Nov 15 13:01:57.949305 2019] [wsgi:error] [pid 21053] saimanasa.ps@terralogic.com delivary total:  0
+[Fri Nov 15 13:01:57.949384 2019] [wsgi:error] [pid 21053] saimanasa.ps@terralogic.com send_to total:  1
+[Fri Nov 15 13:01:57.951377 2019] [wsgi:error] [pid 21053] rajshekar.cs@terralogic.com delivary total:  0
+[Fri Nov 15 13:01:57.951423 2019] [wsgi:error] [pid 21053] rajshekar.cs@terralogic.com send_to total:  1
+[Fri Nov 15 13:01:58.016684 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:58.058338 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:58.157453 2019] [wsgi:error] [pid 21053] brguru90@gmail.com delivary total:  0
+[Fri Nov 15 13:01:58.157482 2019] [wsgi:error] [pid 21053] brguru90@gmail.com send_to total:  1
+[Fri Nov 15 13:01:58.200176 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...
+[Fri Nov 15 13:01:58.946332 2019] [wsgi:error] [pid 21053] neha.kr@terralogic.com delivary total:  0
+[Fri Nov 15 13:01:58.946388 2019] [wsgi:error] [pid 21053] neha.kr@terralogic.com send_to total:  1
+[Fri Nov 15 13:01:58.992248 2019] [wsgi:error] [pid 21053] --------------------No mails--Thread aborted...

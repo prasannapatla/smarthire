@@ -2180,6 +2180,7 @@ def ver_code_que(request):
                     cur_que=request.session["selected_code_questions"][request.session["que_cnt"]]
                     actual_output=""
                     score=0
+                    print(request.POST["code"])
                     if("inputs" in request.POST):
                         if (len(cur_que[4])>=1 and len(request.POST["inputs"])>=1) or len(cur_que[4])<1:
                             expected_output=escape(run_code(cur_que[3],unescape(cur_que[2]),"validater",cur_que[4],"",username+"/"))
@@ -2208,7 +2209,7 @@ def ver_code_que(request):
                         request.session["coding_score"]=0
                     request.session["coding_score"]+=score
                     e_time=datetime.datetime.now().strftime("%H:%M:%S")
-                    Coding_result_set.objects.filter(code_questions=int(cur_que[0])).update(user_code=escape(request.POST["code"]),lang=request.POST["cmd"],e_time=e_time,total_testcase_passed=score)
+                    Coding_result_set.objects.filter(user_id=str(user["id"]),code_questions=int(cur_que[0])).update(user_code=escape(request.POST["code"]),lang=request.POST["cmd"],e_time=e_time,total_testcase_passed=score)
                 else:
                     txt="&end;"
 
