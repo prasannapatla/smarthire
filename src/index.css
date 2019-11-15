@@ -71,6 +71,7 @@ tr a {
   background-color:#fafafa;
   margin-bottom: 20px;
   padding-bottom: 50px;
+  min-height:500px;
 }
 
 input[type="checkbox"] {
