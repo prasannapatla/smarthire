@@ -215,7 +215,7 @@ def user_signup(request):
             users.exam_id=request.POST.get("exam")
             users.password=do_enc(email_id)
             if not request.POST.get("mob").isnumeric():
-                return HttpResponse("error&sep;Incorrect value for mobile number",content_type="text")
+                return HttpResponse("error&sep;Incorrect value for mobile number "+request.POST.get("mob"),content_type="text")
             if len(request.POST.get("mob"))!=10:
                 return HttpResponse("error&sep;Length of mobile number is incorrect",content_type="text")
             users.mobile_no=request.POST.get("mob")
@@ -1909,6 +1909,8 @@ def read_excel(file,use=1):
                     data.append(temp)
     return data
 
+import traceback
+
 @csrf_exempt
 def bulk_reg(request):
     global global_temp_update
@@ -1924,19 +1926,26 @@ def bulk_reg(request):
                 if not request.POST._mutable:
                     request.POST._mutable = True
                 for val in data:
-                    if len(val)>=2 and len(val)<=3:
+                    print(len(val))
+                    if len(val)>=2 and len(val)<=4:
                         request.POST["name"]=val[0]
                         request.POST["email"]=val[1]
-                        if len(val)==3:
-                            request.POST["exam"]=Exam.objects.filter(e_name=val[2]).values("id")[0]["id"] 
-                        responce=user_signup(request).__dict__
-                        resp+="\n"+val[1]+" : "+"".join(responce["_iterator"])
+                        request.POST["mob"]=str(round(val[2]))
+                        try:
+                            if len(val)==4:
+                                request.POST["exam"]=Exam.objects.filter(e_name=val[3]).values("id")[0]["id"] 
+                            responce=user_signup(request).__dict__
+                            resp+="\n"+val[1]+" : "+("".join(responce["_iterator"])).split("&sep;")[1]
+                        except Exception as e:
+                            print(traceback.format_exc())
+                            resp+="\nfor email "+val[1]+" given exam name "+val[3]+" is incorrect"
                         global_temp_update=resp
                     else:
                         resp+="\nInvalid data format"
-                global_temp_update=None
+                # global_temp_update=None
                 return HttpResponse( resp,content_type="text")
             except Exception as e:
+                print(traceback.format_exc())
                 return HttpResponse(resp+"\n"+str(e),content_type="text")
         else:            
             return HttpResponse("Invalid type of Req",content_type="text")
@@ -1981,7 +1990,7 @@ def bulk_que(request):
                         print(val)
                         resp+="\nInvalid data format"
                     global_temp_update=resp
-                global_temp_update=None
+                # global_temp_update=None
                 return HttpResponse( resp,content_type="text")
             except Exception as e:
                 return HttpResponse(resp+"\n"+str(e),content_type="text")
@@ -2036,7 +2045,7 @@ def bulk_code_que(request):
                     else:
                         resp+="\nInvalid data format"
                     global_temp_update=resp
-                global_temp_update=None
+                # global_temp_update=None
                 return HttpResponse( resp,content_type="text")
             except Exception as e:
                 return HttpResponse(resp+"\n"+str(e),content_type="text")

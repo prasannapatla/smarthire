@@ -27,7 +27,7 @@ var page = function (_this: any) {
                                 <div className='file_upload' style={{ display: "block" }}>
                                 <input type="file" className="upload_file"  />File type:xls,xlsx&nbsp;&nbsp;
                                     <button  onClick={_this.bulk_upload.bind(_this)}>Upload file</button>
-                                    <b>Format: </b>Name,Email<br />
+                                    <b>Format: </b>Name,Email,Mobile number<br />
                                     <span className='progress'>-</span>
                                 </div>
                             </div>
