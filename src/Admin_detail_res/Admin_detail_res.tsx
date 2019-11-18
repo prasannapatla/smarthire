@@ -251,7 +251,7 @@ class Admin_detail_res extends Myservice {
       txt += "<tr>";
       for (val2 in json_obj[val1]) {
         if (val2 == "Questions")
-          txt += "</tr><tr><td colSpan={4} style='overflow-wrap:break-word;border:none;'><b>Q." + (count++) + " </b>" + json_obj[val1][val2] + "</td></tr><tr>";
+          txt += "</tr><tr><td colspan='4' style='overflow-wrap:break-word;border:none;'><b>Q." + (count++) + " </b>" + json_obj[val1][val2] + "</td></tr><tr>";
         else if (val2 == "Correct Answer")
           txt += "</tr><tr><td colSpan={2} style='overflow-wrap:break-word;border:none;'><b>Correct Answer: </b>" + json_obj[val1][val2] + "</td><td colspan='2';style='overflow-wrap:break-word;border:none;'><b>Submitted Answer: </b>" + json_obj[val1]["Submitted Answer"] + "</td></tr><tr>";
         else if (val2 == "Submitted Answer")
