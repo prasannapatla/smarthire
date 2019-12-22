@@ -26,6 +26,9 @@ import Add_code from './Add_code/Add_code';
 import Code_populate from './Code_populate/Code_populate';
 import Admin_list_code_que from './Admin_list_code_que/Admin_list_code_que';
 import Users from './Users/Users';
+import Design1 from './Design1/Design1';
+import Design2 from './Design2/Design2';
+import Vishdesign from './Vishdesign/Vishdesign';
 let route_link
 try {
    let all_routes=require("./Routes/Routes").default
@@ -63,6 +66,9 @@ ReactDOM.render((
 				<Route path="/code_populate" component={Code_populate} />
 				<Route path="/admin_list_code_que" component={Admin_list_code_que} />
 				<Route path="/users" component={Users} />
+				<Route path="/design1" component={Design1} />
+				<Route path="/design2" component={Design2} />
+				<Route path="/vishdesign" component={Vishdesign} />
                 {route_link}
                 <Route component={Not_found} />
             </Switch>
