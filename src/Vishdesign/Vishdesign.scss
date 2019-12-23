@@ -1,8 +1,5 @@
 .Vishdesign {
- 
-   .col_container {
-      height: 100vh;
-   }
+
    // loginPage-background
    .loginBg {
       width: 100%;
@@ -14,12 +11,65 @@
       position: fixed;
       z-index: -100;
    }
-   //login-form
-   .loginForm {
-      // padding: 25%;
-      background-color: yellow;
-      // height: 500px;
-      height: 50%;
-      margin-top: 25%;
+
+   .rightTopContainer {
+      display: block;
+      position: relative;
+      background: #72789C;
+      height: fit-content;
    }
+
+   .loginForm {
+      background: #72789C;
+      border-radius: 8px;
+      height: 80vh;
+      margin-top:10vh;
+      margin-right: 10vw;
+      margin-left: 5vw;
+      text-align: center;
+      position: relative;
+   }
+
+   .svg_bg{
+      position: absolute;
+      left: 0;
+      // z-index: -10;
+   }
+
+   .svgForm {
+      fill: #FFFFFF;
+   }
+
+   .svgFormFold {
+      fill: #F6F7FB;
+      stroke: grey;
+      stroke-width : 0.1;
+      fill-Rule: evenodd;
+   }
+
+   .form {
+      position: relative;
+      background-color: #FFFFFF;
+      z-index: 10;
+      max-width: 350px;
+      width: 350px;
+      max-height: 520px ;
+      height: 350px;
+      top: 60px
+   }
+
+   .formDetails {
+      padding: 10%;
+   }
+
+   .loginText {
+      text-align: left;
+      font-weight: bold;
+      font-size: 25px;
+   }
+
+   .detailsText {
+      text-align: left;
+      font-size: 15px;
+  }
 }
