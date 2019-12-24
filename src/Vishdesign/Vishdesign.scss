@@ -23,7 +23,7 @@
       background: #72789C;
       border-radius: 8px;
       height: 80vh;
-      margin-top:10vh;
+      margin-top:15vh;
       margin-right: 10vw;
       margin-left: 5vw;
       text-align: center;
@@ -71,5 +71,48 @@
    .detailsText {
       text-align: left;
       font-size: 15px;
+  }
+  .btn_style {
+     background-color: rgb(228, 58, 171)
+  }
+  .forgot-pwd { 
+   // text-align: right !important;
+   float: right;
+  }
+.logo {
+   max-height: 520;
+   max-width: 350;
+   // background-color:#72789C;
+   background-color:rgb(11, 226, 108);
+
+   margin-top:15%;
+   margin-left: 15%;
+
+}
+.greetings {
+   background: #72789C;
+   font-size: 45px;
+   line-height: 95%;
+}
+  .description {
+   background: #72789C;
+   max-height: 520;
+   max-width: 350;
+   margin-top:25%;
+   margin-left: 15%;
+   // background-color:red;
+   color:white;
+   padding-left:10%;
+  }
+  .info{
+     font-size: 18px;
+  }
+  .formBottom {
+     background-color: green;
+     position: relative;
+     z-index: 10;
+     max-height: 520px ;
+     max-width: 350px;
+     width: 350px;
   }
 }

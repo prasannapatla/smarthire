@@ -11,9 +11,17 @@ var page = function (_this: any) {
                {/* Text space */}
                <div className="col-sm-6" >
                   <div className="col_container">
-
+                     <div className="logo">
+                        <p>Space for logo</p>
+                     </div>
+                  </div>
+                  <div className="description">
+                     <p className="greetings">Welcome<br/>to <b>Smarthire</b> </p>
+                     <br/> 
+                     <p className="info">A hiring platform for talent teams of<br/> companies to assist in evaluating <br/>candidates</p>                           
                   </div>
                </div>
+               
                {/* login space */}
                <div className="col-sm-6" >
                   <div className="col_container">
@@ -37,6 +45,9 @@ var page = function (_this: any) {
                                  <div id="invalidprompt"></div>
                               </div>
                            </div>
+                           <div className="formBottom">
+                                    
+                              </div>
                         </div>
                      </div>
                   </div>
