@@ -28,9 +28,7 @@
 				<Link to='/code_populate'>code_populate</Link><br />
 				<Link to='/admin_list_code_que'>admin_list_code_que</Link><br />
 				<Link to='/users'>users</Link><br />
-				<Link to='/design1'>design1</Link><br />
-				<Link to='/design2'>design2</Link><br />
-				<Link to='/vishdesign'>vishdesign</Link><br />
+				<Link to='/lgdesign'>lgdesign</Link><br />
 
             </div>
         )
