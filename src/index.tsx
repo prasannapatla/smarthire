@@ -45,7 +45,7 @@ ReactDOM.render((
     <Router history={history}>
         <HashRouter>
             <Switch>
-				<Route exact path="/" component={Login} />
+				<Route exact path="/" component={Lgdesign} />
                 <Route exact path="/app" component={App} />
 				<Route path="/admin" component={Admin} />
 				<Route path="/admin_menu" component={Admin_menu} />

@@ -21,7 +21,7 @@ print("-----------Production server---------------")
  
 sys.path.append('/var/www/smarthire/smarthire') 
 # adjust the Python version in the line below as needed 
-sys.path.append('/var/www/smarthire/smarthire/myenv/lib/python3.7/site-packages') 
+sys.path.append('/var/www/smarthire/smarthire/myenv/lib/python3.5/site-packages') 
 
 
 from django.core.wsgi import get_wsgi_application 
