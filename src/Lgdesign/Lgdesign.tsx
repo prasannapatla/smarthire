@@ -8,6 +8,7 @@ var swal = require("sweetalert");
 class Lgdesign extends Myservice {
 
    params: any = [];
+
    constructor(props: any) {
       super(props);
       try {
@@ -26,6 +27,30 @@ class Lgdesign extends Myservice {
    }
 
    componentDidMount() {
+
+      let mySer = this
+      $(document).keydown(function (e: any) {
+         if (e.which === 13 && typeof (e.which) != "undefined") {
+
+            // alert(e.which)
+            let email = $("input").eq(0).val().trim()
+            let password = $("input").eq(1).val().trim()
+            let req = "email=" + email + "&password=" + password
+            let resp = ""
+            if (email.length >= 4 && password.length >= 4) {
+               resp = mySer.fetch_data("/server/login/", "POST", req)
+               if (resp == "valid")
+                  mySer.open_link("examstart")
+               else if (resp == "admin")
+                  mySer.open_link("admin_view_result")
+               else
+                  $("#invalidprompt").text(resp)
+            }
+            else
+               $("#invalidprompt").text("Invalid email or password length")
+         }
+      });
+
       let context = this
       $(document).ready(function () {
          $('.login-info-box').fadeOut();

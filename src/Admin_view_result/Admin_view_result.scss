@@ -23,6 +23,16 @@
     }
   }
 
+.heading{
+  float: left;
+  width: 35%;
+  margin-top: 25px;
+  font-size: 28px;
+}
+
+#first_table {
+  position: relative;
+}
 
 
   .row {
@@ -44,6 +54,19 @@
     border: solid rgb(218, 216, 216) 2px;
     border-bottom: solid gray 2px;
     border-right: solid gray 2px;
+    // width: 45%;
+    padding-right: 0px;
+    padding-left: 3px;
+    background-color: #E9EBF8 !important;
+    outline: none;
+  }
+
+  .select_entry_text{
+    float: left;
+  }
+
+  .exam option {
+    outline: none;
   }
 
   @media only screen and (max-width: 600px) {
@@ -105,6 +128,7 @@
     .select_exam_text div {
       display: block;
       float: left;
+      margin-top: 5px;
     }
 
     .details {
@@ -127,6 +151,13 @@
   .intake{
     width: 80px;
     padding: 7px;
+    width: 100%;
+    background-color: #E9EBF8 !important;
+    outline: none;
+  }
+
+  .select_exam_interact{
+    margin-top: 15px;
   }
 
 }

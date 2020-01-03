@@ -13,22 +13,28 @@ var page = function (_this: any) {
                         <Banner />
                         <div className="data">
                             <div className="sect details">
-                                <div className='heading' >View Results   </div>
-
-                                <table className='sel_exam'>
-                                    <tbody>
+                                <div className="headDetails">
+                                    <div className='heading'>Results</div>
+                                    <table className="sel_exam">
                                         <tr>
-                                            <td>
-                                                <span className="select_exam_text">
-                                                    <div>Select the exam to view details&nbsp;</div>&nbsp;
-                                                    <select id='exam' className="exam"></select>
-                                                </span>
-                                                <input type="number" defaultValue="10" placeholder="Intake" className="intake" />
-                                            </td>
+                                            <th className="select_exam_text">
+                                                SELECT EXAM TYPE
+                                        </th>
+                                            <th className="select_entry_text">
+                                                NO. OF ENTRIES
+                                        </th>
                                         </tr>
-                                    </tbody>
-
-                                </table><br /><br />
+                                        <tr className="select_exam_interact">
+                                            <th>
+                                                <select id='exam' className="exam"></select>
+                                            </th>
+                                            <th>
+                                                <input type="number" defaultValue="10" placeholder="Intake" className="intake" />
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <br /><br />
                                 <div id="first_table">
                                     <table className="user_det" style={{ marginTop: "20px" }}>
 
