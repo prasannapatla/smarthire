@@ -9,18 +9,23 @@
 
     .row {
         height: 100%;
+        background-color: #F7F8FC;
     }
-
-
+    .data {
+        background-color: #F7F8FC;
+    }
+     
 
     table {
         width: 100%;
+        background-color: #FFFFFF;
     }
 
 
 
     tr td {
         text-align: center;
+        padding: 10px;
     }
 
     .opt_hed * {
@@ -36,6 +41,7 @@
         min-width: 100px;
         width: 100%;
         font-size: 18px;
+        background-color: #F7F8FC;
     }
 
     .formated_quetions {
@@ -53,5 +59,19 @@
 
     .heading {
         padding-left: 0;
+    }
+    button{
+        width:150px;
+        padding: 10px;
+        color:white;
+        background-color:#E63285;
+        border-radius: 10px;
+        padding: 8px;
+        margin-top: 10px;
+    }
+    .Add {
+        margin-top: -33px;
+        margin-left: 691px;
+        
     }
 }
