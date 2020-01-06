@@ -31,7 +31,9 @@ class Admin_que_set extends Myservice {
     let txt = "<tr><th>Category</th><th>Number of questions</th></tr>"
     for (val1 in json_obj) {
       txt += "<tr id='cat" + json_obj[val1]["id"] + "'>"
-      txt += "<td><input type='checkbox' value='" + json_obj[val1]["id"] + "' /> &nbsp;&nbsp;" + json_obj[val1]["cat"] + "  </td>";
+      // txt += "<td><input type='checkbox' class='checkbox' value='" + json_obj[val1]["id"] + "' /> &nbsp;&nbsp;" + json_obj[val1]["cat"] + "  </td>";
+      // txt += "<td><input type='number' id='total' value='20' /> / " + json_obj[val1]["available"] + "</td>"
+      txt += "<td><div class='check'><label class='round'><input type='checkbox' id='checkbox' value='" + json_obj[val1]["id"] + "' /><span class='checkmark'></span><span class='stem'></span></label></div><div class='checked'>" + json_obj[val1]["cat"] + "  </div></td>";
       txt += "<td><input type='number' id='total' value='20' /> / " + json_obj[val1]["available"] + "</td>"
       txt += "</tr>"
     }
