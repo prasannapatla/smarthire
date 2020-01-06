@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner';
 import { FaPlus } from 'react-icons/fa';
+import { FiUpload } from 'react-icons/fi';
+
 
 
 var page = function (_this: any) {
@@ -21,9 +23,10 @@ var page = function (_this: any) {
                                     <thead>
                                         <tr>
                                             <td colSpan={4}>
-                                                <div className='heading'>Add Question</div>
+                                                <div className='heading'>
+                                                    <br/>Add Question</div>
                                                 <div className="Add">
-                                                    <button  onClick={_this.add.bind(_this)}  id="add" ><FaPlus/> Add</button>
+                                                    <button onClick={_this.add.bind(_this)} id="add" ><FaPlus /> Add</button>
                                                 </div>
                                                 <br />
                                                 <textarea name="quetions" id="quetions" data-rows={4} className="Questions" required></textarea>
@@ -32,52 +35,14 @@ var page = function (_this: any) {
                                         </tr>
                                         <tr>
                                             <td colSpan={4}>
-                                                <br />
                                                 <label style={{ float: "left" }}><input type="checkbox" id="para" name="para" /> Add Program code <b>*</b></label>
                                             </td>
                                         </tr>
-
+                                        <br />
                                         <tr className="opt_hed">
                                             <th colSpan={3}>
                                                 Options
                                         </th>
-                                            <th>
-                                                Select Correct<br />Option
-                                        </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td colSpan={3}>
-                                                <input type="text" placeholder="Option1" id="ans1" name="opt1" required />
-                                            </td>
-                                            <td>
-                                                <label><input type="radio" value="ans1" name="ans" required /></label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colSpan={3}>
-                                                <input type="text" placeholder="Option2" id="ans2" name="opt2" required />
-                                            </td>
-                                            <td>
-                                                <label><input type="radio" value="ans2" name="ans" required /></label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colSpan={3}>
-                                                <input type="text" placeholder="Option3" id="ans3" name="opt3" required />
-                                            </td>
-                                            <td>
-                                                <label><input type="radio" value="ans3" name="ans" required /></label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colSpan={3}>
-                                                <input type="text" placeholder="Option4" id="ans4" name="opt4" required />
-                                            </td>
-                                            <td>
-                                                <label><input type="radio" value="ans4" name="ans" required /></label>
-                                            </td>
                                         </tr>
                                         <tr className="adm_btns">
                                             <td colSpan={4}>
@@ -90,14 +55,46 @@ var page = function (_this: any) {
                                             </td>
 
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label><input type="radio" value="ans1" name="ans" required /></label>
+                                            </td>
+                                            <td >
+                                                <input type="text" placeholder="Option1" id="ans1" name="opt1" required />
+                                            </td>
+                                            <td>
+                                                <label><input type="radio" value="ans3" name="ans" required /></label>
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder="Option3" id="ans3" name="opt3" required />
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label><input type="radio" value="ans2" name="ans" required /></label>
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder="Option2" id="ans2" name="opt2" required />
+                                            </td>
+                                            <td>
+                                                <label><input type="radio" value="ans4" name="ans" required /></label>
+                                            </td>
+                                            <td colSpan={3}>
+                                                <input type="text" placeholder="Option4" id="ans4" name="opt4" required />
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table><br />
-                                <p> <b>*</b> Check this option for programming questions</p><br />
+                                <br />
                                 <div className='file_upload' style={{ display: "block" }}>
                                     <p className="heading">Bulk upload questions:</p>
-                                    <input type="file" className="upload_file" />File type:xls&nbsp;&nbsp;
-                                    <button onClick={_this.bulk_upload.bind(_this)}>Upload file</button>
-                                    <b>Format: </b>Questions,Program,Option1,Option2,Option3,Option4,Correct Answer<br /><br />
+                                    <p>Format:Questions,Program,Option1,Option2,Option3,Option4,Correct Answer</p>
+                                    <button className="upload" onClick={_this.bulk_upload.bind(_this)}><FiUpload/> Upload</button>
+                                    <input type="file" className="upload_file" />
+                                    <br />
                                     <span className='progress'>-</span>
                                 </div>
                             </div>
