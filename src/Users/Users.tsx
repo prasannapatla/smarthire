@@ -44,9 +44,9 @@ class Users extends Myservice {
                 html_data += "<td><input type='text' value='' class='pwd' /></td>\n"
             }
             if (json_data[row]["super_admin"] == true)
-                html_data += "<td><input type='checkbox' checked='true' class='full' value='" + json_data[row]["id"] + "' /></td>\n"
+                html_data += "<td><label class='container1'><input type='checkbox' checked='true' class='full' value='" + json_data[row]["id"] + "' /><span class='checkmark'></span></label></td>\n"
             else
-                html_data += "<td><input type='checkbox' class='full' value='" + json_data[row]["id"] + "' /></td>\n"
+                html_data += "<td><label class='container1'><input type='checkbox' class='full' value='" + json_data[row]["id"] + "' /><span class='checkmark'></span></label></td>\n"
 
             html_data += "<td><input type='checkbox' class='del' value='" + json_data[row]["id"] + "' />"
             html_data += "<td><input type='hidden' class='user_id' value='" + json_data[row]["id"] + "' /></td>\n"
@@ -111,7 +111,7 @@ class Users extends Myservice {
     }
 
     update(uid: number, pwd: string, admin: boolean) {
-        let context=this
+        let context = this
         let json_data = {
             uid: uid,
             password: pwd,

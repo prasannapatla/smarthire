@@ -182,14 +182,14 @@ class Admim_add_cat extends Myservice {
     let txt = "<tr>";
     txt += "<th>Availiable Categories</th>";
     txt += "<th></th>";
-    txt += "<th>Delete</th>";
     txt += "</tr>";
     let val1: any, val2: any;
     for (val1 in json_obj) {
       txt += "<tr>"
-      txt += "<td>" + json_obj[val1]["cat"] + "</td>";
-      txt += "<td><a class='cat_view' heading='" + json_obj[val1]["cat"] + "' val='" + json_obj[val1]["id"] + "'>View Detail</a></td>";
       txt += "<td><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='cat_sel' /></td>";
+      txt += "<td>" + json_obj[val1]["cat"] + "</td>";
+      txt += "<td><a class='cat_view' heading='" + json_obj[val1]["cat"] + "' val='" + json_obj[val1]["id"] + "'>Details</a></td>";
+      
       txt += "</tr>"
     }
     $(".list_cat").html(txt)
@@ -212,14 +212,15 @@ class Admim_add_cat extends Myservice {
     let txt = "<tr>";
     txt += "<th>Availiable Exams</th>";
     txt += "<th></th>";
-    txt += "<th>Delete</th>";
+    txt += "<th></th>";
     txt += "</tr>";
     let val1: any, val2: any;
     for (val1 in json_obj) {
       txt += "<tr>"
-      txt += "<td>" + json_obj[val1]["e_name"] + "</td>";
-      txt += "<td><a class='exam_view' heading='" + json_obj[val1]["e_name"] + "' val='" + json_obj[val1]["id"] + "'>View Detail</a></td>";
       txt += "<td><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='exam_sel' /></td>";
+      txt += "<td>" + json_obj[val1]["e_name"] + "</td>";
+      txt += "<td><a class='exam_view' heading='" + json_obj[val1]["e_name"] + "' val='" + json_obj[val1]["id"] + "'>Details</a></td>";
+      
       txt += "</tr>"
     }
     $(".list_exam").html(txt)
