@@ -3,6 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner';
+import { FaPlus } from 'react-icons/fa';
+
 
 var page = function (_this: any) {
     return (
@@ -11,33 +13,54 @@ var page = function (_this: any) {
                 <div className="row">
                     <Admin_menu />
                     <div className="col-sm-9 content">
-                        <Banner />
+                        {/* <Banner /> */}
                         <div className="data">
                             <div className="sect">
-                                <table>
-
+                                <table className="Code_format">
+                                    <tr>
+                                        <td className="statement-heading">
+                                            <b>Add coding problem statement</b>
+                                    </td>
+                                        <td className="Add">
+                                            <button onClick={_this.add_code.bind(_this)} className="btn"><FaPlus/>Add
+                                            </button>
+                                            <br />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td colSpan={4}>
                                             <div className="prob">
-                                                <div className='heading'>Coding Problem Statement</div>
-                                                <textarea id="pblm_stmt" rows={5} required></textarea>
+                                                <textarea id="pblm_stmt" rows={5} placeholder="Coding Problem Statement" required></textarea>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colSpan={4}>
                                             <div className="code">
-                                                <div className='heading'>Code</div>
-                                                <textarea id="code" rows={5} required></textarea>
+                                                <textarea id="code" rows={5} placeholder="Code" required></textarea>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colSpan={2}>
-                                            <div>
-                                                <div className='heading'>Sample Input</div>
-                                                <textarea id="spl_inp" rows={5} required></textarea>
+                                            <div className="sample_input">
+                                                <textarea id="spl_inp" rows={5} placeholder="Sample Input" required></textarea>
                                             </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            &nbsp;
                                         </td>
                                     </tr>
                                     <tr>
@@ -45,8 +68,9 @@ var page = function (_this: any) {
                                         <th>
                                             <div className='heading'>Coding Language</div>
                                         </th>
-
-                                        <td colSpan={3}>
+                                    </tr>
+                                    <tr>
+                                        <td className="language">
                                             <select id="lang">
                                                 <option value="cpp">C/C++</option>
                                                 <option value="java">Java</option>
@@ -56,50 +80,55 @@ var page = function (_this: any) {
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
 
                                         <th>
                                             <div className='heading'>Test Input</div>
                                         </th>
 
                                         <th>
-                                            <div className='heading'>Expected Output</div>
+                                            <div className='output_heading'>Expected Output</div>
                                         </th>
                                     </tr>
                                     <tr>
 
-                                        <td className="sample_input">
+                                        <td className="test_input">
                                             <textarea id="t_inp_1" rows={5} required></textarea>
                                         </td>
                                         <td>
-                                            <pre className='exp_op1'>Expected output</pre>
+                                            <pre className='output exp_op1'>Expected output</pre>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="sample_input">
+                                        <td className="test_input">
                                             <textarea id="t_inp_2" rows={5} required></textarea>
                                         </td>
                                         <td>
-                                            <pre className='exp_op2'>Expected output</pre>
+                                            <pre className='output exp_op2'>Expected output</pre>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="sample_input">
+                                        <td className="test_input">
                                             <textarea id="t_inp_3" rows={5} required></textarea>
                                         </td>
                                         <td>
-                                            <pre className='exp_op3'>Expected output</pre>
+                                            <pre className='output exp_op3'>Expected output</pre>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="sample_input">
+                                        <td className="test_input">
                                             <textarea id="t_inp_4" rows={5} required></textarea>
                                         </td>
                                         <td>
-                                            <pre className='exp_op4'>Expected output</pre>
+                                            <pre className='output exp_op4'>Expected output</pre>
                                         </td>
                                     </tr>
                                 </table><br />
-                                <input type="button" value="Add" onClick={_this.add_code.bind(_this)} className="btn" /><br />
+                                </div>
                                 <div className='file_upload' style={{ display: "block" }}>
                                     <p className="heading">Bulk upload questions:</p>
                                     <select id="lang2">
@@ -114,7 +143,7 @@ var page = function (_this: any) {
                                     <b>Format: </b>Problem statement,code,sample input,test input 1,test input 2,test input 3,test input4,Programming language(Optional)<br /><br />
                                     <span className='progress'>-</span>
                                 </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
