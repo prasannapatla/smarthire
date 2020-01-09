@@ -13,36 +13,6 @@ var page = function (_this: any) {
                     <Admin_menu />
                     <div className="col-sm-9 content">
                         {/* <Banner /> */}
-                        {/* <div className="data">
-                            <div className="sect">
-                                <div className='heading'>Populate Exam</div>
-                                <div className="table-responsive mob_overflow">
-                                    <table id="category"></table>
-                                </div>
-                                <div className="table-responsive mob_overflow" style={{ paddingTop: "20px" }}>
-                                    <table className="table populate">
-                                        <tr>
-                                            <th>
-                                                Select Exam
-                                            </th>
-                                            <th data-colSpan={4}>
-                                                Duration of the exam
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td><select id='exam'></select></td>
-                                            <td><input type='number' defaultValue="60" placeholder='Enter Duration' id='dur' />
-                                            </td>
-                                            <td style={{ paddingLeft: "5px", paddingRight: "10px" }}>Mins</td>
-                                            <td>
-                                                <input type='button' value='Populate Exam' onClick={_this.create_question_set.bind(_this)} />
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> */}
-
                         <div className="main_body">
                             <div className="page_header">
                                <p className="exam_text">
@@ -54,16 +24,16 @@ var page = function (_this: any) {
                             <div className="exam_options">
                                 <table className="table populate">
                                     <tr>
-                                        <th>
+                                        <th style={{fontSize:'16px'}}>
                                             Select Exam
                                         </th>
-                                        <th data-colSpan={4}>
+                                        <th data-colSpan={4} style={{fontSize:'16px'}}>
                                             Duration of the exam
                                         </th>
                                     </tr>
                                     <tr>
                                         <td><select id='exam'></select></td>
-                                        <td><input type='number' defaultValue="60" placeholder='Enter Duration' id='dur' /> Mins.
+                                        <td><input type='number' defaultValue="60" placeholder='Enter Duration' id='dur' /><b> Mins.</b>
                                         </td>
                                     </tr>
                                 </table>

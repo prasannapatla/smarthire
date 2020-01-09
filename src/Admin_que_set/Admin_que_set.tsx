@@ -28,13 +28,11 @@ class Admin_que_set extends Myservice {
     var cat_str = this.fetch_data("/server/getcat/", "POST");
     let json_obj = JSON.parse(cat_str)
     let val1: any, val2: any
-    let txt = "<tr><th>Category</th><th>Number of questions</th></tr>"
+    let txt = "<tr><th style='font-size:16px'>Category</th><th style='font-size:16px'>Number of questions</th></tr><tr><td>&nbsp;</td></tr>"
     for (val1 in json_obj) {
       txt += "<tr id='cat" + json_obj[val1]["id"] + "'>"
-      // txt += "<td><input type='checkbox' class='checkbox' value='" + json_obj[val1]["id"] + "' /> &nbsp;&nbsp;" + json_obj[val1]["cat"] + "  </td>";
-      // txt += "<td><input type='number' id='total' value='20' /> / " + json_obj[val1]["available"] + "</td>"
-      txt += "<td><div class='check'><label class='round'><input type='checkbox' id='checkbox' value='" + json_obj[val1]["id"] + "' /><span class='checkmark'></span><span class='stem'></span></label></div><div class='checked'>" + json_obj[val1]["cat"] + "  </div></td>";
-      txt += "<td><input type='number' id='total' value='20' /> / " + json_obj[val1]["available"] + "</td>"
+      txt += "<td><div class='check'><label class='container1'><input type='checkbox' class='full' id='checkbox' value='" + json_obj[val1]["id"] + "' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["cat"] + "  </div></td>";
+      txt += "<td class='inputEnterNum'><input type='number' class='entryNumber' id='total' value='20' /> / " + json_obj[val1]["available"] + "</td>"
       txt += "</tr>"
     }
     $("#category").html(txt)
