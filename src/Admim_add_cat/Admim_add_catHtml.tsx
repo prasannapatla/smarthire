@@ -42,8 +42,8 @@ var page = function (_this: any) {
                                     <tr>
                                         <td>
                                             <input type="button" value="Delete" className="del_cat_btn" /></td>
-                                    </tr>
-                                </table>
+                                    </tr>    
+                                </table>   
                             </div>
                             <br />
                             <br />
