@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner';
 import { FaPlus } from 'react-icons/fa';
+import { FiUpload } from 'react-icons/fi';
+
 
 
 var page = function (_this: any) {
@@ -22,7 +24,7 @@ var page = function (_this: any) {
                                             <b>Add coding problem statement</b>
                                     </td>
                                         <td className="Add">
-                                            <button onClick={_this.add_code.bind(_this)} className="btn"><FaPlus/>Add
+                                            <button onClick={_this.add_code.bind(_this)} className="btn"><FaPlus/> Add
                                             </button>
                                             <br />
                                         </td>
@@ -137,10 +139,12 @@ var page = function (_this: any) {
                                         <option value="java">Java</option>
                                         <option value="py3">Python</option>
                                         <option value="js">Javascript</option>
-                                    </select>
-                                    <input type="file" className="upload_file" />File type:xls&nbsp;&nbsp;
-                                    <button onClick={_this.bulk_upload.bind(_this)}>Upload file</button><br />
+                                    </select><br/>
                                     <b>Format: </b>Problem statement,code,sample input,test input 1,test input 2,test input 3,test input4,Programming language(Optional)<br /><br />
+                                    <button className="upload" onClick={_this.bulk_upload.bind(_this)}><FiUpload /> Upload</button>
+                                    <input type="file" className="upload_file" />
+                                    <br />
+                                    
                                     <span className='progress'>-</span>
                                 </div>
                             

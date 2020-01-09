@@ -89,7 +89,9 @@ text-align: left;
 padding-top: 20px;
 }
 .Code_format{
-background-color:#FFFFFF
+background-color:#FFFFFF;
+width: 815px;
+    // margin-left: 57px;
 }
 .data {
     background-color: #F6F7FB;
@@ -97,15 +99,39 @@ background-color:#FFFFFF
 
 }
 .file_upload{
-    background-color:#FFFFFF
-
+    background-color:#FFFFFF;
+    width: 819px;
+    margin-left: 104px;
+    margin-top: -49px;
+    height: 240px;
+    padding: 20px;
 }
 .sect {
     margin-top: -26px;
     padding: 50px;
+    margin-left: 57px;
 }
 .Add {
     padding-top: 25px;
+}
+.upload_file {
+    height:80px;
+}
+
+
+.upload {
+    color:#E63285;
+    background-color: #FFFFFF;
+    border-color: #E63285;
+}
+button{
+    width:150px;
+    padding: 10px;
+    color:white;
+    background-color:#E63285;
+    border-radius: 10px;
+    padding: 8px;
+    margin-top: 10px;
 }
 }
 

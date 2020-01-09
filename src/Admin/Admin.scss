@@ -43,6 +43,7 @@
         font-size: 18px;
         background-color: #F7F8FC;
         border-width:1px;
+        height: 100px;
     }
 
     .formated_quetions {
@@ -62,7 +63,8 @@
         padding-left: 0;
         width:400px;
         position: relative;
-    float: left;
+        float: left;
+        margin-top: 10px;
     }
     button{
         width:150px;
@@ -85,7 +87,7 @@
     }
     .file_upload {
         background-color: #FFFFFF;
-        padding: 10px;
+        padding: 15px;
     }
     // input[type="file"] {
     //     width:150px;
@@ -109,7 +111,7 @@
         background-color: #F7F8FC;
     }
     input[type="radio"]{
-        // background-color: #E63285;
+        background-color: #E63285;
         
     } 
     .container1 {
@@ -148,7 +150,7 @@
         }
         /* When the checkbox is checked, add a blue background */
         .container1 input:checked ~ .checkmark {
-        background-color: #F7F8FC;
+        background-color: #E5277F
         }
         /* Create the checkmark/indicator (hidden when not checked) */
         .checkmark:after {
@@ -166,7 +168,7 @@
         top: 3px;
         width: 6px;
         height: 12px;
-        border: solid rgb(168, 161, 161);
+        border: solid #FFFFFF;
         border-width: 0 3px 3px 0;
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
