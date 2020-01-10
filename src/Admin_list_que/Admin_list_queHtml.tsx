@@ -22,13 +22,12 @@ var page = function (_this: any) {
                             <div className='exam_type'>
                                 <p className='type_text'>SELECT EXAM TYPE.</p>
                                 <select id="cat"></select>
+                                {/* <input type="button" style={{ float: "right" }} value="Select all" className="sel_all" /> */}
                             </div>
                         </div>
                         <div>
                             <button className="delete del_que_btn"><AiTwotoneDelete className="del_icon"/>&nbsp; Delete</button>
                         </div>
-                        {/* <input type="button" style={{ float: "right" }} value="Delete" className="del_que_btn" />
-                            <input type="button" style={{ float: "right" }} value="Select all" className="sel_all" /> */}
                         <div className="sect">
                             {/* <br /><br /><br /> */}
                             <div className="table-responsive mob_overflow quest">
@@ -36,8 +35,6 @@ var page = function (_this: any) {
                                 </table>
                             </div>
                             <a id="button"><TiArrowUpThick className="backTop" /></a>
-                            {/* <input type="button" style={{ float: "right" }} value="Delete" className="del_que_btn" />
-                                <input type="button" style={{ float: "right" }} value="Select all" className="sel_all" /> */}
                         </div>
                     </div>
                     {/* </div> */}

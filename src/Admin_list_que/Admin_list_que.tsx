@@ -102,27 +102,6 @@ class Admin_list_que extends Myservice {
       txt += "<td><label class='container1'><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label></td>"
       txt += "</tr>"
       txt += "<tr class='val'>"
-
-      // if (json_obj[val1]["opt1"] == json_obj[val1]["ans"])
-      //   txt += "<td><b>" + json_obj[val1]["opt1"] + "</b></td>";
-      // else
-      //   txt += "<td>" + json_obj[val1]["opt1"] + "</td>";
-
-      // if (json_obj[val1]["opt2"] == json_obj[val1]["ans"])
-      //   txt += "<td><b>" + json_obj[val1]["opt2"] + "</b></td>";
-      // else
-      //   txt += "<td>" + json_obj[val1]["opt2"] + "</td>";
-
-      //   if (json_obj[val1]["opt3"] == json_obj[val1]["ans"])
-      //     txt += "<td><b>" + json_obj[val1]["opt3"] + "</b></td>";
-      //   else
-      //     txt += "<td>" + json_obj[val1]["opt3"] + "</td>";
-
-      //     if (json_obj[val1]["opt4"] == json_obj[val1]["ans"])
-      //       txt += "<td><b>" + json_obj[val1]["opt4"] + "</b></td>";
-      //     else
-      //       txt += "<td>" + json_obj[val1]["opt4"] + "</td>";
-
       txt += "<td class='options'>A. " + json_obj[val1]["opt1"] + "</td>";
       txt += "<td class='options'>B. " + json_obj[val1]["opt2"] + "</td>";
       txt += "<td class='options'>C. " + json_obj[val1]["opt3"] + "</td>";
