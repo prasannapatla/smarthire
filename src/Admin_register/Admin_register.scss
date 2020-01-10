@@ -44,5 +44,102 @@
     input[type="number"]{
         margin-top:10px;
         max-width: 100%;
+        background-color: #ECEBEB;
+
     }
+    .form-control rname {
+        margin-top: 50px !important;
+        background-color: #ECEBEB;
+    }
+    .form-control remail {
+        position:relative;
+        margin-top: 10px;
+        background-color: #ECEBEB;
+    }
+    .form-control mob{
+        margin-top: 10px;
+        background-color: #ECEBEB;
+    }
+    .register{
+        position: relative;
+        top:-67px;
+        left: 44%;
+        height: 40px;
+        border-radius: 12px;
+        border: none;
+        outline: none;
+        width: 150px;
+        margin-top: -5px;
+        margin-left: 100px;
+        background-color: #E5277E;
+        color: #F6F7FB;
+        border: solid 2px #E5277E;
+        font-size: 14px;
+    }
+    .row{
+        background-color: #F6F7FB;
+    }
+    .sect{
+        background-color: #FFFFFF;
+        height: 400px;
+    padding: 21px;
+    width: 888px;
+    margin-left: 44px;
+    margin-top: 20px;
+    }
+    .server_side_resp{
+        height: 159px;
+    }
+    .send {
+        position: relative;
+        top:-54px;
+        left: 44%;
+        height: 40px;
+        border-radius: 12px;
+        border: none;
+        outline: none;
+        width: 150px;
+        margin-top: -5px;
+        margin-left: 100px;
+        background-color: #E5277E;
+        color: #F6F7FB;
+        border: solid 2px #E5277E;
+        font-size: 14px;
+    }
+    .heading{
+        font-size: 25px;
+    }
+    .email_status {
+        height: 85px;
+    }
+    .credentials_sect{
+        background-color: #FFFFFF;
+        height: 449px;
+      padding: 21px;
+    width: 888px;
+    margin-left: 44px;
+    margin-top: 20px;
+    }
+    .cur_exam2 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .upload_file {
+        height:80px;
+    }
+    .upload {
+        color:#E63285;
+        background-color: #FFFFFF;
+        border-color: #E63285;
+    }
+    button{
+        width:150px;
+        padding: 10px;
+        color:white;
+        background-color:#E63285;
+        border-radius: 10px;
+        padding: 8px;
+        margin-top: 10px;
+    }
+    
 }
