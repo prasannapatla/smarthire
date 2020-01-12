@@ -41,14 +41,14 @@ class Users extends Myservice {
             }
             else {
                 console.log(".........")
-                html_data += "<td><input type='text' value='' class='pwd' /></td>\n"
+                html_data += "<td><input type='text' value='********' class='pwd' /></td>\n"
             }
             if (json_data[row]["super_admin"] == true)
-                html_data += "<td><label class='container1'><input type='checkbox' checked='true' class='full' value='" + json_data[row]["id"] + "' /><span class='checkmark'></span></label></td>\n"
+                html_data += "<td><label class='container1' style='margin-left:30px'><input type='checkbox' checked='true' class='full' value='" + json_data[row]["id"] + "' /><span class='checkmark'></span></label></td>\n"
             else
-                html_data += "<td><label class='container1'><input type='checkbox' class='full' value='" + json_data[row]["id"] + "' /><span class='checkmark'></span></label></td>\n"
+                html_data += "<td><label class='container1' style='margin-left:30px'><input type='checkbox' class='full' value='" + json_data[row]["id"] + "' /><span class='checkmark'></span></label></td>\n"
 
-            html_data += "<td><input type='checkbox' class='del' value='" + json_data[row]["id"] + "' />"
+            html_data += "<td><label class='container1' style='margin-left:30px'><input type='checkbox' class='del' value='" + json_data[row]["id"] + "' /><span class='checkmark'></span></label>"
             html_data += "<td><input type='hidden' class='user_id' value='" + json_data[row]["id"] + "' /></td>\n"
             html_data += "</tr>"
             $(".user_data").append(html_data)
@@ -98,10 +98,10 @@ class Users extends Myservice {
                 , 1000)
         });
         $("tr td .pwd").on('change', function (this: any) {
-            context.update($(this).parent().parent().find(".user_id").val(), $(this).parent().parent().find(".pwd").val(), $(this).parent().parent().find(".full").is(":checked"))
+            context.update($(this).parent().parent().parent().find(".user_id").val(), $(this).parent().parent().parent().find(".pwd").val(), $(this).parent().parent().parent().find(".full").is(":checked"))
         });
         $("tr td .full").on('change', function (this: any) {
-            context.update($(this).parent().parent().find(".user_id").val(), $(this).parent().parent().find(".pwd").val(), $(this).is(":checked"))
+            context.update($(this).parent().parent().parent().find(".user_id").val(), $(this).parent().parent().parent().find(".pwd").val(), $(this).is(":checked"))
 
         });
         // $("tr").on('change', function (this: any) {

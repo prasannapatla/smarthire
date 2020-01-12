@@ -37,7 +37,7 @@ a {
   min-width: 100%;
   margin: 0px;
   /* padding: 10px !important; */
-  margin-top: unset;
+  margin-top: 0px !important;
   margin-bottom: 10px;
 }
 /* .container .row{
@@ -46,11 +46,11 @@ a {
 .container .row div{
   float: left;
 } */
-/* .row {
-  padding-left: -15px !important;
-  padding-right: -15px !important;
-  background-color: #43a047;
-} */
+.row {
+  /* padding-left: -15px !important;
+  padding-right: -15px !important; */
+  /* background-color: #FFFFFF; */
+}
 
 
 .content {

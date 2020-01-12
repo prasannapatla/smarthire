@@ -98,7 +98,7 @@ var page = function (_this: any) {
                                     </tr>
                                     <tr>
 
-                                        <td className="test_input">
+                                        <td className="sample_input test_input">
                                             <textarea id="t_inp_1" rows={5} required></textarea>
                                         </td>
                                         <td>
@@ -106,7 +106,7 @@ var page = function (_this: any) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="test_input">
+                                        <td className="sample_input test_input">
                                             <textarea id="t_inp_2" rows={5} required></textarea>
                                         </td>
                                         <td>
@@ -114,7 +114,7 @@ var page = function (_this: any) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="test_input">
+                                        <td className="sample_input test_input">
                                             <textarea id="t_inp_3" rows={5} required></textarea>
                                         </td>
                                         <td>
@@ -122,7 +122,7 @@ var page = function (_this: any) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="test_input">
+                                        <td className="sample_input test_input">
                                             <textarea id="t_inp_4" rows={5} required></textarea>
                                         </td>
                                         <td>

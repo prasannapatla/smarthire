@@ -12,6 +12,19 @@ class Admin_menu extends Myservice {
     }
 
      componentDidMount() {
+      if(localStorage.getItem("selectedPage")==null)
+      localStorage.setItem("selectedPage",$("li:first").text())
+
+      $("li").click(function(this:any){
+         localStorage.setItem("selectedPage",$(this).text())
+       });
+
+       $("li").each(function(this:any){
+         if(localStorage.getItem("selectedPage")==$(this).text())
+         $(this).css({"background-color": "rgb(130,136,170)",
+            "background": "linear-gradient(90deg, #72789C, rgba(103,109,144,1) 38%, rgba(72,76,97,1) 95%)","border-right":"solid 4px red"})
+       
+      });
         super.componentDidMount();
     }
 

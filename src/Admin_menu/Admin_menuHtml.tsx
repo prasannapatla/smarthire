@@ -5,6 +5,7 @@ import terraLogo from "../assets/Terralogic_Logo.png"
 import { FaClock ,FaFileCode,FaUser,FaTelegramPlane,FaPowerOff} from 'react-icons/fa';
 import {AiFillCode } from 'react-icons/ai';
 import {TiGroup } from 'react-icons/ti';
+import { IoIosPaper,IoIosJournal } from "react-icons/io";
 
 var page = function (_this: any) {
     return (
@@ -15,19 +16,19 @@ var page = function (_this: any) {
                 </div>
                 <br/>
                 <ul>
-                    <li><Link to='/admin_view_result'>View Results</Link></li>
-                    <li><Link to='/admin_add_cat'><FaClock/> Add Categories &amp; Exams</Link></li>
-                    <li><Link to='/admin'><FaTelegramPlane/> Add Questions</Link></li>
-                    <li><Link to='/add_code'><AiFillCode/> Add Coding Problem Statement</Link></li>
-                    <li><Link to='/admin_list_que'><FaUser/> Questions</Link></li>
-                    <li><Link to='/admin_list_code_que'><FaTelegramPlane/> Coding Questions</Link></li>
-                    <li><Link to='/admin_que_set'><FaFileCode/> Populate Exam</Link></li>
-                    <li><Link to='/code_populate'>Populate Coding Exam</Link></li>
-                    <li><Link to='/admin_register'><FaUser/> Register Candidate</Link></li>
-                    <li><Link to='/users'><TiGroup/> Admin users</Link></li>
+                    <li><Link to='/admin_view_result'><IoIosPaper/>&nbsp;&nbsp;&nbsp;View Results</Link></li>
+                    <li><Link to='/admin_add_cat'><FaClock/>&nbsp;&nbsp;&nbsp;Add Categories &amp; Exams</Link></li>
+                    <li><Link to='/admin'><FaTelegramPlane/>&nbsp;&nbsp;&nbsp;Add Questions</Link></li>
+                    <li><Link to='/add_code'><AiFillCode/>&nbsp;&nbsp;&nbsp;Add Coding Problem Statement</Link></li>
+                    <li><Link to='/admin_list_que'><FaUser/>&nbsp;&nbsp;&nbsp;Questions</Link></li>
+                    <li><Link to='/admin_list_code_que'><FaTelegramPlane/>&nbsp;&nbsp;&nbsp;Coding Questions</Link></li>
+                    <li><Link to='/admin_que_set'><FaFileCode/>&nbsp;&nbsp;&nbsp;Populate Exam</Link></li>
+                    <li><Link to='/code_populate'><IoIosJournal/>&nbsp;&nbsp;&nbsp;Populate Coding Exam</Link></li>
+                    <li><Link to='/admin_register'><FaUser/>&nbsp;&nbsp;&nbsp;Register Candidate</Link></li>
+                    <li><Link to='/users'><TiGroup/>&nbsp;&nbsp;&nbsp;Admin users</Link></li>
                     {/* <br/> */}
                     <br/>
-                    <li ><a href="javascript:void(0)" onClick={_this.user_logout.bind(_this)}><FaPowerOff/> Logout</a> </li>
+                    <li ><a href="javascript:void(0)" onClick={_this.user_logout.bind(_this)}><FaPowerOff/>&nbsp;&nbsp;&nbsp;Logout</a> </li>
                     <br/>
                 </ul>
             </div>

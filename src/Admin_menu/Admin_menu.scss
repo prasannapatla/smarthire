@@ -34,14 +34,17 @@
         margin: 0;
     }
     ul {
-        padding-left: 9px !important;
+        padding-left: 40px !important;
+        position: relative;
+    top: -15px;
+    font-size: 20px;
     }
 
     ul li {
         color: #cfd8dc;
         text-transform: uppercase;
         /* //background-color: #e3f2fd; */
-        border-radius: 5px;
+      //   border-radius: 5px;
         padding: 0px;
         margin-left: 10px;
         margin-top: 10px;
@@ -85,4 +88,5 @@
     .menu_list .white-panel {
         text-align: center !important;
     }
+
 }

@@ -10,7 +10,7 @@ var page = function (_this: any) {
                 <div className="row">
                     <Admin_menu />
                     <div className="col-sm-9 content">
-                        <Banner />
+                        {/* <Banner /> */}
                         <div className="data">
                             <div className="sect details">
                                 <div className="headDetails">
