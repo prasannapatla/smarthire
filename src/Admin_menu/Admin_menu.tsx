@@ -22,7 +22,7 @@ class Admin_menu extends Myservice {
        $("li").each(function(this:any){
          if(localStorage.getItem("selectedPage")==$(this).text())
          $(this).css({"background-color": "rgb(130,136,170)",
-            "background": "linear-gradient(90deg, #72789C, rgba(103,109,144,1) 38%, rgba(72,76,97,1) 95%)","border-right":"solid 4px red"})
+            "background": "linear-gradient(90deg, #72789C, rgba(103,109,144,1) 38%, rgba(72,76,97,1) 95%)","border-right":"solid 4px #E63284"})
        
       });
         super.componentDidMount();

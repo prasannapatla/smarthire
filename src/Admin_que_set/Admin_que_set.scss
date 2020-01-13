@@ -2,173 +2,196 @@
 
 
 
-  .data {
+  //   .data {
+  //     width: 100%;
+  //     height: 100%;
+  //   }
+
+
+  //   table {
+  //     border-collapse: separate;
+  //   }
+
+  //   #category {
+  //     padding: 0px;
+  //     min-width: 600px;
+  //     // padding-top: 20px;
+  //   }
+
+  //  .populate{
+  //    width: unset;
+  //  }
+
+  #category {
     width: 100%;
+  }
+
+  .main_body {
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    background-color: #F6F7FB;
+    margin-top: 20px;
+    padding: 25px;
     height: 100%;
   }
 
-
-  table {
-    border-collapse: separate;
+  .header {
+    width: 100%;
   }
 
-  #category {
-    padding: 0px;
-    min-width: 600px;
-    // padding-top: 20px;
+  .exam_options {
+    margin-top: 20px;
+    background-color: #FFFFFF;
+    margin-right: 25px;
+    height: 100%;
+    padding: 12px;
+    width: 100%;
   }
 
- .populate{
-   width: unset;
- }
-
-.main_body{
-  position: relative;
-  max-width: 100%;
-  max-height: 100%;
-  background-color: #F6F7FB;
-  margin-top: 20px;
-  padding: 25px;
-  height: 600px;
-}
-
-.page_header{
-  position: absolute;
-  background-color: #F6F7FB;
-  margin-right: 25px;
-  height: 50px;
-  // width: 95%
-}
-
-.exam_options{
-  position: absolute;
-  margin-top: 70px;
-  background-color: #FFFFFF;
-  margin-right: 25px;
-  height: 80%;
-  padding: 12px;
-  width: 95%;
-}
-
-.exam_text{
-  float: left;
-  width: 50%;
-  font-size: 25px;
-  font-weight: bold;
-  margin-top: -8px;
-  line-height: 120%;
-}
-#populate_exam{
-  float: right;
-  width:150px;
-  outline: none;
-  color:white;
-  background-color:#E63285;
-  border-radius: 10px;
-  padding: 8px;
-  font-weight: bold;
-}
-#exam{
-  width: 175px;
-}
-.mins{
-  // padding: 5px;
-  font-size: 15px;
-  vertical-align: middle !important;
-  padding-left: 0px;
-  // font-weight: bold;
-}
-#dur{
-  height: 40px;
-  outline: none;
-  width: 75%;
-}
-.round{
-  // margin-top: 10px;
-  height: 30px;
-}
-.round input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-  // z-index: 100;
-}
-.table td, .table th {
-  border-top:0px;
-}
-.check{
-  width: 50px !important;
-  float: left;
-  // padding-top: 10px;
-}
-.checked {
-  // padding-top: 13px;
-  font-size: 16px;
-}
-.entryNumber {
-  width: 65px;
-  height: 35px;
-}
-.container1 {
-  display: block;
-  position: relative;
-  // padding-left: 35px;
-  // margin-bottom: 12px;
-  cursor: pointer;
-  // font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  .exam_text1 {
+    float: left;
+    width: 50%;
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: -8px;
+    line-height: 120%;
   }
+
+  #populate_exam1 {
+    float: right;
+    width: 150px;
+    outline: none;
+    color: white;
+    background-color: #E63285;
+    border-radius: 10px;
+    padding: 8px;
+    font-weight: bold;
+  }
+
+  #exam {
+    width: 175px;
+    position: relative;
+    top: -15px;
+    // right: 25%;
+  }
+
+  .mins {
+    font-size: 15px;
+    padding-left: 0px;
+    position: relative;
+    top: -15px;
+    right: 55%;
+    // font-weight: bold;
+  }
+
+  #dur {
+    height: 40px;
+    outline: none;
+    width: 100px;
+    position: relative;
+    top: -15px;
+    right: 55%;
+  }
+
+  // .round{
+  //   // margin-top: 10px;
+  //   height: 30px;
+  // }
+  // .round input {
+  //   position: absolute;
+  //   opacity: 0;
+  //   cursor: pointer;
+  //   height: 0;
+  //   width: 0;
+  //   // z-index: 100;
+  // }
+  .table td,
+  .table th {
+    border-top: 0px;
+  }
+
+  .check {
+    width: 50px !important;
+    float: left;
+    // padding-top: 10px;
+  }
+
+  .checked {
+    // padding-top: 13px;
+    font-size: 16px;
+  }
+
+  .entryNumber {
+    width: 65px;
+    height: 35px;
+  }
+
+  .container1 {
+    display: block;
+    position: relative;
+    // padding-left: 35px;
+    // margin-bottom: 12px;
+    cursor: pointer;
+    // font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
   /* Hide the browser's default checkbox */
   .container1 input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 10px;
-  width: 10px;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 10px;
+    width: 10px;
   }
+
   /* Create a custom checkbox */
   .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  border-radius: 50px;
-  background-color: #eee;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border-radius: 50px;
+    background-color: #eee;
   }
+
   /* On mouse-over, add a grey background color */
-  .container1:hover input ~ .checkmark {
-  background-color: #ccc;
+  .container1:hover input~.checkmark {
+    background-color: #ccc;
   }
+
   /* When the checkbox is checked, add a blue background */
-  .container1 input:checked ~ .checkmark {
-  background-color: #E5277E;
+  .container1 input:checked~.checkmark {
+    background-color: #E5277E;
   }
+
   /* Create the checkmark/indicator (hidden when not checked) */
   .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
+    content: "";
+    position: absolute;
+    display: none;
   }
+
   /* Show the checkmark when checked */
-  .container1 input:checked ~ .checkmark:after {
-  display: block;
+  .container1 input:checked~.checkmark:after {
+    display: block;
   }
+
   /* Style the checkmark/indicator */
   .container1 .checkmark:after {
-  left: 7px;
-  top: 3px;
-  width: 6px;
-  height: 12px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
   }
 }

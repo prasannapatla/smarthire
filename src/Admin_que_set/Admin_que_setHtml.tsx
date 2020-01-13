@@ -14,33 +14,34 @@ var page = function (_this: any) {
                     <div className="col-sm-9 content">
                         {/* <Banner /> */}
                         <div className="main_body">
-                            <div className="page_header">
-                               <p className="exam_text">
-                                   Populate exam
-                               </p>
-                            </div>
-                            <button id="populate_exam" onClick={_this.create_question_set.bind(_this)}><FaPlus/> Populate Exam
-                            </button>
+                            <table className="header">
+                                <td className="exam_text1">
+                                    Populate<br/> exam
+                               </td>
+                                <td>
+                                    <button id="populate_exam1" onClick={_this.create_question_set.bind(_this)}><FaPlus /> Populate Exam
+                                    </button>
+                                </td>
+                            </table>
                             <div className="exam_options">
                                 <table className="table populate">
                                     <tr>
-                                        <th style={{fontSize:'16px'}}>
+                                        <th style={{ fontSize: '16px'}}>
                                             Select Exam
                                         </th>
-                                        <th data-colSpan={4} style={{fontSize:'16px'}}>
+                                        <th data-colSpan={4} style={{ fontSize: '16px', position:'relative',right:'24%'}}>
                                             Duration of the exam
                                         </th>
                                     </tr>
                                     <tr>
                                         <td><select id='exam'></select></td>
-                                        <td><input type='number' defaultValue="60" placeholder='Enter Duration' id='dur' /><b> Mins.</b>
+                                        <td><input type='number' defaultValue="60" placeholder='Enter Duration' id='dur' /><b className="mins"> Mins.</b>
                                         </td>
                                     </tr>
                                 </table>
                                 <div className="table-responsive mob_overflow">
                                     <table id="category"></table>
                                 </div>
-                                <div className="table-responsive mob_overflow" style={{ paddingTop: "20px" }}></div>
                             </div>
                         </div>
                     </div>
