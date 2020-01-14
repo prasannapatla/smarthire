@@ -38,7 +38,7 @@ a {
   margin: 0px;
   /* padding: 10px !important; */
   margin-top: 0px !important;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px;*/
 }
 
 /* .container .row{
@@ -128,7 +128,7 @@ input[type="tel"] {
   padding-bottom: 8px;
   padding-left: 10px;
   font-size: 16px;
-  background-color: #ECEBEB;
+  background-color: #E9EBF8;
 
 }
 

@@ -7,24 +7,25 @@ var swal = require("sweetalert");
 
 class Admin_menu extends Myservice {
 
-    constructor(props:any) {
+    constructor(props: any) {
         super(props);
     }
 
-     componentDidMount() {
-      if(localStorage.getItem("selectedPage")==null)
-      localStorage.setItem("selectedPage",$("li:first").text())
+    componentDidMount() {
+        if (localStorage.getItem("selectedPage") == null)
+            localStorage.setItem("selectedPage", $("li:first").text())
 
-      $("li").click(function(this:any){
-         localStorage.setItem("selectedPage",$(this).text())
-       });
+        $("li").click(function (this: any) {
+            localStorage.setItem("selectedPage", $(this).text())
+        });
 
-       $("li").each(function(this:any){
-         if(localStorage.getItem("selectedPage")==$(this).text())
-         $(this).css({"background-color": "rgb(130,136,170)",
-            "background": "linear-gradient(90deg, #72789C, rgba(103,109,144,1) 38%, rgba(72,76,97,1) 95%)","border-right":"solid 4px #E63284"})
-       
-      });
+        $("li").each(function (this: any) {
+            if (localStorage.getItem("selectedPage") == $(this).text())
+                $(this).css({
+                    "background-color": "rgb(130,136,170)",
+                    "background": "linear-gradient(90deg, #72789C, rgba(103,109,144,1) 38%, rgba(72,76,97,1) 95%)", "border-right": "solid 4px #E63284"
+                })
+        });
         super.componentDidMount();
     }
 
@@ -33,7 +34,7 @@ class Admin_menu extends Myservice {
     }
 
     guru() {
-         swal("hi","")
+        swal("hi", "")
     }
 
     render() {
@@ -44,4 +45,3 @@ class Admin_menu extends Myservice {
 }
 
 export default Admin_menu;
-    

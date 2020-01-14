@@ -27,7 +27,8 @@ class Lgdesign extends Myservice {
    }
 
    componentDidMount() {
-
+      if (localStorage.getItem("selectedPage") != null)
+         localStorage.removeItem("selectedPage")
       let mySer = this
       $(document).keydown(function (e: any) {
          if (e.which === 13 && typeof (e.which) != "undefined") {

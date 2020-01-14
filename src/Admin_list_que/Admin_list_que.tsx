@@ -45,9 +45,16 @@ class Admin_list_que extends Myservice {
     });
     $(".del_que_btn").on("click", function (this: any) {
       var ids: any = []
+      var count = 0;
       $(".que_sel").each(function (this: any) {
+        count = $(".que_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
+        if (count == 1) {
+          swal("Deleted "+count+" question","","success")
+        } else {
+          swal("Deleted "+count+" questions","","success")
+        }
       });
 
       context.fetch_data("/server/remove_questions/", "POST", null, "ids=" + ids.join(",") + "&from=all");
