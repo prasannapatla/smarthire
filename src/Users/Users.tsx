@@ -34,8 +34,8 @@ class Users extends Myservice {
         $(".user_data").html("")
         for (let row in json_data) {
             let html_data = "<tr class='id" + json_data[row]["id"] + "' uid='" + json_data[row]["id"] + "' >"
-            html_data += "<td>" + json_data[row]["name"] + "</td>\n"
-            html_data += "<td>" + json_data[row]["email"] + "</td>\n"
+            html_data += "<td style='padding-right:30px'>" + json_data[row]["name"] + "</td>\n"
+            html_data += "<td style='padding-right:20px'>" + json_data[row]["email"] + "</td>\n"
             if (json_data[row]["password"] !== "") {
                 html_data += "<td><input type='text' value='" + json_data[row]["password"] + "' class='pwd' /></td>\n"
             }
