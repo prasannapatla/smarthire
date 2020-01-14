@@ -73,13 +73,14 @@ class Admin_view_result extends Myservice {
       return
     }
     //alert(str+"\n"+json_obj[0])
-    let txt = "<thead><tr><th>Id</th><th>Email</th><th>Total Duration(Mins)</th><th>Score</th><th>Coding score</th><th>Feedback</th><th  class='no_display'>View Details</th><th  class='no_display'>Delete User Details</th></tr></thead><tbody>"
+    let txt = "<thead><tr><th  class='no_display'>Delete User Details</th><th>Id</th><th>Email</th><th>Total Duration(Mins)</th><th>Score</th><th>Coding score</th><th>Feedback</th><th  class='no_display'>View Details</th></tr></thead><tbody>"
     let val1: any, val2: any
     for (val1 in json_obj) {
       let dur:any = 0;
       if (json_obj[val1]["Total Duration"] != "None")
         dur = Math.floor(json_obj[val1]["Total Duration"]/60)+"Min "+json_obj[val1]["Total Duration"]%60+" Secs"
       txt += "<tr>"
+      txt += "<td  class='no_display' style={{text-align:'center'}} val='" + json_obj[val1]["ID"] + "'><label class='container1' style='margin-left:30px'><input type='checkbox' className='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /><span class='checkmark'></span></label></td>"
       txt += "<td >" + json_obj[val1]["ID"] + "</td>"
       txt += "<td >" + json_obj[val1]["Username"] + "</td>"
       txt += "<td >" + dur + "</td>"
@@ -97,7 +98,6 @@ class Admin_view_result extends Myservice {
         txt += "<td  class='no_display' className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a>View Detail</a></u></td>"
       else
         txt += "<td  class='no_display'>No Details</td>"
-      txt += "<td  class='no_display' style={{text-align:'center'}} val='" + json_obj[val1]["ID"] + "'><input type='checkbox' className='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /></td>"
       txt += "</tr></tbody>"
     }
 
@@ -115,7 +115,8 @@ class Admin_view_result extends Myservice {
     $(".del_user_btn_complete").on("click", function (this: any) {
       var ids: any = []
       del_user.each(function (this: any) {
-        let checkbox = $(this).find("td").eq(7).find("input")
+        // alert( $(this).find("td").eq(0).html())
+        let checkbox = $(this).find("td").eq(0).find("label").find("input")
         if (checkbox.prop("checked"))
           ids.push(checkbox.val())
       });
@@ -137,6 +138,14 @@ class Admin_view_result extends Myservice {
         return
       context.fetch_data("/server/remove_user/", "POST", "ids=" + ids.join(",") + "&all=" + "false");
       context.load_res($('.exam :selected').val());
+    });
+    $(".delete").css({ "visibility":"hidden"})
+    $("input[type='checkbox']").click(function () {
+      $(".delete").css({ "visibility":"hidden"})
+      $("input[type='checkbox']").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".delete").css({ "visibility":"visible"})
+      });
     });
 
   }
@@ -183,16 +192,22 @@ class Admin_view_result extends Myservice {
         "<br /><span className='error' style={{color:'red',padding:'15px',margin:'10px',fontSize: '30px'}}'>Syntax error!</span><br />&nbsp");
     }
     let json_obj = JSON.parse(str);
-    let txt = "<tr>";
-    for (var val in json_obj[0]) {
-      txt += "<th>" + val + "</th>";
-    }
-    txt += "</tr>";
+    let txt = "";
+    // let txt = "<tr>";
+    // for (var val in json_obj[0]) {
+    //   txt += "<th>" + val + "</th>";
+    // }
+    // txt += "</tr>";
     let val1: any, val2: any;
     for (val1 in json_obj) {
       txt += "<tr>";
+      // for (val2 in json_obj[val1]){
+      //   alert(val2)
+      //   txt += "<td style='max-width: 100px;overflow-wrap: break-word'>" + json_obj[val1][val2] + "</td>";
+      // }
       for (val2 in json_obj[val1])
-        txt += "<td style='max-width: 100px;overflow-wrap: break-word'>" + json_obj[val1][val2] + "</td>";
+      txt += "<td style='max-width: 100px;overflow-wrap: break-word'><div class='Exam_info'><b>" + json_obj[val1][val2] + "</b><br/>"+ val2 +"</div></td>";
+       
       txt += "</tr>";
     }
     $(".user_det").html(txt)

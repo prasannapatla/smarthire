@@ -98,7 +98,7 @@ var page = function (_this: any) {
                                 </table><br />
                                 <br />
                                 <div className='file_upload' style={{ display: "block" }}>
-                                    <p className="heading">Bulk upload questions:</p>
+                                    <p className="heading" style={{ marginLeft: "3px" }}>Bulk upload questions:</p>
                                     <br/>
                                     <br/>
                                     <br/>

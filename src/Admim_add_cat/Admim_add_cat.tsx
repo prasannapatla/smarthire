@@ -26,9 +26,16 @@ class Admim_add_cat extends Myservice {
 
     $(".del_que_btn").on("click", function (this: any) {
       var ids: any = []
+      var count=0
       $(".que_sel").each(function (this: any) {
+        count= $(".que_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
+          if (count == 1) {
+            swal("Successfully deleted " + count + " question", "", "success")
+          } else {
+            swal("Successfully deleted " + count + " questions", "", "success")
+          }
       });
       if (context.get_sess("type") == "cat")
         context.fetch_data("/server/remove_questions/", "POST", null, "ids=" + ids.join(",") + "&from=all");
@@ -64,33 +71,46 @@ class Admim_add_cat extends Myservice {
         minDate: 0
       });
     });
-    
+
     // let context = this;
     $(".del_exam_btn").on("click", function (this: any) {
       var ids: any = []
+      var count = 0
       $(".exam_sel").each(function (this: any) {
+        count = $(".exam_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
+        if (count == 1) {
+          swal("Successfully deleted " + count + " question", "", "success")
+        } else {
+          swal("Successfully deleted " + count + " questions", "", "success")
+        }
+
       });
-      if(ids.length>0)
+      if (ids.length > 0)
         context.fetch_data("/server/exam_del/", "POST", null, "ids=" + ids.join(","))
       else
-        swal("Select at least one checkbox","","warning")
+        swal("Select at least one checkbox", "", "warning")
       context.list_exam();
     });
 
     $(".del_cat_btn").on("click", function () {
-
       var ids: any = []
+      var count =0
       $(".cat_sel").each(function (this: any) {
-
+        count= $(".cat_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
+          if (count == 1) {
+            swal("Successfully deleted " + count + " category", "", "success")
+          } else {
+            swal("Successfully deleted " + count + " categories", "", "success")
+          }
       });
-      if(ids.length>0)
+      if (ids.length > 0)
         context.fetch_data("/server/remove_cat/", "POST", null, "ids=" + ids.join(","));
       else
-        swal("Select at least one checkbox","","warning")
+        swal("Select at least one checkbox", "", "warning")
       context.list_cat();
     });
     super.componentDidMount();
@@ -189,13 +209,13 @@ class Admim_add_cat extends Myservice {
       txt += "<td><div class='check'><label class='container1'><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='cat_sel full' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["cat"] + "</div></td>";
       // txt += "<td>" + json_obj[val1]["cat"] + "</td>";
       txt += "<td><a class='cat_view' heading='" + json_obj[val1]["cat"] + "' val='" + json_obj[val1]["id"] + "'>Details</a></td>";
-      
+
       txt += "</tr>"
     }
     $(".list_cat").html(txt)
 
 
-   
+
 
     $("table .cat_view").on("click", function (this: any) {
       context.set_sess("type", "cat")
@@ -217,10 +237,10 @@ class Admim_add_cat extends Myservice {
     let val1: any, val2: any;
     for (val1 in json_obj) {
       txt += "<tr>"
-      txt += "<td class='exam_name'><div class='check'><label class='container1'><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='exam_sel full' /><span class='checkmark'></span></label></div><div class='checked'>"+ json_obj[val1]["e_name"] + "</div></td>";
+      txt += "<td class='exam_name'><div class='check'><label class='container1'><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='exam_sel full' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["e_name"] + "</div></td>";
       // txt += "<td>" + json_obj[val1]["e_name"] + "</td>";
       txt += "<td><a class='exam_view' heading='" + json_obj[val1]["e_name"] + "' val='" + json_obj[val1]["id"] + "'>Details</a></td>";
-      
+
       txt += "</tr>"
     }
     $(".list_exam").html(txt)

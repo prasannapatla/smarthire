@@ -41,7 +41,7 @@ var page = function (_this: any) {
                                 <table>
                                     <tr>
                                         <td>
-                                            <input type="button" value="Delete" className="del_cat_btn" /></td>
+                                            <button  className="del_cat_btn" >Delete</button></td>
                                     </tr>    
                                 </table>   
                             </div>
@@ -70,7 +70,7 @@ var page = function (_this: any) {
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input className="examInfo" type="text" id="datetimepicker" />
+                                                <input className="examInfo form-control custom_date s_date" type="text" id="datetimepicker" />
                                             </td>
                                         </tr>
                                     </table>
@@ -82,7 +82,7 @@ var page = function (_this: any) {
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input className="examInfo" type="text" id="datetimepicker2" />
+                                                <input className="examInfo form-control custom_date e_date" type="text" id="datetimepicker2" />
                                             </td>
                                         </tr>
                                     </table>
@@ -103,9 +103,9 @@ var page = function (_this: any) {
                                 <table className="list_exam"></table>
                                 <table>
                                     <tr>
-                                        {/* <td>
-                                            <input type="button" value="Delete" className="del_exam_btn" />
-                                        </td> */}
+                                        <td>
+                                            <button className="del_exam_btn">Delete</button>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
