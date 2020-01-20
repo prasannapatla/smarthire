@@ -13,6 +13,23 @@ class Admin_register extends Myservice {
   }
 
   componentDidMount() {
+    const realFileBtn = document.getElementById("real-file");
+    const customBtn = document.getElementById("custom-button");
+    const customTxt = document.getElementById("custom-text");
+
+    customBtn.addEventListener("click", function () {
+      realFileBtn.click();
+    });
+
+    realFileBtn.addEventListener("change", function () {
+      if (realFileBtn.value) {
+        customTxt.innerHTML = realFileBtn.value.match(
+          /[\/\\]([\w\d\s\.\-\(\)]+)$/
+        )[1];
+      } else {
+        customTxt.innerHTML = "No file chosen, yet.";
+      }
+    });
     if (this.allow_admin())
       return;
 
@@ -60,13 +77,13 @@ class Admin_register extends Myservice {
         , 1000)
     }
     catch (err) {
-      swal(err, "Upload failed","error")
+      swal(err, "Upload failed", "error")
     }
   }
   callback(data: any, context: any) {
     clearInterval(context.temp_interval)
     $(".progress").html("<pre>" + data + "</pre>")
-    swal("Uploaded", "","success")
+    swal("Uploaded", "", "success")
   }
 
   componentDidUpdate() {
@@ -92,9 +109,9 @@ class Admin_register extends Myservice {
       swal("Fill all necessary field", "", "warning")
       return false
     }
-    if($(".mob").val() == ""){
+    if ($(".mob").val() == "") {
       swal("Incorrect details", "", "warning").then(
-        (v:any)=>{
+        (v: any) => {
           $(".mob").focus()
         }
       )
@@ -114,10 +131,10 @@ class Admin_register extends Myservice {
       mob: $(".mob").val()
     }
 
-    this.show_msg(this.fetch_data("/server/signup/", "POST", null, json_str), this.on_reg,this)
+    this.show_msg(this.fetch_data("/server/signup/", "POST", null, json_str), this.on_reg, this)
   }
 
-  async on_reg(_this:any,status: any,v?:any) {
+  async on_reg(_this: any, status: any, v?: any) {
     if (status.match("success")) {
       $("input[type='text']").val("");
       $("input[type='number']").val("");
