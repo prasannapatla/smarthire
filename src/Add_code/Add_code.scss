@@ -1,73 +1,82 @@
-
 .Add_code {
     .container {
         border-radius: 10px;
         margin-top: 10px;
         margin-bottom: 10px;
     }
-    
-    
-     .row {
+
+
+    .row {
         height: 100%;
         background-color: #F6F7FB;
     }
-    
-     table {
+
+    table {
         width: 100%;
     }
 
-     tr td{
+    tr td {
         text-align: center;
         padding-left: 25px;
         padding-right: 25px;
     }
+
     th {
         text-align: center;
     }
-     .output {
+
+    .output {
         margin-left: 40px;
-       padding-left: 54px;
-       text-align: left;
-     }
-    
-     textarea{
-        background-color: #F7F8FC;  
-      }
-    .heading{
+        padding-left: 54px;
+        text-align: left;
+    }
+
+    textarea {
+        background-color: #F7F8FC;
+    }
+
+    .heading {
         vertical-align: 10px;
     }
-    .code textarea{
-        height:125px;
+
+    .code textarea {
+        height: 125px;
     }
-    
-    .prob textarea{
-        height:60px;
+
+    .prob textarea {
+        height: 60px;
     }
-    .sample_input textarea{
-        height:60px;
+
+    .sample_input textarea {
+        height: 60px;
     }
+
     .test_input textarea {
-        width:230px;
-        height:40px;
+        width: 230px;
+        height: 40px;
 
     }
+
     .test_input {
-        width:250px;
+        width: 250px;
 
     }
+
     .heading_input {
-        width:250px;
+        width: 250px;
     }
-    .btn{
-    height: 37px;
-    float: right;
-    width: 132px;
-    text-align: center;
-    background-color: #E5277F;
-    color: white;
-    padding-bottom: 30px;
-    border-radius: 12px;
+
+    .btn {
+        height: 37px;
+        float: right;
+        width: 132px;
+        text-align: center;
+        background-color: #E5277F;
+        color: white;
+        padding-bottom: 30px;
+        border-radius: 12px;
     }
+
     .progress {
         height: max-content;
         background-color: unset;
@@ -76,62 +85,89 @@
     .progress pre {
         font-size: 12px;
     }
-    .output_heading{ 
-    margin-left: 40px;
-    text-align: left;
-    padding-left: 54px;
-}
-.language{
-text-align: left;
-    padding-left: 19px;
-}
-.statement-heading{
-padding-top: 20px;
-}
-.Code_format{
-background-color:#FFFFFF;
-width: 815px;
-    // margin-left: 57px;
-}
-.data {
-    background-color: #F6F7FB;
+
+    .output_heading {
+        margin-left: 40px;
+        text-align: left;
+        padding-left: 54px;
+    }
+
+    .language {
+        text-align: left;
+        padding-left: 19px;
+    }
+
+    .statement-heading {
+        padding-top: 20px;
+    }
+
+    .Code_format {
+        background-color: #FFFFFF;
+        width: 815px;
+        // margin-left: 57px;
+    }
+
+    .data {
+        background-color: #F6F7FB;
         margin-top: 10px;
 
-}
-.file_upload{
-    background-color:#FFFFFF;
-    width: 819px;
-    margin-left: 104px;
-    margin-top: -49px;
-    height: 240px;
-    padding: 20px;
-}
-.sect {
-    margin-top: -26px;
-    padding: 50px;
-    margin-left: 57px;
-}
-.Add {
-    padding-top: 25px;
-}
-.upload_file {
-    height:80px;
-}
+    }
+
+    .file_upload {
+        background-color: #FFFFFF;
+        width: 819px;
+        margin-left: 104px;
+        margin-top: -49px;
+        height: 240px;
+        padding: 20px;
+    }
+
+    .sect {
+        margin-top: -26px;
+        padding: 50px;
+        margin-left: 57px;
+    }
+
+    .Add {
+        padding-top: 25px;
+    }
+
+    .upload_file {
+        height: 80px;
+    }
 
 
-.upload {
-    color:#E63285;
-    background-color: #FFFFFF;
-    border-color: #E63285;
-}
-button{
-    width:150px;
-    padding: 10px;
-    color:white;
-    background-color:#E63285;
-    border-radius: 10px;
-    padding: 8px;
-    margin-top: 10px;
-}
-}
+    .upload {
+        color: #E63285;
+        background-color: #FFFFFF;
+        border-color: #E63285;
+    }
 
+    button {
+        width: 150px;
+        padding: 10px;
+        color: white;
+        background-color: #E63285;
+        border-radius: 10px;
+        padding: 8px;
+        margin-top: 10px;
+    }
+
+    #custom-button {
+        color: #E5277D;
+        background-color: #FFFFFF;
+        border-color: #E5277D;
+        border: solid 2px;
+        outline: none;
+    }
+
+    input[type="file"] {
+        z-index: -1;
+        position: absolute;
+        opacity: 0;
+    }
+
+    input:focus+label {
+        outline: 2px solid;
+    }
+}

@@ -18,7 +18,7 @@
     }
 
     pre {
-        background-color: rgb(236, 235, 235);
+        background-color: #f9f9fa;
         border: solid 1px silver;
         min-height: 40px;
         padding: 5px;
@@ -38,31 +38,37 @@
     }
 
     .progress {
+        max-height: 200px;
         height: max-content;
         background-color: unset;
     }
-    input[type="number"]{
-        margin-top:10px;
+
+    input[type="number"] {
+        margin-top: 10px;
         max-width: 100%;
         background-color: #ECEBEB;
 
     }
+
     .form-control rname {
         margin-top: 50px !important;
         background-color: #ECEBEB;
     }
+
     .form-control remail {
-        position:relative;
-        margin-top: 10px;
-        background-color: #ECEBEB;
-    }
-    .form-control mob{
-        margin-top: 10px;
-        background-color: #ECEBEB;
-    }
-    .register{
         position: relative;
-        top:-67px;
+        margin-top: 10px;
+        background-color: #ECEBEB;
+    }
+
+    .form-control mob {
+        margin-top: 10px;
+        background-color: #ECEBEB;
+    }
+
+    .register {
+        position: relative;
+        top: -67px;
         left: 44%;
         height: 40px;
         border-radius: 12px;
@@ -76,23 +82,27 @@
         border: solid 2px #E5277D;
         font-size: 14px;
     }
-    .row{
+
+    .row {
         background-color: #F6F7FB;
     }
-    .sect{
+
+    .sect {
         background-color: #FFFFFF;
-        height: 400px;
-    padding: 21px;
-    width: 888px;
-    margin-left: 44px;
-    margin-top: 20px;
+        // height: 400px;
+        padding: 21px;
+        width: 888px;
+        margin-left: 44px;
+        margin-top: 20px;
     }
-    .server_side_resp{
+
+    .server_side_resp {
         height: 159px;
     }
+
     .send {
         position: relative;
-        top:-54px;
+        top: -54px;
         left: 44%;
         height: 40px;
         border-radius: 12px;
@@ -106,54 +116,71 @@
         border: solid 2px #E5277D;
         font-size: 14px;
     }
-    .heading{
+
+    .heading {
         font-size: 25px;
     }
+
     .email_status {
         height: 85px;
     }
-    .credentials_sect{
+
+    .credentials_sect {
         background-color: #FFFFFF;
         height: 449px;
-      padding: 21px;
-    width: 888px;
-    margin-left: 44px;
-    margin-top: 20px;
+        padding: 21px;
+        width: 888px;
+        margin-left: 44px;
+        margin-top: 20px;
     }
+
     .cur_exam2 {
         margin-top: 15px;
         margin-bottom: 15px;
     }
+
     .upload_file2 {
-        color:#E5277D;
+        color: #E5277D;
         background-color: #FFFFFF;
         border-color: #E5277D;
         border: solid 2px;
         outline: none;
     }
+
     .upload {
-        color:#E5277D;
+        color: #E5277D;
         background-color: #FFFFFF;
         border-color: #E5277D;
         border: solid 2px;
+        outline: none;
     }
-    button{
-        width:150px;
+
+    #custom-button {
+        color: #E5277D;
+        background-color: #FFFFFF;
+        border-color: #E5277D;
+        border: solid 2px;
+        outline: none;
+    }
+
+    button {
+        width: 150px;
         padding: 10px;
-        color:white;
-        background-color:#E5277D;
+        color: white;
+        background-color: #E5277D;
         border-radius: 10px;
         padding: 8px;
         margin-top: 10px;
     }
-    input[type="file"] { 
+
+    input[type="file"] {
         z-index: -1;
         position: absolute;
         opacity: 0;
-      }
-      
-      input:focus + label {
+    }
+
+    input:focus+label {
         outline: 2px solid;
-      }
-    
+    }
+
 }

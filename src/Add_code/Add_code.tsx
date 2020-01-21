@@ -14,6 +14,29 @@ class Add_code extends Myservice {
     }
 
     componentDidMount() {
+        const realFileBtn = document.getElementById("real-file");
+        const customBtn = document.getElementById("custom-button");
+        const customTxt = document.getElementById("custom-text");
+
+        //@ts-ignore
+        customBtn.addEventListener("click", function () {
+            //@ts-ignore
+            realFileBtn.click();
+        });
+
+        //@ts-ignore
+        realFileBtn.addEventListener("change", function () {
+            //@ts-ignore
+            if (realFileBtn.value) {
+                //@ts-ignore
+                customTxt.innerHTML = realFileBtn.value.match(
+                    /[\/\\]([\w\d\s\.\-\(\)]+)$/
+                )[1];
+            } else {
+                //@ts-ignore
+                customTxt.innerHTML = "No file chosen, yet.";
+            }
+        });
         if (this.allow_admin())
             return;
         let context = this
@@ -57,7 +80,7 @@ class Add_code extends Myservice {
     bulk_upload() {
         var sel2 = $('#lang2 :selected').val();
         if ($("#lang2").prop('selectedIndex') == 0) {
-            swal(sel2 + " before submitting.","","warning").then(() => {
+            swal(sel2 + " before submitting.", "", "warning").then(() => {
                 $("#lang2").focus()
             })
             return false;
@@ -77,19 +100,19 @@ class Add_code extends Myservice {
                     $(".progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
                 }
                 , 500)
-            
+
             var file = $(".upload_file")[0].files[0];
             new this.Upload(file).doUpload();
         }
         catch (err) {
-            swal(err, "Upload failed","error")
+            swal(err, "Upload failed", "error")
         }
     }
     callback2(data: any, context: any) {
         clearInterval(context.temp_interval)
         $(".progress").html("<pre>" + data + "</pre>")
-        $("body *").css({ cursor: "auto" })        
-        swal("Uploaded", "","success")
+        $("body *").css({ cursor: "auto" })
+        swal("Uploaded", "", "success")
     }
 
     componentDidUpdate() {
@@ -127,7 +150,7 @@ class Add_code extends Myservice {
                 swal(data, "", "success")
             else
                 swal(data, "", "error")
-    
+
             $("textarea").each(function (this: any) {
                 $(this).val("")
             });

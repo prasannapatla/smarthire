@@ -3,7 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaUpload } from 'react-icons/fa';
+import { FiFile } from 'react-icons/fi';
+
 var $ = require("jquery");
 
 var page = function (_this: any) {
@@ -29,12 +31,11 @@ var page = function (_this: any) {
                                 </form>
                                 <div className='file_upload' style={{ display: "block" }}>
                                     <b>Format : </b> Name, Email and Mobile number<br /><br />
-                                    <button className="upload" onClick={_this.bulk_upload.bind(_this)}>Upload</button>
-                                    {/* <input type="file" className="upload_file" style={{display:"none"}} />
-                                    <button className="upload_file2" onClick={(e)=>$(".upload_file").trigger('click') }>Choose file</button> */}
-                                    <input type="file" id="real-file" style={{visibility:'hidden'}}/>
-                                    <button type="button" id="custom-button">CHOOSE A FILE</button>
+                                    <button className="upload" onClick={_this.bulk_upload.bind(_this)}><b><FaUpload style={{ color: "#E5287C", marginLeft: "-4px" }} /> Upload</b></button>
+                                    <input type="file" id="real-file" className="upload_file" style={{ visibility: 'hidden' }} />
+                                    <button type="button" id="custom-button"><b><FiFile style={{ color: "#E5287C", marginLeft: "-4px" }} /> Choose a File</b></button>
                                     <span id="custom-text">No file chosen, yet.</span>
+                                    <br />
                                     <br />
                                     <span className='progress'>-</span>
                                 </div>

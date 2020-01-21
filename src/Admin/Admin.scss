@@ -213,4 +213,29 @@
         left: 57px;
 
     }
+    #custom-button {
+        color: #E5277D;
+        background-color: #FFFFFF;
+        border-color: #E5277D;
+        border: solid 2px;
+        outline: none;
+    }
+    button {
+        width: 150px;
+        padding: 10px;
+        color: white;
+        background-color: #E5277D;
+        border-radius: 10px;
+        padding: 8px;
+        margin-top: 10px;
+    }
+    input[type="file"] {
+        z-index: -1;
+        position: absolute;
+        opacity: 0;
+    }
+
+    input:focus+label {
+        outline: 2px solid;
+    }
 }
