@@ -1,3 +1,7 @@
+html {
+  /* background-color: #F2F2F2; */
+}
+
 body {
   opacity: 1;
   transition: opacity 2s;

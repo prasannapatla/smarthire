@@ -114,6 +114,7 @@ class Admim_add_cat extends Myservice {
       context.list_cat();
     });
     super.componentDidMount();
+    
   }
 
   componentDidUpdate() {
@@ -224,6 +225,15 @@ class Admim_add_cat extends Myservice {
       context.set_sess("type", "cat")
       context.display_que($(this).attr("val"), "cat")
     });
+    $(".delete").css({ "visibility":"hidden"})
+    $(".cat_sel").click(function () {
+      $(".delete").css({ "visibility":"hidden"})
+      $(".cat_sel").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".delete").css({ "visibility":"visible"})
+      });
+    });
+   
   };
 
   list_exam = () => {
@@ -266,6 +276,15 @@ class Admim_add_cat extends Myservice {
       context.set_sess("q_from", $(this).attr("heading"))
       context.display_que($(this).attr("val"), "exam")
       context.set_sess("type", "exam")
+    });
+
+    $(".del_exam_btn").css({ "visibility":"hidden"})
+    $(".exam_sel").click(function () {
+      $(".del_exam_btn").css({ "visibility":"hidden"})
+      $(".exam_sel").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".del_exam_btn").css({ "visibility":"visible"})
+      });
     });
 
   };
@@ -335,6 +354,7 @@ class Admim_add_cat extends Myservice {
       page(this)
     )
   }
+  
 }
 
 export default Admim_add_cat;

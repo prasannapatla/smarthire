@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Admin_menu from '../Admin_menu/Admin_menu';
 import { FaPlus } from 'react-icons/fa';
+import { AiTwotoneDelete } from "react-icons/ai";
 
 var page = function (_this: any) {
     return (
@@ -33,15 +34,14 @@ var page = function (_this: any) {
                                             <button onClick={_this.add.bind(_this)} id="add" ><FaPlus /> Add</button>
                                         </td>
                                         <td>
-                                            {/* <button className="del_que_btn" style={{ display: "none", float: "right" }}>Delete</button> */}
-                                        </td>
+                                            <button  className="del del_cat_btn delete"  ><AiTwotoneDelete className="del_icon"/> Delete</button></td>
+                                        
                                     </tr>
                                 </table>
                                 <table className="list_cat"></table>
                                 <table>
                                     <tr>
-                                        <td>
-                                            <button  className="del_cat_btn" >Delete</button></td>
+                                        
                                     </tr>    
                                 </table>   
                             </div>
@@ -94,18 +94,19 @@ var page = function (_this: any) {
                                         </tr>
                                         <tr>
                                             <td>
-                                                <button onClick={_this.add_exam.bind(_this)}><FaPlus /> Create
+                                                <button onClick={_this.add_exam.bind(_this)}className="create"><FaPlus /> Create
                                                 </button>
                                             </td>
+                                            <td>
+                                            <button className="del_exam_btn delete_exam"><AiTwotoneDelete className="del_icon"/> Delete</button>
+                                        </td>
                                         </tr>
                                     </table>
                                 </div>
                                 <table className="list_exam"></table>
                                 <table>
                                     <tr>
-                                        <td>
-                                            <button className="del_exam_btn">Delete</button>
-                                        </td>
+                                        
                                     </tr>
                                 </table>
                             </div>
