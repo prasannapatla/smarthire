@@ -118,7 +118,8 @@ class Users extends Myservice {
             super_admin: (admin) ? 1 : 0
         }
         console.log(json_data)
-        $(".update_status").text(this.fetch_data("/server/update_admin/", "POST", null, json_data).split("&sep;")[1])
+        let status = this.fetch_data("/server/update_admin/", "POST", null, json_data).split("&sep;")[1]
+        swal(status,"","success")
         if (this.timeout != null)
             clearTimeout(this.timeout)
         this.timeout = setTimeout(

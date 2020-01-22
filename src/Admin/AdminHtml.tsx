@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner';
 import { FaPlus } from 'react-icons/fa';
-import { FiUpload } from 'react-icons/fi';
+import { FiUpload,FiFile } from 'react-icons/fi';
 
 
 
@@ -104,7 +104,12 @@ var page = function (_this: any) {
                                     <br/>
                                     <div>Format: Questions, Program, Option1, Option2, Option3,Option4, Correct Answer</div>
                                     <button className="upload" onClick={_this.bulk_upload.bind(_this)}><FiUpload /> Upload</button>
-                                    <input type="file" className="upload_file" />
+                                    {/* <input type="file" className="upload_file" />
+                                    <br /> */}
+                                    <input type="file" id="real-file" className="upload_file" style={{ visibility: 'hidden' }} />
+                                    <button type="button" id="custom-button"><b><FiFile style={{ color: "#E5287C", marginLeft: "-4px" }} /> Choose a File</b></button>
+                                    <span id="custom-text">No file chosen, yet.</span>
+                                    <br />
                                     <br />
                                     <span className='progress'>-</span>
                                 </div>

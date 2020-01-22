@@ -7,6 +7,17 @@ body {
   transition: opacity 2s;
 }
 
+html,
+body,
+#root,
+.container {
+  height: 100%;
+}
+
+/* #root > div:first-child {
+  height: 100%;
+} */
+
 td,
 div,
 p,
@@ -114,6 +125,7 @@ input[type='checkbox']:checked {
   margin-left: 5px;
   margin-right: 5px;
 }
+
 input[type="number"] {
   background-color: #E9EBF8 !important;
   outline: none;
@@ -125,7 +137,7 @@ input[type="email"],
 input[type="password"],
 input[type="tel"] {
   /* width: 30%; */
-  width:100%;
+  width: 100%;
   margin-top: 10px;
   border: 2px solid #b8b8b8;
   border-radius: 5px;

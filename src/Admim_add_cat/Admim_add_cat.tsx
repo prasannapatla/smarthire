@@ -32,9 +32,9 @@ class Admim_add_cat extends Myservice {
         if ($(this).prop("checked"))
           ids.push($(this).val())
           if (count == 1) {
-            swal("Successfully deleted " + count + " question", "", "success")
+            swal("Deleted " + count + " category", "", "success")
           } else {
-            swal("Successfully deleted " + count + " questions", "", "success")
+            swal("Deleted " + count + " categories", "", "success")
           }
       });
       if (context.get_sess("type") == "cat")
@@ -81,9 +81,9 @@ class Admim_add_cat extends Myservice {
         if ($(this).prop("checked"))
           ids.push($(this).val())
         if (count == 1) {
-          swal("Successfully deleted " + count + " question", "", "success")
+          swal("Deleted " + count + " exam", "", "success")
         } else {
-          swal("Successfully deleted " + count + " questions", "", "success")
+          swal("Deleted " + count + " exams", "", "success")
         }
 
       });

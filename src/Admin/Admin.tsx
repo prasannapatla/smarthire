@@ -18,6 +18,29 @@ class Admin extends Myservice {
   }
 
   componentDidMount() {
+    const realFileBtn = document.getElementById("real-file");
+    const customBtn = document.getElementById("custom-button");
+    const customTxt = document.getElementById("custom-text");
+
+    //@ts-ignore
+    customBtn.addEventListener("click", function () {
+      //@ts-ignore
+      realFileBtn.click();
+    });
+
+    //@ts-ignore
+    realFileBtn.addEventListener("change", function () {
+      //@ts-ignore
+      if (realFileBtn.value) {
+        //@ts-ignore
+        customTxt.innerHTML = realFileBtn.value.match(
+          /[\/\\]([\w\d\s\.\-\(\)]+)$/
+        )[1];
+      } else {
+        //@ts-ignore
+        customTxt.innerHTML = "No file chosen, yet.";
+      }
+    });
     if (this.allow_admin())
       return;
     // this.myinit();

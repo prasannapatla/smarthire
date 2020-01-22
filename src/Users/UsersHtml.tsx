@@ -26,7 +26,7 @@ var page = function (_this: any) {
                               Details
                            </p>
                         </div>
-                        <button id="deleteCode" className="delete del_que_btn"><AiTwotoneDelete className="del_icon" onClick={_this.del_user.bind(_this)} />&nbsp; Delete</button>
+                        <button id="deleteCode" className="delete del_que_btn" onClick={_this.del_user.bind(_this)}><AiTwotoneDelete className="del_icon"/>&nbsp; Delete</button>
                         {/* <input type="button" value="Delete" className="delete" onClick={_this.del_user.bind(_this)} /> */}
                         <table style={{ marginTop: "100px", marginLeft: "50px" }}>
                            <thead>
@@ -42,7 +42,7 @@ var page = function (_this: any) {
                            </tbody>
                         </table>
                         <br /><br />
-                        <span className='update_status'></span>
+                        {/* <span className='update_status'></span> */}
                         <form onSubmit={_this.add.bind(_this)} className="add_user" style={{ marginTop: "50px",marginLeft: "50px" }}>
                            &nbsp;&nbsp;&nbsp;<input type="text" placeholder="name" className="name" required style={{ width: "300px" }} /><br />
                            &nbsp;&nbsp;&nbsp;<input type="email" placeholder="email" className="email" required style={{ width: "300px" }} /><br />

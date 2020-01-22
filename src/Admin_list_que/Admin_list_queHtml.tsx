@@ -19,14 +19,14 @@ var page = function (_this: any) {
                             <p className='que_text'>
                                 Questions
                             </p>
+                            <div style={{ position:'absolute', right: '200px'}}>
+                                <button className="delete del_que_btn"><AiTwotoneDelete className="del_icon" />&nbsp; Delete</button>
+                            </div>
                             <div className='exam_type'>
                                 <p className='type_text'>SELECT EXAM TYPE.</p>
                                 <select id="cat"></select>
                                 {/* <input type="button" style={{ float: "right" }} value="Select all" className="sel_all" /> */}
                             </div>
-                        </div>
-                        <div>
-                            <button className="delete del_que_btn"><AiTwotoneDelete className="del_icon"/>&nbsp; Delete</button>
                         </div>
                         <div className="sect">
                             {/* <br /><br /><br /> */}
