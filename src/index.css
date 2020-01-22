@@ -1,5 +1,5 @@
 html {
-  /* background-color: #F2F2F2; */
+  background-color: #F6F7FB;
 }
 
 body {
@@ -14,9 +14,6 @@ body,
   height: 100%;
 }
 
-/* #root > div:first-child {
-  height: 100%;
-} */
 
 td,
 div,

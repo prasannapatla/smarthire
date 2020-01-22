@@ -55,8 +55,6 @@ var page = function (_this: any) {
                                     <pre className='server_side_resp' id="server_side_resp"></pre>
                                 </form>
                             </div>
-                            {/* <div style={{ display: "none" }}><b>(*) Format: </b> Name,Email,Exam(Optional)
-                            </div> */}
                         </div>
                     </div>
                 </div>

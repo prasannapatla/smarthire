@@ -1,4 +1,8 @@
 .Vishdesign {
+
+   height: 100%;
+   background-color: #72779C;
+
    .loginBg {
       width: 100%;
       min-height: 100%;
@@ -116,24 +120,43 @@
       margin-top: 20px;
    }
 
+   #lemail {
+      background-color: #E8F0FE !important;
+      border: solid 2px #E8F0FE;
+   }
+
+   #lemail:focus {
+      outline: none;
+      border: solid 2px #E5277E;
+   }
+
    #lpwd {
       margin-top: 0px;
+      background-color: #E8F0FE !important;
+      border: solid 2px #E8F0FE;
+   }
+
+   #lpwd:focus {
+      outline: none;
+      border: solid 2px #E5277E;
    }
 
    .forgot-pwd {
       margin-top: 10px;
       float: right;
-      color: #E7537F !important;
+      color: #E5277E !important;
    }
 
    .btn_style {
-      background-color: #e43aab;
+      background-color: #E5277E;
       margin-top: 35px;
       margin-right: 0px !important;
       width: -webkit-fill-available;
       font-size: 15px;
       outline: none;
-      border-radius: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      border: solid 2px #E5277E;
    }
 
    .formBottom {
