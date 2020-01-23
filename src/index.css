@@ -1,5 +1,5 @@
 html {
-  /* background-color: #F2F2F2; */
+  background-color: #F6F7FB;
 }
 
 body {
@@ -14,9 +14,6 @@ body,
   height: 100%;
 }
 
-/* #root > div:first-child {
-  height: 100%;
-} */
 
 td,
 div,
@@ -285,6 +282,11 @@ th,
 tr td:first-child input[type="checkbox"] {
   margin-left: 0px;
 }
+
+.checkmark {
+  box-shadow: inset 0 0 2px;
+}
+
 
 .pre_tag {
   background-color: #e9ecf1;

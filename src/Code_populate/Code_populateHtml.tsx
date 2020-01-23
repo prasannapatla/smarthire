@@ -13,45 +13,10 @@ var page = function (_this: any) {
                     <Admin_menu />
                     <div className="col-sm-9 content">
                         {/* <Banner /> */}
-                        {/* <div className="data">
-
-                            <div className="sect">
-                                <div className='heading'>Populate Coding Exam</div>
-                                <div className="table-responsive mob_overflow">
-                                    <table id="category"></table>
-                                </div>
-                                <div className="table-responsive mob_overflow" style={{ paddingTop: "20px" }}>
-                                    <table className="table populate">
-                                        <tr>
-                                            <th>
-                                                Select Exam
-                                            </th>
-                                            <th data-colSpan={4}>
-                                                Number of questions
-                                            </th>
-                                            <th data-colSpan={4}>
-                                                Duration of the exam
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td><select id='exam'></select></td>
-                                            <td><input type='number' defaultValue="4" placeholder='Total questions' id='total' />
-                                            </td>
-                                            <td><input type='number' defaultValue="30" placeholder='Enter Duration' id='dur' />
-                                            </td>
-                                            <td style={{ paddingLeft: "5px", paddingRight: "10px" }}>Mins</td>
-                                            <td>
-                                                <input type='button' onClick={_this.create_que_set.bind(_this)} value='Populate Coding Exam' />
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> */}
                         <div className="main_body">
                             <table className="header">
                                 <td className="exam_text1">
-                                    Populate Coding exam
+                                    Populate <br />Coding exam
                                </td>
                                 <td>
                                     <button id="populate_exam1" onClick={_this.create_que_set.bind(_this)}><FaPlus /> Populate Exam
@@ -78,9 +43,8 @@ var page = function (_this: any) {
                                         <td><select id='exam' className="selectExam"></select></td>
                                         <td><input type='number' defaultValue="4" placeholder='Total questions' id='total' className="no_Que" />
                                         </td>
-                                        <td><input type='number' defaultValue="30" placeholder='Enter Duration' id='dur' className="dur_exam"/><b className="mins">Mins</b>
+                                        <td><input type='number' defaultValue="30" placeholder='Enter Duration' id='dur' className="dur_exam" /><b className="mins">Mins</b>
                                         </td>
-                                        {/* <td style={{ paddingLeft: "5px", paddingRight: "10px" }}></td> */}
                                     </tr>
                                 </table>
                             </div>

@@ -18,6 +18,7 @@ class Admin_que_set extends Myservice {
     this.get_exam("exam");
     this.get_cat();
     super.componentDidMount();
+
   }
 
   componentDidUpdate() {
@@ -42,9 +43,9 @@ class Admin_que_set extends Myservice {
     var cat_str = this.fetch_data("/server/getexam/", "POST");
     let json_obj = JSON.parse(cat_str)
     let val1: any, val2: any
-    let txt = "<option>Select exam</option>"
+    let txt = "<option class='ex_op'>Select exam</option>"
     for (val1 in json_obj) {
-      txt += "<option  value=\"" + json_obj[val1]["id"] + "\">"
+      txt += "<option class='ex_op' value=\"" + json_obj[val1]["id"] + "\">"
       txt += json_obj[val1]["e_name"] + "</option>"
     }
     $("#" + id).html(txt)

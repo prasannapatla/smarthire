@@ -12,6 +12,7 @@
       border-radius: 15px;
       margin-right: 10px;
       background-color: #F6F7FB;
+      box-shadow: inset 0 0 5px;
    }
 
    .sect {
@@ -23,6 +24,7 @@
       // position: relative;
       height: 100%;
       top: 25px;
+      box-shadow: 5px 5px 10px -2px;
    }
 
    .code_section {
@@ -53,7 +55,7 @@
       padding: 8px;
       font-weight: bold;
       position: absolute;
-      top: 5%;
+      margin-top: 15px;
       right: 50px;
       height: 40px;
       border-radius: 12px;

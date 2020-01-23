@@ -27,8 +27,7 @@ var page = function (_this: any) {
                     <li><Link to='/admin_register'><FaUser/>&nbsp;&nbsp;&nbsp;Register Candidate</Link></li>
                     <li><Link to='/users'><TiGroup/>&nbsp;&nbsp;&nbsp;Admin users</Link></li>
                     {/* <br/> */}
-                    <br/>
-                    <li ><a href="javascript:void(0)" onClick={_this.user_logout.bind(_this)}><FaPowerOff/>&nbsp;&nbsp;&nbsp;Logout</a> </li>
+                    <li style={{marginTop:"60px"}}><a href="javascript:void(0)" onClick={_this.user_logout.bind(_this)}><FaPowerOff/>&nbsp;&nbsp;&nbsp;Logout</a> </li>
                     <br/>
                 </ul>
             </div>
