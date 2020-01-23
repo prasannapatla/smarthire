@@ -63,7 +63,7 @@ var page = function (_this: any) {
 
                             {/* <input style={{ float: "right" }} type="button" value="Download" onClick={_this.download_page.bind(_this)} /> */}
 
-                            <input style={{ float: "right", display: "none" }} type="button" value="Delete Result Set only" className="del_user_btn" />
+                            <input type="button" value="Delete Result Set only" className="del_user_btn" />
                             {/* <input style={{ float: "right", display: "block" }} type="button" value="Download" onClick={_this.download_page.bind(_this)} /> */}
                             {/* <a id="download" download="details.png" className="download" >Download</a> */}
                             {/* <a href="./details.xls">Download Excel sheet</a> */}

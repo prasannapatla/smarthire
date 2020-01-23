@@ -132,7 +132,7 @@ var page = function (_this: any) {
                                 </table><br />
                                 </div>
                                 <div className='file_upload' style={{ display: "block" }}>
-                                    <p className="heading">Bulk upload questions:</p>
+                                    <p className="heading_upload">Bulk upload questions:</p>
                                     <select id="lang2">
                                         <option value="Select programming language">Select programming language</option>
                                         <option value="cpp">C/C++</option>

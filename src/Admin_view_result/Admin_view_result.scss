@@ -1,8 +1,10 @@
 .Admin_view_result {
+  height: 100%;
   .container {
     border-radius: 10px;
     margin-bottom: 10px;
     // padding: 10px;
+    height: 100%;
   }
 
   @media print {
@@ -221,14 +223,14 @@
   }
 
   .form-control {
-    width: 30%;
+    width: 336px;
   }
 
   .print {
-    float: right;
+    // float: right;
     position: relative;
-    right: 160px;
     top: -49px;
+    left: 395px;
   }
 
   button {
@@ -242,14 +244,14 @@
     font-weight: bold;
   }
 
-  .icon {
-    font-size: 20px;
-  }
+  // .icon {
+  //   // font-size: 20px;
+  // }
 
   .download {
+    left: 391px;
+    top: -51px;
     position: relative;
-    left: 62%;
-    top: -49px;
   }
 
   .mob_overflow {
@@ -276,13 +278,32 @@
   }
   .del_icon {
     margin-left: -10px;
-    font-size: 20px;
+    // font-size: 20px;
     margin-top: -3px;
 }
 .Exam_info {
   background-color: white;
   margin-right: 45px;
-  min-height: 70px;
+  height: 100px;
   padding:10px;
+  float: left;
+}
+
+.del_user_btn {
+  display: block;
+  position: relative;
+  left: 18px;
+}
+.image {
+  margin-left: 121px;
+  width: 45px;
+  height: 37px;
+  position: relative;
+  top:45px;
+  float: left;
+}
+.exam_info_text{
+  position: relative;
+  top: -36px;
 }
 }

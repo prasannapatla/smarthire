@@ -3,6 +3,10 @@ import './Admin_view_result.scss';
 import page from './Admin_view_resultHtml'
 import Myservice from '../Myservice/Myservice'
 import { string } from 'prop-types';
+import exam from '../assets/exam.jpg'
+import date from '../assets/date.jpg'
+import clock from '../assets/clock.jpg'
+import totalTime from '../assets/totaltime.jpg'
 //import jsPDF from 'jspdf'
 declare const require: any;
 const jsPDF = require('jspdf');
@@ -15,7 +19,14 @@ class Admin_view_result extends Myservice {
   constructor(props: any) {
     super(props);
   }
-
+  state = {
+    images: {
+      Exam: exam,
+      "Total Marks": exam,
+      Date:date,
+      "Total Time(Mins)":totalTime      
+    }
+  }
   componentDidMount() {
     if (this.allow_admin())
       return;
@@ -62,9 +73,9 @@ class Admin_view_result extends Myservice {
   load_res = (eid: any = null) => {
     let str = ""
     if (eid != null)
-      str = this.fetch_data("/server/view_res/", "POST", "exam=" + eid+"&max="+$(".intake").val())
+      str = this.fetch_data("/server/view_res/", "POST", "exam=" + eid + "&max=" + $(".intake").val())
     else
-      str = this.fetch_data("/server/view_res/", "POST","max="+$(".intake").val())
+      str = this.fetch_data("/server/view_res/", "POST", "max=" + $(".intake").val())
     let json_obj
     try {
 
@@ -76,9 +87,9 @@ class Admin_view_result extends Myservice {
     let txt = "<thead><tr><th  class='no_display'>Delete User Details</th><th>Id</th><th>Email</th><th>Total Duration(Mins)</th><th>Score</th><th>Coding score</th><th>Feedback</th><th  class='no_display'>View Details</th></tr></thead><tbody>"
     let val1: any, val2: any
     for (val1 in json_obj) {
-      let dur:any = 0;
+      let dur: any = 0;
       if (json_obj[val1]["Total Duration"] != "None")
-        dur = Math.floor(json_obj[val1]["Total Duration"]/60)+"Min "+json_obj[val1]["Total Duration"]%60+" Secs"
+        dur = Math.floor(json_obj[val1]["Total Duration"] / 60) + "Min " + json_obj[val1]["Total Duration"] % 60 + " Secs"
       txt += "<tr>"
       txt += "<td  class='no_display' style={{text-align:'center'}} val='" + json_obj[val1]["ID"] + "'><label class='container1' style='margin-left:30px'><input type='checkbox' className='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /><span class='checkmark'></span></label></td>"
       txt += "<td >" + json_obj[val1]["ID"] + "</td>"
@@ -139,12 +150,12 @@ class Admin_view_result extends Myservice {
       context.fetch_data("/server/remove_user/", "POST", "ids=" + ids.join(",") + "&all=" + "false");
       context.load_res($('.exam :selected').val());
     });
-    $(".delete").css({ "visibility":"hidden"})
+    $(".delete").css({ "visibility": "hidden" })
     $("input[type='checkbox']").click(function () {
-      $(".delete").css({ "visibility":"hidden"})
+      $(".delete").css({ "visibility": "hidden" })
       $("input[type='checkbox']").each(function (this: any) {
         if ($(this).prop("checked"))
-          $(".delete").css({ "visibility":"visible"})
+          $(".delete").css({ "visibility": "visible" })
       });
     });
 
@@ -206,8 +217,8 @@ class Admin_view_result extends Myservice {
       //   txt += "<td style='max-width: 100px;overflow-wrap: break-word'>" + json_obj[val1][val2] + "</td>";
       // }
       for (val2 in json_obj[val1])
-      txt += "<td style='max-width: 100px;overflow-wrap: break-word'><div class='Exam_info'><b>" + json_obj[val1][val2] + "</b><br/>"+ val2 +"</div></td>";
-       
+        txt += "<td style='max-width: 100px;'><div class='Exam_info'><img src='"+this.state.images[val2]+"' class='image'/><div class='exam_info_text'><b>" + json_obj[val1][val2] + "</b><br/>" + val2 + "</div></div></td>";
+
       txt += "</tr>";
     }
     $(".user_det").html(txt)
@@ -245,11 +256,11 @@ class Admin_view_result extends Myservice {
 
   };
 
-_print(this:any,sel:string){
-  this.print_div(sel)
-}
+  _print(this: any, sel: string) {
+    this.print_div(sel)
+  }
 
-  print_div(selecter:string) {
+  print_div(selecter: string) {
     // let w = window.open();
     // if(w!=null){
     //   w.document.write("<html><body>"+$(selecter).html()+"</html></body>");
@@ -267,7 +278,7 @@ _print(this:any,sel:string){
     $("input").show()
   }
 
-  download_excel(){
+  download_excel() {
     window.open("./details.xls")
   }
 
