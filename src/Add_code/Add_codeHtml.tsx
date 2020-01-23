@@ -129,6 +129,8 @@ var page = function (_this: any) {
                                             <pre className='output exp_op4'>Expected output</pre>
                                         </td>
                                     </tr>
+                                    <br />
+                                    <br />
                                 </table><br />
                                 </div>
                                 <div className='file_upload' style={{ display: "block" }}>
@@ -140,6 +142,7 @@ var page = function (_this: any) {
                                         <option value="py3">Python</option>
                                         <option value="js">Javascript</option>
                                     </select><br/>
+                                    <br/>
                                     <b>Format: </b>Problem statement,code,sample input,test input 1,test input 2,test input 3,test input4,Programming language(Optional)<br /><br />
                                     <button className="upload" onClick={_this.bulk_upload.bind(_this)}><FiUpload /> Upload</button>
                                     <input type="file" id="real-file" className="upload_file" style={{ visibility: 'hidden' }} />

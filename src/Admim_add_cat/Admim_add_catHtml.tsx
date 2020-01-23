@@ -34,16 +34,16 @@ var page = function (_this: any) {
                                             <button onClick={_this.add.bind(_this)} id="add" ><FaPlus /> Add</button>
                                         </td>
                                         <td>
-                                            <button  className="del del_cat_btn delete"  ><AiTwotoneDelete className="del_icon"/> Delete</button></td>
-                                        
+                                            <button className="del del_cat_btn delete"  ><AiTwotoneDelete className="del_icon" /> Delete</button></td>
+
                                     </tr>
                                 </table>
                                 <table className="list_cat"></table>
                                 <table>
                                     <tr>
-                                        
-                                    </tr>    
-                                </table>   
+
+                                    </tr>
+                                </table>
                             </div>
                             <br />
                             <br />
@@ -52,63 +52,58 @@ var page = function (_this: any) {
                                 <div className="input_group">
                                     <table >
                                         <tr>
-                                            <td>
+                                            <td className="exam_heading">
                                                 Exam name
+                                        </td>
+                                            <td className="exam_heading">
+                                                Start date
+                                        </td>
+                                            <td className="exam_heading">
+                                                End date
                                         </td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <input className="examInfo" type="text" id="e_name" />
                                             </td>
-                                        </tr>
-                                    </table>
-                                    <table >
-                                        <tr>
-                                            <td>
-                                                Start date
-                                        </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <input className="examInfo form-control custom_date s_date" type="text" id="datetimepicker" />
                                             </td>
-                                        </tr>
-                                    </table>
-                                    <table >
-                                        <tr>
-                                            <td>
-                                                End date
-                                        </td>
-                                        </tr>
-                                        <tr>
                                             <td>
                                                 <input className="examInfo form-control custom_date e_date" type="text" id="datetimepicker2" />
                                             </td>
+                                            <td>
+                                                <button onClick={_this.add_exam.bind(_this)} className="create"><FaPlus /> Create
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button className="del_exam_btn delete_exam"><AiTwotoneDelete className="del_icon" /> Delete</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    {/* <table >
+                                        <tr>
+                                            
+                                        </tr>
+                                        <tr>
+                                            
                                         </tr>
                                     </table>
                                     <table >
                                         <tr>
-                                            <td>
-
-                                            </td>
+                                            
                                         </tr>
                                         <tr>
-                                            <td>
-                                                <button onClick={_this.add_exam.bind(_this)}className="create"><FaPlus /> Create
-                                                </button>
-                                            </td>
-                                            <td>
-                                            <button className="del_exam_btn delete_exam"><AiTwotoneDelete className="del_icon"/> Delete</button>
-                                        </td>
+                                           
+                                        
+                                            
                                         </tr>
-                                    </table>
+                                    </table> */}
+                                    {/* <table >
+                                       
+                                    </table> */}
                                 </div>
                                 <table className="list_exam"></table>
-                                <table>
-                                    <tr>
-                                        
-                                    </tr>
-                                </table>
                             </div>
                         </div>
                     </div>

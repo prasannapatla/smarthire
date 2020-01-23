@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner';
 import { FaPlus } from 'react-icons/fa';
-import { FiUpload,FiFile } from 'react-icons/fi';
+import { FiUpload, FiFile } from 'react-icons/fi';
 
 
 
@@ -94,14 +94,15 @@ var page = function (_this: any) {
                                                 </div>
                                             </td>
                                         </tr>
+                                        <br />
                                     </tbody>
                                 </table><br />
-                                <br />
+
                                 <div className='file_upload' style={{ display: "block" }}>
                                     <p className="heading" style={{ marginLeft: "3px" }}>Bulk upload questions:</p>
-                                    <br/>
-                                    <br/>
-                                    <br/>
+                                    <br />
+                                    <br />
+                                    <br />
                                     <div>Format: Questions, Program, Option1, Option2, Option3,Option4, Correct Answer</div>
                                     <button className="upload" onClick={_this.bulk_upload.bind(_this)}><FiUpload /> Upload</button>
                                     {/* <input type="file" className="upload_file" />

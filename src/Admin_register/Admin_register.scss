@@ -1,4 +1,8 @@
 .Admin_register {
+    height:100%;
+    .row{
+        height:100%;
+    }
 
     .file_upload div,
     .file_upload input {
@@ -84,8 +88,8 @@
 
     .register {
         position: relative;
-        top: -67px;
-        left: 44%;
+        top: -50px;
+        left: 325px;
         height: 40px;
         border-radius: 12px;
         border: none;
@@ -114,14 +118,14 @@
     }
 
     .server_side_resp {
-        height: 159px;
         background-color: #E9EBF8;
+        max-height: 150px;
     }
 
     .send {
         position: relative;
-        top: -54px;
-        left: 44%;
+        top: -50px;
+        left: 325px;
         height: 40px;
         border-radius: 12px;
         border: none;
@@ -152,6 +156,7 @@
         margin-top: 20px;
         box-shadow: 5px 5px 10px -2px;
         border-radius: 10px !important;
+        margin-bottom: 30px;
     }
 
     .cur_exam {
