@@ -24,8 +24,8 @@ var page = function (_this: any) {
                      <div className="rightTopContainer">
                         <div className="loginForm">
                            <svg width="380" height="520" className="svg_bg">
-                              <polygon className="svgForm" points="0,0 275,0 380,60 380,520 0,520 0,0"  />
-                              <polygon className="svgFormFold"  points="275,0 380,60 275,60" />
+                              <polygon className="svgForm" points="0,0 320,0 380,60 380,520 0,520 0,0"  />
+                              <polygon className="svgFormFold"  points="320,0 380,60 320,60" />
                               Sorry, your browser does not support inline SVG.
                            </svg>
                            <div className="form">
