@@ -1,5 +1,6 @@
 .Admin_view_result {
   height: 100%;
+
   .container {
     border-radius: 10px;
     margin-bottom: 10px;
@@ -38,12 +39,13 @@
 
   #first_table {
     position: relative;
+    margin-top: 25px;
   }
 
 
   .row {
     height: 100%;
-    background-color:#F2F2F2;
+    background-color: #F6F7FB;
 
   }
 
@@ -59,13 +61,11 @@
   }
 
   .exam {
-    border: solid rgb(218, 216, 216) 2px;
-    border-bottom: solid gray 2px;
-    border-right: solid gray 2px;
+    background-color: #E9EBF8 !important;
+    border: solid 2px #E9EBF8;
     // width: 45%;
     padding-right: 0px;
     padding-left: 3px;
-    background-color: #E9EBF8 !important;
     outline: none;
   }
 
@@ -145,6 +145,13 @@
     }
   }
 
+  #myInput {
+    background-color: #E9EBF8 !important;
+    border: none;
+    outline: none;
+    box-shadow: inset 0 0 4px;
+  }
+
   .print_txt {
     float: right;
     margin-right: 20px;
@@ -161,6 +168,7 @@
     padding: 7px;
     width: 100%;
     background-color: #E9EBF8 !important;
+    border: none;
     outline: none;
   }
 
@@ -231,13 +239,15 @@
     position: relative;
     top: -49px;
     left: 395px;
+    border: none;
+    outline: none;
   }
 
   button {
     width: 150px;
     padding: 10px;
     color: white;
-    background-color: #E63285;
+    background-color: #E5277D;
     border-radius: 10px;
     padding: 8px;
     margin-top: 10px;
@@ -252,6 +262,8 @@
     left: 391px;
     top: -51px;
     position: relative;
+    border: none;
+    outline: none;
   }
 
   .mob_overflow {
@@ -276,34 +288,46 @@
     border: solid 2px #E5277E;
     font-size: 15px;
   }
+
   .del_icon {
     margin-left: -10px;
     // font-size: 20px;
     margin-top: -3px;
-}
-.Exam_info {
-  background-color: white;
-  margin-right: 45px;
-  height: 100px;
-  padding:10px;
-  float: left;
-}
+  }
 
-.del_user_btn {
-  display: block;
-  position: relative;
-  left: 18px;
-}
-.image {
-  margin-left: 121px;
-  width: 45px;
-  height: 37px;
-  position: relative;
-  top:45px;
-  float: left;
-}
-.exam_info_text{
-  position: relative;
-  top: -36px;
-}
+  .Exam_info {
+    background-color: white;
+    margin-right: 45px;
+    height: 100px;
+    padding: 10px;
+    float: left;
+    box-shadow: 5px 5px 10px -2px;
+    border-radius: 10px;
+  }
+
+  .del_user_btn {
+    display: block;
+    position: relative;
+    left: 18px;
+    border: none;
+    outline: none;
+  }
+  #lets_see {
+    box-shadow: 5px 5px 10px -2px;
+    border-radius: 10px;
+  }
+
+  .image {
+    margin-left: 121px;
+    width: 45px;
+    height: 37px;
+    position: relative;
+    top: 45px;
+    float: left;
+  }
+
+  .exam_info_text {
+    position: relative;
+    top: -36px;
+  }
 }
