@@ -12,7 +12,7 @@ var page = function (_this: any) {
         <div className="Admin_menu">
             <div className="menu_list">
                 <div className="adm" style={{ textAlign: "center" }}>
-                    <Link to='/admin_view_result'><img src={terraLogo} className="avatar" /><br /></Link>
+                    <Link to='https://www.terralogic.com'><img src={terraLogo} className="avatar" /><br /></Link>
                 </div>
                 <br/>
                 <ul>
@@ -27,7 +27,7 @@ var page = function (_this: any) {
                     <li><Link to='/admin_register'><FaUser/>&nbsp;&nbsp;&nbsp;Register Candidate</Link></li>
                     <li><Link to='/users'><TiGroup/>&nbsp;&nbsp;&nbsp;Admin users</Link></li>
                     {/* <br/> */}
-                    <li style={{marginTop:"60px"}}><a href="javascript:void(0)" onClick={_this.user_logout.bind(_this)}><FaPowerOff/>&nbsp;&nbsp;&nbsp;Logout</a> </li>
+                    <li style={{marginTop:"45px"}}><a href="javascript:void(0)" onClick={_this.user_logout.bind(_this)}><FaPowerOff/>&nbsp;&nbsp;&nbsp;Logout</a> </li>
                     <br/>
                 </ul>
             </div>

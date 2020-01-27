@@ -251,7 +251,7 @@ class Myservice extends React.Component {
          toast: true,
          position: 'top-end',
          showConfirmButton: false,
-         // timer: 10000,
+         timer: 5000,
          timerProgressBar: true,
          onOpen: (toast: any) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)

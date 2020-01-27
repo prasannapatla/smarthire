@@ -150,7 +150,7 @@ def remove_admin(request):
                 if total_admin-admin_to_be_deleted==0:
                     return HttpResponse("error&sep;Not allowed to delete all the admins",content_type="text")
                 Admin_users.objects.filter(id__in=int_list).delete()
-                return HttpResponse("success&sep;deleted successfully",content_type="text")
+                return HttpResponse("success&sep;User Deleted Successfully",content_type="text")
             except Exception as e:
                 print(str(e))
                 return HttpResponse("error&sep;Failed to delete user",content_type="text")
