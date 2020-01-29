@@ -125,7 +125,7 @@ class Examstart extends Myservice {
   }
 
   close_win = (): any => {
-    if (this.c >= 3) {
+    if (this.c > 3) {
       this.myWindow.close();
       this.available_exam();
       return
