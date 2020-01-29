@@ -5,6 +5,7 @@ import { callbackify } from 'util';
 var $ = require("jquery");
 import html2canvas from "html2canvas"
 var swal = require("sweetalert");
+var Swal = require("sweetalert2");
 
 class Myservice extends React.Component {
 
@@ -169,8 +170,8 @@ class Myservice extends React.Component {
       $('html, body').animate({
          scrollTop: 0
       }, {
-         duration: 150
-      })
+            duration: 150
+         })
       $("body").append("<div className='screenshot' style='display:none' id='screenshot'></div>")
       //@ts-ignore
       html2canvas(document.querySelector(selecter)).then(canvas => {
@@ -245,6 +246,24 @@ class Myservice extends React.Component {
    }
 
 
+   notify = (msg = "success", type = "success") => {
+      const Toast = Swal.mixin({
+         toast: true,
+         position: 'top-end',
+         showConfirmButton: false,
+         timer: 5000,
+         timerProgressBar: true,
+         onOpen: (toast: any) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+         }
+      })
+
+      Toast.fire({
+         icon: type,
+         title: msg
+      })
+   }
 }
 
 

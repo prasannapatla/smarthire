@@ -1,5 +1,3 @@
-
-
 import './Exampage.scss';
 import page from './ExampageHtml'
 import Myservice from '../Myservice/Myservice'

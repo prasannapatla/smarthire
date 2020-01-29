@@ -67,7 +67,11 @@ class Users extends Myservice {
         $(".del:checked").each(function (this: any) {
             ids.push($(this).val())
         });
-        this.show_msg(this.fetch_data("/server/remove_admin/", "POST", "ids=" + ids.join(",")), this.reload_users, this)
+        // this.show_msg(this.fetch_data("/server/remove_admin/", "POST", "ids=" + ids.join(",")), this.reload_users, this)
+        let status = this.fetch_data("/server/remove_admin/", "POST", "ids=" + ids.join(","))
+        let toNotify = status.split("&sep;")
+        this.notify(toNotify[1], toNotify[0])
+        this.list_user();
     }
 
 
@@ -119,7 +123,8 @@ class Users extends Myservice {
         }
         console.log(json_data)
         let status = this.fetch_data("/server/update_admin/", "POST", null, json_data).split("&sep;")[1]
-        swal(status,"","success")
+        // swal(status,"","success")
+        this.notify(status, "success")
         if (this.timeout != null)
             clearTimeout(this.timeout)
         this.timeout = setTimeout(
