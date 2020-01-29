@@ -16,24 +16,24 @@ class Examstart extends Myservice {
   }
 
   componentDidMount() {
-    if (this.allow_user())
-      return;
+    // if (this.allow_user())
+    //   return;
 
     this.c = 0;
-    document.addEventListener("contextmenu", event => event.preventDefault());
+    // document.addEventListener("contextmenu", event => event.preventDefault());
     var context = this
     // window.onbeforeunload = function () {
     //   context.fetch_data("/server/del/", "POST");
     // }
-    this.available_exam();
-    this.timeout=setInterval(() => {
-      context.available_exam()      
-    }, 2000);
-    this.disable_btns();
-    window.onbeforeunload = function () {
-      if(context.timeout!=null)
-      clearInterval(context.timeout)
-  };
+    // this.available_exam();
+    // this.timeout=setInterval(() => {
+    //   context.available_exam()      
+    // }, 2000);
+  //   this.disable_btns();
+  //   window.onbeforeunload = function () {
+  //     if(context.timeout!=null)
+  //     clearInterval(context.timeout)
+  // };
     super.componentDidMount();
   }
 

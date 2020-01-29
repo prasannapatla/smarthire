@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Admin_menu from '../Admin_menu/Admin_menu';
 import { FaPlus } from 'react-icons/fa';
 import { AiTwotoneDelete } from "react-icons/ai";
+import { TiArrowBack } from "react-icons/ti";
+import { TiArrowUpThick } from "react-icons/ti";
 
 var page = function (_this: any) {
     return (
@@ -14,16 +16,16 @@ var page = function (_this: any) {
                     <Admin_menu />
                     <div className="col-sm-9 content">
                         <div className="data">
+                            <button className="back" onClick={_this.back.bind(_this)} style={{ display: "none" }}><TiArrowBack className="del_icon"/> Back</button>
                             <div className="heading res" style={{ display: "none" }}>List of Questions from <span className='q_from' >value</span></div><br />
-                            <button onClick={_this.back.bind(_this)} style={{ display: "none" }}>Back</button>
                             <button className="sel_all" style={{ display: "none", float: "right" }}>Select All</button>
-                            <button className="del_que_btn" style={{ display: "none", float: "right" }}>Delete</button>
+                            <button className="del_que_btn" style={{ display: "none", float: "right" }}><AiTwotoneDelete className="del_icon" /> Delete</button>
                             <table className='res q_list table result' style={{ display: "none" }}></table>
-                            <button onClick={_this.back.bind(_this)} style={{ display: "none", float: "right" }}>Back</button>
+                            {/* <button className="back" onClick={_this.back.bind(_this)} style={{ display: "none", float: "right" }}>Back</button> */}
                             <button className="sel_all" style={{ display: "none", float: "right" }}>Select All</button>
 
 
-                            <div className="sect">
+                            <div className="sect cate">
                                 <div className='heading'>Add category</div>
                                 <table style={{ width: "85%" }}>
                                     <tr>
@@ -50,7 +52,7 @@ var page = function (_this: any) {
                             <div className="sect">
                                 <div className='heading'>Create a new exam</div>
                                 <div className="input_group">
-                                    <table >
+                                    <table className="exam_table1" >
                                         <tr>
                                             <td className="exam_heading">
                                                 Exam name
@@ -105,6 +107,7 @@ var page = function (_this: any) {
                                 </div>
                                 <table className="list_exam"></table>
                             </div>
+                            <a id="button"><TiArrowUpThick className="backTop" /></a>
                         </div>
                     </div>
                 </div>

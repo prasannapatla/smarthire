@@ -116,7 +116,7 @@ class Admin_view_result extends Myservice {
     var context = this
 
     $(".result tbody").find("tr").each(function (this: any) {
-      $(this).find("td").eq(6).on("click", function (this: any) {
+      $(this).find("td").eq(7).on("click", function (this: any) {
         if ($(this).text().match("View Detail"))
           window.open("#admin_detail_res/?id=" + $(this).attr("val"))
       });

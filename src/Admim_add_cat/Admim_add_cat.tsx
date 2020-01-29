@@ -20,22 +20,39 @@ class Admim_add_cat extends Myservice {
 
   componentDidMount() {
 
+    $(document).ready(function () {
+
+      var btn = $('#button');
+
+      $(window).scroll(function () {
+        if ($(window).scrollTop() > 100) {
+          $("#button").css({ "opacity": "1" })
+        } else {
+          $("#button").css({ "opacity": "0" })
+        }
+      });
+      btn.on('click', function (e: any) {
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, '100');
+      });
+
+    });
     this.list_cat();
     this.list_exam();
     let context = this;
 
     $(".del_que_btn").on("click", function (this: any) {
       var ids: any = []
-      var count=0
+      var count = 0
       $(".que_sel").each(function (this: any) {
-        count= $(".que_sel:checked").length
+        count = $(".que_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
-          if (count == 1) {
-            swal("Deleted " + count + " category", "", "success")
-          } else {
-            swal("Deleted " + count + " categories", "", "success")
-          }
+        if (count == 1) {
+          swal("Deleted " + count + " question", "", "success")
+        } else {
+          swal("Deleted " + count + " questions", "", "success")
+        }
       });
       if (context.get_sess("type") == "cat")
         context.fetch_data("/server/remove_questions/", "POST", null, "ids=" + ids.join(",") + "&from=all");
@@ -96,16 +113,16 @@ class Admim_add_cat extends Myservice {
 
     $(".del_cat_btn").on("click", function () {
       var ids: any = []
-      var count =0
+      var count = 0
       $(".cat_sel").each(function (this: any) {
-        count= $(".cat_sel:checked").length
+        count = $(".cat_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
-          if (count == 1) {
-            swal("Successfully deleted " + count + " category", "", "success")
-          } else {
-            swal("Successfully deleted " + count + " categories", "", "success")
-          }
+        if (count == 1) {
+          swal("Successfully deleted " + count + " category", "", "success")
+        } else {
+          swal("Successfully deleted " + count + " categories", "", "success")
+        }
       });
       if (ids.length > 0)
         context.fetch_data("/server/remove_cat/", "POST", null, "ids=" + ids.join(","));
@@ -114,7 +131,7 @@ class Admim_add_cat extends Myservice {
       context.list_cat();
     });
     super.componentDidMount();
-    
+
   }
 
   componentDidUpdate() {
@@ -122,9 +139,18 @@ class Admim_add_cat extends Myservice {
   }
 
   back() {
-    $(".sect").css({ "display": "block" })
+    $(".cate").css({ "display": "inline-table" })
     $(".res").css({ "display": "none" })
-    $("button").css({ "display": "none" })
+    $(".exam_table1").css({ "border-spacing": "0px" })
+    // $(".create").css({"margin-left":"-5px"})
+    $(".sect").css({ "display": "block" })
+    $(".sel_all").css({ "display": "none" })
+    $("table").css({ "border-collapse": "unset" })
+    $(".back").css({ "display": "none" })
+    $("td").css({ "padding-left": "5px", "text-indent": "0px" })
+    $(".data").css({ "background-color": "#F6F7FB" })
+    $(".data").css({ "box-shadow": "unset" })
+    // $("button").css({ "display": "none" })
   }
   add = () => {
     let json_str = {
@@ -163,6 +189,14 @@ class Admim_add_cat extends Myservice {
     $("td div").css({ "display": "inline" })
     $("td").css({ "padding-left": "20px", "text-indent": "-20px" })
     $("table").css({ "border-spacing": "10px" })
+    $(".del_que_btn").css({ "visibility": "hidden" })
+    $(".que_sel").click(function () {
+      $(".del_que_btn").css({ "visibility": "hidden" })
+      $(".que_sel").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".del_que_btn").css({ "visibility": "visible" })
+      });
+    });
   }
 
 
@@ -224,16 +258,21 @@ class Admim_add_cat extends Myservice {
       context.set_sess("q_from", $(this).attr("heading"))
       context.set_sess("type", "cat")
       context.display_que($(this).attr("val"), "cat")
+      $(".data").css({ "background-color": "#FFFFFF" })
+      $(".data").css({ "padding": "20px" })
+      $(".data").css({ "border-radius": "10px" })
+      $(".data").css({ "margin-bottom": "30px" })
+      $(".data").css({ "box-shadow": "5px 5px 10px -2px" })
     });
-    $(".delete").css({ "visibility":"hidden"})
+    $(".delete").css({ "visibility": "hidden" })
     $(".cat_sel").click(function () {
-      $(".delete").css({ "visibility":"hidden"})
+      $(".delete").css({ "visibility": "hidden" })
       $(".cat_sel").each(function (this: any) {
         if ($(this).prop("checked"))
-          $(".delete").css({ "visibility":"visible"})
+          $(".delete").css({ "visibility": "visible" })
       });
     });
-   
+
   };
 
   list_exam = () => {
@@ -276,14 +315,15 @@ class Admim_add_cat extends Myservice {
       context.set_sess("q_from", $(this).attr("heading"))
       context.display_que($(this).attr("val"), "exam")
       context.set_sess("type", "exam")
+      $(".data").css({ "background-color": "#FFFFFF" })
     });
 
-    $(".del_exam_btn").css({ "visibility":"hidden"})
+    $(".del_exam_btn").css({ "visibility": "hidden" })
     $(".exam_sel").click(function () {
-      $(".del_exam_btn").css({ "visibility":"hidden"})
+      $(".del_exam_btn").css({ "visibility": "hidden" })
       $(".exam_sel").each(function (this: any) {
         if ($(this).prop("checked"))
-          $(".del_exam_btn").css({ "visibility":"visible"})
+          $(".del_exam_btn").css({ "visibility": "visible" })
       });
     });
 
@@ -294,13 +334,14 @@ class Admim_add_cat extends Myservice {
     let str = this.fetch_data("/server/get_questions/", "POST", null, "id=" + id + "&type=" + type);
     let json_obj = JSON.parse(str);
     let txt = "<tr>";
-    txt += "<td colspan='4'></td><td>Delete</td></tr><tr>";
+    txt += "<td colspan='4'></td><td>&nbsp;&nbsp;&nbsp;</td></tr><tr>";
     let val1: any, val2: any;
     for (val1 in json_obj) {
       console.log(json_obj[val1]);
       txt += "<tr>"
       txt += "<td colspan='4' style='max-width:100%'><b>Q." + (count++) + " </b>" + json_obj[val1]["question"] + "</td>";
-      txt += "<td><input type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /></td>"
+      // txt += "<td><input type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /></td>"
+      txt += "<td><label class='container1'><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label></td>"
       txt += "</tr>"
       txt += "<tr class='val'>"
 
@@ -341,6 +382,8 @@ class Admim_add_cat extends Myservice {
       txt += "<tr><td>Answer: " + ans + json_obj[val1]["ans"] + "</td></tr><tr></tr><tr></tr>";
 
     }
+
+
     return txt;
   };
 
@@ -354,7 +397,7 @@ class Admim_add_cat extends Myservice {
       page(this)
     )
   }
-  
+
 }
 
 export default Admim_add_cat;
