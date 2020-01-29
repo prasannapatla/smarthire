@@ -16,8 +16,8 @@ class Exampage extends Myservice {
     timeout: any;
 
     componentDidMount() {
-        // if (this.allow_user())
-        //     return;
+        if (this.allow_user())
+            return;
 
         let context = this;
         if (this.fetch_data("/server/exam_status/", "POST").match("closed")) {
@@ -33,8 +33,8 @@ class Exampage extends Myservice {
             return true;
         }
         this.sec = 60000;
-        // document.addEventListener("contextmenu", event => event.preventDefault());
-        // document.addEventListener("keydown", event => event.preventDefault());
+        document.addEventListener("contextmenu", event => event.preventDefault());
+        document.addEventListener("keydown", event => event.preventDefault());
         this.load_que();
         super.componentDidMount();
     }
