@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 import ReactMinimalPieChart from 'react-minimal-pie-chart';
+import { FiPrinter, FiDownload } from 'react-icons/fi';
 // @ts-ignore
 import AnyChart from "anychart-react/dist/anychart-react"
 // import  "anychart"
@@ -26,9 +27,9 @@ var page = function (_this: any) {
         <div className="Admin_detail_res">
             <div className="container" style={{ backgroundColor: "#fafafa" }}>
                 <div id="selected">
-                    <input type="button" value="Print" onClick={_this.print_page.bind(_this)} />
+                    <input className="down" type="button" value="Print" onClick={_this.print_page.bind(_this)} />
                     <div className='screenshot' style={{display:"none"}} id='screenshot'></div>
-                    <a id="download" download="details.png" className="download">Download</a>
+                    <a id="download" download="details.png" className="download"><FiDownload className="icon" /> Download</a>
                     <div className="sect" style={{ display: "none" }}>
                         <table className="filter">
                             <tbody>

@@ -1,7 +1,10 @@
 .Admin_register {
-    height:100%;
-    .row{
-        height:100%;
+    height: 100%;
+
+    .row {
+        height: max-content;
+        // background-color: #F6F7FB;
+        min-height: 100%;
     }
 
     .file_upload div,

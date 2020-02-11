@@ -7,8 +7,9 @@
   height: 100%;
 
   .row {
-    height: 100%;
+    height: max-content;
     background-color: #F6F7FB;
+    min-height: 100%;
   }
 
   #category {
