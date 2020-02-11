@@ -27,10 +27,10 @@ var page = function (_this: any) {
 
                             <div className="sect cate">
                                 <div className='heading'>Add category</div>
-                                <table style={{ width: "85%" }}>
+                                <table className="Add_cat" style={{ width: "85%" }}>
                                     <tr>
                                         <td className="catName">
-                                            <input type="text" className="form-control" id="cat_add" placeholder="ENTER A CATEGORY NAME" />
+                                            <input type="text" className="form-control" id="cat_add" style ={{width:'105%'}} placeholder="ENTER A CATEGORY NAME" />
                                         </td>
                                         <td className="addBtn">
                                             <button onClick={_this.add.bind(_this)} id="add" ><FaPlus /> Add</button>
@@ -40,7 +40,7 @@ var page = function (_this: any) {
 
                                     </tr>
                                 </table>
-                                <table className="list_cat"></table>
+                                <div className="list_cat_parent"></div>
                                 <table>
                                     <tr>
 
@@ -107,7 +107,7 @@ var page = function (_this: any) {
                                 </div>
                                 <table className="list_exam"></table>
                             </div>
-                            <a id="button"><TiArrowUpThick className="backTop" /></a>
+                            <a id="button_up"><TiArrowUpThick className="backTop" /></a>
                         </div>
                     </div>
                 </div>

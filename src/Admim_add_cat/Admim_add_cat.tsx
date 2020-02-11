@@ -22,13 +22,13 @@ class Admim_add_cat extends Myservice {
 
     $(document).ready(function () {
 
-      var btn = $('#button');
+      var btn = $('#button_up');
 
       $(window).scroll(function () {
         if ($(window).scrollTop() > 100) {
-          $("#button").css({ "opacity": "1" })
+          $("#button_up").css({ "opacity": "1" })
         } else {
-          $("#button").css({ "opacity": "0" })
+          $("#button_up").css({ "opacity": "0" })
         }
       });
       btn.on('click', function (e: any) {
@@ -139,18 +139,15 @@ class Admim_add_cat extends Myservice {
   }
 
   back() {
-    $(".cate").css({ "display": "inline-table" })
-    $(".res").css({ "display": "none" })
-    $(".exam_table1").css({ "border-spacing": "0px" })
-    // $(".create").css({"margin-left":"-5px"})
-    $(".sect").css({ "display": "block" })
-    $(".sel_all").css({ "display": "none" })
-    $("table").css({ "border-collapse": "unset" })
+
     $(".back").css({ "display": "none" })
-    $("td").css({ "padding-left": "5px", "text-indent": "0px" })
-    $(".data").css({ "background-color": "#F6F7FB" })
-    $(".data").css({ "box-shadow": "unset" })
-    // $("button").css({ "display": "none" })
+    $(".heading").css({ "display": "none" })
+    $(".sel_all").css({ "display": "none" })
+    $(".del_que_btn").css({ "display": "none" })
+    $(".q_list").css({ "display": "none" })
+    $("#button_up").css({ "display": "none" })
+    $(".sect").css({ "display": "block" })
+    $(".data").css({"background-color":"#F6F7FB","padding": "unset" ,"border-radius": "0 ","box-shadow": "unset"})
   }
   add = () => {
     let json_str = {
@@ -182,13 +179,14 @@ class Admim_add_cat extends Myservice {
     $(".q_list").html(txt)
     $(".q_from").html(this.get_sess("q_from"))
     $(".sect").css({ "display": "none" })
-    $(".res").css({ "display": "block" })
+    $(".res").css({ "display": "table" })
+    $("#button_up").css({ "display": "block"})
     $("button").css({ "display": "inline", "margin-right": "20px" })
     $(".q_list").css({ "width": "100%" })
     $(".val td").css({ "max-width": "250px" })
-    $("td div").css({ "display": "inline" })
-    $("td").css({ "padding-left": "20px", "text-indent": "-20px" })
-    $("table").css({ "border-spacing": "10px" })
+    $("que_td div").css({ "display": "inline" })
+    $(".que_td").css({ "padding-left": "20px", "text-indent": "-20px" ,"word-break": "break-word","vertical-align":"top", "width":"225px"})
+    $(".result").css({ "border-spacing": "10px" })
     $(".del_que_btn").css({ "visibility": "hidden" })
     $(".que_sel").click(function () {
       $(".del_que_btn").css({ "visibility": "hidden" })
@@ -234,20 +232,43 @@ class Admim_add_cat extends Myservice {
     let context = this;
     let str = this.fetch_data("/server/getcat/", "POST");
     let json_obj = JSON.parse(str);
-    let txt = "<tr>";
-    txt += "<th>Availiable Categories</th>";
-    txt += "<th></th>";
-    txt += "</tr>";
+
+    let txt="<table class='list_cat' style=' border-spacing: 0 ;'>";
+    txt+="<tr>"
+    txt+= "<th style='padding-top: 10px; padding-bottom:10px'>Availiable Categories</th>";
+    txt+= "<th></th>";
+    txt+="</tr>"
+
     let val1: any, val2: any;
+    let i=0;
+    let total=Object.keys(json_obj).length
+    let middle=Math.ceil(total/2)
     for (val1 in json_obj) {
+      if(i==middle){
+        txt+="</table>"
+        txt+="<table class='list_cat'>";
+        txt+="<tr>"
+        txt+= "<th></th>";
+        txt+="</tr>"
+        if(total%2!=0){
+          txt+="<tr>"
+          txt+= "<th></th>";
+          txt+="</tr>"
+          txt+="<tr>"
+          txt+= "<th></th>";
+          txt+="</tr>"
+        }       
+      }
       txt += "<tr>"
-      txt += "<td><div class='check'><label class='container1'><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='cat_sel full' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["cat"] + "</div></td>";
+      txt += "<td style='height:30px; width:250px'><div class='check'><label class='container1'><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='cat_sel full' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["cat"] + "</div></td>";
       // txt += "<td>" + json_obj[val1]["cat"] + "</td>";
       txt += "<td><a class='cat_view' heading='" + json_obj[val1]["cat"] + "' val='" + json_obj[val1]["id"] + "'>Details</a></td>";
 
       txt += "</tr>"
+      i++;
     }
-    $(".list_cat").html(txt)
+    txt += "</table>"
+    $(".list_cat_parent").html(txt)
 
 
 
@@ -334,14 +355,14 @@ class Admim_add_cat extends Myservice {
     let str = this.fetch_data("/server/get_questions/", "POST", null, "id=" + id + "&type=" + type);
     let json_obj = JSON.parse(str);
     let txt = "<tr>";
-    txt += "<td colspan='4'></td><td>&nbsp;&nbsp;&nbsp;</td></tr><tr>";
+    txt += "<td colspan='5' class='que_td'></td><td>&nbsp;&nbsp;&nbsp;</td></tr><tr>";
     let val1: any, val2: any;
     for (val1 in json_obj) {
       console.log(json_obj[val1]);
       txt += "<tr>"
-      txt += "<td colspan='4' style='max-width:100%'><b>Q." + (count++) + " </b>" + json_obj[val1]["question"] + "</td>";
+      txt += "<td colspan='5' class='que_td' style='max-width:100%'><b>Q." + (count++) + " </b>" + json_obj[val1]["question"] + "</td>";
       // txt += "<td><input type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /></td>"
-      txt += "<td><label class='container1'><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label></td>"
+      txt += "<td class='que_td'><label class='container1'><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label></td>"
       txt += "</tr>"
       txt += "<tr class='val'>"
 
@@ -365,10 +386,10 @@ class Admim_add_cat extends Myservice {
       //     else
       //       txt += "<td>" + json_obj[val1]["opt4"] + "</td>";
 
-      txt += "<td>A)" + json_obj[val1]["opt1"] + "</td>";
-      txt += "<td>B)" + json_obj[val1]["opt2"] + "</td>";
-      txt += "<td>C)" + json_obj[val1]["opt3"] + "</td>";
-      txt += "<td>D)" + json_obj[val1]["opt4"] + "</td>";
+      txt += "<td class='que_td'>A)" + json_obj[val1]["opt1"] + "</td>";
+      txt += "<td class='que_td'>B)" + json_obj[val1]["opt2"] + "</td>";
+      txt += "<td class='que_td'>C)" + json_obj[val1]["opt3"] + "</td>";
+      txt += "<td class='que_td'>D)" + json_obj[val1]["opt4"] + "</td>";
       let ans = ""
       if (json_obj[val1]["opt1"] == json_obj[val1]["ans"])
         ans = "A)"
@@ -378,8 +399,8 @@ class Admim_add_cat extends Myservice {
         ans = "C)"
       else
         ans = "D)"
-      txt += "</tr><tr><td>Category: " + json_obj[val1]["cat"] + "</td></tr>";
-      txt += "<tr><td>Answer: " + ans + json_obj[val1]["ans"] + "</td></tr><tr></tr><tr></tr>";
+      txt += "</tr><tr><td class='que_td'>Category: " + json_obj[val1]["cat"] + "</td></tr>";
+      txt += "<tr><td class='que_td'>Answer: " + ans + json_obj[val1]["ans"] + "</td></tr><tr></tr><tr></tr>";
 
     }
 

@@ -13,7 +13,7 @@
 
   .sect {
     // height: 380px;
-    width: 90%;
+    width: 100%;
     margin-left: 50px;
     background-color: #FFFFFF;
     box-shadow: 5px 5px 10px -2px;
@@ -218,7 +218,7 @@
     color: #E5277E;
     border: solid 2px #E5277E;
     font-size: 15px;
-    margin-right: 75px !important;
+    margin-right: 223px !important;
   }
 
   .del_icon {
@@ -249,7 +249,7 @@
     color: #FFFFFF
   }
 
-  #button {
+  #button_up {
     display: inline-block;
     background-color: #72779C;
     width: 50px;
@@ -265,12 +265,12 @@
     opacity: 0;
   }
 
-  #button:hover {
+  #button_up:hover {
     cursor: pointer;
     background-color: #E5277E;
   }
 
-  #button:active {
+  #button_up:active {
     background-color: #E5277E;
   }
 
@@ -319,5 +319,30 @@
 
   .heading {
     margin-top: 16px;
+  }
+
+  .Add_cat {
+    border-spacing: 0 !important;
+    border-collapse: unset !important;
+    width: 100% !important;
+  }
+
+  .list_cat:nth-child(1) {
+    width: 48%;
+    // border-right: solid rgb(192, 191, 191) 2px;
+  }
+  .list_cat:nth-child(1) {
+    border-spacing: 0 ;
+  }
+.list_cat:nth-child(1) tr td:nth-child(2){
+  border-right: solid rgb(214, 212, 212) 2px;
+}
+  .list_cat:nth-child(2) {
+    width: 49%;
+    padding-left: 2%;
+  }
+
+  .list_cat {
+    display: inline-table
   }
 }
