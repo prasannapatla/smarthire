@@ -81,7 +81,7 @@
 
   .examInfo {
     width: 150px;
-    height: 31px;
+    height: 40px;
   }
 
   @media only screen and (max-width: 800px) {
@@ -115,6 +115,8 @@
     border: none;
     outline: none;
     font-weight: bold;
+    height: 40px;
+    width: 150px;
   }
 
   .container1 {
@@ -194,6 +196,7 @@
     margin-left: 70px;
     color: #E5277E !important;
     text-decoration: none !important;
+
   }
 
   .exam_view {
@@ -309,6 +312,8 @@
     /* top: -56px; */
     right: 56px;
     top: 72px;
+    height: 40px;
+    width: 150px;
   }
 
   .del_que_btn {
@@ -317,6 +322,8 @@
     right: 229px;
     position: absolute;
     top: 74px;
+    height: 40px;
+    width: 150px;
   }
 
   .heading {
@@ -333,12 +340,15 @@
     width: 48%;
     // border-right: solid rgb(192, 191, 191) 2px;
   }
+
   .list_cat:nth-child(1) {
-    border-spacing: 0 ;
+    border-spacing: 0;
   }
-.list_cat:nth-child(1) tr td:nth-child(2){
-  border-right: solid rgb(238, 234, 234) 2px;
-}
+
+  .list_cat:nth-child(1) tr td:nth-child(2) {
+    border-right: solid rgb(238, 234, 234) 2px;
+  }
+
   .list_cat:nth-child(2) {
     width: 49%;
     padding-left: 2%;

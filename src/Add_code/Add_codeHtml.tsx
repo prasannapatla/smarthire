@@ -24,8 +24,8 @@ var page = function (_this: any) {
                                             <b>Add coding problem statement</b>
                                     </td>
                                         <td className="Add">
-                                            <button onClick={_this.add_code.bind(_this)} className="btn"><FaPlus/> Add
-                                            </button>
+                                            <button onClick={_this.add_code.bind(_this)} className="btn"><b><FaPlus/> Add
+                                            </b></button>
                                             <br />
                                         </td>
                                     </tr>

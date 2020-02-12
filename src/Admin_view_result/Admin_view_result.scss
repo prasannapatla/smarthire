@@ -63,7 +63,7 @@
   .exam {
     background-color: #E9EBF8 !important;
     border: solid 2px #E9EBF8;
-    min-width: 150px;
+    max-width: 200px;
     padding-right: 0px;
     padding-left: 3px;
     outline: none;
@@ -101,6 +101,7 @@
   .table-bordered th {
     vertical-align: top;
     border-collapse: collapse;
+    width:50px;
 
   }
 
@@ -239,10 +240,12 @@
   .print {
     // float: right;
     position: relative;
-    top: -49px;
-    left: 395px;
+    top: -51px;
+    height: 40px;
+    // left: 395px;
     border: none;
     outline: none;
+    float: right;
   }
 
   button {
@@ -261,10 +264,12 @@
   // }
 
   .download {
-    left: 391px;
+    // left: 391px;
     top: -51px;
+    height: 40px;
     position: relative;
     border: none;
+    float: right;
     outline: none;
   }
 
@@ -276,8 +281,9 @@
 
   .del {
     position: relative;
-    left: 390px;
-    top: -49px;
+    // left: 390px;
+    top: -51px;
+    float: right;
     // display: none;
     visibility: hidden;
     height: 40px;

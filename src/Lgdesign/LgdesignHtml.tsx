@@ -36,7 +36,7 @@ var page = function (_this: any) {
                                  <input type="text"  placeholder="Email" id="lemail" required />
                                  <p className="detailsText pwd">Password</p>
                                  <input type="password" placeholder="Password" id="lpwd" required />
-                                 <a className="forgot-pwd">Forgot Password?</a><br /><br />
+                                 {/* <a className="forgot-pwd">Forgot Password?</a><br /><br /> */}
                                  <input className="btn_style" type="button" onClick={_this.login_user.bind(_this)} value="Login" />
                                  <div id="invalidprompt"></div>
                               </div>

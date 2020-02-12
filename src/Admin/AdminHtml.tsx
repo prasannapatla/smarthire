@@ -26,7 +26,7 @@ var page = function (_this: any) {
                                                 <div className='heading'>
                                                     <br />Add Question</div>
                                                 <div className="Add">
-                                                    <button onClick={_this.add.bind(_this)} id="add" ><FaPlus /> Add</button>
+                                                    <button onClick={_this.add.bind(_this)} id="add" ><b><FaPlus /> Add</b></button>
                                                 </div>
                                                 <br />
                                                 <textarea name="quetions" id="quetions" data-rows={4} className="Questions" required></textarea>
@@ -104,7 +104,7 @@ var page = function (_this: any) {
                                     <br />
                                     <br />
                                     <div>Format: Questions, Program, Option1, Option2, Option3,Option4, Correct Answer</div>
-                                    <button className="upload" onClick={_this.bulk_upload.bind(_this)}><FiUpload /> Upload</button>
+                                    <button className="upload" onClick={_this.bulk_upload.bind(_this)}><b><FiUpload /> Upload</b></button>
                                     {/* <input type="file" className="upload_file" />
                                     <br /> */}
                                     <input type="file" id="real-file" className="upload_file" style={{ visibility: 'hidden' }} />

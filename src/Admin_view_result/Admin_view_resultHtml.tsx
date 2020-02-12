@@ -46,13 +46,10 @@ var page = function (_this: any) {
                                 <div className="table-responsive mob_overflow " id="lets_see">
                                     <input className="form-control" id="myInput" type="text" placeholder="Search.."
                                         style={{ marginTop: "20px" }} />
-
-                                    <button className="del delete del_user_btn_complete"><AiTwotoneDelete className="del_icon" />&nbsp; Delete</button>
-
                                     <button className="print" onClick={_this._print.bind(_this, "#result")}><FiPrinter className="icon" /> print
                                     </button>
                                     <button className="download" onClick={_this.download_excel.bind(_this)}><FiDownload className="icon" /> Download</button>
-
+                                    <button className="del delete del_user_btn_complete"><AiTwotoneDelete className="del_icon" />&nbsp; Delete</button>
                                     <table id="result" className="table table-bordered table-striped result" style={{ marginTop: "20px", borderCollapse: "collapse" }}>
 
                                     </table>
@@ -60,7 +57,7 @@ var page = function (_this: any) {
 
 
                             </div>
-                            <input type="button" value="Delete Result Set only" className="del_user_btn" />
+                            {/* <input type="button" value="Delete Result Set only" className="del_user_btn" /> */}
                         </div>
 
                     </div>

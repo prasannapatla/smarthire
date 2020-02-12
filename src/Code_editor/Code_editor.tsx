@@ -20,9 +20,11 @@ class Code_editor extends Myservice {
     time_out: any = null
     sec: number = 0;
     timer1: any = null
-    blur:boolean = false;
+    blur: boolean = false;
 
     componentDidMount() {
+        if (this.allow_user())
+            return;
 
         this.c = 0;
         window.confirm = function (para = "!") {
@@ -324,7 +326,7 @@ class Code_editor extends Myservice {
         this.get_que();
         $('html, body').animate({
             scrollTop: 0
-          }, {
+        }, {
             duration: 200
         })
     }
