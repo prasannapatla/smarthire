@@ -112,6 +112,8 @@
     border-radius: 10px;
     padding: 8px;
     margin-top: 10px;
+    border: none;
+    outline: none;
     font-weight: bold;
   }
 
@@ -335,7 +337,7 @@
     border-spacing: 0 ;
   }
 .list_cat:nth-child(1) tr td:nth-child(2){
-  border-right: solid rgb(214, 212, 212) 2px;
+  border-right: solid rgb(238, 234, 234) 2px;
 }
   .list_cat:nth-child(2) {
     width: 49%;

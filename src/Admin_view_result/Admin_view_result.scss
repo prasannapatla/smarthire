@@ -63,7 +63,7 @@
   .exam {
     background-color: #E9EBF8 !important;
     border: solid 2px #E9EBF8;
-    // width: 45%;
+    min-width: 150px;
     padding-right: 0px;
     padding-left: 3px;
     outline: none;
@@ -71,6 +71,7 @@
 
   .select_entry_text {
     float: left;
+    margin-left: 15px;
   }
 
   .exam option {
@@ -170,6 +171,7 @@
     background-color: #E9EBF8 !important;
     border: none;
     outline: none;
+    margin-left: 15px;
   }
 
   .select_exam_interact {
