@@ -29,14 +29,14 @@ var page = function (_this: any) {
                                                     <button onClick={_this.add.bind(_this)} id="add" ><b><FaPlus /> Add</b></button>
                                                 </div>
                                                 <br />
-                                                <textarea name="quetions" id="quetions" data-rows={4} className="Questions" required></textarea>
-                                                <textarea name="formated_quetions" id="formated_quetions" data-rows={4} className="formated_quetions"></textarea>
+                                                <textarea name="quetions" id="quetions" placeholder="Question" data-rows={4} className="Questions" required></textarea>
+                                                <textarea name="formated_quetions" id="formated_quetions" placeholder="Code Snippet" data-rows={4} className="formated_quetions"></textarea>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colSpan={4}>
                                                 <div className="check">
-                                                    <label className='container1'><input type="checkbox" id="para" name="para" /><span className='checkmark'></span></label>
+                                                    <label className='container1'><input type="checkbox" className="full" id="para" name="para" /><span className='checkmark'></span></label>
                                                 </div>
                                                 <div className="pgm">Add Program code <b>*</b></div>
                                             </td>
