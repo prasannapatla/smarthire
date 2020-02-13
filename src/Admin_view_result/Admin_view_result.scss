@@ -63,7 +63,7 @@
   .exam {
     background-color: #E9EBF8 !important;
     border: solid 2px #E9EBF8;
-    max-width: 200px;
+    min-width: 150px;
     padding-right: 0px;
     padding-left: 3px;
     outline: none;
@@ -255,7 +255,7 @@
     background-color: #E5277D;
     border-radius: 10px;
     padding: 8px;
-    margin-top: 10px;
+    margin-top: 70px;
     font-weight: bold;
   }
 
@@ -337,5 +337,14 @@
   .exam_info_text {
     position: relative;
     top: -36px;
+  }
+
+  .testLabel {
+    position: relative;
+  }
+  .searchIcon {
+    position: absolute;
+    top: 30px;
+    right: 10px;
   }
 }
