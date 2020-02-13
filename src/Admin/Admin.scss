@@ -51,11 +51,13 @@
     textarea {
         min-width: 100px;
         width: 100%;
-        font-size: 18px;
+        font-size: 14px;
         background-color: #F7F8FC;
         border-width: 1px;
         height: 100px;
         box-shadow: inset 0 0 3px;
+        outline: none;
+        padding: 10px;
     }
 
     .formated_quetions {
@@ -111,7 +113,7 @@
         height: 30px;
         background-color: #F7F8FC;
         margin-top: -4px;
-        outline : none;
+        outline: none;
     }
 
     .file_upload {
@@ -231,11 +233,8 @@
     }
 
     .pgm {
-        float: center;
-        width: 215px;
+        margin-left: 30px;
         position: absolute;
-        left: 57px;
-
     }
 
     #custom-button {
