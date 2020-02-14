@@ -109,6 +109,7 @@ class Admim_add_cat extends Myservice {
       else
         swal("Select at least one checkbox", "", "warning")
       context.list_exam();
+     
     });
 
     $(".del_cat_btn").on("click", function () {
@@ -148,6 +149,7 @@ class Admim_add_cat extends Myservice {
     $("#button_up").css({ "display": "none" })
     $(".sect").css({ "display": "block" })
     $(".data").css({"background-color":"#F6F7FB","padding": "unset" ,"border-radius": "0 ","box-shadow": "unset"})
+    $(".row").css({ "height": "100%" })
   }
   add = () => {
     let json_str = {
@@ -162,6 +164,7 @@ class Admim_add_cat extends Myservice {
       });
       $("cat").val("");
       this.list_cat();
+      $("#cat_add").val("")
     }
     else {
       swal({
@@ -185,7 +188,8 @@ class Admim_add_cat extends Myservice {
     $(".q_list").css({ "width": "100%" })
     $(".val td").css({ "max-width": "250px" })
     $("que_td div").css({ "display": "inline" })
-    $(".que_td").css({ "padding-left": "20px", "text-indent": "-20px" ,"word-break": "break-word","vertical-align":"top", "width":"225px"})
+    $(".que_td").css({ "padding-left": "20px" ,"word-break": "break-word","vertical-align":"top", "width":"225px"})
+    $(".row").css({ "height": "max-content" })
     $(".result").css({ "border-spacing": "10px" })
     $(".del_que_btn").css({ "visibility": "hidden" })
     $(".que_sel").click(function () {
@@ -217,6 +221,7 @@ class Admim_add_cat extends Myservice {
       });
       $("cat").val("");
       this.list_exam();
+      $(".examInfo").val("")
     }
     else {
       swal({
@@ -235,7 +240,7 @@ class Admim_add_cat extends Myservice {
 
     let txt="<table class='list_cat' style=' border-spacing: 0 ;'>";
     txt+="<tr>"
-    txt+= "<th style='padding-top: 10px; padding-bottom:10px'>Availiable Categories</th>";
+    txt+= "<th style='padding-top: 10px; padding-bottom:10px'>Available Categories</th>";
     txt+= "<th></th>";
     txt+="</tr>"
 
@@ -299,21 +304,43 @@ class Admim_add_cat extends Myservice {
   list_exam = () => {
     let str = this.fetch_data("/server/getexam/", "POST");
     let json_obj = JSON.parse(str);
-    let txt = "<tr>";
-    txt += "<th>Availiable Exams</th>";
-    txt += "<th></th>";
-    txt += "<th></th>";
-    txt += "</tr>";
+    let txt="<table class='list_exam' style=' border-spacing: 0 ;'>";
+    txt+="<tr>"
+    txt+= "<th style='padding-top: 10px; padding-bottom:10px'>Available Exams</th>";
+    txt+= "<th></th>";
+    txt+="</tr>"
+
     let val1: any, val2: any;
+    let i=0;
+    let total=Object.keys(json_obj).length
+    let middle=Math.ceil(total/2)
     for (val1 in json_obj) {
+      if(i==middle){
+        txt+="</table>"
+        txt+="<table class='list_exam'>";
+        txt+="<tr>"
+        txt+= "<th></th>";
+        txt+="</tr>"
+        if(total%2!=0){
+          txt+="<tr>"
+          txt+= "<th></th>";
+          txt+="</tr>"
+          txt+="<tr>"
+          txt+= "<th></th>";
+          txt+="</tr>"
+        }       
+      }
       txt += "<tr>"
-      txt += "<td class='exam_name'><div class='check'><label class='container1'><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='exam_sel full' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["e_name"] + "</div></td>";
+      txt += "<td style='height:30px; width:250px' class='exam_name'><div class='check'><label class='container1'><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='exam_sel full' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["e_name"] + "</div></td>";
       // txt += "<td>" + json_obj[val1]["e_name"] + "</td>";
       txt += "<td><a class='exam_view' heading='" + json_obj[val1]["e_name"] + "' val='" + json_obj[val1]["id"] + "'>Details</a></td>";
 
       txt += "</tr>"
+      i++;
     }
-    $(".list_exam").html(txt)
+    txt += "</table>"
+    $(".list_exam_parent").html(txt)
+    
 
     let context = this;
     // $(".del_exam_btn").on("click", function (this: any) {
@@ -355,7 +382,7 @@ class Admim_add_cat extends Myservice {
     let str = this.fetch_data("/server/get_questions/", "POST", null, "id=" + id + "&type=" + type);
     let json_obj = JSON.parse(str);
     let txt = "<tr>";
-    txt += "<td colspan='5' class='que_td'></td><td>&nbsp;&nbsp;&nbsp;</td></tr><tr>";
+    // txt += "<td colspan='5' class='que_td'></td><td>&nbsp;&nbsp;&nbsp;</td></tr><tr>";
     let val1: any, val2: any;
     for (val1 in json_obj) {
       console.log(json_obj[val1]);

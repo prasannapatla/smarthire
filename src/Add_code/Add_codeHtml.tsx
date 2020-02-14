@@ -150,7 +150,7 @@ var page = function (_this: any) {
                                     <span id="custom-text">No file chosen, yet.</span>
                                     <br />
                                     <br />
-                                    <span className='progress'>-</span>
+                                    <span className='code_que_progress'>-</span>
                                 </div>
                             
                         </div>

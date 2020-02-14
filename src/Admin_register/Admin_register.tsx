@@ -78,7 +78,7 @@ class Admin_register extends Myservice {
       new this.Upload(file).doUpload();
       this.temp_interval = setInterval(
         () => {
-          $(".progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
+          $(".register_progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
         }
         , 1000)
     }
@@ -88,7 +88,7 @@ class Admin_register extends Myservice {
   }
   callback(data: any, context: any) {
     clearInterval(context.temp_interval)
-    $(".progress").html("<pre style='width: 50%'>" + data + "</pre>")
+    $(".register_progress").html("<pre style='width: 50%'>" + data + "</pre>")
     swal("Uploaded", "", "success")
   }
 

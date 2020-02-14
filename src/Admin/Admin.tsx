@@ -176,7 +176,7 @@ class Admin extends Myservice {
       new this.Upload(file).doUpload();
       this.temp_interval = setInterval(
         () => {
-          $(".progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
+          $(".que_progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
         }
         , 1000)
     }
@@ -186,7 +186,7 @@ class Admin extends Myservice {
   }
   callback(data: any, context: any) {
     clearInterval(context.temp_interval)
-    $(".progress").html("<pre>" + data + "</pre>")
+    $(".que_progress").html("<pre>" + data + "</pre>")
     swal("Uploaded", "","success")
   }
 

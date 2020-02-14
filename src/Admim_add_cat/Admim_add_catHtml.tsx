@@ -34,9 +34,10 @@ var page = function (_this: any) {
                                         </td>
                                         <td className="addBtn">
                                             <button onClick={_this.add.bind(_this)} id="add" ><FaPlus /> Add</button>
+                                            <button className="del del_cat_btn delete"  ><AiTwotoneDelete className="del_icon" /> Delete</button>
                                         </td>
-                                        <td>
-                                            <button className="del del_cat_btn delete"  ><AiTwotoneDelete className="del_icon" /> Delete</button></td>
+                                        {/* <td>
+                                            </td> */}
 
                                     </tr>
                                 </table>
@@ -77,8 +78,6 @@ var page = function (_this: any) {
                                             <td>
                                                 <button onClick={_this.add_exam.bind(_this)} className="create"><FaPlus /> Create
                                                 </button>
-                                            </td>
-                                            <td>
                                                 <button className="del_exam_btn delete_exam"><AiTwotoneDelete className="del_icon" /> Delete</button>
                                             </td>
                                         </tr>
@@ -105,7 +104,7 @@ var page = function (_this: any) {
                                        
                                     </table> */}
                                 </div>
-                                <table className="list_exam"></table>
+                                <div className="list_exam_parent"></div>
                             </div>
                             <a id="button_up"><TiArrowUpThick className="backTop" /></a>
                         </div>

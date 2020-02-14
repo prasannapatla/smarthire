@@ -1899,7 +1899,7 @@ def read_excel(file,use=1):
     else:
         wb = load_workbook(filename=BASE_DIR+file, read_only=True)
         ws = wb['Sheet1']
-        for i in range(2,ws.max_row):
+        for i in range(2,ws.max_row+1):
             temp=list()
             if len(ws[i])!=0:
                 for col in ws[i]:

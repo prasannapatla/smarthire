@@ -28,7 +28,7 @@ var page = function (_this: any) {
                         </div>
                         <div className="sect">
                             <div className="table-responsive mob_overflow quest" style={{marginTop:'40px'}}>
-                                <table className="list_que table result" style={{ marginTop: "20px;" }}>
+                                <table className="list_que table result" style={{ marginTop: "40px;" }}>
                                 </table>
                             </div>
                             <a id="button"><TiArrowUpThick className="backTop" /></a>

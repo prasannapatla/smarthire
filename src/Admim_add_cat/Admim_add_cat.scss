@@ -254,7 +254,7 @@
   }
 
   #button_up {
-    display: inline-block;
+    // display: inline-block;
     background-color: #72779C;
     width: 50px;
     height: 50px;
@@ -288,6 +288,9 @@
     position: relative;
     left: 6px;
   }
+  .del_cat_btn {
+    top: 1px;
+  }
 
   .del_que_btn {
     // position: relative;
@@ -306,21 +309,15 @@
   }
 
   .sel_all {
-    float: right;
-    position: absolute;
-    /* top: -56px; */
-    right: 56px;
-    top: 72px;
+    position: relative;
+    top: -70px;
     height: 40px;
     width: 150px;
   }
 
   .del_que_btn {
-    float: right;
-    visibility: visible;
-    right: 229px;
-    position: absolute;
-    top: 74px;
+    position: relative;
+    top: -69px;
     height: 40px;
     width: 150px;
   }
@@ -335,25 +332,33 @@
     width: 100% !important;
   }
 
-  .list_cat:nth-child(1) {
+  .list_cat:nth-child(1),.list_exam:nth-child(1) {
     width: 48%;
     // border-right: solid rgb(192, 191, 191) 2px;
   }
 
-  .list_cat:nth-child(1) {
+  .list_cat:nth-child(1),.list_exam:nth-child(1) {
     border-spacing: 0;
   }
 
-  .list_cat:nth-child(1) tr td:nth-child(2) {
+  .list_cat:nth-child(1) tr td:nth-child(2),.list_exam:nth-child(1) tr td:nth-child(2) {
     border-right: solid rgb(238, 234, 234) 2px;
   }
 
-  .list_cat:nth-child(2) {
+  .list_cat:nth-child(2),.list_exam:nth-child(2) {
     width: 49%;
     padding-left: 2%;
   }
 
-  .list_cat {
+  .list_cat,.list_exam {
     display: inline-table
   }
+  .list_exam_parent,.list_cat_parent {
+    margin-bottom: 20px !important;
+  }
+
+  .res td div{
+    display: inline;
+  }
+  
 }

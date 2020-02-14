@@ -97,7 +97,7 @@ class Add_code extends Myservice {
 
             this.temp_interval = setInterval(
                 () => {
-                    $(".progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
+                    $(".code_que_progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
                 }
                 , 500)
 
@@ -110,7 +110,7 @@ class Add_code extends Myservice {
     }
     callback2(data: any, context: any) {
         clearInterval(context.temp_interval)
-        $(".progress").html("<pre>" + data + "</pre>")
+        $(".code_que_progress").html("<pre>" + data + "</pre>")
         $("body *").css({ cursor: "auto" })
         swal("Uploaded", "", "success")
     }

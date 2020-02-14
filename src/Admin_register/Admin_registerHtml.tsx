@@ -37,7 +37,7 @@ var page = function (_this: any) {
                                     <span id="custom-text">No file chosen</span>
                                     <br />
                                     <br />
-                                    <span className='progress'>-</span>
+                                    <span className='register_progress'>-</span>
                                 </div>
                             </div>
                             <div className="credentials_sect">
