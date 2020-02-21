@@ -19,7 +19,7 @@ var page = function (_this: any) {
             <div className="question">
                 <div className="recv_que"></div><br /><br />
 
-                <b>Note:</b>primary class name should be pgm
+                <b>Note:</b> Primary class name should be pgm
             </div>
             <div className="top_line">
                 <div className="menues">

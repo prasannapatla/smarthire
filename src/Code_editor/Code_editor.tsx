@@ -85,10 +85,10 @@ class Code_editor extends Myservice {
             }
         });
         let n = 0;
-
-        window.onbeforeunload = function () {
-            context.submit_code();
-        };
+        let ctx=this
+        window.addEventListener("beforeunload", function (e) {
+            ctx.fetch_data("/server/submit_code/", "POST");
+        })
 
         super.componentDidMount();
     }
@@ -208,7 +208,7 @@ class Code_editor extends Myservice {
         if (json_obj["score"] == 5)
             $(".testcase").css({ color: "green" })
         else if (json_obj["score"] > 0)
-            $(".testcase").css({ color: "yellow" })
+            $(".testcase").css({ color: "#ff9933" })
         else
             $(".testcase").css({ color: "red" })
         $(".loading").css({ visibility: "hidden" })

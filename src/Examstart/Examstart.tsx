@@ -9,7 +9,7 @@ import emoji from '../assets/output-onlinepngtools.png'
 class Examstart extends Myservice {
   myWindow: any = null;
   c: number = 0;
-  timeout:any=null
+  timeout: any = null
   constructor(props: any) {
     super(props);
 
@@ -20,28 +20,28 @@ class Examstart extends Myservice {
       return;
 
     this.c = 0;
-    document.addEventListener("contextmenu", event => event.preventDefault());
+    // document.addEventListener("contextmenu", event => event.preventDefault());
     var context = this
     window.onbeforeunload = function () {
       context.fetch_data("/server/del/", "POST");
     }
     this.available_exam();
-    this.timeout=setInterval(() => {
-      context.available_exam()      
+    this.timeout = setInterval(() => {
+      context.available_exam()
     }, 2000);
     this.disable_btns();
     window.onbeforeunload = function () {
-      if(context.timeout!=null)
-      clearInterval(context.timeout)
-  };
+      if (context.timeout != null)
+        clearInterval(context.timeout)
+    };
     super.componentDidMount();
   }
 
 
-  available_exam(){
-    let json_resp=null
+  available_exam() {
+    let json_resp = null
     try {
-      json_resp = JSON.parse(this.fetch_data("/server/all_exam_status/", "POST"))      
+      json_resp = JSON.parse(this.fetch_data("/server/all_exam_status/", "POST"))
     } catch (error) {
       return
     }
@@ -53,17 +53,17 @@ class Examstart extends Myservice {
     $(".start_date").text(json_resp[0]["start_date"])
     $(".end_date").text(json_resp[0]["end_date"])
     if (Number(json_resp[0].status_code) == 2) {
-        $(".mcq").hide()
-        $(".coding").css({width:"100%",float:"unset"})
+      $(".mcq").hide()
+      $(".coding").css({ width: "100%", float: "unset" })
     }
     if (Number(json_resp[0].status_code) == 1) {
-        $(".coding").hide()
-        $(".mcq").css({width:"100%",float:"unset"})
+      $(".coding").hide()
+      $(".mcq").css({ width: "100%", float: "unset" })
     }
     if (Number(json_resp[0].status_code) == 3) {
       $(".coding").hide()
       $(".mcq").hide()
-      let text=`
+      let text = `
           <h1>Thank you</h1>      
       `
       $(".instr").html(text)
@@ -109,9 +109,8 @@ class Examstart extends Myservice {
 
 
   openWin2 = () => {
-    let context=this
+    let context = this
     this.myWindow = window.open("#code_editor", "_blank", "fullscreen=yes, scrollbars=1");
-   
   }
 
   // redirect() {
@@ -164,7 +163,7 @@ class Examstart extends Myservice {
     let context = this
     swal("Thanks for your rating!", `You rated us ${value}/5`, "success")
       .then(() => {
-        this.fetch_data("/server/feedback/","POST","feedback="+value)
+        this.fetch_data("/server/feedback/", "POST", "feedback=" + value)
         context.signout()
         return
       });
@@ -239,8 +238,8 @@ class Examstart extends Myservice {
   }
 
   signout() {
-    if(this.timeout!=null)
-    clearInterval(this.timeout)
+    if (this.timeout != null)
+      clearInterval(this.timeout)
     if (this.myWindow != null)
       this.myWindow.close()
     console.log("signout")
