@@ -28,7 +28,7 @@ class Admin_list_que extends Myservice {
         e.preventDefault();
         $('html, body').animate({ scrollTop: 0 }, '100');
       });
-      
+
     });
 
     if (this.allow_admin())
@@ -51,9 +51,9 @@ class Admin_list_que extends Myservice {
         if ($(this).prop("checked"))
           ids.push($(this).val())
         if (count == 1) {
-          swal("Deleted "+count+" question","","success")
+          swal("Deleted " + count + " question", "", "success")
         } else {
-          swal("Deleted "+count+" questions","","success")
+          swal("Deleted " + count + " questions", "", "success")
         }
       });
 
@@ -66,11 +66,14 @@ class Admin_list_que extends Myservice {
     });
 
     $(".sel_all").click(function (this: any) {
+      $(".delete").hide()
       $('input:checkbox').each(function (this: any) {
         if ($(this).prop('checked'))
           $(this).prop('checked', false);
         else
           $(this).prop('checked', true);
+        if ($(this).prop("checked"))
+          $(".delete").show()
       });
     });
 
@@ -106,7 +109,7 @@ class Admin_list_que extends Myservice {
       console.log(json_obj[val1]);
       txt += "<tr>"
       txt += "<td colspan='4' class='que_ind' style='max-width:100%;text-indent:-20px;'><div><b>Q." + (count++) + " </b></div><div>" + json_obj[val1]["question"] + "</div></td>";
-      txt += "<td><label class='container1'><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label></td>"
+      txt += "<td style='width:50px'><label class='container1'><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label></td>"
       txt += "</tr>"
       txt += "<tr class='val'>"
       txt += "<td class='options'>A. " + json_obj[val1]["opt1"] + "</td>";
@@ -141,6 +144,21 @@ class Admin_list_que extends Myservice {
           $(".delete").show()
       });
     });
+
+    // $(".sel_all").click(function (this: any) {
+    //   $('input:checkbox').each(function (this: any) {
+    //     console.log($(this).prop('checked'))
+    //     if ($(this).prop('checked'))
+    //       $(this).prop('checked', false);
+    //     else
+    //       $(this).prop('checked', true);
+    //   });
+    //   $(".delete").css({ "visibility": "hidden" })
+    //   $("input[type='checkbox']").each(function (this: any) {
+    //     if ($(this).prop("checked"))
+    //       $(".delete").css({ "visibility": "visible" })
+    //   });
+    // });
 
   };
 

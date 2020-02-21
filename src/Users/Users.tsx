@@ -37,11 +37,11 @@ class Users extends Myservice {
             html_data += "<td style='padding-right:30px'>" + json_data[row]["name"] + "</td>\n"
             html_data += "<td style='padding-right:20px'>" + json_data[row]["email"] + "</td>\n"
             if (json_data[row]["password"] !== "") {
-                html_data += "<td><input type='text' value='" + json_data[row]["password"] + "' class='pwd' /></td>\n"
+                html_data += "<td><input type='text' value='" + json_data[row]["password"] + "' class='pwd pwd_active' /></td>\n"
             }
             else {
                 console.log(".........")
-                html_data += "<td><input type='text' value='********' class='pwd' /></td>\n"
+                html_data += "<td><input type='text' readonly value='********' class='pwd' /></td>\n"
             }
             if (json_data[row]["super_admin"] == true)
                 html_data += "<td><label class='container1' style='margin-left:30px'><input type='checkbox' checked='true' class='full' value='" + json_data[row]["id"] + "' /><span class='checkmark'></span></label></td>\n"
@@ -97,11 +97,13 @@ class Users extends Myservice {
                 clearTimeout(context.timeout)
             context.timeout = setTimeout(
                 () => {
-                    context.update($(this).find(".user_id").val(), $(this).find(".pwd").val(), $(this).find(".full").is(":checked"))
+                    if( $(this).find(".pwd_active").length)
+                    context.update($(this).find(".user_id").val(), $(this).find(".pwd_active").val(), $(this).find(".full").is(":checked"))
                 }
                 , 1000)
         });
-        $("tr td .pwd").on('change', function (this: any) {
+        $("tr td .pwd .pwd_active").on('change', function (this: any) {
+            alert("hi")
             context.update($(this).parent().parent().parent().find(".user_id").val(), $(this).parent().parent().parent().find(".pwd").val(), $(this).parent().parent().parent().find(".full").is(":checked"))
         });
         $("tr td .full").on('change', function (this: any) {

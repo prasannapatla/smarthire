@@ -299,4 +299,5 @@ tr td:first-child input[type="checkbox"] {
 
 select {
   min-width: 150px;
+  height:38px;
 }
