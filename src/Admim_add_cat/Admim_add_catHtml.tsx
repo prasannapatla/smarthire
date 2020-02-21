@@ -21,8 +21,6 @@ var page = function (_this: any) {
                             <button className="sel_all" style={{ display: "none", float: "right" }}>Select All</button>
                             <button className="del_que_btn" style={{ display: "none", float: "right" }}><AiTwotoneDelete className="del_icon" /> Delete</button>
                             <table className='res q_list table result' style={{ display: "none" }}></table>
-                            {/* <button className="back" onClick={_this.back.bind(_this)} style={{ display: "none", float: "right" }}>Back</button> */}
-                            <button className="sel_all" style={{ display: "none", float: "right" }}>Select All</button>
 
 
                             <div className="sect cate">
@@ -82,27 +80,6 @@ var page = function (_this: any) {
                                             </td>
                                         </tr>
                                     </table>
-                                    {/* <table >
-                                        <tr>
-                                            
-                                        </tr>
-                                        <tr>
-                                            
-                                        </tr>
-                                    </table>
-                                    <table >
-                                        <tr>
-                                            
-                                        </tr>
-                                        <tr>
-                                           
-                                        
-                                            
-                                        </tr>
-                                    </table> */}
-                                    {/* <table >
-                                       
-                                    </table> */}
                                 </div>
                                 <div className="list_exam_parent"></div>
                             </div>

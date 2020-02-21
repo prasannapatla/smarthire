@@ -60,6 +60,7 @@ class Admin_view_result extends Myservice {
       });
 
     });
+    
 
 
     $("select").eq(0).focus()
@@ -84,14 +85,14 @@ class Admin_view_result extends Myservice {
       return
     }
     //alert(str+"\n"+json_obj[0])
-    let txt = "<thead><tr><th  class='no_display'>Delete User Details</th><th>Id</th><th>Email</th><th>Total Duration(Mins)</th><th>Score</th><th>Coding score</th><th>Feedback</th><th  class='no_display'>View Details</th></tr></thead><tbody>"
+    let txt = "<thead><tr><th  class='no_display' style='border-top: none;border-right: none;border-left: none;'><div class='check'><label class='container1'><input type='checkbox' class='sel_all' id='checkbox'/><span class='checkmark'></span></label></div><div class='checked'></div></th><th style='border-top: none;border-left: none;border-right: none;'>Id</th><th style='border-top: none;border-right: none;border-left: none;'>Email</th><th style='border-top: none;border-right: none;border-left: none;'>Total Duration(Mins)</th><th style='border-top: none;border-right: none;border-left: none;'>Score</th><th style='border-top: none;border-right: none;border-left: none;'>Coding score</th><th style='border-top: none;border-right: none;border-left: none;'>Feedback</th><th  class='no_display' style='border-top: none;border-right: none;border-left: none;'>View Details</th></tr></thead><tbody>"
     let val1: any, val2: any
     for (val1 in json_obj) {
       let dur: any = 0;
       if (json_obj[val1]["Total Duration"] != "None")
         dur = Math.floor(json_obj[val1]["Total Duration"] / 60) + "Min " + json_obj[val1]["Total Duration"] % 60 + " Secs"
       txt += "<tr>"
-      txt += "<td  class='no_display' style={{text-align:'center'}} val='" + json_obj[val1]["ID"] + "'><label class='container1' style='margin-left:30px'><input type='checkbox' className='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /><span class='checkmark'></span></label></td>"
+      txt += "<td  class='no_display' style='border-top: none;border-right: none;border-left: none;' val='" + json_obj[val1]["ID"] + "'><label class='container1' style='margin-left:30px'><input type='checkbox' class='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /><span class='checkmark' style='left: 53px;'></span></label></td>"
       txt += "<td >" + json_obj[val1]["ID"] + "</td>"
       txt += "<td >" + json_obj[val1]["Username"] + "</td>"
       txt += "<td >" + dur + "</td>"
@@ -106,7 +107,7 @@ class Admin_view_result extends Myservice {
 
       txt += "<td >" + json_obj[val1]["Feedback"] + "/5</td>"
       if (json_obj[val1]["Score"] != -1 || json_obj[val1]["Score2"] != -1)
-        txt += "<td  class='no_display' className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a>View Detail</a></u></td>"
+        txt += "<td  class='no_display' className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a style='color:#E5277D'>View Detail</a></u></td>"
       else
         txt += "<td  class='no_display'>No Details</td>"
       txt += "</tr></tbody>"
@@ -152,6 +153,19 @@ class Admin_view_result extends Myservice {
     });
     $(".delete").css({ "visibility": "hidden" })
     $("input[type='checkbox']").click(function () {
+      $(".delete").css({ "visibility": "hidden" })
+      $("input[type='checkbox']").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".delete").css({ "visibility": "visible" })
+      });
+    });
+    $(".sel_all").click(function (this: any) {
+      $('.del_user').each(function (this: any) {
+        if ($(this).prop('checked'))
+          $(this).prop('checked', false);
+        else
+          $(this).prop('checked', true);
+      });
       $(".delete").css({ "visibility": "hidden" })
       $("input[type='checkbox']").each(function (this: any) {
         if ($(this).prop("checked"))

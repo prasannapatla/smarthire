@@ -53,7 +53,7 @@ var page = function (_this: any) {
                                     </button>
                                     <button className="download" onClick={_this.download_excel.bind(_this)}><FiDownload className="icon" /> Download</button>
                                     <button className="del delete del_user_btn_complete"><AiTwotoneDelete className="del_icon" />&nbsp; Delete</button>
-                                    <table id="result" className="table table-bordered table-striped result" style={{ marginTop: "20px", borderCollapse: "collapse" }}>
+                                    <table id="result" className="table  result" style={{ marginTop: "20px", borderCollapse: "collapse" }}>
                                     </table>
                                 </div>
                             </div>

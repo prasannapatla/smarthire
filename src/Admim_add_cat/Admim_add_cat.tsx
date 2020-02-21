@@ -63,14 +63,14 @@ class Admim_add_cat extends Myservice {
     });
 
 
-    $(".sel_all").click(function (this: any) {
-      $('input:checkbox').each(function (this: any) {
-        if ($(this).prop('checked'))
-          $(this).prop('checked', false);
-        else
-          $(this).prop('checked', true);
-      });
-    });
+    // $(".sel_all").click(function (this: any) {
+    //   $('input:checkbox').each(function (this: any) {
+    //     if ($(this).prop('checked'))
+    //       $(this).prop('checked', false);
+    //     else
+    //       $(this).prop('checked', true);
+    //   });
+    // });
 
 
     $("input").eq(0).focus()
@@ -130,6 +130,17 @@ class Admim_add_cat extends Myservice {
       else
         swal("Select at least one checkbox", "", "warning")
       context.list_cat();
+    });
+    $(".sel_all").click(function (this: any) {
+      $(".del_que_btn").hide()
+      $('.que_sel').each(function (this: any) {
+        if ($(this).prop('checked'))
+          $(this).prop('checked', false);
+        else
+          $(this).prop('checked', true);
+        if ($(this).prop("checked"))
+          $(".del_que_btn").show()
+      });
     });
     super.componentDidMount();
 
@@ -191,12 +202,12 @@ class Admim_add_cat extends Myservice {
     $(".que_td").css({ "padding-left": "20px" ,"word-break": "break-word","vertical-align":"top", "width":"225px"})
     $(".row").css({ "height": "max-content" })
     $(".result").css({ "border-spacing": "10px" })
-    $(".del_que_btn").css({ "visibility": "hidden" })
+    $(".del_que_btn").css({ "display": "none" })
     $(".que_sel").click(function () {
-      $(".del_que_btn").css({ "visibility": "hidden" })
+      $(".del_que_btn").css({ "display": "none" })
       $(".que_sel").each(function (this: any) {
         if ($(this).prop("checked"))
-          $(".del_que_btn").css({ "visibility": "visible" })
+          $(".del_que_btn").css({ "display": "block" })
       });
     });
   }
@@ -288,7 +299,7 @@ class Admim_add_cat extends Myservice {
       $(".data").css({ "padding": "20px" })
       $(".data").css({ "border-radius": "10px" })
       $(".data").css({ "margin-bottom": "30px" })
-      $(".data").css({ "box-shadow": "5px 5px 10px -2px" })
+      $(".data").css({ "box-shadow": "0 5px 5px -6px" })
     });
     $(".delete").css({ "visibility": "hidden" })
     $(".cat_sel").click(function () {
@@ -364,6 +375,10 @@ class Admim_add_cat extends Myservice {
       context.display_que($(this).attr("val"), "exam")
       context.set_sess("type", "exam")
       $(".data").css({ "background-color": "#FFFFFF" })
+      $(".data").css({ "padding": "20px" })
+      $(".data").css({ "border-radius": "10px" })
+      $(".data").css({ "margin-bottom": "30px" })
+      $(".data").css({ "box-shadow": "0 5px 5px -6px" })
     });
 
     $(".del_exam_btn").css({ "visibility": "hidden" })

@@ -78,7 +78,7 @@ class Code_editor extends Myservice {
         window.addEventListener("visibilitychange", () => {
             console.log("visibilitychange")
             if (window.document.visibilityState == 'hidden') {
-                if (this.c >= 0 && this.c <= 3 && context.get_sess("login_status") != null)
+                if (this.c >= 0 && this.c <= 2 && context.get_sess("login_status") != null)
                     swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
                 if (window.screenX <= 0 || window.screenY <= 0)
                     context.close_win();

@@ -29,14 +29,14 @@ var page = function (_this: any) {
                         <p>1. <b>Number of questions: </b><span className='mcq_total'></span></p>
                         <p>2. <b>Total duration of the exam: </b><span className='mcq_dur'></span></p>
                         <p id="start"></p>
-                        <button onClick={_this.openWin.bind(_this, "exampage")} className="start_exam">Start Exam</button>
+                        <button onClick={_this.openWin.bind(_this, "exampage")} className="start_exam">Start MCQ Exam</button>
                     </div>
                     <div className="coding col">
                         <p id="ins">Coding Instructions</p>
                         <p>1. <b>Number of questions: </b><span className='code_total'></span></p>
                         <p>2. <b>Total duration of the exam: </b><span className='code_dur'></span></p>
                         <p id="start"></p>
-                        <button onClick={_this.openWin2.bind(_this)} className="start_exam">Start Exam</button>
+                        <button onClick={_this.openWin2.bind(_this)} className="start_exam">Start Coding Exam</button>
                     </div>
                     <button id="logout" onClick={_this.user_signout.bind(_this)}><FaPowerOff style={{height:"13px",marginLeft:"3px"}}/> Logout</button>
                 </div>
