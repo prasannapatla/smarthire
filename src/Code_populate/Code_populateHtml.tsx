@@ -38,6 +38,7 @@ var page = function (_this: any) {
                                         <th data-colSpan={4} className="dur_exam_Text">
                                             Duration of the exam
                                             </th>
+                                        <th>Remaining Time</th>
                                     </tr>
                                     <tr>
                                         <td><select id='exam' className="selectExam"></select></td>
@@ -45,6 +46,7 @@ var page = function (_this: any) {
                                         </td>
                                         <td><input type='number' defaultValue="30" placeholder='Enter Duration' id='dur' className="dur_exam" /><b className="mins">Mins</b>
                                         </td>
+                                        <td style={{padding: "unset"}}><b><span className="remaining" style={{marginLeft: "40px", display:"block"}}></span></b></td>
                                     </tr>
                                 </table>
                             </div>

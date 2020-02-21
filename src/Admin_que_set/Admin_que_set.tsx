@@ -49,6 +49,11 @@ class Admin_que_set extends Myservice {
       txt += json_obj[val1]["e_name"] + "</option>"
     }
     $("#" + id).html(txt)
+    let ctx=this
+    $("#" + id).change(function(this:any){
+      var remaining = JSON.parse(ctx.fetch_data("/server/rem_exam_dur/","POST",null,"exam=" + $(this).children("option:selected").val()))
+      $(".remaining").text((remaining.remaining/60).toFixed(0)+" Mins.")
+    });
   }
 
 
@@ -119,15 +124,23 @@ class Admin_que_set extends Myservice {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, populate'
           }).then((result:any) => {
-            if (result.value)
-            context.show_msg(context.fetch_data("/server/addset/", "POST", null, json_str));
+            if (result.value){
+              context.show_msg(context.fetch_data("/server/addset/", "POST", null, json_str));
+              $(".remaining").text("")
+              context.get_exam("exam");
+            }
+            
           })          
 
       }
-      else
-      context.show_msg(context.fetch_data("/server/addset/", "POST", null, json_str));
+      else{
+        context.show_msg(context.fetch_data("/server/addset/", "POST", null, json_str));
+        $(".remaining").text("")
+        context.get_exam("exam");
+      }
 
     });
+    
   }
 
 

@@ -16,7 +16,7 @@ var page = function (_this: any) {
                         <div className="main_body">
                             <table className="header">
                                 <td className="exam_text1">
-                                    Populate<br/> exam
+                                    Populate<br /> exam
                                </td>
                                 <td>
                                     <button id="populate_exam1" onClick={_this.create_question_set.bind(_this)}><FaPlus /> Populate Exam
@@ -26,17 +26,19 @@ var page = function (_this: any) {
                             <div className="exam_options">
                                 <table className="table populate">
                                     <tr>
-                                        <th style={{ fontSize: '16px'}}>
+                                        <th style={{ fontSize: '16px' }}>
                                             Select Exam
                                         </th>
-                                        <th data-colSpan={4} style={{ fontSize: '16px', position:'relative',right:'24%'}}>
+                                        <th data-colSpan={4} style={{ fontSize: '16px', position: 'relative', right: '15%' }}>
                                             Duration of the exam
                                         </th>
+                                        <th style={{ fontSize: '16px', position: 'relative', right: '24%' }}>Remaining Time</th>
                                     </tr>
                                     <tr>
                                         <td><select id='exam'></select></td>
                                         <td><input type='number' defaultValue="60" placeholder='Enter Duration' id='dur' /><b className="mins"> Mins.</b>
                                         </td>
+                                        <td style={{ padding: "unset",position: 'relative', right: '27%'  }}><b><span className="remaining" style={{ marginLeft: "40px", display: "block" }}></span></b></td>
                                     </tr>
                                 </table>
                                 <div className="table-responsive mob_overflow">

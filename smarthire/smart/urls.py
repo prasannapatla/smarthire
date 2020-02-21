@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^addcat/$', views.addcat),
     url(r'^addque/$', views.addque),
     url(r'^addexam/$', views.add_exam),
+    url(r'^rem_exam_dur/$', views.remaining_exam_duration),
     url(r'^addset/$', views.add_que_set),
     url(r'^add_code_que_set/$', views.add_code_que_set),
     url(r'^addcode/$', views.addcode),

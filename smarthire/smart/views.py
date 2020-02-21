@@ -394,6 +394,23 @@ def add_exam(request):
         return HttpResponse("invalid req method",content_type="text")  
 
 @csrf_exempt
+def remaining_exam_duration(request): 
+    if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
+        try:
+            stmt="SELECT abs(TIMESTAMPDIFF(SECOND,se.start_date,se.end_date))-(duration+code_duration) as remaining FROM smart_exam as se WHERE id="+str(request.POST.get("exam"))+";"
+            remaining=json.loads(make_query(stmt))[0]
+            print(remaining)
+            return HttpResponse(json.dumps(remaining),content_type="text")  
+        except Exception as e:
+            print(str(e))
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
+    else:
+        return HttpResponse("error&sep;You are not allowed for do this operation",content_type="text")  
+
+        
+
+
+@csrf_exempt
 def add_que_set(request):  
     if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
         try:
