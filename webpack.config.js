@@ -208,7 +208,8 @@ module.exports = {
                     "^/server/view_admin": "/view_admin/",
                     "^/server/remove_admin": "/remove_admin/",
                     "^/server/update_admin": "/update_admin/",
-                    "^/server/addcode": "/addcode/"
+                    "^/server/addcode": "/addcode/",
+                    "^/server/rem_exam_dur": "/rem_exam_dur/"
                 }
             }
         }
