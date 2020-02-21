@@ -5,6 +5,8 @@ import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner';
 import { FaPlus, FaUpload } from 'react-icons/fa';
 import { FiFile } from 'react-icons/fi';
+//@ts-ignore
+import sample from '../assets/Details.xlsx'
 
 var $ = require("jquery");
 
@@ -30,7 +32,7 @@ var page = function (_this: any) {
                                     </div>
                                 </form>
                                 <div className='file_upload' style={{ display: "block" }}>
-                                    <b>Format : </b> Name, Email and Mobile number<br /><br />
+                                    <b>Format : </b> Name, Email and Mobile number&nbsp;&nbsp;&nbsp;<a className="linktodow" href={sample}>(Download Sample XLSX file)</a><br /><br />
                                     <button className="upload" onClick={_this.bulk_upload.bind(_this)}><b><FaUpload style={{ color: "#E5287C", marginLeft: "-4px" }} /> Upload</b></button>
                                     <input type="file" id="real-file" className="upload_file" style={{ visibility: 'hidden' }} />
                                     <button type="button" id="custom-button"><b><FiFile style={{ color: "#E5287C", marginLeft: "-4px" }} /> Choose a File</b></button>

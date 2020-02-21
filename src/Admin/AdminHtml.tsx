@@ -5,8 +5,8 @@ import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner';
 import { FaPlus } from 'react-icons/fa';
 import { FiUpload, FiFile } from 'react-icons/fi';
-
-
+//@ts-ignore
+import sample from '../assets/Bulk_Question_Uploads.xlsx'
 
 var page = function (_this: any) {
 
@@ -103,7 +103,7 @@ var page = function (_this: any) {
                                     <br />
                                     <br />
                                     <br />
-                                    <div>Format: Questions, Program, Option1, Option2, Option3,Option4, Correct Answer</div>
+                                    <div>Format: Questions, Program, Option1, Option2, Option3, Option4, Correct Answer&nbsp;&nbsp;&nbsp;<a className="linktodow" href={sample}>(Download Sample XLSX file)</a></div>
                                     <button className="upload" onClick={_this.bulk_upload.bind(_this)}><b><FiUpload /> Upload</b></button>
                                     {/* <input type="file" className="upload_file" />
                                     <br /> */}

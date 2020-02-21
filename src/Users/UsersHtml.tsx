@@ -32,9 +32,9 @@ var page = function (_this: any) {
                               <tr>
                                  <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>Name&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                  <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>Email id&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                 <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>password&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                 <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>Password&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                  <th style={{ paddingLeft: "20px",borderBottom:"solid 1px #d0d0d0" ,paddingBottom: "8px"}}>Full previlige&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                 <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>Mark for remove user&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                 <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>Select to delete user&nbsp;&nbsp;&nbsp;&nbsp;</th>
                               </tr>
                            </thead>
                            <tbody className="user_data">

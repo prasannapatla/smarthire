@@ -5,6 +5,8 @@ import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner';
 import { FaPlus } from 'react-icons/fa';
 import { FiUpload,FiFile } from 'react-icons/fi';
+//@ts-ignore
+import sample from '../assets/Bulk_coding_que_upload.xlsx'
 
 
 
@@ -143,7 +145,7 @@ var page = function (_this: any) {
                                         <option value="js">Javascript</option>
                                     </select><br/>
                                     <br/>
-                                    <b>Format: </b>Problem statement,code,sample input,test input 1,test input 2,test input 3,test input4,Programming language(Optional)<br /><br />
+                                    <b>Format: </b>Problem statement,code,sample input,test input 1,test input 2,test input 3,test input4,Programming language(Optional)&nbsp;&nbsp;&nbsp;<a className="linktodow" href={sample}>(Download Sample XLSX file)</a><br /><br />
                                     <button className="upload" onClick={_this.bulk_upload.bind(_this)}><FiUpload /> Upload</button>
                                     <input type="file" id="real-file" className="upload_file" style={{ visibility: 'hidden' }} />
                                     <button type="button" id="custom-button"><b><FiFile style={{ color: "#E5287C", marginLeft: "-4px" }} /> Choose a File</b></button>

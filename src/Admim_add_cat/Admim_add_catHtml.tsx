@@ -57,10 +57,10 @@ var page = function (_this: any) {
                                                 Exam name
                                         </td>
                                             <td className="exam_heading">
-                                                Start date
+                                                Start time
                                         </td>
                                             <td className="exam_heading">
-                                                End date
+                                                End time
                                         </td>
                                         </tr>
                                         <tr>

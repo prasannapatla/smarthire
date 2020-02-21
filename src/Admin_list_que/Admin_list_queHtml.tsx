@@ -26,7 +26,7 @@ var page = function (_this: any) {
                             </div>
                             
                             <div className='exam_type'>
-                                <p className='type_text'>SELECT EXAM TYPE.</p>
+                                <p className='type_text'>Select Category Type</p>
                                 <select id="cat"></select>
                             </div>
                         </div>
