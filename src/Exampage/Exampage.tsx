@@ -107,7 +107,6 @@ class Exampage extends Myservice {
                     if (context.timer1 == null) {
                         context.timer(data[data.length - 1]);
                     }
-
                     $(".save_btn").prop('disabled', false);
                 });
             }

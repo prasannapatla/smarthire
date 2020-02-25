@@ -16,7 +16,14 @@ class Admin_que_set extends Myservice {
     if (this.allow_admin())
       return;
     this.get_exam("exam");
+    this.get_exam("exam1");
     this.get_cat();
+    // $("#exam").change(function (this: any) {
+    //   $('#exam1 option[value="' + $('#exam option:selected').val() + '"]').prop('selected', true)
+    // });
+    // $("#exam1").change(function (this: any) {
+    //   $('#exam option[value="' + $('#exam1 option:selected').val() + '"]').prop('selected', true)
+    // });
     super.componentDidMount();
 
   }
@@ -49,10 +56,13 @@ class Admin_que_set extends Myservice {
       txt += json_obj[val1]["e_name"] + "</option>"
     }
     $("#" + id).html(txt)
-    let ctx=this
-    $("#" + id).change(function(this:any){
-      var remaining = JSON.parse(ctx.fetch_data("/server/rem_exam_dur/","POST",null,"exam=" + $(this).children("option:selected").val()))
-      $(".remaining").text((remaining.remaining/60).toFixed(0)+" Mins.")
+    let ctx = this
+    $("#" + id).change(function (this: any) {
+      var remaining = JSON.parse(ctx.fetch_data("/server/rem_exam_dur/", "POST", null, "exam=" + $(this).children("option:selected").val()))
+      if (id == 'exam')
+        $(".remaining").text((remaining.remaining / 60).toFixed(0) + " Mins.")
+      else
+        $(".remaining1").text((remaining.remaining / 60).toFixed(0) + " Mins.")
     });
   }
 
@@ -64,32 +74,32 @@ class Admin_que_set extends Myservice {
       var json_arr = Array()
 
       if ($('#dur').val() <= 0) {
-        swal("Given duration is incorrect","","warning")
+        swal("Given duration is incorrect", "", "warning")
         return
       }
 
 
       if ($("input[type='checkbox']:checked").length == 0) {
-        swal("Select atleast one category before submitting.","","warning")
+        swal("Select atleast one category before submitting.", "", "warning")
         return false;
       }
 
       var sel2 = $('#exam option:selected').val();
       if ($("#exam").prop('selectedIndex') == 0) {
-        swal(sel2 + " before submitting.","","warning")
+        swal(sel2 + " before submitting.", "", "warning")
         return false;
       }
 
-      let next=true
+      let next = true
 
       $("input[type='checkbox']").each(function (this: any) {
         if ($(this).prop('checked')) {
           var row = $("#cat" + $(this).val());
           var total = (row.find("#total")).val();
-          row.find("#total").css({border:"solid silver 1px"})
-          if(total<0){           
-            row.find("#total").css({border:"solid red 1px"})
-            next=false
+          row.find("#total").css({ border: "solid silver 1px" })
+          if (total < 0) {
+            row.find("#total").css({ border: "solid red 1px" })
+            next = false
           }
           var cat = $(this).val()
           myjson = '{'
@@ -100,8 +110,8 @@ class Admin_que_set extends Myservice {
         }
       });
 
-      if(!next){
-        swal("Incorrect value","","error")
+      if (!next) {
+        swal("Incorrect value", "", "error")
         return
       }
 
@@ -116,32 +126,57 @@ class Admin_que_set extends Myservice {
         total_score: $('#total_score').val()
       }
       if (context.fetch_data("/server/get_select_que_count/", "POST", null, "exam_id=" + sel2) != 0) {
-          swal2.fire({
-            title: 'Do you want to re-populate the exam?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, populate'
-          }).then((result:any) => {
-            if (result.value){
-              context.show_msg(context.fetch_data("/server/addset/", "POST", null, json_str));
-              $(".remaining").text("")
-              context.get_exam("exam");
-            }
-            
-          })          
+        swal2.fire({
+          title: 'Do you want to re-populate the exam?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, populate'
+        }).then((result: any) => {
+          if (result.value) {
+            context.show_msg(context.fetch_data("/server/addset/", "POST", null, json_str));
+            $(".remaining").text("")
+            context.get_exam("exam");
+          }
+
+        })
 
       }
-      else{
+      else {
         context.show_msg(context.fetch_data("/server/addset/", "POST", null, json_str));
         $(".remaining").text("")
         context.get_exam("exam");
       }
 
     });
-    
+
+
   }
+  create_que_set() {
+    let exam_id = $('#exam1 option:selected').val();
+    if ($("#exam1").prop('selectedIndex') == 0) {
+      swal(exam_id + " before submitting.", "", "warning")
+      return false;
+    }
+    if ($('#code_dur').val() <= 0) {
+      swal("Given duration is incorrect", "", "warning")
+      return
+    }
+    if ($('#total').val() < 0) {
+      swal("Value for number of questions is wrong", "", "warning")
+      return
+    }
+    let dur = $('#code_dur').val()
+    let total = $('#total').val()
+    // this.show_msg(this.fetch_data("/server/add_code_que_set/", "POST", "exam="+exam_id+"&dur="+dur+"&total="+total, null));
+    //sweet alert top right
+    let status = this.fetch_data("/server/add_code_que_set/", "POST", "exam=" + exam_id + "&dur=" + dur + "&total=" + total, null).split("&sep;")
+    this.notify(status[1], status[0])
+    $(".remaining").text("")
+    this.get_exam("exam1");
+  }
+
 
 
 
