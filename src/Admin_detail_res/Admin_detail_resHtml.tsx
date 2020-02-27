@@ -13,7 +13,14 @@ var page = function (_this: any) {
     let pi_grap_str: any = []
     let orig_json = _this.state.orig_json
     for (let row in orig_json) {
-        let temp = [["Correct", orig_json[row].correct], ["wrong", orig_json[row].wrong]]
+        let temp = [{
+            x:"Passed", value: orig_json[row].correct, normal:  {
+                fill: "#1bc11b"       
+            }},
+            {x:"Failed", value: orig_json[row].wrong, normal:  {
+                fill: "#ff1f1f"       
+            },
+        }]
         pi_grap_str.push(<span><AnyChart
             id="pieChart1"
             width={300}

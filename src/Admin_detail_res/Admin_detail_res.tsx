@@ -140,14 +140,14 @@ class Admin_detail_res extends Myservice {
           labels: lab,
 
           datasets: [{
-            label: 'Correct',
+            label: 'Passed',
             data: correct,
             fill: false,
             backgroundColor: "blue",
             borderColor: "Green",
 
           }, {
-            label: 'Wrong',
+            label: 'Failed',
             data: wrong,
             fill: false,
             backgroundColor: "pink",
