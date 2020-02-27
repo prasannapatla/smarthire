@@ -48,6 +48,8 @@ class Admin_que_set extends Myservice {
 
   get_exam = (id: any) => {
     var cat_str = this.fetch_data("/server/getexam/", "POST");
+    var get_code_count = this.fetch_data("/server/get_code_count/", "POST");
+    $(".total_que").text("/ " + JSON.parse(get_code_count).code_count)
     let json_obj = JSON.parse(cat_str)
     let val1: any, val2: any
     let txt = "<option class='ex_op'>Select exam</option>"
@@ -173,7 +175,7 @@ class Admin_que_set extends Myservice {
     //sweet alert top right
     let status = this.fetch_data("/server/add_code_que_set/", "POST", "exam=" + exam_id + "&dur=" + dur + "&total=" + total, null).split("&sep;")
     // this.notify(status[1], status[0])
-    swal(status[1],"",status[0])
+    swal(status[1], "", status[0])
     $(".remaining").text("")
     this.get_exam("exam1");
   }

@@ -74,7 +74,7 @@ var page = function (_this: any) {
                                     </tr>
                                     <tr>
                                         <td><select id='exam1' className="selectExam"></select></td>
-                                        <td><input type='number' defaultValue="4" placeholder='Total questions' id='total' className="no_Que" />
+                                        <td><input type='number' defaultValue="4" placeholder='Total questions' id='total' className="no_Que" /><span className="total_que"></span>
                                         </td>
                                         <td><input type='number' defaultValue="30" placeholder='Enter Duration' id='code_dur' className="dur_exam" /><b className="mins_code">Mins.</b>
                                         </td>

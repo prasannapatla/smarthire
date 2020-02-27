@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^sess/$', views.set_sess),
     url(r'^del/$', views.del_sess),
     url(r'^addcat/$', views.addcat),
+    url(r'^get_code_count/$', views.get_code_count),
     url(r'^addque/$', views.addque),
     url(r'^addexam/$', views.add_exam),
     url(r'^rem_exam_dur/$', views.remaining_exam_duration),

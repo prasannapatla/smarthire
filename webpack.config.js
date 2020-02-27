@@ -161,6 +161,7 @@ module.exports = {
                     "^/server/del": "/del/",
                     "^/server/login": "/login/",
                     "^/server/signup": "/signup/",
+                    "^/server/get_code_count/": "/get_code_count/",
                     "^/server/que": "/que/",
                     "^/server/get_code_que": "/get_code_que/",
                     "^/server/submit_code": "/submit_code/",
