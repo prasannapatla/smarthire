@@ -2146,6 +2146,19 @@ def get_expected_output(request):
         return HttpResponse("Only admin can",content_type="text")
 
 @csrf_exempt
+def get_code_count(request): 
+    if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
+        try:
+            stmt="SELECT COUNT(*) AS code_count FROM smart_code_questions"
+            code_count=json.loads(make_query(stmt))[0]
+            return HttpResponse(json.dumps(code_count),content_type="text")  
+        except Exception as e:
+            print(str(e))
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
+    else:
+        return HttpResponse("error&sep;You are not allowed for do this operation",content_type="text")
+
+@csrf_exempt
 def get_code_que(request):
     if ("logged_in" in request.session):
         today=timezone.now()

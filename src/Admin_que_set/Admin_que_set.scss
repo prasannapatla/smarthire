@@ -41,9 +41,43 @@
     border-radius: 10px;
   }
 
+  .code_pop{
+    margin-top: 50px;
+    background-color: #F6F7FB;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    height: 100%;
+    width: 100%;
+  }
+  .pop_code{
+    margin-top: 20px;
+    background-color: #FFFFFF;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    height: 100%;
+    padding: 12px;
+    width: 100%;
+    box-shadow: 0 5px 5px -6px;
+    border-radius: 10px;
+  }
+  .mins_code {
+    margin-left:5px;
+    position: relative;
+    top: -15px;
+  }
+
   .exam_text1 {
     float: left;
     width: 50%;
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: -8px;
+    line-height: 120%;
+  }
+
+  .exam_text2 {
+    float: left;
+    width: 100%;
     font-size: 25px;
     font-weight: bold;
     margin-top: -8px;
@@ -66,6 +100,7 @@
   td input {
     border: solid 2px #E9EBF8;
     outline: none;
+    height: 40px;
   }
 
   td input:focus {
@@ -78,9 +113,22 @@
     top: -15px;
     border: solid 2px #E9EBF8;
     outline: none;
+    height: 40px;
+  }
+  #exam1 {
+    width: 175px;
+    border: solid 2px #E9EBF8;
+    outline: none;
+    height: 40px;
+    position: relative;
+    top: -15px;
+  }
+  .no_Que ,.dur_exam{
+    position: relative;
+    top: -15px;
   }
 
-  #exam:focus {
+  #exam:focus,#exam1:focus {
     outline: none;
   }
 
@@ -183,5 +231,15 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+  .remaining,.remaining1{
+    position: relative;
+    top: 6px;
+  }
+  .total_que{
+    position: relative;
+    font-size: 16px;
+    top: -13px;
+    left: 5px;
   }
 }

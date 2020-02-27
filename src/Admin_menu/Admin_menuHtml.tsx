@@ -23,7 +23,7 @@ var page = function (_this: any) {
                     <li><Link to='/admin_list_que'><FaUser/>&nbsp;&nbsp;&nbsp;Questions</Link></li>
                     <li><Link to='/admin_list_code_que'><FaTelegramPlane/>&nbsp;&nbsp;&nbsp;Coding Questions</Link></li>
                     <li><Link to='/admin_que_set'><FaFileCode/>&nbsp;&nbsp;&nbsp;Populate Exam</Link></li>
-                    <li><Link to='/code_populate'><IoIosJournal/>&nbsp;&nbsp;&nbsp;Populate Coding Exam</Link></li>
+                    {/* <li><Link to='/code_populate'><IoIosJournal/>&nbsp;&nbsp;&nbsp;Populate Coding Exam</Link></li> */}
                     <li><Link to='/admin_register'><FaUser/>&nbsp;&nbsp;&nbsp;Register Candidate</Link></li>
                     <li><Link to='/users'><TiGroup/>&nbsp;&nbsp;&nbsp;Admin users</Link></li>
                     {/* <br/> */}
