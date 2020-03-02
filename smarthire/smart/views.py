@@ -2603,7 +2603,7 @@ def log_request(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     time=datetime.datetime.now().strftime("%Y-%m-%d-%I-%M-%S-%p")
-    print(ip,email,time,request.META['REMOTE_ADDR'])
+    print(ip,email,time,request.META['REMOTE_ADDR'],path)
     # return HttpResponse(str(path),content_type="text")
     try:
         email_status=Email_open_status()
