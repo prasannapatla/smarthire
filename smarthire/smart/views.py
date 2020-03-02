@@ -2595,7 +2595,7 @@ def log_request(request):
     email="Unknown"
     if("email" in request.GET):
         email=request.GET["email"]
-    # path = os.getcwd()+"/public/Terralogo.png"
+    #  path = os.getcwd()+"/public/Terralogo.png"
     path = "./public/Terralogo.png"
     ip="Unknown"
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
