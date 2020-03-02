@@ -2615,7 +2615,8 @@ def log_request(request):
     except Exception as e:
         print(str(e))        
     try:
-        return FileResponse(open(path, 'rb'), content_type="image/png")
+        # return FileResponse(open(path, 'rb'), content_type="image/png")
+        return HttpResponse(open(path, 'rb'), content_type="image/png")
     except Exception as e:
         print(str(e))
         return HttpResponse("No image",content_type="text")
