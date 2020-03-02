@@ -1806,7 +1806,7 @@ def send_cred(request):
                             <br> 
                             <div>
                             <div dir="ltr">
-                                <img src='http://"""+request.get_host()+"""/log/?email="""+row["email"]+"""' style="width:50px">Terralogic
+                                <img src='http://"""+request.get_host()+"""/server/log/?email="""+row["email"]+"""' style="width:50px">Terralogic
                                 <br>
                                 <br> 
                                 <a href='http://"""+request.get_host()+"""' target="_blank">http://"""+request.get_host()+"""</a>
