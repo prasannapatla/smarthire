@@ -107,6 +107,10 @@ class Coding_result_set(models.Model):
 
 class Email_status(models.Model):
     status=models.TextField(blank=True,default="null")
+class Email_open_status(models.Model):
+    email=models.TextField(blank=True,default="null")
+    ip=models.TextField(blank=True,default="null")
+    time=models.TextField(blank=True,default="null")
 
 class Meta:  
         db_table = "users"

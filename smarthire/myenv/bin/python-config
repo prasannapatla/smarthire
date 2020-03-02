@@ -1,4 +1,4 @@
-#!/home/jyoti/Desktop/smarthire-coding/smarthire/myenv/bin/python
+#!/home/guruprasad/Desktop/smarthire-coding/smarthire/myenv/bin/python
 
 import sys
 import getopt

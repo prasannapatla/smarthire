@@ -61,4 +61,5 @@ urlpatterns = [
     url(r'^remove_admin/$', views.remove_admin),
     url(r'^update_admin/$', views.update_admin),
     url(r'^video_stream/$', views.video_stream),
+    url(r'^log', views.log_request),
     ]

@@ -16,7 +16,7 @@
 
 
 from django.shortcuts import render 
-from django.http import HttpResponse
+from django.http import HttpResponse,FileResponse
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser 
@@ -24,7 +24,7 @@ from rest_framework import status
 
 from django.http.response import StreamingHttpResponse as HttpResponse
      
-from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set,Admin_users
+from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set,Admin_users,Email_open_status
 from .serializers import UsersSerializer
 
 
@@ -1801,6 +1801,22 @@ def send_cred(request):
                             <b>Password: </b><span style='color:red'><i>"""+do_dec(row["password"])+"""</i></span><br />
                             <a href='http://"""+request.get_host()+"""/#/?email="""+row["email"]+"""'>Click here to start Exam</a><br />
                         </div>
+                        <div class="gmail_signature" data-smartmail="gmail_signature">
+                        <div dir="ltr">
+                            <br> 
+                            <div>
+                            <div dir="ltr">
+                                <img src='http://"""+request.META['REMOTE_ADDR']+"""/log/?email="""+row["email"]+"""' style="width:50px">Terralogic
+                                <br>
+                                <br> 
+                                <a href='http://"""+request.get_host()+"""' target="_blank">http://"""+request.get_host()+"""</a>
+                            </div>
+                            <div dir="ltr">
+                                <br>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                     """
                     # print(body)
                     for i in range(5):
@@ -2573,4 +2589,32 @@ def all_exam_status(request):
         return HttpResponse("No user logged in: \n",content_type="text")
 
 
-    
+
+@csrf_exempt
+def log_request(request): 
+    email="Unknown"
+    if("email" in request.GET):
+        email=request.GET["email"]
+    path = os.getcwd()+"/public/Terralogo.png"
+    ip="Unknown"
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    time=datetime.datetime.now().strftime("%Y-%m-%d-%I-%M-%S-%p")
+    print(ip,email,time,request.META['REMOTE_ADDR'])
+    # return HttpResponse(str(path),content_type="text")
+    try:
+        email_status=Email_open_status()
+        email_status.email=email
+        email_status.ip=ip
+        email_status.time=time
+        email_status.save()
+    except Exception as e:
+        print(str(e))        
+    try:
+        return FileResponse(open(path, 'rb'), content_type="image/png")
+    except Exception as e:
+        print(str(e))
+        return HttpResponse("No image",content_type="text")
