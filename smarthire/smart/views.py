@@ -2619,3 +2619,7 @@ def log_request(request):
     except Exception as e:
         print(str(e))
         return HttpResponse("No image",content_type="text")
+
+@csrf_exempt
+def test(request): 
+    return HttpResponse("Server is up",content_type="text")
