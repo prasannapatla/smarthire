@@ -21,7 +21,7 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
-
+from django.apps import apps
 from django.http.response import StreamingHttpResponse as HttpResponse
      
 from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set,Admin_users,Email_open_status
@@ -2596,8 +2596,7 @@ def log_request(request):
     if("email" in request.GET):
         email=request.GET["email"]
     path = os.getcwd()+"/public/Terralogo.png"
-    print(path)
-    path = "./public/Terralogo.png"
+    path = apps.get_app_config('smart').path+"/../../public/Terralogo.png"
     ip="Unknown"
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
