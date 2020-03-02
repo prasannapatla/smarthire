@@ -62,5 +62,5 @@ urlpatterns = [
     url(r'^update_admin/$', views.update_admin),
     url(r'^video_stream/$', views.video_stream),
     url(r'^log', views.log_request),
-    url(r'^server$', views.test),
+    url(r'^server$', views.server_test),
     ]

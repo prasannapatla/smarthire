@@ -2622,5 +2622,5 @@ def log_request(request):
         return HttpResponse("No image",content_type="text")
 
 @csrf_exempt
-def test(request): 
+def server_test(request): 
     return HttpResponse("Server is up",content_type="text")
