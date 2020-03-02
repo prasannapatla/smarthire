@@ -702,6 +702,7 @@ def get_q(request):
             result_set.exam_id=exam_id
             result_set.date_f=datetime.date.today().strftime("%Y-%m-%d")
             result_set.s_time=datetime.datetime.now().strftime("%H:%M:%S")
+            result_set.e_time=datetime.datetime.now().strftime("%H:%M:%S")
             result_set.save()
             if result_set!=None:
                 print("\nsucess:")
@@ -2197,6 +2198,7 @@ def get_code_que(request):
                 crs.code_questions_id=int(cur_que[0])
                 crs.exam_id=int(user["exam"])
                 crs.s_time=datetime.datetime.now().strftime("%H:%M:%S")
+                crs.e_time=datetime.datetime.now().strftime("%H:%M:%S")
                 crs.save()
             except Exception as e:
                 print(str(e))

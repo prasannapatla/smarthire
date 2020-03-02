@@ -56,7 +56,7 @@ var page = function (_this: any) {
                                     <p style={{ marginTop: "25px", marginBottom: "unset" }}>Questions </p>
                                     <label className="pcount" id="cnt"> </label>
                                     {/* <input type="button" className="save_btn" onClick={_this.next_que.bind(_this)} value="Next" /> */}
-                                    <button className="save_btn" onClick={_this.next_que.bind(_this)}><b><IoMdArrowRoundForward /> Next</b></button>
+                                    <button className="save_btn" onClick={_this.next_que.bind(_this)}><IoMdArrowRoundForward /> Next</button>
                                     {/* load_que() */}
                                 </td>
 

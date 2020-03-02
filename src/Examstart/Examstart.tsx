@@ -84,8 +84,8 @@ class Examstart extends Myservice {
     this.myWindow = window.open("#" + page, "_blank", "fullscreen=yes, scrollbars=1");
     this.set_sess("login_status", "logged in")
     // // this.go_full_screen(this.myWindow.document.documentElement);
-    // document.addEventListener("contextmenu", event => event.preventDefault());
-    // document.addEventListener("keydown", event => event.preventDefault());
+    document.addEventListener("contextmenu", event => event.preventDefault());
+    document.addEventListener("keydown", event => event.preventDefault());
     this.go_full_screen(this.myWindow.document);
     this.toTop();
     this.go_full_screen(this.myWindow.document);
@@ -96,8 +96,8 @@ class Examstart extends Myservice {
     this.myWindow.addEventListener("blur", () => context.close_win());
     this.myWindow.addEventListener("visibilitychange", () => {
       if (this.myWindow.document.visibilityState == 'hidden') {
-        if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
-          swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
+        // if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
+        //   swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
         if (context.myWindow.screenX <= 0 || context.myWindow.screenY <= 0)
           context.close_win();
       }

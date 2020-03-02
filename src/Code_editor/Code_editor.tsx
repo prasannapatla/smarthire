@@ -64,8 +64,8 @@ class Code_editor extends Myservice {
         this.on_elem_load("id", "frame_code", this.after_load.bind(this))
 
 
-        // document.addEventListener("contextmenu", event => event.preventDefault());
-        // document.addEventListener("keydown", event => event.preventDefault());
+        document.addEventListener("contextmenu", event => event.preventDefault());
+        document.addEventListener("keydown", event => event.preventDefault());
 
 
         this.set_sess("login_status", "logged in")

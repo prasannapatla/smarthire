@@ -125,8 +125,8 @@ class Admin_list_que extends Myservice {
         ans = "C. "
       else
         ans = "D. "
-      txt += "</tr><tr><td><b>Ans </b>: " + ans + json_obj[val1]["ans"] + "</td></tr>";
-      txt += "<tr><td><b>Category </b>: " + json_obj[val1]["cat"] + "</td></tr><tr></tr><tr></tr>";
+      txt += "</tr><tr><td colspan='4'><b>Ans </b>: " + ans + json_obj[val1]["ans"] + "</td></tr>";
+      txt += "<tr><td colspan='4'><b>Category </b>: " + json_obj[val1]["cat"] + "</td></tr><tr></tr><tr></tr>";
 
     }
     $(".list_que").html(txt)

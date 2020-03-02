@@ -3,6 +3,7 @@
     select {
         border: none;
         outline: none;
+        max-width: 155px;
     }
 
     .container {
@@ -67,6 +68,13 @@
         padding: 0px;
         vertical-align: bottom;
         border-top: 0px solid #dee2e6;
+        word-break: break-all;;
+        vertical-align: top;
+    }
+
+    .que_ind{ 
+        word-break: break-word !important;
+        vertical-align: top;
     }
 
     @media only screen and (max-width: 800px) {
