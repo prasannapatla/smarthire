@@ -2619,8 +2619,8 @@ def log_request(request):
         return HttpResponse(open(path, 'rb'), content_type="image/png")
     except Exception as e:
         print(str(e))
-        return HttpResponse("No image",content_type="text")
+        return HttpResponse("No image",content_type="text/html")
 
 @csrf_exempt
 def server_test(request): 
-    return HttpResponse("Server is up",content_type="text")
+    return HttpResponse("Server is up",content_type="text/html")
