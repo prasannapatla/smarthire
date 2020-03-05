@@ -17,7 +17,7 @@ var page = function (_this: any) {
                   <div className="data">
                      <div className="page_header">
                         <p className="exam_text">
-                           Admin <br />Users
+                           Admin Users
                            </p>
                      </div>
                      <div className="sect">

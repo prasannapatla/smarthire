@@ -93,6 +93,7 @@
     padding: 8px;
     font-weight: bold;
     height: 40px;
+    font-size: 15px;
   }
 
   td input {
@@ -158,7 +159,7 @@
   }
 
   .checked {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .entryNumber {
@@ -240,4 +241,8 @@
     top: -13px;
     left: 5px;
   }
+  .plus_icon {
+    margin-top: -2px;
+    margin-right: 2px;
+}
 }

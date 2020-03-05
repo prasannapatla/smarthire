@@ -188,11 +188,11 @@
     .delete {
         display: none;
         height: 40px;
-        border-radius: 12px;
+        border-radius: 10px;
         border: none;
         outline: none;
         width: 150px;
-        margin-top: -5px;
+        margin-top: 0;
         // margin-left: 100px;
         background-color: #F6F7FB;
         color: #E5277E;
@@ -207,11 +207,11 @@
     }
     .sel_all {
         height: 40px;
-        border-radius: 12px;
+        border-radius: 10px;
         border: none;
         outline: none;
         width: 150px;
-        margin-top: -5px;
+        margin-top: -2px;
         // margin-left: 100px;
         background-color:  #E5277E;
         color: #F6F7FB;

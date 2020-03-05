@@ -27,7 +27,7 @@ var page = function (_this: any) {
                                             <b> </b>
                                     </td>
                                         <td className="Add">
-                                            <button onClick={_this.add_code.bind(_this)} className="btn"><b><FaPlus/> Add
+                                            <button onClick={_this.add_code.bind(_this)} className="btn"><b><FaPlus className="plus_icon"/> Add
                                             </b></button>
                                             <br />
                                         </td>

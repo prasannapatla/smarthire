@@ -35,16 +35,11 @@
     tr th {
         text-align: center;
         padding: 10px;
-        padding-left: 25px;
-        padding-right: 25px;
     }
 
     tr th {
         text-align: center;
         padding: 10px;
-        padding-right: 25px;
-        padding-left: 13px;
-        padding-bottom: 0px;
     }
 
     .opt_hed * {
@@ -113,6 +108,8 @@
 
     #add {
         margin-right: 0 !important;
+        margin-top: 0;
+        font-size: 15px;
     }
 
     .Add {
@@ -297,5 +294,10 @@
 
     .linktodow:hover {
         color: #E5277D;
+    }
+
+    .plus_icon {
+        margin-top: -2px;
+        margin-right: 2px;
     }
 }

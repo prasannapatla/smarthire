@@ -31,7 +31,7 @@ var page = function (_this: any) {
                                             <input type="text" className="form-control" id="cat_add" style ={{width:'105%',fontSize:"15px"}} placeholder="Enter a Category Name" />
                                         </td>
                                         <td className="addBtn">
-                                            <button onClick={_this.add.bind(_this)} id="add" ><FaPlus /> Add</button>
+                                            <button onClick={_this.add.bind(_this)} id="add" ><FaPlus className="plus_icon"/> Add</button>
                                             <button className="del del_cat_btn delete"  ><AiTwotoneDelete className="del_icon" /> Delete</button>
                                         </td>
                                         {/* <td>
@@ -74,7 +74,7 @@ var page = function (_this: any) {
                                                 <input className="examInfo form-control custom_date e_date" type="text" id="datetimepicker2" />
                                             </td>
                                             <td>
-                                                <button onClick={_this.add_exam.bind(_this)} className="create"><FaPlus /> Create
+                                                <button onClick={_this.add_exam.bind(_this)} className="create"><FaPlus className="plus_icon" /> Create
                                                 </button>
                                                 <button className="del_exam_btn delete_exam"><AiTwotoneDelete className="del_icon" /> Delete</button>
                                             </td>

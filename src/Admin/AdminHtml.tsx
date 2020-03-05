@@ -23,9 +23,9 @@ var page = function (_this: any) {
                                 <table>
                                     <thead>
                                         <tr>
-                                            <td colSpan={4}>
+                                            <td colSpan={4} style={{paddingTop:"15px"}}>
                                                 <div className="Add">
-                                                    <button onClick={_this.add.bind(_this)} id="add" ><b><FaPlus /> Add</b></button>
+                                                    <button onClick={_this.add.bind(_this)} id="add" ><b><FaPlus className="plus_icon"/> Add</b></button>
                                                 </div>
                                                 <br />
                                                 <textarea name="quetions" style={{fontSize:'15px'}}id="quetions" placeholder="Question" data-rows={4} className="Questions" required></textarea>

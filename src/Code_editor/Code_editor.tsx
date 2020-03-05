@@ -65,7 +65,31 @@ class Code_editor extends Myservice {
 
 
         document.addEventListener("contextmenu", event => event.preventDefault());
-        // document.addEventListener("keydown", event => event.preventDefault());
+        //inspect disabled
+        let inspect:any=[]
+        document.addEventListener("keydown", function (event) {  
+            let k = event.keyCode
+            if(inspect.length>=1000)
+                inspect.shift()
+            inspect.push(k)
+            if(event.ctrlKey && event.shiftKey && k==73){
+                inspect=[]
+                event.preventDefault()
+                return false
+            }
+
+            if(k>=112 && k<=123){
+                inspect=[]
+                event.preventDefault()
+                return false
+            }
+           
+            if (inspect.indexOf(16)!=-1 && inspect.indexOf(17)!=-1 && inspect.indexOf(73)!=-1) {
+                inspect=[]
+                event.preventDefault()
+                return false
+            }
+        })
 
 
         this.set_sess("login_status", "logged in")

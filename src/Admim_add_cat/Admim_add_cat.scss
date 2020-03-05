@@ -114,6 +114,7 @@
     font-weight: bold;
     height: 40px;
     width: 150px;
+    font-size: 15px;
   }
 
   .container1 {
@@ -356,5 +357,8 @@
   .res td div{
     display: inline;
   }
-  
+  .plus_icon {
+    margin-top: -2px;
+    margin-right: 2px;
+  }
 }

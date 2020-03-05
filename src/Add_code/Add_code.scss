@@ -19,8 +19,8 @@
 
     tr td {
         text-align: center;
-        padding-left: 25px;
-        padding-right: 25px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     th {
@@ -42,7 +42,7 @@
 
     .heading {
         vertical-align: 10px;
-        margin-left: -100px;
+        margin-left: -85px;
         font-size: 16px;
     }
 
@@ -66,7 +66,8 @@
 
     .test_input {
         width: 250px;
-
+        padding-left: 20px;
+        padding-right: 10px;
     }
 
     .heading_input {
@@ -83,7 +84,8 @@
         background-color: #E5277F;
         color: white;
         padding-bottom: 30px;
-        border-radius: 12px;
+        border-radius: 10px;
+        margin-top: 0;
         margin-right: 0 !important;
     }
 
@@ -99,7 +101,7 @@
     .output_heading {
         margin-left: 63px;
         text-align: left;
-        padding-left: 54px;
+        padding-left: 40px;
     }
 
     .language {
@@ -136,7 +138,7 @@
     
 
     .Add {
-        padding-top: 25px;
+        padding-top: 15px;
     }
 
     .upload_file {
@@ -203,5 +205,9 @@
 
     .linktodow:hover {
         color: #E5277D;
+    }
+    .plus_icon {
+        margin-top: -2px;
+        margin-right: 2px;
     }
 }

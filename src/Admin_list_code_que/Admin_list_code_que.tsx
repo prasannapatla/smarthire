@@ -80,15 +80,15 @@ class Admin_list_code_que extends Myservice {
         let count = 1
         for (val1 in json_obj) {
 
-            txt += "<h4><b><label class='container1'><input style=' vertical-align: top' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Q" + (count++) + ".Problem statement</b></h4><pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["pbm_stmt"] + "</pre>";
+            txt += "<h4><b><label class='container1'><input style=' vertical-align: top' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Q" + (count++) + ".Problem statement</b></h4><pre style='font-size:14px'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["pbm_stmt"] + "</pre>";
             txt += "<h4><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Language:</b>" + json_obj[val1]["lang"] + "</h4><pre class='pre_tag'>" + json_obj[val1]["code"].replace(/[&]/g, "&amp;").replace(/[<]/g, "&lt;").replace(/[>]/g, "&gt;") + "</pre>";
             txt += "<table><tbody><tr>"
             txt += "<th style='font-size:16px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th style='font-size:16px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test input1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th style='font-size:16px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test input2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th style='font-size:16px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test input3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th style='font-size:16px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Test input4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th></tr><tr>"
-            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["example_input"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["test_input1"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["test_input2"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["test_input3"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["test_input4"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["example_input"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["test_input1"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["test_input2"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["test_input3"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + json_obj[val1]["test_input4"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
             // txt += "<td><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /></td>"
             txt += "</tr></tbody></table><br /><br />"
         }
