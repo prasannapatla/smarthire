@@ -17,18 +17,18 @@ var page = function (_this: any) {
                     <div className="col-sm-9 content">
                         <div className="data">
                             <button className="back" onClick={_this.back.bind(_this)} style={{ display: "none" }}><TiArrowBack className="del_icon"/> Back</button>
-                            <div className="heading res" style={{ display: "none" }}>List of Questions from <span className='q_from' >value</span></div><br />
+                            <div className="heading res" style={{ display: "none" }}>List of Questions from <span className='q_from' >value</span></div>
                             <button className="sel_all" style={{ display: "none", float: "right" }}>Select All</button>
                             <button className="del_que_btn" style={{ display: "none", float: "right" }}><AiTwotoneDelete className="del_icon" /> Delete</button>
                             <table className='res q_list table result' style={{ display: "none" }}></table>
 
 
+                            <div className='heading' style={{fontSize:"25px"}}>Add category</div><br />
                             <div className="sect cate">
-                                <div className='heading'>Add category</div>
                                 <table className="Add_cat" style={{ width: "85%" }}>
                                     <tr>
                                         <td className="catName">
-                                            <input type="text" className="form-control" id="cat_add" style ={{width:'105%'}} placeholder="ENTER A CATEGORY NAME" />
+                                            <input type="text" className="form-control" id="cat_add" style ={{width:'105%',fontSize:"15px"}} placeholder="Enter a Category Name" />
                                         </td>
                                         <td className="addBtn">
                                             <button onClick={_this.add.bind(_this)} id="add" ><FaPlus /> Add</button>
@@ -48,20 +48,20 @@ var page = function (_this: any) {
                             </div>
                             <br />
                             <br />
+                            <div className='heading' style={{fontSize:"25px"}}>Create a new exam</div><br />
                             <div className="sect">
-                                <div className='heading'>Create a new exam</div>
                                 <div className="input_group">
                                     <table className="exam_table1" >
                                         <tr>
-                                            <td className="exam_heading">
+                                            <td className="exam_heading" style={{fontSize:"16px"}}><b>
                                                 Exam name
-                                        </td>
-                                            <td className="exam_heading">
+                                                </b></td>
+                                            <td className="exam_heading" style={{fontSize:"16px"}}><b>
                                                 Start time
-                                        </td>
-                                            <td className="exam_heading">
+                                                </b></td>
+                                            <td className="exam_heading" style={{fontSize:"16px"}}><b>
                                                 End time
-                                        </td>
+                                                </b></td>
                                         </tr>
                                         <tr>
                                             <td>

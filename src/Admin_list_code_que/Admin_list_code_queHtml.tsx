@@ -25,7 +25,7 @@ var page = function (_this: any) {
                                 <button id="deleteCode" className="delete del_que_btn"><AiTwotoneDelete className="del_icon" />&nbsp; Delete</button>
                                 {/* <input type="button" style={{ float: "right" }} value="Select all" className="sel_all" />  */}
                                 <div className="table-responsive mob_overflow code _section">
-                                    <div className="list_que" style={{ marginTop: "125px" }}>
+                                    <div className="list_que" style={{ marginTop: "75px" }}>
                                     </div>
                                 </div>
                                 <a id="button"><TiArrowUpThick className="backTop" /></a>

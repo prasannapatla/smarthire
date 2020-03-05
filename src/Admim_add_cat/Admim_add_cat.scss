@@ -13,7 +13,7 @@
   .sect {
     // height: 380px;
     width: 100%;
-    margin-left: 50px;
+    padding: 10px;
     background-color: #FFFFFF;
     box-shadow: 0 5px 5px -6px;
     border: none;
@@ -21,9 +21,7 @@
   }
 
   .data {
-    margin-top: 10px;
     background-color: #F6F7FB;
-    width: 95%;
   }
 
   button {

@@ -108,7 +108,7 @@ class Admin_list_que extends Myservice {
     for (val1 in json_obj) {
       console.log(json_obj[val1]);
       txt += "<tr>"
-      txt += "<td colspan='4' class='que_ind' style='max-width:100%;text-indent:-20px;'><div><b>Q." + (count++) + " </b></div><div>" + json_obj[val1]["question"] + "</div></td>";
+      txt += "<td colspan='4' class='que_ind' style='max-width:100%;text-indent:-20px;'><div style='font-size: 16px'><b>Q." + (count++) + " </b></div><div>" + json_obj[val1]["question"] + "</div></td>";
       txt += "<td style='width:50px'><label class='container1'><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label></td>"
       txt += "</tr>"
       txt += "<tr class='val'>"
@@ -125,8 +125,8 @@ class Admin_list_que extends Myservice {
         ans = "C. "
       else
         ans = "D. "
-      txt += "</tr><tr><td colspan='4'><b>Ans </b>: " + ans + json_obj[val1]["ans"] + "</td></tr>";
-      txt += "<tr><td colspan='4'><b>Category </b>: " + json_obj[val1]["cat"] + "</td></tr><tr></tr><tr></tr>";
+      txt += "</tr><tr><td colspan='4' style='font-size: 16px'><b>Ans </b>: " + ans + json_obj[val1]["ans"] + "</td></tr>";
+      txt += "<tr><td colspan='4'style='font-size: 16px'><b>Category </b>: " + json_obj[val1]["cat"] + "</td></tr><tr></tr><tr></tr>";
 
     }
     $(".list_que").html(txt)

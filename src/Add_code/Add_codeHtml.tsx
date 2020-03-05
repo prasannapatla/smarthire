@@ -20,10 +20,11 @@ var page = function (_this: any) {
                         {/* <Banner /> */}
                         <div className="data">
                             <div className="sect">
+                            <div style={{fontSize:"25px",fontWeight:"bolder"}}> <b>Add Coding Questions</b></div><br />
                                 <table className="Code_format">
                                     <tr>
                                         <td className="statement-heading">
-                                            <b>Add coding problem statement</b>
+                                            <b> </b>
                                     </td>
                                         <td className="Add">
                                             <button onClick={_this.add_code.bind(_this)} className="btn"><b><FaPlus/> Add
@@ -39,21 +40,21 @@ var page = function (_this: any) {
                                     <tr>
                                         <td colSpan={4}>
                                             <div className="prob">
-                                                <textarea id="pblm_stmt" rows={5} placeholder="Coding Problem Statement" required></textarea>
+                                                <textarea id="pblm_stmt" rows={5} placeholder="Coding Problem Statement" required style={{fontSize:"15px"}}></textarea>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colSpan={4}>
                                             <div className="code">
-                                                <textarea id="code" rows={5} placeholder="Code" required></textarea>
+                                                <textarea id="code" rows={5} placeholder="Code" required style={{fontSize:"15px"}}></textarea>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colSpan={2}>
                                             <div className="sample_input">
-                                                <textarea id="spl_inp" rows={5} placeholder="Sample Input" required></textarea>
+                                                <textarea id="spl_inp" rows={5} placeholder="Sample Input" required style={{fontSize:"15px"}}></textarea>
                                             </div>
                                         </td>
                                     </tr>
@@ -70,7 +71,7 @@ var page = function (_this: any) {
                                     <tr>
 
                                         <th>
-                                            <div className='heading'>Coding Language</div>
+                                            <div className='heading' style={{fontSize:"16px"}}>Coding Language</div>
                                         </th>
                                     </tr>
                                     <tr>
@@ -91,11 +92,11 @@ var page = function (_this: any) {
                                     <tr>
 
                                         <th>
-                                            <div className='heading'>Test Input</div>
+                                            <div className='heading' style={{fontSize:"16px",marginLeft:"-150px"}}>Test Input</div>
                                         </th>
 
                                         <th>
-                                            <div className='output_heading'>Expected Output</div>
+                                            <div className='output_heading' style={{fontSize:"16px"}}>Expected Output</div>
                                         </th>
                                     </tr>
                                     <tr>
@@ -136,7 +137,7 @@ var page = function (_this: any) {
                                 </table><br />
                                 </div>
                                 <div className='file_upload' style={{ display: "block" }}>
-                                    <p className="heading_upload">Bulk upload questions:</p>
+                                    <p className="heading_upload" style={{fontSize:"16px"}}>Bulk Upload Questions:</p>
                                     <select id="lang2">
                                         <option value="Select programming language">Select programming language</option>
                                         <option value="cpp">C/C++</option>
@@ -145,7 +146,7 @@ var page = function (_this: any) {
                                         <option value="js">Javascript</option>
                                     </select><br/>
                                     <br/>
-                                    <b>Format: </b>Problem statement,code,sample input,test input 1,test input 2,test input 3,test input4,Programming language(Optional)&nbsp;&nbsp;&nbsp;<a className="linktodow" href={sample}>(Download Sample XLSX file)</a><br /><br />
+                                    <b>Format : </b>Problem statement,Code, Sample input, Test input 1, Test input 2, Test input 3, Test input 4,<br/> Programming language (Optional)&nbsp;&nbsp;&nbsp;<a className="linktodow" href={sample}>(Download Sample XLSX file)</a><br /><br />
                                     <button className="upload" onClick={_this.bulk_upload.bind(_this)}><FiUpload /> Upload</button>
                                     <input type="file" id="real-file" className="upload_file" style={{ visibility: 'hidden' }} />
                                     <button type="button" id="custom-button"><b><FiFile style={{ color: "#E5287C", marginLeft: "-4px" }} /> Choose a File</b></button>

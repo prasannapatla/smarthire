@@ -22,30 +22,37 @@ var page = function (_this: any) {
                      </div>
                      <div className="sect">
                         <div className="body_header">
-                           <p className="details_text">
+                           <p className="details_text" style={{ fontSize: '18px'}}>
                               Details
                            </p>
                         </div>
                         <button id="deleteCode" className="delete del_que_btn" onClick={_this.del_user.bind(_this)}><AiTwotoneDelete className="del_icon" />&nbsp; Delete</button>
-                        <table style={{ marginTop: "100px", marginLeft: "50px" }}>
+                        <table>
                            <thead>
                               <tr>
-                                 <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>Name&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                 <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>Email id&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                 <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>Password&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                 <th style={{ paddingLeft: "20px",borderBottom:"solid 1px #d0d0d0" ,paddingBottom: "8px"}}>Full previlige&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                 <th style={{borderBottom:"solid 1px #d0d0d0",paddingBottom: "8px"}}>Select to delete user&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                 <th style={{ borderBottom: "solid 1px #d0d0d0", paddingBottom: "8px",fontSize: '16px' }}>Name&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                 <th style={{ borderBottom: "solid 1px #d0d0d0", paddingBottom: "8px",fontSize: '16px' }}>Email id&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                 <th style={{ borderBottom: "solid 1px #d0d0d0", paddingBottom: "8px",fontSize: '16px' }}>Password&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                 <th style={{ paddingLeft: "16px", borderBottom: "solid 1px #d0d0d0", paddingBottom: "8px" }}>Full previlige&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                 <th style={{ borderBottom: "solid 1px #d0d0d0", paddingBottom: "8px", fontSize: '16px'}}>Select to delete user&nbsp;&nbsp;&nbsp;&nbsp;</th>
                               </tr>
                            </thead>
                            <tbody className="user_data">
                            </tbody>
                         </table>
-                        <br /><br />
-                        <form onSubmit={_this.add.bind(_this)} className="add_user" style={{ marginTop: "50px", marginLeft: "50px" }}>
-                           &nbsp;&nbsp;&nbsp;<input type="text" placeholder="name" className="name" required style={{ width: "300px" }} /><br />
-                           &nbsp;&nbsp;&nbsp;<input type="email" placeholder="email" className="email" required style={{ width: "300px" }} /><br />
-                           &nbsp;&nbsp;&nbsp;<input type="password" maxLength={6} placeholder="password" className="password" required style={{ width: "300px" }} /><br />
-                           &nbsp;&nbsp;&nbsp;<label>As super admin&nbsp;&nbsp;&nbsp; <label className='container1'><input type="checkbox" className="admin full" /><span className='checkmark' style={{ position: "absolute", left: "100%", top: "-20px" }}></span></label></label>&nbsp;&nbsp;&nbsp;<input type="submit" value="Add user" style={{ marginLeft: "30px" }} />&nbsp;&nbsp;&nbsp;<input type="reset" className="clear" value='Clear fields' />
+                     </div>
+                     <br/>
+                     <div className="sect">
+                     <div className="body_header" style={{height:"unset"}}>
+                           <p className="details_text" style={{width:"unset",fontSize: '18px'}}>
+                              Add Users
+                           </p>
+                        </div>
+                        <form onSubmit={_this.add.bind(_this)} className="add_user" >
+                           <input type="text" placeholder="Name" className="name" required style={{ width: "300px",fontSize: '15px'} } /><br />
+                           <input type="email" placeholder="Email" className="email" required style={{ width: "300px",fontSize: '15px'} } /><br />
+                           <input type="password" maxLength={6} placeholder="Password" className="password" required style={{ width: "300px",fontSize: '15px'} } /><br />
+                           <label><b style={{fontSize: '16px'}} >As super admin&nbsp;&nbsp;&nbsp;</b> <label className='container1'><input type="checkbox" className="admin full" /><span className='checkmark' style={{ position: "absolute", left: "100%", top: "-20px" }}></span></label></label>&nbsp;&nbsp;&nbsp;<input type="submit" value="Add user" style={{ marginLeft: "30px" }} />&nbsp;&nbsp;&nbsp;<input type="reset" className="clear" value='Clear fields' />
                         </form>
                      </div>
                   </div>

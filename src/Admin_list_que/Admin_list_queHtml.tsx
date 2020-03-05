@@ -18,15 +18,15 @@ var page = function (_this: any) {
                             <p className='que_text'>
                                 Questions
                             </p>
-                            <div style={{ position: 'absolute', right: '355px', width:'150px' }}>
+                            <div style={{ position: 'absolute', right: '337px', width:'150px' }}>
                                 <button className="delete del_que_btn"><b><AiTwotoneDelete className="del_icon" />&nbsp; Delete</b></button>
                             </div>
-                            <div style={{ position: 'absolute', right: '195px', width:'150px' }}>
+                            <div style={{ position: 'absolute', right: '177px', width:'150px' }}>
                                 <button className="sel_all"><b>Select All</b></button>
                             </div>
                             
                             <div className='exam_type'>
-                                <p className='type_text'>Select Category Type</p>
+                                <p className='type_text'  style={{fontSize:'16px'}}>Select Category Type</p>
                                 <select id="cat"></select>
                             </div>
                         </div>

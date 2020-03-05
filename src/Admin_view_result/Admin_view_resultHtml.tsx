@@ -22,11 +22,11 @@ var page = function (_this: any) {
                                     <div className='heading'>Results</div>
                                     <table className="sel_exam">
                                         <tr>
-                                            <th className="select_exam_text">
-                                                SELECT EXAM TYPE
+                                            <th className="select_exam_text" style={{fontSize: "16px"}}>
+                                                Select Exam Type
                                         </th>
-                                            <th className="select_entry_text">
-                                                NO. OF ENTRIES
+                                            <th className="select_entry_text" style={{fontSize: "16px"}}>
+                                                No. Of Entries
                                         </th>
                                         </tr>
                                         <tr className="select_exam_interact">

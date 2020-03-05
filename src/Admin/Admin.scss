@@ -8,8 +8,7 @@
     }
 
     .sect {
-        margin-left: 30px;
-        width: 97%;
+        width: 100%;
     }
 
 
@@ -32,15 +31,26 @@
 
 
 
-    tr td {
+    tr td,
+    tr th {
         text-align: center;
         padding: 10px;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    tr th {
+        text-align: center;
+        padding: 10px;
+        padding-right: 25px;
+        padding-left: 13px;
+        padding-bottom: 0px;
     }
 
     .opt_hed * {
         text-align: left;
         position: relative;
-        left: 12px;
+        left: 8px;
     }
 
     .adm_btns,
@@ -81,13 +91,8 @@
     }
 
     .heading {
-        padding-left: 0;
-        width: 400px;
-        position: relative;
-        float: left;
-        margin-top: 10px;
-        margin-left: -142px;
-        font-size: 17px;
+        font-size: 25px;
+        font-weight: bolder;
     }
 
 
@@ -95,17 +100,23 @@
         width: 150px;
         padding: 10px;
         color: white;
-        background-color: #E63285;
+        background-color: #E5277D;
         border-radius: 10px;
         padding: 8px;
+        border: none;
+        outline: none;
+        /* margin-top: 10px; */
         height: 40px;
-        margin-top: 10px;
+        width: 150px;
+        margin-bottom: 20px;
+    }
+
+    #add {
+        margin-right: 0 !important;
     }
 
     .Add {
-        margin-top: 10px;
-        margin-left: 691px;
-
+        float: right;
     }
 
     input[type="text"] {
@@ -114,6 +125,7 @@
         background-color: #F7F8FC;
         margin-top: -4px;
         outline: none;
+        border-width: 1px;
     }
 
     .file_upload {
@@ -273,7 +285,7 @@
 
     select {
         outline: none;
-        border: solid grey 1px;
+        border: none;
         background-color: #E9EBF8;
 
         max-width: 155px;

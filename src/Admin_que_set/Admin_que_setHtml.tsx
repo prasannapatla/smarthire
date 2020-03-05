@@ -13,7 +13,7 @@ var page = function (_this: any) {
                     <Admin_menu />
                     <div className="col-sm-9 content">
                         {/* <Banner /> */}
-                        <div className="main_body">
+                        <div className="data main_body">
                             <table className="header">
                                 <td className="exam_text1">
                                     Populate MCQ
@@ -36,7 +36,7 @@ var page = function (_this: any) {
                                     </tr>
                                     <tr>
                                         <td><select id='exam'></select></td>
-                                        <td><input type='number' defaultValue="60" placeholder='Enter Duration' id='dur' /><b className="mins"> Mins.</b>
+                                        <td><input type='number' defaultValue="60" placeholder='Enter Duration' id='dur' /><b className="mins" style={{ fontSize: '16px'}}> Mins.</b>
                                         </td>
                                         <td style={{ padding: "unset",position: 'relative', right: '27%'  }}><b><span className="remaining" style={{ marginLeft: "40px", display: "block" }}></span></b></td>
                                     </tr>
@@ -76,7 +76,7 @@ var page = function (_this: any) {
                                         <td><select id='exam1' className="selectExam"></select></td>
                                         <td><input type='number' defaultValue="4" placeholder='Total questions' id='total' className="no_Que" /><span className="total_que"></span>
                                         </td>
-                                        <td><input type='number' defaultValue="30" placeholder='Enter Duration' id='code_dur' className="dur_exam" /><b className="mins_code">Mins.</b>
+                                        <td><input type='number' defaultValue="30" placeholder='Enter Duration' id='code_dur' className="dur_exam" /><b className="mins_code" style={{ fontSize: '16px'}}>Mins.</b>
                                         </td>
                                         <td style={{padding: "unset"}}><b><span className="remaining1" style={{marginLeft: "13px", display:"block"}}></span></b></td>
                                     </tr>

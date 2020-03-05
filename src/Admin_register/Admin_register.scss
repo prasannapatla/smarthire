@@ -91,8 +91,11 @@
 
     .register {
         position: relative;
-        top: -50px;
-        left: 325px;
+        top: 26px;
+        left: 12px;
+        /* left: 325px; */
+        /* right: 0; */
+        float: right;
         height: 40px;
         border-radius: 12px;
         border: none;
@@ -113,8 +116,6 @@
     .sect {
         background-color: #FFFFFF;
         padding: 21px;
-        width: 888px;
-        margin-left: 44px;
         margin-top: 20px;
         box-shadow: 0 5px 5px -6px;
         border-radius: 10px !important;
@@ -127,8 +128,10 @@
 
     .send {
         position: relative;
-        top: -50px;
-        left: 325px;
+        top: 16px;
+        left: 12px;
+        /* left: 325px; */
+        float: right;
         height: 40px;
         border-radius: 12px;
         border: none;
@@ -154,8 +157,6 @@
         background-color: #FFFFFF;
         height: 449px;
         padding: 21px;
-        width: 888px;
-        margin-left: 44px;
         margin-top: 20px;
         box-shadow: 0 5px 5px -6px;
         border-radius: 10px !important;
@@ -225,6 +226,7 @@
     input:focus+label {
         outline: 2px solid;
     }
+
     .linktodow {
         color: rgb(76, 76, 243);
     }

@@ -85,7 +85,7 @@ class Admin_view_result extends Myservice {
       return
     }
     //alert(str+"\n"+json_obj[0])
-    let txt = "<thead><tr><th  class='no_display' style='border-top: none;border-right: none;border-left: none;'><div class='check'><label class='container1'><input type='checkbox' class='sel_all' id='checkbox'/><span class='checkmark'></span></label></div><div class='checked'></div></th><th style='border-top: none;border-left: none;border-right: none;'>Id</th><th style='border-top: none;border-right: none;border-left: none;'>Email</th><th style='border-top: none;border-right: none;border-left: none;'>Total Duration(Mins)</th><th style='border-top: none;border-right: none;border-left: none;'>Score</th><th style='border-top: none;border-right: none;border-left: none;'>Coding score</th><th style='border-top: none;border-right: none;border-left: none;'>Feedback</th><th  class='no_display' style='border-top: none;border-right: none;border-left: none;'>View Details</th></tr></thead><tbody>"
+    let txt = "<thead><tr><th  class='no_display' style='border-top: none;border-right: none;border-left: none;'><div class='check'><label class='container1' style='margin-left:15px'><input type='checkbox' class='sel_all' id='checkbox'/><span class='checkmark'></span></label></div><div class='checked'></div></th><th style='border-top: none;border-left: none;border-right: none;font-size: 16px;'>Id</th><th style='border-top: none;border-right: none;border-left: none;font-size: 16px;'>Email</th><th style='border-top: none;border-right: none;border-left: none;font-size: 16px;'>Total Duration(Mins)</th><th style='border-top: none;border-right: none;border-left: none;font-size: 16px;'>Score</th><th style='border-top: none;border-right: none;border-left: none;font-size: 16px;'>Coding score</th><th style='border-top: none;border-right: none;border-left: none;font-size: 16px;'>Feedback</th><th  class='no_display' style='border-top: none;border-right: none;border-left: none;font-size: 16px;'>View Details</th></tr></thead><tbody>"
     let val1: any, val2: any
     for (val1 in json_obj) {
       let dur: any = 0;
@@ -231,7 +231,7 @@ class Admin_view_result extends Myservice {
       //   txt += "<td style='max-width: 100px;overflow-wrap: break-word'>" + json_obj[val1][val2] + "</td>";
       // }
       for (val2 in json_obj[val1])
-        txt += "<td style='max-width: 100px;'><div class='Exam_info'><img src='"+this.state.images[val2]+"' class='image'/><div class='exam_info_text'><b>" + json_obj[val1][val2] + "</b><br/>" + val2 + "</div></div></td>";
+        txt += "<td style='max-width: 100px;'><div class='Exam_info'><img src='"+this.state.images[val2]+"' class='image'/><div class='exam_info_text'><b style='font-size:16px'>" + json_obj[val1][val2] + "</b><br/>" + val2 + "</div></div></td>";
 
       txt += "</tr>";
     }
