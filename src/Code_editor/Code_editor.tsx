@@ -53,7 +53,7 @@ class Code_editor extends Myservice {
 
         $(window).blur(function () {
             // alert( $('iframe').is(":focus"))
-            console.log("code  blur", blur)
+            console.log("code  blur", context.blur)
             if (context.blur)
                 context.close_win()
         });
@@ -62,35 +62,9 @@ class Code_editor extends Myservice {
             context.hightlight_syntax();
         });
         this.on_elem_load("id", "frame_code", this.after_load.bind(this))
-
-
-        document.addEventListener("contextmenu", event => event.preventDefault());
+       
         //inspect disabled
-        let inspect:any=[]
-        document.addEventListener("keydown", function (event) {  
-            let k = event.keyCode
-            if(inspect.length>=1000)
-                inspect.shift()
-            inspect.push(k)
-            if(event.ctrlKey && event.shiftKey && k==73){
-                inspect=[]
-                event.preventDefault()
-                return false
-            }
-
-            if(k>=112 && k<=123){
-                inspect=[]
-                event.preventDefault()
-                return false
-            }
-           
-            if (inspect.indexOf(16)!=-1 && inspect.indexOf(17)!=-1 && inspect.indexOf(73)!=-1) {
-                inspect=[]
-                event.preventDefault()
-                return false
-            }
-        })
-
+        this.disbale_inspect(document)
 
         this.set_sess("login_status", "logged in")
         this.go_full_screen(window.document);
@@ -109,7 +83,7 @@ class Code_editor extends Myservice {
             }
         });
         let n = 0;
-        let ctx=this
+        let ctx = this
         window.addEventListener("beforeunload", function (e) {
             ctx.fetch_data("/server/submit_code/", "POST");
         })
@@ -121,19 +95,58 @@ class Code_editor extends Myservice {
         super.componentDidUpdate();
     }
 
+
+    disbale_inspect(elem:any){
+        elem.addEventListener("contextmenu", (event:any) => event.preventDefault());
+        let inspect: any = []
+        elem.addEventListener("keydown", function (event:any) {
+            let k = event.keyCode
+            if (inspect.length >= 1000)
+                inspect.shift()
+            inspect.push(k)
+            if (event.ctrlKey && event.shiftKey && k == 73) {
+                inspect = []
+                event.preventDefault()
+                return false
+            }
+
+            if (k >= 112 && k <= 123) {
+                inspect = []
+                event.preventDefault()
+                return false
+            }
+
+            if (inspect.indexOf(16) != -1 && inspect.indexOf(17) != -1 && inspect.indexOf(73) != -1) {
+                inspect = []
+                event.preventDefault()
+                return false
+            }
+        })
+    }
+
     after_load() {
+         // @ts-ignore
+         let frame_document=document.getElementById('frame_code').contentWindow.document
+         console.log("frame_code........",frame_document)
+         // @ts-ignore
+        //  this.disbale_inspect(frame_document)
+
+
         this.load_sucess = true;
         let context = this
         let iframe = $('iframe')
         iframe.mouseover(function () {
             context.blur = false
-            console.log("frame  blur", blur)
+            console.log("frame  blur",  context.blur)
         });
         iframe.mouseout(function () {
             context.blur = true
-            console.log("frame  blur", blur)
+            console.log("frame  blur",  context.blur)
+            window.focus()
         });
         this.get_que();
+
+       
     }
 
 
@@ -163,7 +176,6 @@ class Code_editor extends Myservice {
                     if (context.sec_inc > 1 && !context.load_sucess) {
                         console.log(context.load_sucess)
                         window.location.reload();
-
                     }
                     if (context.sec_inc > 1) {
                         clearInterval(interval2)
@@ -342,6 +354,7 @@ class Code_editor extends Myservice {
 
     submit_code() {
         this.fetch_data("/server/submit_code/", "POST");
+        this.blur=false
         try {
             window.setval("code", "")
         } catch (error) {

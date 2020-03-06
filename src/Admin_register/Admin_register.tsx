@@ -140,13 +140,16 @@ class Admin_register extends Myservice {
     this.show_msg(this.fetch_data("/server/signup/", "POST", null, json_str), this.on_reg, this)
   }
 
-  async on_reg(_this: any, status: any, v?: any) {
+  on_reg(_this: any, status: any, v?: any) {
     if (status.match("success")) {
       $("input[type='text']").val("");
       $("input[type='number']").val("");
+      $("input[type='tel']").val("");
       $("input").eq(0).focus();
-      await _this.fetch_data("/server/email_status_in_db/", "POST")
-      _this.retrive_email_status();
+      setTimeout(async () => {
+        await _this.fetch_data("/server/email_status_in_db/", "POST")
+        _this.retrive_email_status();
+      }, 10);
     }
   }
 
