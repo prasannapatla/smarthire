@@ -253,7 +253,7 @@ class Code_editor extends Myservice {
 
     get_que() {
         $("body").css({ cursor: "wait" })
-
+        $(".testcase").text("")
         let questions = this.fetch_data("/server/get_code_que/", "POST");
         console.log("--------que", questions)
         $("body").css({ cursor: "auto" })
