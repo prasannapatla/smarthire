@@ -32,7 +32,7 @@ from django.db import connection
 import random
 import json
 import re,os
-import datetime,time,pytz
+import datetime,time,pytz,psutil
 # from dateutil import tz
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
@@ -2089,14 +2089,48 @@ def bulk_code_que(request):
         return HttpResponse("Only admin can",content_type="text")
 
 
-import subprocess,os
+import subprocess,os,signal
 
-def run_cmd(cmd):
-    # print(cmd)
-    return subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read().decode()
+def run_cmd(cmd,process=None,username=None,max_time=0):
+    # out=subprocess.Popen(cmd,preexec_fn=os.setsid, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True)
+    out=subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=None, close_fds=True)
+    if max_time!=0 and process!=None and username!=None:
+        threading.Thread(target=kill_after_max_dur, args=(process,username,max_time)).start()
+    # print("before return .............",os.getpgid(os.getpid()),os.getpid())
+    # if max_time!=0:
+    #     # mythread=threading.Thread(target=kill_after_max_dur, args=(out,2))
+    #     mythread=threading.Thread(target=kill_after_max_dur, args=(cmd,2))
+    #     mythread.start()
+    # print("just before return .............",out.pid,os.getpgid(out.pid))
+    return out.stdout.read().decode(),out.pid
+
+def kill_after_max_dur(process,user,max_time=5):
+    time.sleep(max_time)
+    print("killing...",run_cmd("pgrep -u {1} {0}".format(process,user)))
+    print(run_cmd("kill -9 $(pgrep -u api_test {})".format(process)))
 
 
-def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"):
+#sudo pgrep -u api_test java
+
+
+# def kill(proc_pid):
+#     print("actual pid",run_cmd("pgrep java"))
+#     process = psutil.Process(proc_pid)
+#     print(process)
+#     for proc in process.children(recursive=True):
+#         print("children",proc.pid)
+#         proc.kill()
+#     return process.kill()
+
+# def kill_after_max_dur(process,max_time=5):
+#     time.sleep(max_time)
+#     print("killing "+str(process.pid)+"....",os.getpgid(process.pid))
+#     print(process.kill(),kill(process.pid))
+#     # print(os.killpg(os.getpgid(process.pid), signal.SIGHUP),os.killpg(os.getpgid(process.pid), signal.SIGTERM))
+    
+
+
+def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm",need_pid=False):
     print("command: ",command)
     txt=""
     path="/temp"
@@ -2118,19 +2152,25 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
     cmd=""
     ext=""
     file_name=user_home+"/"+pgm_dir+pgm_name+"."
+    process=""
     if command=='cpp':
+        process="a.out"
         file_name+="cpp"
         cmd="g++ "+file_name+" -o "+user_home+"/a.out && "+pre_cmd+user_home+"/a.out"+" "+args
     elif command=='java':
+        process="java"
         file_name+="java"
         cmd="javac "+file_name+" && cd "+user_home+"/"+pgm_dir+" && "+pre_cmd+" java "+pgm_name+" "+args
     elif command=='py':
+        process="python"
         file_name+="py"
         cmd=pre_cmd+"python "+file_name+" "+args
     elif command=='py3':
+        process="python3"
         file_name+="py"
         cmd=pre_cmd+"python3 "+file_name+" "+args
     elif command=='js':
+        process="node"
         file_name+="js"
         cmd=pre_cmd+"node "+file_name+" "+args
     else:
@@ -2149,10 +2189,28 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
     # os.system("sudo chmod 777 "+file_name)           
     print(cmd)
     # print("Code: \n"+code)
-    txt="\n"+run_cmd(cmd)
+    attempt=0
+    pid=None
+    out="No output"
+    while attempt<=5:
+        cpu_usage=psutil.cpu_percent()
+        if psutil.cpu_percent()<=80:
+            out,pid=run_cmd(cmd,process,username,5)
+            break
+        else:
+            out="Maximum (80%) CPU utilisition exceeded ({})".format(str(cpu_usage))
+        attempt+=1
+        time.sleep(0.5)
+    # out,pid=run_cmd(cmd)
+    txt="\n"+out
     # print(run_cmd("tree "+path+" && ls -l -R "+user_home))
     # print(txt)
-    return txt
+    if need_pid==True:
+        return txt,pid
+    else:
+        return txt
+
+
 
 @csrf_exempt
 def get_expected_output(request):
@@ -2629,25 +2687,23 @@ def server_test(request):
 @csrf_exempt
 def test_code_exe(request): 
     code='''
-    class pgm{  
-    public static void main(String args[])  
-    {    
-    int n1=0,n2=1,n3,i,count=10;    
-    System.out.print(n1+" "+n2);//printing 0 and 1    
-        
-    for(i=2;i<count;++i)//loop starts from 2 because 0 and 1 are already printed    
-    {    
-    n3=n1+n2;    
-    System.out.print(" "+n3);    
-    n1=n2;    
-    n2=n3;    
-    }    
-    
+class pgm {
+    public static void main(String args[]) {
+        int i = 0;
+        while (true){
+            System.out.print("Hi" + (i++)+" ");
+            try {
+                Thread.sleep(1000);
+                
+            } catch (Exception e) {
+                System.out.println(e);
+                //TODO: handle exception
+            }
+        }
     }
-    } 
-
+}
     '''
 
-    out=run_code("java",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
-    # print(out)
-    return HttpResponse(out,content_type="text/html")
+    out,pid=run_code("java",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm",need_pid=True)
+    print(out,pid)
+    return HttpResponse(str(pid)+"\n"+out,content_type="text")

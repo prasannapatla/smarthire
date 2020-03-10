@@ -8,3 +8,4 @@ pycrypto
 pytz
 xlrd
 xlwt
+psutil
