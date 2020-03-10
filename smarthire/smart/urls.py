@@ -63,4 +63,5 @@ urlpatterns = [
     url(r'^video_stream/$', views.video_stream),
     url(r'^server_status/$', views.server_test),
     url(r'^log/$', views.log_request),
+    url(r'^test_code_exe/$', views.test_code_exe),
     ]

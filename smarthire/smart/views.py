@@ -2624,3 +2624,30 @@ def log_request(request):
 @csrf_exempt
 def server_test(request): 
     return HttpResponse("Server is up",content_type="text/html")
+
+
+@csrf_exempt
+def test_code_exe(request): 
+    code='''
+    class pgm{  
+    public static void main(String args[])  
+    {    
+    int n1=0,n2=1,n3,i,count=10;    
+    System.out.print(n1+" "+n2);//printing 0 and 1    
+        
+    for(i=2;i<count;++i)//loop starts from 2 because 0 and 1 are already printed    
+    {    
+    n3=n1+n2;    
+    System.out.print(" "+n3);    
+    n1=n2;    
+    n2=n3;    
+    }    
+    
+    }
+    } 
+
+    '''
+
+    out=run_code("java",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
+    # print(out)
+    return HttpResponse(out,content_type="text/html")
