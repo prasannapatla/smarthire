@@ -2117,10 +2117,10 @@ def run_cmd(cmd,process=None,username=None,max_time=0):
 
 def kill_after_max_dur(process,user,max_time=5):
     time.sleep(2)
-    print(run_cmd("renice 20 -p $(pgrep -u api_test {})".format(process))) 
+    print(run_cmd("sudo renice 20 -p $(pgrep -u api_test {})".format(process))) 
     time.sleep(max_time)
     if subprocess.Popen("pgrep -u {1} {0}".format(process,user), shell=True, stdout=subprocess.PIPE).stdout.read().decode().replace("\n"," ")!="":
-        print(run_cmd("kill -9 $(pgrep -u {1} {0})".format(process,user)))
+        print(run_cmd("sudo kill -9 $(pgrep -u {1} {0})".format(process,user)))
 
 
 #sudo pgrep -u api_test java
