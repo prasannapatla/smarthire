@@ -74,7 +74,7 @@ class Admim_add_cat extends Myservice {
 
 
     $("input").eq(0).focus()
-    $("input[type='date'").click(function (this: any) {
+    $("input[type='date']").click(function (this: any) {
       $(this).focus()
     });
     $(document).ready(function () {
