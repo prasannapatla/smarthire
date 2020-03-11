@@ -2206,7 +2206,7 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
     while attempt<=10:
         cpu_usage=psutil.cpu_percent()
         if psutil.cpu_percent()<=80:
-            out=run_cmd(cmd,process,username,5)
+            out=run_cmd(cmd,process,username,30)
             break
         else:
             out="Maximum (80%) CPU utilisition exceeded ({})".format(str(cpu_usage))
