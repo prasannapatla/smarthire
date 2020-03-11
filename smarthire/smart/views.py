@@ -2093,7 +2093,7 @@ import subprocess,os,signal
 
 def run_cmd(cmd,process=None,username=None,max_time=0):
     # out=subprocess.Popen(cmd,preexec_fn=os.setsid, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True)
-    out=subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=None, close_fds=True)
+    out=subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
     if max_time!=0 and process!=None and username!=None:
         threading.Thread(target=kill_after_max_dur, args=(process,username,max_time)).start()
     # print("before return .............",os.getpgid(os.getpid()),os.getpid())
@@ -2102,12 +2102,25 @@ def run_cmd(cmd,process=None,username=None,max_time=0):
     #     mythread=threading.Thread(target=kill_after_max_dur, args=(cmd,2))
     #     mythread.start()
     # print("just before return .............",out.pid,os.getpgid(out.pid))
-    return out.stdout.read().decode(),out.pid
+    err=out.stderr.read().decode()
+    if err!=None and str(err).strip()!="":   
+        result=""
+        if str(err).lower().strip()=="killed":
+            result="Timeout" 
+        else:
+            result=err
+        output=out.stdout.read().decode()
+        if output!=None and output.strip()!="":
+            result+="\n"+output
+        return result
+    return out.stdout.read().decode()
 
 def kill_after_max_dur(process,user,max_time=5):
+    time.sleep(2)
+    print(run_cmd("renice 20 -p $(pgrep -u api_test {})".format(process))) 
     time.sleep(max_time)
-    print("killing...",run_cmd("pgrep -u {1} {0}".format(process,user)))
-    print(run_cmd("kill -9 $(pgrep -u api_test {})".format(process)))
+    if subprocess.Popen("pgrep -u {1} {0}".format(process,user), shell=True, stdout=subprocess.PIPE).stdout.read().decode().replace("\n"," ")!="":
+        print(run_cmd("kill -9 $(pgrep -u {1} {0})".format(process,user)))
 
 
 #sudo pgrep -u api_test java
@@ -2130,9 +2143,8 @@ def kill_after_max_dur(process,user,max_time=5):
     
 
 
-def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm",need_pid=False):
+def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"):
     print("command: ",command)
-    txt=""
     path="/temp"
     user_home=path+"/"+username
     print("username: "+username)
@@ -2190,25 +2202,19 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
     print(cmd)
     # print("Code: \n"+code)
     attempt=0
-    pid=None
     out="No output"
     while attempt<=5:
         cpu_usage=psutil.cpu_percent()
         if psutil.cpu_percent()<=80:
-            out,pid=run_cmd(cmd,process,username,5)
+            out=run_cmd(cmd,process,username,5)
             break
         else:
             out="Maximum (80%) CPU utilisition exceeded ({})".format(str(cpu_usage))
         attempt+=1
         time.sleep(0.5)
-    # out,pid=run_cmd(cmd)
-    txt="\n"+out
     # print(run_cmd("tree "+path+" && ls -l -R "+user_home))
     # print(txt)
-    if need_pid==True:
-        return txt,pid
-    else:
-        return txt
+    return out
 
 
 
@@ -2686,24 +2692,48 @@ def server_test(request):
 
 @csrf_exempt
 def test_code_exe(request): 
-    code='''
-class pgm {
-    public static void main(String args[]) {
-        int i = 0;
-        while (true){
-            System.out.print("Hi" + (i++)+" ");
-            try {
-                Thread.sleep(1000);
+#     code='''
+# class pgm {
+#     public static void main(String args[]) {
+#         int i = 0;
+#         while (true){
+#             System.out.print("Hi" + (i++)+" ");
+#             try {
+#                 Thread.sleep(1000);
                 
-            } catch (Exception e) {
-                System.out.println(e);
-                //TODO: handle exception
-            }
+#             } catch (Exception e) {
+#                 System.out.println(e);
+#                 //TODO: handle exception
+#             }
+#         }
+#     }
+# }
+#     '''
+    code='''
+    #include <unistd.h>
+    #include<stdio.h>  
+    int main(){    
+        int i=0;
+        while(1){
+            printf("hi %d ",i++);
+            usleep(1000);
         }
+        return 0;
     }
-}
     '''
 
-    out,pid=run_code("java",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm",need_pid=True)
-    print(out,pid)
-    return HttpResponse(str(pid)+"\n"+out,content_type="text")
+#     code='''
+# import time
+# i=0
+# while True:
+# print("hi",i)
+#     i+=1
+#     time.sleep(0.10)
+#     '''
+
+    # out,pid=run_code("java",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
+    out=run_code("cpp",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm"
+    )
+    # out,pid=run_code("py3",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
+    print("output...\n",out)
+    return HttpResponse(out,content_type="text")
