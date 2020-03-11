@@ -268,7 +268,7 @@ class Admim_add_cat extends Myservice {
         txt+="</tr>"
         if(total%2!=0){
           txt+="<tr>"
-          txt+= "<th></th>";
+          txt+= "<th>&nbsp;</th>";
           txt+="</tr>"
           txt+="<tr>"
           txt+= "<th></th>";
@@ -334,7 +334,7 @@ class Admim_add_cat extends Myservice {
         txt+="</tr>"
         if(total%2!=0){
           txt+="<tr>"
-          txt+= "<th></th>";
+          txt+= "<th>&nbsp;</th>";
           txt+="</tr>"
           txt+="<tr>"
           txt+= "<th></th>";
