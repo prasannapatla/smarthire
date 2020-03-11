@@ -2103,6 +2103,7 @@ def run_cmd(cmd,process=None,username=None,max_time=0):
     #     mythread.start()
     # print("just before return .............",out.pid,os.getpgid(out.pid))
     err=out.stderr.read().decode()
+    print(err)
     if err!=None and str(err).strip()!="":   
         result=""
         if str(err).lower().strip()=="killed":
