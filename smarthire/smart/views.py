@@ -2692,35 +2692,37 @@ def server_test(request):
 
 @csrf_exempt
 def test_code_exe(request): 
-#     code='''
-# class pgm {
-#     public static void main(String args[]) {
-#         int i = 0;
-#         while (true){
-#             System.out.print("Hi" + (i++)+" ");
-#             try {
-#                 Thread.sleep(1000);
-                
-#             } catch (Exception e) {
-#                 System.out.println(e);
-#                 //TODO: handle exception
-#             }
-#         }
-#     }
-# }
-#     '''
     code='''
-    #include <unistd.h>
-    #include<stdio.h>  
-    int main(){    
-        int i=0;
-        while(1){
-            printf("hi %d ",i++);
-            usleep(1000);
+class pgm {
+    public static void main(String args[]) {
+        int i = 0;
+        while (i<=100){
+            System.out.print("Hi" + (i++)+" ");
+
         }
-        return 0;
+        int n1=0,n2=1,n3,count=10;    
+        System.out.print(n1+" "+n2);//printing 0 and 1    
+        for(i=2;i<count;++i)//loop starts from 2 because 0 and 1 are already printed    
+        {    
+        n3=n1+n2;    
+        System.out.print(" "+n3);    
+        n1=n2;    
+        n2=n3;    
+        }    
     }
+}
     '''
+    # code='''
+    # #include <unistd.h>
+    # #include<stdio.h>  
+    # int main(){    
+    #     int i=0;
+    #     while(1){
+    #         printf("hi %d ",i++);
+    #     }
+    #     return 0;
+    # }
+    # '''
 
 #     code='''
 # import time
@@ -2731,9 +2733,9 @@ def test_code_exe(request):
 #     time.sleep(0.10)
 #     '''
 
-    # out,pid=run_code("java",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
-    out=run_code("cpp",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm"
-    )
+    out=run_code("java",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
+    # out=run_code("cpp",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm"
+    # )
     # out,pid=run_code("py3",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
     print("output...\n",out)
     return HttpResponse(out,content_type="text")
