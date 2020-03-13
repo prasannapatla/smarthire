@@ -78,7 +78,8 @@
 
   .examInfo {
     width: 150px;
-    height: 40px;
+    height: 35px;
+    font-size: 12px;
   }
 
   @media only screen and (max-width: 800px) {
@@ -193,16 +194,21 @@
   .cat_view {
     color: #E5277E !important;
     text-decoration: none !important;
-
+    font-size: 12px;
+  }
+  .exe {
+    margin-bottom: 30px;
   }
 
   .exam_view {
     color: #E5277E !important;
     text-decoration: none !important;
+    font-size: 12px;
   }
 
   .checked {
     width: 350px;
+    font-size: 12px;
   }
 
   .del {
@@ -283,7 +289,8 @@
 
   .exam_heading {
     position: relative;
-    left: 6px;
+    left: 0px;
+    top: 12px
   }
   .del_cat_btn {
     top: 1px;

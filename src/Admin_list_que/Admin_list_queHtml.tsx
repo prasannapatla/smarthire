@@ -26,8 +26,7 @@ var page = function (_this: any) {
                             </div>
                             
                             <div className='exam_type'>
-                                <p className='type_text'  style={{fontSize:'16px'}}>Select Category Type</p>
-                                <select id="cat"></select>
+                                <select id="cat" style={{ fontSize:"12px"}}></select>
                             </div>
                         </div>
                         <div className="sect">

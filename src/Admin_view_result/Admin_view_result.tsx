@@ -85,31 +85,31 @@ class Admin_view_result extends Myservice {
       return
     }
     //alert(str+"\n"+json_obj[0])
-    let txt = "<thead><tr><th  class='no_display' style='border-top: none;border-right: none;border-left: none;'><div class='check'><label class='container1' style='margin-left:15px'><input type='checkbox' class='sel_all' id='checkbox'/><span class='checkmark'></span></label></div><div class='checked'></div></th><th style='border-top: none;border-left: none;border-right: none;font-size: 15px;'>Id</th><th style='border-top: none;border-right: none;border-left: none;font-size: 15px;'>Email</th><th style='border-top: none;border-right: none;border-left: none;font-size: 15px;'>Total Duration(Mins)</th><th style='border-top: none;border-right: none;border-left: none;font-size: 15px;'>Score</th><th style='border-top: none;border-right: none;border-left: none;font-size: 15px;'>Coding score</th><th style='border-top: none;border-right: none;border-left: none;font-size: 15px;'>Feedback</th><th  class='no_display' style='border-top: none;border-right: none;border-left: none;font-size: 15px;'>View Details</th></tr></thead><tbody>"
+    let txt = "<thead><tr><th  class='no_display' style='border-top: none;border-right: none;border-left: none;'><div class='check'><label class='container1' style='margin-left:15px'><input type='checkbox' class='sel_all' id='checkbox'/><span class='checkmark'></span></label></div><div class='checked'></div></th><th style='border-top: none;border-left: none;border-right: none;font-size: 12px;'>Id</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Email</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Total Duration(Mins)</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Score</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Coding score</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Feedback</th><th  class='no_display' style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>View Details</th></tr></thead><tbody>"
     let val1: any, val2: any
     for (val1 in json_obj) {
       let dur: any = 0;
       if (json_obj[val1]["Total Duration"] != "None")
         dur = Math.floor(json_obj[val1]["Total Duration"] / 60) + "Min " + json_obj[val1]["Total Duration"] % 60 + " Secs"
       txt += "<tr>"
-      txt += "<td  class='no_display' style='border-top: none;border-right: none;border-left: none;' val='" + json_obj[val1]["ID"] + "'><label class='container1' style='margin-left:30px'><input type='checkbox' class='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /><span class='checkmark' style='left: 53px;'></span></label></td>"
-      txt += "<td >" + json_obj[val1]["ID"] + "</td>"
-      txt += "<td >" + json_obj[val1]["Username"] + "</td>"
-      txt += "<td >" + dur + "</td>"
+      txt += "<td  class='no_display' style='border-top: none;border-right: none;border-left: none;font-size:12px' val='" + json_obj[val1]["ID"] + "'><label class='container1' style='margin-left:30px'><input type='checkbox' class='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /><span class='checkmark' style='left: 53px;'></span></label></td>"
+      txt += "<td style='font-size:12px'>" + json_obj[val1]["ID"] + "</td>"
+      txt += "<td style='font-size:12px'>" + json_obj[val1]["Username"] + "</td>"
+      txt += "<td style='font-size:12px'>" + dur + "</td>"
       if (json_obj[val1]["Score"] != -1)
-        txt += "<td >" + json_obj[val1]["Score"] + "</td>"
+        txt += "<td style='font-size:12px'>" + json_obj[val1]["Score"] + "</td>"
       else
-        txt += "<td>NA</td>"
+        txt += "<td style='font-size:12px'>NA</td>"
       if (json_obj[val1]["Score2"] != -1)
-        txt += "<td >" + json_obj[val1]["Score2"] + "</td>"
+        txt += "<td style='font-size:12px'>" + json_obj[val1]["Score2"] + "</td>"
       else
-        txt += "<td>NA</td>"
+        txt += "<td style='font-size:12px'>NA</td>"
 
-      txt += "<td >" + json_obj[val1]["Feedback"] + "/5</td>"
+      txt += "<td style='font-size:12px'>" + json_obj[val1]["Feedback"] + "/5</td>"
       if (json_obj[val1]["Score"] != -1 || json_obj[val1]["Score2"] != -1)
-        txt += "<td  class='no_display' className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a style='color:#E5277D'>View Detail</a></u></td>"
+        txt += "<td  class='no_display' style='font-size:12px' className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a style='color:#E5277D'>View Detail</a></u></td>"
       else
-        txt += "<td  class='no_display'>No Details</td>"
+        txt += "<td  style='font-size:12px' class='no_display'>No Details</td>"
       txt += "</tr></tbody>"
     }
 
@@ -189,7 +189,7 @@ class Admin_view_result extends Myservice {
     }
     let val1: any, val2: any
     let txt = ""
-    // txt = "<option value=\"all\">All</option>"
+    txt = "<option value=\"exam type\">Select exam</option>"
     for (val1 in json_obj) {
       txt += "<option  value=\"" + json_obj[val1]["id"] + "\">"
       txt += json_obj[val1]["e_name"] + "</option>"
@@ -231,7 +231,7 @@ class Admin_view_result extends Myservice {
       //   txt += "<td style='max-width: 100px;overflow-wrap: break-word'>" + json_obj[val1][val2] + "</td>";
       // }
       for (val2 in json_obj[val1])
-        txt += "<td style='max-width: 100px;'><div class='Exam_info'><img src='"+this.state.images[val2]+"' class='image'/><div class='exam_info_text'><b style='font-size:16px'>" + json_obj[val1][val2] + "</b><br/>" + val2 + "</div></div></td>";
+        txt += "<td style='max-width: 100px;'><div class='Exam_info'><img src='"+this.state.images[val2]+"' class='image'/><div class='exam_info_text'><b style='font-size:12px'>" + json_obj[val1][val2] + "</b><br/><span style='font-size:12px'>" + val2 + "</span></div></div></td>";
 
       txt += "</tr>";
     }

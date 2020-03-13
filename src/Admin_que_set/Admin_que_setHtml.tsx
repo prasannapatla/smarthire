@@ -25,20 +25,17 @@ var page = function (_this: any) {
                             </table>
                             <div className="exam_options">
                                 <table className="table populate">
-                                    <tr>
-                                        <th style={{ fontSize: '16px' }}>
-                                            Select Exam
-                                        </th>
+                                    {/* <tr>
                                         <th data-colSpan={4} style={{ fontSize: '16px', position: 'relative', right: '15%' }}>
                                             Duration of the exam
                                         </th>
                                         <th style={{ fontSize: '16px', position: 'relative', right: '24%' }}>Remaining Time</th>
-                                    </tr>
+                                    </tr> */}
                                     <tr>
-                                        <td><select id='exam'></select></td>
-                                        <td><input type='number' defaultValue="60" placeholder='Enter Duration' id='dur' /><b className="mins" style={{ fontSize: '16px' }}> Mins.</b>
+                                        <td style={{paddingLeft: "unset",width: "184px"}}><select id='exam'></select></td>
+                                        <td style={{width: "230px"}}><input type='number' placeholder='Enter Duration' id='dur' style={{minWidth:"160px" }}/><span className="mins" style={{ fontSize: '12px' }}> &nbsp;Mins.</span>
                                         </td>
-                                        <td style={{ padding: "unset", position: 'relative', right: '27%' }}><b><span className="remaining" style={{ marginLeft: "40px", display: "block" }}></span></b></td>
+                                        <td style={{width: "300px" }}><span className="remaining"></span></td>
                                     </tr>
                                 </table>
                                 <div className="table-responsive mob_overflow">
@@ -59,8 +56,8 @@ var page = function (_this: any) {
                                     <table id="category"></table>
                                 </div>
                                 <div className="table-responsive mob_overflow pop_code" style={{ paddingTop: "20px" }}>
-                                    <table className="table populate">
-                                        <tr>
+                                    <table className="table populate populate1">
+                                        {/* <tr>
                                             <th className="selectExamText" style={{ fontSize: '16px' }}>
                                                 Select Exam
                                             </th>
@@ -71,14 +68,14 @@ var page = function (_this: any) {
                                                 Duration of the exam
                                             </th>
                                             <th style={{ fontSize: '16px' }}>Remaining Time</th>
-                                        </tr>
-                                        <tr>
-                                            <td><select id='exam1' className="selectExam"></select></td>
-                                            <td><input type='number' defaultValue="4" placeholder='Total questions' id='total' className="no_Que" /><span className="total_que"></span>
+                                        </tr> */}
+                                        <tr style={{marginTop:"10px"}}>
+                                            <td style={{paddingLeft:"0px"}}><select id='exam1' className="selectExam"></select></td>
+                                            <td><input type='number' placeholder='Enter Duration' id='code_dur' className="dur_exam" /><b className="mins_code" style={{ fontSize: '12px',fontWeight:"unset" }}>Mins.</b>
                                             </td>
-                                            <td><input type='number' defaultValue="30" placeholder='Enter Duration' id='code_dur' className="dur_exam" /><b className="mins_code" style={{ fontSize: '16px' }}>Mins.</b>
+                                            <td style={{fontSize:"12px"}}><input type='number' placeholder='Total Questions' id='total' className="no_Que" /><span className="total_que"></span>
                                             </td>
-                                            <td style={{ padding: "unset" }}><b><span className="remaining1" style={{ marginLeft: "13px", display: "block" }}></span></b></td>
+                                            <td style={{ padding: "unset",width: "220px"}}><span className="remaining1" style={{ marginLeft: "12px", display: "block" }}></span></td>
                                         </tr>
                                     </table>
                                 </div>

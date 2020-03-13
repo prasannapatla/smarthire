@@ -36,7 +36,7 @@ class Admin_que_set extends Myservice {
     var cat_str = this.fetch_data("/server/getcat/", "POST");
     let json_obj = JSON.parse(cat_str)
     let val1: any, val2: any
-    let txt = "<tr><th style='font-size:16px'>Category</th><th style='font-size:16px'>Number of questions</th></tr><tr><td>&nbsp;</td></tr>"
+    let txt = "<tr><th style='font-size:15px;font-weight:bold;'>Category</th><th style='font-size:15px;font-weight:bold;'>Number of questions</th></tr><tr><td>&nbsp;</td></tr>"
     for (val1 in json_obj) {
       txt += "<tr id='cat" + json_obj[val1]["id"] + "'>"
       txt += "<td style='width': '35%'><div class='check'><label class='container1'><input type='checkbox' class='full' id='checkbox' value='" + json_obj[val1]["id"] + "' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["cat"] + "  </div></td>";
@@ -62,9 +62,9 @@ class Admin_que_set extends Myservice {
     $("#" + id).change(function (this: any) {
       var remaining = JSON.parse(ctx.fetch_data("/server/rem_exam_dur/", "POST", null, "exam=" + $(this).children("option:selected").val()))
       if (id == 'exam')
-        $(".remaining").text((remaining.remaining / 60).toFixed(0) + " Mins.")
+        $(".remaining").text("Remaining-time : "+(remaining.remaining / 60).toFixed(0) + " Mins.")
       else
-        $(".remaining1").text((remaining.remaining / 60).toFixed(0) + " Mins.")
+        $(".remaining1").text("Remaining-time : "+(remaining.remaining / 60).toFixed(0) + " Mins.")
     });
   }
 

@@ -39,7 +39,7 @@
     border-radius: 10px;
   }
 
-  .code_pop{
+  .code_pop {
     margin-top: 50px;
     background-color: #F6F7FB;
     margin-right: 25px;
@@ -47,7 +47,8 @@
     height: 100%;
     width: 100%;
   }
-  .pop_code{
+
+  .pop_code {
     margin-top: 20px;
     background-color: #FFFFFF;
     margin-right: 25px;
@@ -58,8 +59,9 @@
     box-shadow: 0 5px 5px -6px;
     border-radius: 10px;
   }
+
   .mins_code {
-    margin-left:5px;
+    margin-left: 5px;
     position: relative;
     top: -15px;
   }
@@ -67,7 +69,7 @@
   .exam_text1 {
     float: left;
     width: 50%;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
     margin-top: -8px;
     line-height: 120%;
@@ -76,10 +78,15 @@
   .exam_text2 {
     float: left;
     width: 100%;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
     margin-top: -8px;
     line-height: 120%;
+  }
+
+  .populate1 {
+    margin-top: 15px;
+    margin-bottom: 0px;
   }
 
   #populate_exam1 {
@@ -107,13 +114,13 @@
   }
 
   #exam {
-    width: 175px;
-    position: relative;
+    width: 160px;
     top: -15px;
     border: solid 2px #E9EBF8;
     outline: none;
     height: 40px;
   }
+
   #exam1 {
     width: 175px;
     border: solid 2px #E9EBF8;
@@ -122,28 +129,33 @@
     position: relative;
     top: -15px;
   }
-  .no_Que ,.dur_exam{
+
+  .no_Que,
+  .dur_exam {
     position: relative;
     top: -15px;
   }
 
-  #exam:focus,#exam1:focus {
+  #exam:focus,
+  #exam1:focus {
     outline: none;
   }
 
   .mins {
     font-size: 15px;
     padding-left: 0px;
-    position: relative;
     top: -15px;
     right: 48%;
+  }
+
+  select {
+    font-size: 12px;
   }
 
   #dur {
     height: 40px;
     outline: none;
     width: 100px;
-    position: relative;
     top: -15px;
     right: 48%;
   }
@@ -159,7 +171,7 @@
   }
 
   .checked {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .entryNumber {
@@ -231,18 +243,26 @@
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
-  .remaining,.remaining1{
+
+  .remaining,
+  .remaining1 {
     position: relative;
-    top: 6px;
+    top: 10px;
   }
-  .total_que{
+
+  .total_que {
     position: relative;
-    font-size: 16px;
+    font-size: 12px;
     top: -13px;
     left: 5px;
   }
+
+  .inputEnterNum {
+    font-size: 12px;
+  }
+
   .plus_icon {
     margin-top: -2px;
     margin-right: 2px;
-}
+  }
 }

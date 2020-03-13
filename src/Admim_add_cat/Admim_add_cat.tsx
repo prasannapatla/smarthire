@@ -25,7 +25,7 @@ class Admim_add_cat extends Myservice {
       var btn = $('#button_up');
 
       $(window).scroll(function () {
-        if ($(window).scrollTop() > 100) {
+        if ($(window).scrollTop() > 200) {
           $("#button_up").css({ "opacity": "1" })
         } else {
           $("#button_up").css({ "opacity": "0" })
@@ -251,7 +251,7 @@ class Admim_add_cat extends Myservice {
 
     let txt="<table class='list_cat' style=' border-spacing: 0 ;'>";
     txt+="<tr>"
-    txt+= "<th style='padding-top: 10px; padding-bottom:10px;font-size:16px'>Available Categories</th>";
+    txt+= "<th style='padding-top: 10px; padding-bottom:10px;font-size:15px'>Available Categories</th>";
     txt+= "<th></th>";
     txt+="</tr>"
 
@@ -317,7 +317,7 @@ class Admim_add_cat extends Myservice {
     let json_obj = JSON.parse(str);
     let txt="<table class='list_exam' style=' border-spacing: 0 ;'>";
     txt+="<tr>"
-    txt+= "<th style='padding-top: 10px; padding-bottom:10px;font-size:16px'>Available Exams</th>";
+    txt+= "<th style='padding-top: 10px; padding-bottom:10px;font-size:15px'>Available Exams</th>";
     txt+= "<th></th>";
     txt+="</tr>"
 

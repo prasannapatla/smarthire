@@ -22,7 +22,7 @@
 
     .que_text {
         margin-bottom: 0;
-        font-size: 25px;
+        font-size: 20px;
         font-weight: bold;
         width: 50%;
         position: relative;
@@ -31,7 +31,7 @@
 
     .exam_type {
         float: right;
-        position: relative;
+        margin-bottom: 15px;
         top: -25px;
         left: -3px;
     }
@@ -164,7 +164,7 @@
         margin: 30px;
         position: fixed;
         bottom: 15px;
-        right: 8px;
+        right: -15px;
         transition: background-color .3s, opacity .5s, visibility .5s;
         z-index: 1000;
         opacity: 0;
@@ -199,7 +199,9 @@
         border: solid 2px #E5277E;
         font-size: 15px;
     }
-
+    .ques1278 * {
+        font-size: 12px !important;
+    }
     .del_icon {
         margin-left: -10px;
         font-size: 20px;

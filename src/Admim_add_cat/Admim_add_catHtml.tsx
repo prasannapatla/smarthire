@@ -23,12 +23,12 @@ var page = function (_this: any) {
                             <table className='res q_list table result' style={{ display: "none" }}></table>
 
 
-                            <div className='heading' style={{fontSize:"25px"}}>Add category</div><br />
+                            <div className='heading' style={{fontSize:"20px"}}>Add category</div><br />
                             <div className="sect cate">
                                 <table className="Add_cat" style={{ width: "85%" }}>
                                     <tr>
                                         <td className="catName">
-                                            <input type="text" className="form-control" id="cat_add" style ={{width:'105%',fontSize:"15px"}} placeholder="Enter a Category Name" />
+                                            <input type="text" className="form-control" id="cat_add" style ={{width:'105%',fontSize:"12px"}} placeholder="Enter a Category Name" />
                                         </td>
                                         <td className="addBtn">
                                             <button onClick={_this.add.bind(_this)} id="add" ><FaPlus className="plus_icon"/> Add</button>
@@ -48,30 +48,30 @@ var page = function (_this: any) {
                             </div>
                             <br />
                             <br />
-                            <div className='heading' style={{fontSize:"25px"}}>Create a new exam</div><br />
-                            <div className="sect">
+                            <div className='heading' style={{fontSize:"20px"}}>Create a new exam</div><br />
+                            <div className="sect exe">
                                 <div className="input_group">
                                     <table className="exam_table1" >
-                                        <tr>
-                                            <td className="exam_heading" style={{fontSize:"16px"}}><b>
+                                        {/* <tr>
+                                            <td className="exam_heading" style={{fontSize:"15px"}}><b>
                                                 Exam name
                                                 </b></td>
-                                            <td className="exam_heading" style={{fontSize:"16px"}}><b>
+                                            <td className="exam_heading" style={{fontSize:"15px"}}><b>
                                                 Start time
                                                 </b></td>
-                                            <td className="exam_heading" style={{fontSize:"16px"}}><b>
+                                            <td className="exam_heading" style={{fontSize:"15px"}}><b>
                                                 End time
                                                 </b></td>
-                                        </tr>
+                                        </tr> */}
                                         <tr>
                                             <td>
-                                                <input className="examInfo" type="text" id="e_name" />
+                                                <input className="examInfo" type="text" id="e_name" placeholder="Exam name"/>
                                             </td>
                                             <td>
-                                                <input className="examInfo form-control custom_date s_date" type="text" id="datetimepicker" />
+                                                <input className="examInfo form-control custom_date s_date" type="text" id="datetimepicker" placeholder="Start time"/>
                                             </td>
                                             <td>
-                                                <input className="examInfo form-control custom_date e_date" type="text" id="datetimepicker2" />
+                                                <input className="examInfo form-control custom_date e_date" type="text" id="datetimepicker2" placeholder="End time"/>
                                             </td>
                                             <td>
                                                 <button onClick={_this.add_exam.bind(_this)} className="create"><FaPlus className="plus_icon" /> Create

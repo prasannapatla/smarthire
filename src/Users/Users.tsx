@@ -34,14 +34,14 @@ class Users extends Myservice {
         $(".user_data").html("")
         for (let row in json_data) {
             let html_data = "<tr class='id" + json_data[row]["id"] + "' uid='" + json_data[row]["id"] + "' >"
-            html_data += "<td style='padding-right:30px'>" + json_data[row]["name"] + "</td>\n"
-            html_data += "<td style='padding-right:20px'>" + json_data[row]["email"] + "</td>\n"
+            html_data += "<td style='padding-right:30px;font-size:12px'>" + json_data[row]["name"] + "</td>\n"
+            html_data += "<td style='padding-right:20px;font-size:12px'>" + json_data[row]["email"] + "</td>\n"
             if (json_data[row]["password"] !== "") {
-                html_data += "<td><input type='text' value='" + json_data[row]["password"] + "' class='pwd pwd_active' /></td>\n"
+                html_data += "<td><input type='text' style='font-size:12px;width:80%' value='" + json_data[row]["password"] + "' class='pwd pwd_active' /></td>\n"
             }
             else {
                 console.log(".........")
-                html_data += "<td><input type='text' readonly value='********' class='pwd' /></td>\n"
+                html_data += "<td><input type='text'  style='font-size:12px;width:80%' readonly value='********' class='pwd' /></td>\n"
             }
             if (json_data[row]["super_admin"] == true)
                 html_data += "<td><label class='container1' style='margin-left:30px'><input type='checkbox' checked='true' class='full' value='" + json_data[row]["id"] + "' /><span class='checkmark'></span></label></td>\n"

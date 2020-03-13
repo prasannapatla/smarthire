@@ -23,18 +23,18 @@ var page = function (_this: any) {
                                     <table className="sel_exam">
                                         <tr>
                                             <th className="select_exam_text" style={{fontSize: "16px"}}>
-                                                Select Exam Type
+                                                
                                         </th>
                                             <th className="select_entry_text" style={{fontSize: "16px"}}>
-                                                No. Of Entries
+
                                         </th>
                                         </tr>
                                         <tr className="select_exam_interact">
                                             <th>
-                                                <select id='exam' className="exam"></select>
+                                                <select id='exam' className="exam" style={{fontSize: "12px",height:"33px"}}></select>
                                             </th>
                                             <th>
-                                                <input type="number" defaultValue="10" placeholder="Intake" className="intake" />
+                                                <input type="number"  defaultValue="10" className="intake" />
                                             </th>
                                         </tr>
                                     </table>
@@ -47,7 +47,7 @@ var page = function (_this: any) {
                                 <div className="table-responsive mob_overflow " id="lets_see">
                                     <label className='testLabel'><FaSearch className="searchIcon"/>
                                         <input className="form-control inputLabel" id="myInput" type="text" placeholder="Search.."
-                                            style={{ marginTop: "20px" }} />
+                                            style={{ marginTop: "20px",fontSize:"12px" }} />
                                     </label>
                                     <button className="print" onClick={_this._print.bind(_this, "#result")}><FiPrinter className="icon" /> print
                                     </button>
