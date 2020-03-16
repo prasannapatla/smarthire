@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Admin_menu from '../Admin_menu/Admin_menu';
 import Banner from '../Banner/Banner'
-import { FiPrinter, FiDownload} from 'react-icons/fi';
+import { FiPrinter, FiDownload } from 'react-icons/fi';
 import { FaSearch } from 'react-icons/fa';
 import { AiTwotoneDelete } from "react-icons/ai";
 
@@ -22,19 +22,19 @@ var page = function (_this: any) {
                                     <div className='heading'>Results</div>
                                     <table className="sel_exam">
                                         <tr>
-                                            <th className="select_exam_text" style={{fontSize: "16px"}}>
-                                                
-                                        </th>
-                                            <th className="select_entry_text" style={{fontSize: "16px"}}>
+                                            <th className="select_exam_text" style={{ fontSize: "16px" }}>
 
-                                        </th>
+                                            </th>
+                                            <th className="select_entry_text" style={{ fontSize: "16px" }}>
+
+                                            </th>
                                         </tr>
                                         <tr className="select_exam_interact">
                                             <th>
-                                                <select id='exam' className="exam" style={{fontSize: "12px",height:"33px"}}></select>
+                                                <select id='exam'  data-toggle="tooltip" data-placement="top" title="Select Exam" className="exam" style={{ fontSize: "12px", height: "33px" }}></select>
                                             </th>
                                             <th>
-                                                <input type="number"  defaultValue="10" className="intake" />
+                                                <input type="number" defaultValue="10" className="intake" data-toggle="tooltip" data-placement="top" title="# Entries"/>
                                             </th>
                                         </tr>
                                     </table>
@@ -45,9 +45,9 @@ var page = function (_this: any) {
 
                                     </table></div>
                                 <div className="table-responsive mob_overflow " id="lets_see">
-                                    <label className='testLabel'><FaSearch className="searchIcon"/>
+                                    <label className='testLabel'><FaSearch className="searchIcon" />
                                         <input className="form-control inputLabel" id="myInput" type="text" placeholder="Search.."
-                                            style={{ marginTop: "20px",fontSize:"12px" }} />
+                                            style={{ marginTop: "20px", fontSize: "12px" }} />
                                     </label>
                                     <button className="print" onClick={_this._print.bind(_this, "#result")}><FiPrinter className="icon" /> print
                                     </button>
