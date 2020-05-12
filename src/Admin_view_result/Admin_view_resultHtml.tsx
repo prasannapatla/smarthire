@@ -31,7 +31,7 @@ var page = function (_this: any) {
                                         </tr>
                                         <tr className="select_exam_interact">
                                             <th>
-                                                <select id='exam'  data-toggle="tooltip" data-placement="top" title="Select Exam" className="exam" style={{ fontSize: "12px", height: "33px" }}></select>
+                                                <select id='exam'  data-toggle="tooltip" data-placement="top" title="Select Exam" className="exam" style={{ fontSize: "12px", height: "35px" }}></select>
                                             </th>
                                             <th>
                                                 <input type="number" defaultValue="10" className="intake" data-toggle="tooltip" data-placement="top" title="# Entries"/>
