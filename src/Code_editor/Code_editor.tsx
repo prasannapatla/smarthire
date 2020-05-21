@@ -23,8 +23,8 @@ class Code_editor extends Myservice {
     blur: boolean = false;
 
     componentDidMount() {
-        if (this.allow_user())
-            return;
+        // if (this.allow_user())
+        //     return;
 
         this.c = 0;
         window.confirm = function (para = "!") {
@@ -51,12 +51,12 @@ class Code_editor extends Myservice {
         }
 
 
-        $(window).blur(function () {
-            // alert( $('iframe').is(":focus"))
-            console.log("code  blur", context.blur)
-            if (context.blur)
-                context.close_win()
-        });
+        // $(window).blur(function () {
+        //     // alert( $('iframe').is(":focus"))
+        //     console.log("code  blur", context.blur)
+        //     if (context.blur)
+        //         context.close_win()
+        // });
 
         $("#pgm_lang").change(function () {
             context.hightlight_syntax();
@@ -64,7 +64,7 @@ class Code_editor extends Myservice {
         this.on_elem_load("id", "frame_code", this.after_load.bind(this))
        
         //inspect disabled
-        this.disbale_inspect(document)
+        // this.disbale_inspect(document)
 
         this.set_sess("login_status", "logged in")
         this.go_full_screen(window.document);
@@ -73,15 +73,15 @@ class Code_editor extends Myservice {
             console.log("resize")
             context.toTop()
         });
-        window.addEventListener("visibilitychange", () => {
-            console.log("visibilitychange")
-            if (window.document.visibilityState == 'hidden') {
-                if (this.c >= 0 && this.c <= 2 && context.get_sess("login_status") != null)
-                    swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
-                if (window.screenX <= 0 || window.screenY <= 0)
-                    context.close_win();
-            }
-        });
+        // window.addEventListener("visibilitychange", () => {
+        //     console.log("visibilitychange")
+        //     if (window.document.visibilityState == 'hidden') {
+        //         if (this.c >= 0 && this.c <= 2 && context.get_sess("login_status") != null)
+        //             swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
+        //         if (window.screenX <= 0 || window.screenY <= 0)
+        //             context.close_win();
+        //     }
+        // });
         let n = 0;
         let ctx = this
         window.addEventListener("beforeunload", function (e) {
@@ -145,10 +145,13 @@ class Code_editor extends Myservice {
             window.focus()
         });
         this.get_que();
-
-       
+        iframe.contents().find("#editor").css({ "margin-left": "20px",
+        "margin-right": "20px",
+        "border-radius": "15px",
+        "border": "solid 2px #E5277E" ,"background-color":"red !important"});
+        // iframe.contents().find("#editor #toolbar_2").css({ "margin-bottom": "-1px !important"})
+        // iframe.contents().find("#editor").find("#toolbar_2").css({ "margin-bottom": "-1px !important"})
     }
-
 
     componentWillMount() {
         let script = document.createElement("script");
@@ -384,22 +387,22 @@ class Code_editor extends Myservice {
         window.focus();
     }
 
-    close_win = (): any => {
-        console.log("close", this.c)
-        if (this.c >= 3) {
-            console.log("close", this.c)
-            window.close();
-            return
-        }
+    // close_win = (): any => {
+    //     console.log("close", this.c)
+    //     if (this.c >= 3) {
+    //         console.log("close", this.c)
+    //         window.close();
+    //         return
+    //     }
 
-        this.c++;
-        if (this.c > 0) {
-            window.confirm("If you try to minimize or resize the window,Your exam will be closed")
-            this.fetch_data("/server/count_malpractices/", "POST");
-        }
-        this.toTop()
+    //     this.c++;
+    //     if (this.c > 0) {
+    //         window.confirm("If you try to minimize or resize the window,Your exam will be closed")
+    //         this.fetch_data("/server/count_malpractices/", "POST");
+    //     }
+    //     this.toTop()
 
-    }
+    // }
 
     go_full_screen = (elem: any) => {
         //var elem = document.documentElement;

@@ -31,15 +31,16 @@
         margin-top: 0;
         margin-bottom: 5px;
     }
+
     #pgm_lang {
         background-color: #F6F7FB;
         border: solid 1px;
         outline: none;
     }
 
-    // .menues {
-    //     float: left;
-    // }
+    .menues {
+        padding-left: 20px;
+    }
 
     .menues2 {
         float: right;
@@ -55,9 +56,10 @@
     }
 
     .ps {
-        font-size: 30px;
         text-transform: capitalize;
         margin-right: 10px;
+        padding-left: 8px;
+        font-size: 25px;
     }
 
     .io {
@@ -75,29 +77,34 @@
         padding: 2px;
         min-height: 200px;
         min-width: 200px;
-        width: 98%;
-        margin-left: auto;
+        width: 95%;
+        margin-left: 23px;
         margin-right: auto;
     }
-    .io th h2{
+
+    .io th h2 {
         float: left;
     }
-    .io th input{
+
+    .io th input {
         float: right;
     }
-    .testcase{
-        color:green;
+
+    .testcase {
+        color: green;
     }
-    .loading{
+
+    .loading {
         padding: 0;
         margin: 0;
         widows: 50px;
         height: 50px;
         position: relative;
-        top:-4px;
+        top: -4px;
         float: right;
         visibility: hidden;
     }
+
     .timer {
         width: 120px;
         float: right;
@@ -107,16 +114,63 @@
         padding: 8px;
         text-align: left;
         // display: inline;
-      }
-      .ps{
+    }
+
+    .ps {
         position: relative;
-        top:15px;
-      }
-      .timer span {
+        top: 15px;
+    }
+
+    .timer span {
         vertical-align: center;
-      }
-      .avatar {
+    }
+
+    .avatar {
         margin-top: 10px;
         margin-left: 10px;
+    }
+
+    .question {
+        padding-left: 50px;
+        padding-top: 25px;
+        padding-bottom: 30px;
+    }
+
+    #editor {
+        margin-left: 20px;
+        margin-right: 20px;
+        border-radius: 15px;
+        border: solid 2px #E5277E;
+    }
+
+    .input {
+        margin-left: 27px;
+        font-size: 23px !important;
+
+    }
+
+    .output {
+        margin-left: 27px;
+        font-size: 23px !important;
+
+    }
+
+    .recv_que {
+        font-size: 20px;
+
+    }
+
+    .submit_div {
+        text-align: center;
+    }
+
+    .run_code {
+        position: relative;
+        float: right;
+        width: 100px;
+        height: 40px;
+        border-radius: 8px;
+        border: solid 2px grey;
+        background-color: #FFF;
     }
 }

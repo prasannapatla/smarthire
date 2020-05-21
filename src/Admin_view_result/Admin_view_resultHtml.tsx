@@ -49,9 +49,9 @@ var page = function (_this: any) {
                                         <input className="form-control inputLabel" id="myInput" type="text" placeholder="Search.."
                                             style={{ marginTop: "20px", fontSize: "12px" }} />
                                     </label>
+                                    <button className="download" onClick={_this.download_excel.bind(_this)}><FiDownload className="icon" /> Download</button>
                                     <button className="print" onClick={_this._print.bind(_this, "#result")}><FiPrinter className="icon" /> print
                                     </button>
-                                    <button className="download" onClick={_this.download_excel.bind(_this)}><FiDownload className="icon" /> Download</button>
                                     <button className="del delete del_user_btn_complete"><AiTwotoneDelete className="del_icon" />&nbsp; Delete</button>
                                     <table id="result" className="table  result" style={{ marginTop: "20px", borderCollapse: "collapse" }}>
                                     </table>

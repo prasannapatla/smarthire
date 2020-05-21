@@ -38,13 +38,13 @@ var page = function (_this: any) {
                 <thead>
                     <tr>
                         <th>
-                            <h2>Inputs:</h2>
-                            <input type='button' onClick={_this.run_code.bind(_this)} value="Run code" />
+                            <h2 className="input">Inputs</h2>
+                            <button className="run_code" onClick={_this.run_code.bind(_this)} >Run code</button>
                             <img src={loading} className="loading" />
                         </th>
                         <th>
-                            <h2>Output:</h2>
-                            <input type='button' onClick={_this.submit_code.bind(_this)} value="Submit code" />
+                            <h2 className="output">Output</h2>
+                           
                         </th>
                     </tr>
                 </thead>
@@ -60,6 +60,9 @@ var page = function (_this: any) {
                     </tr>
                 </tbody>
             </table><br />
+            <div className="submit_div">
+            <button onClick={_this.submit_code.bind(_this)} >Submit code</button>
+            </div>
             <h3 className="testcase"></h3><br />
         </div>
     )
