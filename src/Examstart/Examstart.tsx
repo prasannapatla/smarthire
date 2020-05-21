@@ -16,8 +16,8 @@ class Examstart extends Myservice {
   }
 
   componentDidMount() {
-    if (this.allow_user())
-      return;
+    // if (this.allow_user())
+    //   return;
 
     this.c = 0;
     // document.addEventListener("contextmenu", event => event.preventDefault());

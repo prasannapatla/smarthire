@@ -1,4 +1,4 @@
-#!/home/guruprasad/Desktop/SH2/smarthire-coding/smarthire/myenv/bin/python3
+#!/home/prajwal/Desktop/smarthire-coding/smarthire/myenv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

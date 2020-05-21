@@ -1,4 +1,4 @@
-#!/home/guruprasad/Desktop/SH2/smarthire-coding/smarthire/myenv/bin/python3
+#!/home/prajwal/Desktop/smarthire-coding/smarthire/myenv/bin/python
 from django.core import management
 
 if __name__ == "__main__":
