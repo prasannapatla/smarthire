@@ -14,6 +14,7 @@ body, html, table, form, textarea{
 #editor{
 	border: solid #888 1px;
 	overflow: hidden;
+	background-color: red !important;
 }
 
 #result{
@@ -262,10 +263,13 @@ div#area_search_replace  #area_search_msg{
 	padding: 0;
 	background-color: #ECE9D8;
 	text-align: center;
+	margin-bottom: -1px !important;
 }
 
 .area_toolbar, .area_toolbar table{
 	font: 11px sans-serif;
+	margin-bottom: -2px !important;
+
 }
 
 .area_toolbar img{

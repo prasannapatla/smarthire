@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/terralogo.svg';
+// import logo from '../assets/terralogo.svg';
+import logo from "../assets/Terralogic_Logo.png"
 import { IoMdArrowRoundForward } from "react-icons/io";
 
 
