@@ -129,7 +129,7 @@ class Code_editor extends Myservice {
          let frame_document=document.getElementById('frame_code').contentWindow.document
          console.log("frame_code........",frame_document)
          // @ts-ignore
-        //  this.disbale_inspect(frame_document)
+         this.disbale_inspect(frame_document)
 
 
         this.load_sucess = true;
@@ -145,10 +145,12 @@ class Code_editor extends Myservice {
             window.focus()
         });
         this.get_que();
-
-       
+        iframe.contents().find("#editor").css({ "margin-left": "20px",
+        "margin-right": "20px",
+        "border-radius": "15px",
+        "border": "solid 2px #E5277E" ,"background-color":"red !important"});
+        iframe.contents().find("#toolbar_2").eq(0).css({ "margin-bottom": "-2px"})
     }
-
 
     componentWillMount() {
         let script = document.createElement("script");

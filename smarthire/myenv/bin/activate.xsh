@@ -28,7 +28,11 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
+<<<<<<< HEAD
 $VIRTUAL_ENV = r"/home/terralogic/Desktop/smarthire-coding/smarthire/myenv"
+=======
+$VIRTUAL_ENV = r"/home/horntail/Desktop/SmartHire/smarthire-coding/smarthire/myenv"
+>>>>>>> caa0317161ff0b20cf273bd96b7e9382158998e8
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]
