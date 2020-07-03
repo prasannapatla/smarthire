@@ -86,7 +86,7 @@ class Exampage extends Myservice {
     timer = (dur = 3600) => {
         this.sec = dur
         this.timer1 = setInterval(() => {
-            $("#timer").html(parseInt((this.sec / 60).toString(), 10).toFixed(0) + ":" + this.sec % 60);
+            $("#timer").html(parseInt((this.sec / 60).toString(), 10).toFixed(0) + " Min : " + (this.sec % 60)+" Sec");
             this.sec--;
             if (this.sec == 5) {
                 this.save_ans();

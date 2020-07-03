@@ -20,7 +20,7 @@ class Examstart extends Myservice {
       return;
 
     this.c = 0;
-    // document.addEventListener("contextmenu", event => event.preventDefault());
+    document.addEventListener("contextmenu", event => event.preventDefault());
     var context = this
     window.onbeforeunload = function () {
       context.fetch_data("/server/del/", "POST");
@@ -62,9 +62,11 @@ class Examstart extends Myservice {
     }
     if (Number(json_resp[0].status_code) == 3) {
       $(".coding").hide()
-      $(".mcq,#title").hide()
+      $(".mcq,#title,#logout").hide()
       let text = `
-          <h1>Thank you</h1>      
+      <br /><br />
+          <h1>Thank you for your participation</h1><br />
+          <h4>Results will be shared by the HR Team</h4>             
       `
       $(".instr").html(text)
       return false

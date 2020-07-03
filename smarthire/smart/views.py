@@ -1021,7 +1021,7 @@ def default(o):
 
 
 
-def utc_to_ist(local):
+def utc_to_ist(local,native_format):
     # METHOD 1: Hardcode zones:
     from_zone = pytz.timezone('UTC')
     to_zone = pytz.timezone('Asia/Kolkata')
@@ -1038,9 +1038,13 @@ def utc_to_ist(local):
     utc = utc.replace(tzinfo=from_zone)
 
     # Convert time zone
-    return utc.astimezone(to_zone).strftime("%Y-%m-%d %H:%M:%S")
+    if native_format:
+        return utc.astimezone(to_zone).strftime("%d/%m/%Y, %I:%M:%S:%p")
+    else:
+        return utc.astimezone(to_zone).strftime("%Y-%m-%d %H:%M:%S")
 
-def make_query(stmt):
+
+def make_query(stmt,native_format=False):
     cursor = connection.cursor() 
     try:
         cursor.execute(stmt)
@@ -1061,7 +1065,7 @@ def make_query(stmt):
             for value in val:
                 orig_val=unescape(str(value))
                 if re.search("^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}(.\d{1,6})?$",orig_val):
-                    orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val).group(0))
+                    orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val).group(0),native_format)
                 list1.update(OrderedDict({cursor.description[c][0]: orig_val}))
                 c+=1
             mylist.append(list1)
@@ -2657,7 +2661,7 @@ def get_all_exam_status(uid):
     
     '''.format(uid)
     # print(stmt)
-    return make_query(stmt)
+    return make_query(stmt,True)
 
 @csrf_exempt
 def all_exam_status(request): 

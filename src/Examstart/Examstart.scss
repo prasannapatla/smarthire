@@ -53,8 +53,8 @@
 
 	#logout {
 		position: absolute;
-		top: 2%;
-		right: 1%;
+		top: 10px;
+		right: 10px;
 		border: none;
 		outline: none;
 		width: 150px;
@@ -71,13 +71,13 @@
 	.content {
 		background-color: #FFFFFF;
 		text-align: center;
-		position: absolute;
-		width: 950px;
+		position: relative;
+		width: 1000px;
 		height: 500px;
 		display: table;
-		margin-left: 150px;
+		margin-left: auto;
+		margin-right: auto;
 		margin-top: 25px;
-		// box-shadow: 0 5px 5px -6px;
 		border-radius: 10px !important;
 		margin-bottom: 30px;
 		box-shadow:
@@ -116,21 +116,35 @@
 		text-align: left;
 	}
 
-	.mcq {
-		float: left;
-		width: 400px;
-		margin-left: 20px;
-		margin-bottom: 10px;
-		padding: 10px;
+	.quesec {
+		padding-top: 25px;
+		padding-bottom: 15px;
+
+		.col {
+			align-items: center;
+
+			p {
+				margin: auto;
+				text-align: justify;
+			}
+		}
 	}
 
-	.coding {
-		float: left;
-		width: 400px;
-		margin-right: 45px;
-		margin-bottom: 10px;
-		padding: 10px;
-	}
+	// .mcq {
+	// 	float: left;
+	// 	width: 400px;
+	// 	margin-left: 20px;
+	// 	margin-bottom: 10px;
+	// 	padding: 10px;
+	// }
+
+	// .coding {
+	// 	float: left;
+	// 	width: 400px;
+	// 	margin-right: 45px;
+	// 	margin-bottom: 10px;
+	// 	padding: 10px;
+	// }
 
 	.start {
 		font-size: 25px;
