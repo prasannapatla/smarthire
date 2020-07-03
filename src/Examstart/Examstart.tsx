@@ -62,7 +62,7 @@ class Examstart extends Myservice {
     }
     if (Number(json_resp[0].status_code) == 3) {
       $(".coding").hide()
-      $(".mcq").hide()
+      $(".mcq,#title").hide()
       let text = `
           <h1>Thank you</h1>      
       `
