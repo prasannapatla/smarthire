@@ -12,3 +12,4 @@ echo ${py_ver:7:sub_str_len}
 # echo ${py_ver:7:3}
 
 sudo pip3 install -r requirment.txt --target="./smarthire/myenv/lib/python${py_ver:7:3}/site-packages/"
+mkdir ./uploads
