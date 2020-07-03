@@ -31,7 +31,7 @@ from .serializers import UsersSerializer
 from django.db import connection
 import random
 import json
-import re,os
+import re,os,sys
 import datetime,time,pytz,psutil
 # from dateutil import tz
 from django.utils.dateparse import parse_datetime
@@ -142,17 +142,21 @@ def view_admin(request):
 @csrf_exempt
 def remove_admin(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
-        if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())!=0:
+        if Admin_users.objects.filter(email=request.session["admin"],super_admin=True).count()!=0:
             try:
                 int_list=list(map(int,request.POST.get("ids").split(",")))
-                total_admin=len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())
-                admin_to_be_deleted=len(Admin_users.objects.filter(id__in=int_list,email=request.session["admin"],super_admin=True).values())
+                cur_user_listed=len(Admin_users.objects.filter(id__in=int_list,email=request.session["admin"],super_admin=True).values())
+                if cur_user_listed!=0:
+                    return HttpResponse("error&sep;You can't delete same account you have logged in",content_type="text")
+                total_admin=len(Admin_users.objects.filter(super_admin=True).values())
+                admin_to_be_deleted=len(Admin_users.objects.filter(id__in=int_list,super_admin=True).values())
                 if total_admin-admin_to_be_deleted==0:
                     return HttpResponse("error&sep;Not allowed to delete all the admins",content_type="text")
                 Admin_users.objects.filter(id__in=int_list).delete()
                 return HttpResponse("success&sep;User Deleted Successfully",content_type="text")
             except Exception as e:
-                print(str(e))
+                print("remove_admin",str(e))
+                print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
                 return HttpResponse("error&sep;Failed to delete user",content_type="text")
         else:
             return HttpResponse("error&sep;You are not permitted to this operation",content_type="text")
@@ -244,6 +248,17 @@ def user_signup(request):
 def user_login(request):
     request.session["logged_in"]=None
     if request.method == 'POST' and 'email' in request.POST and 'password' in request.POST: 
+        try:
+            if Admin_users.objects.filter(super_admin=True).count()<=0:
+                email="admin@terralogic.com"
+                admin=Admin_users()
+                admin.name="Admin"
+                admin.email=email
+                admin.password=do_enc(email,"terralogic")
+                admin.super_admin=True
+                admin.save()
+        except:
+            pass
         try:
             request.session.clear()
             email_id=request.POST.get("email").strip().lower()
