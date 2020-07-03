@@ -345,10 +345,7 @@ button {
 }
 
 @media only screen and (max-width: 1200px) {
-  .Admin_menu {
-    width: 100% !important;
-    height: 0;
-  }
+ 
   .content {
     width: 93.33%;
     margin-left: auto;

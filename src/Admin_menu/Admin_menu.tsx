@@ -11,6 +11,9 @@ class Admin_menu extends Myservice {
         super(props);
     }
 
+
+   
+
     componentDidMount() {
         if (localStorage.getItem("selectedPage") == null)
             localStorage.setItem("selectedPage", $("li:first").text())
@@ -35,6 +38,24 @@ class Admin_menu extends Myservice {
 
     guru() {
         swal("hi", "")
+    }
+
+    toggleMenu=()=>{
+        if($(".Admin_menu .menu_list ul").css("display")=="none"){
+            $(".menu_list").css({"height": ($(".menu_list ul").height()+100)+"px"});
+            // $(".Admin_menu").animate({height:$(".menu_list").height()+"px"},1000);
+            $(".Admin_menu .menu_list ul").css({"display": "block"});
+            $(".Admin_menu").css({"height": "100%"});
+            $(".Admin_menu .menu_list ul").animate({"opacity": "1"},1000);
+        }
+        else{
+            $(".Admin_menu .menu_list ul").animate({"opacity": "0"},1000,function(){
+                $(".Admin_menu .menu_list ul").css({"display": "none"});
+            });
+            $(".Admin_menu").css({"height": "122px"});
+           $(".menu_list").css({"height": "122px"});
+        }
+       
     }
 
     render() {

@@ -1,6 +1,7 @@
 .Admin_menu {
     width: 270px;
     background-color: #72789C;
+    transition: ease-in 1s height;
 
     .menu_list {
         position: fixed;
@@ -9,14 +10,42 @@
         background-color: #fafafa;
         width: 270px;
         background-color: #72789C;
+        transition: ease-in 1s height;
+
+        .menuIcon{
+            display: none;
+        }
     }
 
     @media only screen and (max-width: 1200px) {
 
+        width: 100% !important;
+        height: 122px;
+        z-index:200;
+
         .menu_list {
-            // position: relative;
+            position: absolute;
             width: 100% !important;
             height: 0;
+            height: 122px;
+            .adm{
+                width: max-content;
+                float: left;
+            }
+            ul{
+                display: none;
+                opacity: 0;
+                top: 0;
+            }
+
+            .menuIcon{
+                display: block;
+                float: right;
+                color: white;
+                font-size: 25px;
+                margin: 20px;
+                margin-top:0;
+            }
         }
     }
 

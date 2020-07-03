@@ -14,10 +14,10 @@ var page = function (_this: any) {
     let orig_json = _this.state.orig_json
     for (let row in orig_json) {
         let temp = [{
-            x:"Passed", value: orig_json[row].correct, normal:  {
+            x:"Correct", value: orig_json[row].correct, normal:  {
                 fill: "#1bc11b"       
             }},
-            {x:"Failed", value: orig_json[row].wrong, normal:  {
+            {x:"Wrong", value: orig_json[row].wrong, normal:  {
                 fill: "#ff1f1f"       
             },
         }]

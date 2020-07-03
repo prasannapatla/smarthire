@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import terraLogo from "../assets/Terralogic_Logo.png"
 import { FaClock ,FaFileCode,FaUser,FaTelegramPlane,FaPowerOff} from 'react-icons/fa';
-import {AiFillCode } from 'react-icons/ai';
+import {AiFillCode,AiOutlineMenu } from 'react-icons/ai';
 import {TiGroup } from 'react-icons/ti';
 import { IoIosPaper,IoIosJournal } from "react-icons/io";
 
@@ -14,6 +14,7 @@ var page = function (_this: any) {
                 <div className="adm" style={{ textAlign: "center" }}>
                     <Link to='https://www.terralogic.com'><img src={terraLogo} className="avatar" /><br /></Link>
                 </div>
+                <div className="menuIcon"><AiOutlineMenu onClick={_this.toggleMenu}/></div>
                 <br/>
                 <ul>
                     <li><Link to='/admin_view_result'><IoIosPaper/>&nbsp;&nbsp;&nbsp;View Results</Link></li>
