@@ -571,7 +571,7 @@ def get_questions(request):
                             ON sq.cat_id = ct.id
             '''
           
-            return HttpResponse(make_query(stmt),content_type="text")
+            return HttpResponse(make_query(stmt,apply_unescape=False,apply_escape=False),content_type="text")
         elif(('type' in request.POST) and request.POST.get("type")=="exam"):
             stmt='''
             SELECT 
@@ -585,7 +585,7 @@ def get_questions(request):
             '''
 
           
-            return HttpResponse(make_query(stmt),content_type="text")
+            return HttpResponse(make_query(stmt,apply_unescape=False,apply_escape=False),content_type="text")
         else:
             stmt='''
             SELECT 
@@ -596,7 +596,7 @@ def get_questions(request):
                     WHERE ct.id=\''''+request.POST.get("id")+'''\'
             '''
           
-            return HttpResponse(make_query(stmt),content_type="text")
+            return HttpResponse(make_query(stmt,apply_unescape=False,apply_escape=False),content_type="text")
             # return HttpResponse(json.dumps([dict(item) for item in Questions.objects.filter(cat_id=request.POST.get("id")).values( 'question','id','opt1','opt2','opt3','opt4','ans')]),content_type="text")
     else:
         return HttpResponse("Invalid req",content_type="text")
@@ -758,7 +758,7 @@ def ver_q(request):
         exam_id=quetion_sent_arr[len(quetion_sent_arr)-1]
         #from stored values in session
         #print(str(quetion_sent_arr)+"\n")
-        print("In the DB")
+        print("In the DB/Correct answer")
         print("id="+quetion_sent_arr[0]+","+"ans="+quetion_sent_arr[len(quetion_sent_arr)-2]+"\n")
 
         if ("score" not in request.session):
@@ -770,12 +770,15 @@ def ver_q(request):
             # print("UPDATE smart_result_set: "+str(cursor.rowcount)+"\n")
 
             user_id=str(Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"])
-            Result_set.objects.filter(user_id=user_id,que_id=str(qid),exam_id=exam_id).update(ans=str(ans),e_time=datetime.datetime.now().strftime("%H:%M:%S"),)
+            Result_set.objects.filter(user_id=user_id,que_id=str(qid),exam_id=exam_id).update(ans=escape(str(ans)),e_time=datetime.datetime.now().strftime("%H:%M:%S"),)
           
         except Exception as e:
             print(str(e))
 
         print("----Current score Before Match: "+str(request.session["score"]))
+
+
+        print("match cond--------- ",re.match("^"+re.escape(str(ans))+"$",quetion_sent_arr[len(quetion_sent_arr)-2]))
         if(re.match("^"+re.escape(str(ans))+"$",quetion_sent_arr[len(quetion_sent_arr)-2])):
             request.session["score"]+=1
             print("----Current score After Match:  "+str(request.session["score"]))
@@ -1047,7 +1050,7 @@ def utc_to_ist(local,native_format):
         return utc.astimezone(to_zone).strftime("%Y-%m-%d %H:%M:%S")
 
 
-def make_query(stmt,native_format=False):
+def make_query(stmt,native_format=False,apply_unescape=True,apply_escape=False):
     cursor = connection.cursor() 
     try:
         cursor.execute(stmt)
@@ -1066,7 +1069,12 @@ def make_query(stmt,native_format=False):
             c=0
             list1=OrderedDict()
             for value in val:
-                orig_val=unescape(str(value))
+                if apply_unescape:
+                    orig_val=unescape(str(value))
+                if apply_escape:
+                    orig_val=escape(str(value))
+                else:
+                    orig_val=str(value)
                 if re.search("^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}(.\d{1,6})?$",orig_val):
                     orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val).group(0),native_format)
                 list1.update(OrderedDict({cursor.description[c][0]: orig_val}))
@@ -2764,3 +2772,29 @@ class pgm {
     # out,pid=run_code("py3",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
     print("output...\n",out)
     return HttpResponse(out,content_type="text")
+
+
+@csrf_exempt
+def rebuild_que(request): 
+    if ("admin" in request.session) and (request.session["admin"]!=None):
+        que = Questions.objects.all().values()
+        txt=""
+        for q in que:
+            print(q["id"])
+            # txt+=str(q["id"])+" Q:"+str(Questions.objects.filter(id=q["id"]).update(question="<div>"+unescape(q["question"][5:len(q["question"])-6])+"</div>"))
+            # txt+="\n"
+            txt+=str(q["id"])+" opt1:"+str(Questions.objects.filter(id=q["id"]).update(opt1=escape((q["opt1"]))))
+            txt+="\n"
+            txt+=str(q["id"])+" opt2:"+str(Questions.objects.filter(id=q["id"]).update(opt2=escape((q["opt2"]))))
+            txt+="\n"
+            txt+=str(q["id"])+" opt3:"+str(Questions.objects.filter(id=q["id"]).update(opt3=escape((q["opt3"]))))
+            txt+="\n"
+            txt+=str(q["id"])+" opt4:"+str(Questions.objects.filter(id=q["id"]).update(opt4=escape((q["opt4"]))))
+            txt+=str(q["id"])+" ans:"+str(Questions.objects.filter(id=q["id"]).update(ans=escape((q["ans"]))))
+            txt+="\n"
+            # txt+="\n\n"
+        print(txt)
+        return HttpResponse(txt,content_type="text/html")
+
+    else:
+        return HttpResponse("Only allowed to admin \n",content_type="text")
