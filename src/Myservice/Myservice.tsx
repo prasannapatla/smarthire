@@ -112,7 +112,7 @@ class Myservice extends React.Component {
                }
                return myXhr;
             },
-            success: function (data: any, ) {
+            success: function (data: any,) {
                callback(data, context)
             },
             error: function (err: any) {
@@ -171,8 +171,8 @@ class Myservice extends React.Component {
       $('html, body').animate({
          scrollTop: 0
       }, {
-            duration: 150
-         })
+         duration: 150
+      })
       $("body").append("<div className='screenshot' style='display:none' id='screenshot'></div>")
       //@ts-ignore
       html2canvas(document.querySelector(selecter)).then(canvas => {
@@ -268,49 +268,196 @@ class Myservice extends React.Component {
 
 
 
-   capture_html = (selector:any,quality:any=1) => new Promise((resolve) => {
-      console.log("selector", $(selector).outerWidth(), $(selector).outerHeight())
+   copyCSS = (elem: any, origElem: any) => {
 
-      domtoimage.toPng($(selector)[0]).then(async function (dataUrl:any) {
+      var supportsCSSText = getComputedStyle(document.body).cssText !== "";
+      var computedStyle = getComputedStyle(origElem);
 
-         //  let svgString = dataUrl.replace("data:image/svg+xml;charset=utf-8,", "")
-         //  let base64_svg = "data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svgString)))
-         //  var img = new Image();
-         //  var canvas = document.createElement("canvas")
-         //  canvas.style.display = "none"
-         //  canvas.width = $(selector).outerWidth()
-         //  canvas.height = $(selector).outerHeight()
-         //  img.src = base64_svg;
-         //  await new Promise((resolve) => {
-         //      img.onload = function () {
-         //          // draw the image onto the canvas
-         //          let cttx=canvas.getContext('2d')
-         //          if(cttx){
-         //             cttx.scale(quality,quality);
-         //             cttx.drawImage(img, 0, 0);
-         //          }
-         //          console.log("SVG->PNG")
-         //          resolve()
-         //      }
-         //  })
-         //  let url = canvas.toDataURL("image/png",quality)
-         //  canvas.remove()
-          resolve(dataUrl)
+      if (supportsCSSText) {
+         elem.style.cssText = computedStyle.cssText;
 
-      }).catch(function (error:any) {
-          console.error('oops, something went wrong!', error);
-          $("html, body").animate({ scrollTop: $(selector).offset().top }, 0, function () {
-              $(selector).focus()
-              setTimeout(() => {
-                  html2canvas($(selector)[0], { logging: true, useCORS: true, foreignObjectRendering: true }).then(canvas => {
-                      let img = canvas.toDataURL("img/png",quality)
-                      resolve(canvas)
-                  });
-              }, 100);
-              // imagify($(selector),(base64)=>{ resolve(base64)})
-          })
+      } else {
+         for (var prop in computedStyle) {
+            if (isNaN(parseInt(prop, 10)) && typeof computedStyle[prop] !== 'function' && !(/^(cssText|length|parentRule)$/).test(prop)) {
+               elem.style[prop] = computedStyle[prop];
+            }
+         }
+      }
+
+   }
+
+
+   inlineStyles = (elem: any, origElem: any) => {
+
+      var children = elem.querySelectorAll('*');
+      var origChildren = origElem.querySelectorAll('*');
+
+      // copy the current style to the clone
+      this.copyCSS(elem, origElem);
+
+      // collect all nodes within the element, copy the current style to the clone
+      let ctx = this
+      Array.prototype.forEach.call(children, function (child, i) {
+         ctx.copyCSS(child, origChildren[i]);
       });
-  })
+
+      // strip margins from the outer element
+      elem.style.margin = elem.style.marginLeft = elem.style.marginTop = elem.style.marginBottom = elem.style.marginRight = '';
+
+   }
+
+
+   capture_html = (selector: any, quality: any = 1) => new Promise((resolve) => {
+
+      let origElem = document.querySelector(selector)
+      let ctx = this
+
+      var elem = origElem.cloneNode(true);
+
+      var canvas_set = elem.querySelectorAll("canvas");
+
+      canvas_set.forEach((canvas: any) => {
+         let canvas_to_img_base64 = canvas.toDataURL("image/png")
+
+         const replace_canvas_with_img = document.createElement('img');
+         replace_canvas_with_img.src = canvas_to_img_base64
+         canvas.parentNode.replaceChild(replace_canvas_with_img, canvas);
+      });
+
+
+      var svg_set = elem.querySelectorAll("svg");
+      console.log(svg_set)
+
+      svg_set.forEach(async (svg: any) => {
+         let svg_to_img_base64 = await ctx.svg_to_png(svg.cloneNode(true))
+         console.log("svg_to_img_base64",svg_to_img_base64)
+         const replace_svg_with_img = document.createElement('img');
+         replace_svg_with_img.src = svg_to_img_base64
+         //Because i got a probleom in anychart
+         svg.parentNode.appendChild(replace_svg_with_img)
+         // svg.parentNode.replaceChild(replace_svg_with_img, svg);         
+      });
+
+
+      // inline all CSS (ugh..)
+      this.inlineStyles(elem, origElem);
+
+      // unfortunately, SVG can only eat well formed XHTML
+      elem.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
+
+      // serialize the DOM node to a String
+      var serialized = new XMLSerializer().serializeToString(elem);
+
+      // Create well formed data URL with our DOM string wrapped in SVG
+      var dataUri = "data:image/svg+xml," +
+         "<svg xmlns='http://www.w3.org/2000/svg' width='" + (origElem.offsetWidth) + "' height='" + ((origElem.offsetHeight)) + "'>" +
+         "<foreignObject width='100%' height='100%' >" +
+         serialized +
+         "</foreignObject>" +
+         "</svg>";
+
+      // // create new, actual image
+      // var img = new Image();
+      // img.crossOrigin = "anonymous";
+      // img.src = dataUri;
+      // img.onload = () => {
+      //    alert(dataUri)
+      //    var canvas = document.createElement("canvas")
+      //    canvas.style.display = "none"
+      //    // canvas.width = $(selector).outerWidth()
+      //    // canvas.height = $(selector).outerHeight()
+      //    canvas.width = img.width
+      //    canvas.height = img.height
+      //    let cttx = canvas.getContext('2d')
+      //    if (cttx) {
+      //       cttx.scale(quality, quality);
+      //       cttx.drawImage(img, 0, 0,img.width,img.height);
+      //    }
+      //    let base64=canvas.toDataURL("image/png", quality)
+      //    canvas.remove()
+      //    resolve(base64)
+      // }
+
+
+      let svg = "<svg xmlns='http://www.w3.org/2000/svg' width='" + (origElem.offsetWidth) + "' height='" + ((origElem.offsetHeight)) + "'>" +
+         "<foreignObject width='100%' height='100%' >" +
+         serialized +
+         "</foreignObject>" +
+         "</svg>";
+
+
+
+      ctx.svg_to_png(svg).then(base64 => resolve(base64))
+
+   })
+
+
+   utf8_to_b64(str: string) {
+      return window.btoa(unescape(encodeURIComponent(str)));
+   }
+
+   colorToRGBA=(color:string)=>{
+      var cvs, ctx;
+      cvs = document.createElement('canvas');
+      cvs.height = 1;
+      cvs.width = 1;
+      ctx = cvs.getContext('2d');
+      if(ctx){  // let data = context.getImageData(0, 0, w, h);
+         // var compositeOperation = context.globalCompositeOperation;
+         // context.globalCompositeOperation = "destination-over";   
+         // context.fillStyle = '#fff'; 
+         // context.fillRect(0, 0, w, h);
+         // context.putImageData(data, 0, 0);
+         return ctx.getImageData(0, 0, 1, 1).data;
+      }
+      else
+         return color
+  }
+
+  change_bg_of_transparent=(imgData:any)=>{
+
+  }
+
+
+   async svg_to_png(svgString: string) {
+      let base64_svg = "data:image/svg+xml;base64," + this.utf8_to_b64(svgString)
+      // console.log(base64_svg)
+      var img = new Image();
+      img.crossOrigin = "anonymous";
+      var canvas = document.createElement("canvas")
+      canvas.style.display = "none"
+      // canvas.style.backgroundColor="white"
+      img.src = base64_svg;
+
+      await new Promise((resolve) => {
+         img.onload = function () {
+            let w = img.width
+            let h = img.height
+            canvas.width = w
+            canvas.height = h
+            // set to draw behind current content
+            let context = canvas.getContext("2d");
+            
+            if(context){
+               context.drawImage(img, 0, 0, w, h);
+               // let data = context.getImageData(0, 0, w, h);
+               // var compositeOperation = context.globalCompositeOperation;
+               // context.globalCompositeOperation = "destination-over";   
+               // context.fillStyle = '#fff'; 
+               // context.fillRect(0, 0, w, h);
+               // context.putImageData(data, 0, 0);
+               // context.globalCompositeOperation = compositeOperation;
+
+            }
+            resolve()
+         }
+      })
+
+      let url = canvas.toDataURL("image/png")
+      canvas.remove()
+
+      return url
+   }
 
 
 

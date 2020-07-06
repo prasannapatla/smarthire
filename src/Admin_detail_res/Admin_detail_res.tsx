@@ -44,6 +44,8 @@ class Admin_detail_res extends Myservice {
     return params
   }
 
+  print_timeout:any = null
+
   componentDidMount() {
     if (typeof this.params[0] === 'undefined')
       $(".sect").css({ 'display': 'block' })
@@ -58,26 +60,37 @@ class Admin_detail_res extends Myservice {
         this.load_res(this.params[0]);
     }
     this.myfilter();
-    let ctx=this
-    $(document).ready(async function () {
-      //@ts-ignore
-      // html2canvas(document.querySelector(".content")).then(canvas => {
-      //   $("#screenshot").eq(0).html(canvas)
-      //   var download = $("#download")[0];
-      //   var image = $("#screenshot canvas")[0].toDataURL("image/png")
-      //     .replace("image/png", "image/octet-stream");
-      //   download.setAttribute("href", image);
-      // });
+    let ctx = this
+    $(document).ready(function () {
+      $("#download").css({color:"red"})
+      ctx.print_timeout = setTimeout(async () => {
+        var download = $("#download")[0];
+        // let base64 = await ctx.capture_html(".content")
+        // // alert(base64)
+        // download.setAttribute("href", base64);
+        // download.setAttribute('download', "Result.png");
 
-      var download = $("#download")[0];
-      let base64=await ctx.capture_html($(".content"))
-      alert(base64)
-      download.setAttribute("href", base64);
-      download.setAttribute('download', "Result.png");
+        // @ts-ignore
+      html2canvas(document.querySelector(".content"),{useCORS:true}).then(canvas => {
+        $("#screenshot").eq(0).html(canvas)
+        var download = $("#download")[0];
+        var image = $("#screenshot canvas")[0].toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+        download.setAttribute("href", image);
+        $("#download").css({color:"green"})
+      });
+
+
+      }, 4000);
 
 
     })
     super.componentDidMount();
+  }
+
+  componentWillUnmount() {
+    if (this.print_timeout)
+      clearTimeout(this.print_timeout)
   }
 
   componentDidUpdate() {
@@ -262,7 +275,7 @@ class Admin_detail_res extends Myservice {
         if (val2 == "Questions")
           txt += "</tr><tr><td colspan='4' style='overflow-wrap:break-word;border:none;'><b>Q." + (count++) + " </b>" + json_obj[val1][val2] + "</td></tr><tr>";
         else if (val2 == "Correct Answer")
-          txt += "</tr><tr><td colSpan={2} style='overflow-wrap:break-word;border:none;'><b>Correct Answer: </b>" + json_obj[val1][val2] + "</td><td colspan='2';style='overflow-wrap:break-word;border:none;'><b>Submitted Answer: </b>" + json_obj[val1]["Submitted Answer"] + "</td></tr><tr>";
+          txt += "</tr><tr><td colSpan={2} style='overflow-wrap:break-word;border:none;'><b>Correct Answer: </b>" + json_obj[val1][val2] + "</td><td colspan='2'style='overflow-wrap:break-word;border:none;'><b>Submitted Answer: </b>" + json_obj[val1]["Submitted Answer"] + "</td></tr><tr>";
         else if (val2 == "Submitted Answer")
           continue;
         else if (val2 == "Result")
@@ -334,7 +347,7 @@ class Admin_detail_res extends Myservice {
         if (val2 == "User code")
           txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'><pre>" + json_obj[val1][val2] + "</pre></td>";
         else if (val2 == "Duration(Mins)")
-          txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>" + Math.floor(json_obj[val1][val2] / 60)+"Min "+json_obj[val1][val2]%60 + "Secs</td>";
+          txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>" + Math.floor(json_obj[val1][val2] / 60) + "Min " + json_obj[val1][val2] % 60 + "Secs</td>";
         else
           txt += "<td style='maxWidth: 100px;overflowWrap:break-word;'>" + json_obj[val1][val2] + "</td>";
       txt += "</tr></tbody>";
