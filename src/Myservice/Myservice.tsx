@@ -6,6 +6,7 @@ var $ = require("jquery");
 import html2canvas from "html2canvas"
 var swal = require("sweetalert");
 var Swal = require("sweetalert2");
+var domtoimage = require("dom-to-image")
 
 class Myservice extends React.Component {
 
@@ -264,6 +265,57 @@ class Myservice extends React.Component {
          title: msg
       })
    }
+
+
+
+   capture_html = (selector:any,quality:any=1) => new Promise((resolve) => {
+      console.log("selector", $(selector).outerWidth(), $(selector).outerHeight())
+
+      domtoimage.toPng($(selector)[0]).then(async function (dataUrl:any) {
+
+         //  let svgString = dataUrl.replace("data:image/svg+xml;charset=utf-8,", "")
+         //  let base64_svg = "data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svgString)))
+         //  var img = new Image();
+         //  var canvas = document.createElement("canvas")
+         //  canvas.style.display = "none"
+         //  canvas.width = $(selector).outerWidth()
+         //  canvas.height = $(selector).outerHeight()
+         //  img.src = base64_svg;
+         //  await new Promise((resolve) => {
+         //      img.onload = function () {
+         //          // draw the image onto the canvas
+         //          let cttx=canvas.getContext('2d')
+         //          if(cttx){
+         //             cttx.scale(quality,quality);
+         //             cttx.drawImage(img, 0, 0);
+         //          }
+         //          console.log("SVG->PNG")
+         //          resolve()
+         //      }
+         //  })
+         //  let url = canvas.toDataURL("image/png",quality)
+         //  canvas.remove()
+          resolve(dataUrl)
+
+      }).catch(function (error:any) {
+          console.error('oops, something went wrong!', error);
+          $("html, body").animate({ scrollTop: $(selector).offset().top }, 0, function () {
+              $(selector).focus()
+              setTimeout(() => {
+                  html2canvas($(selector)[0], { logging: true, useCORS: true, foreignObjectRendering: true }).then(canvas => {
+                      let img = canvas.toDataURL("img/png",quality)
+                      resolve(canvas)
+                  });
+              }, 100);
+              // imagify($(selector),(base64)=>{ resolve(base64)})
+          })
+      });
+  })
+
+
+
+
+
 }
 
 

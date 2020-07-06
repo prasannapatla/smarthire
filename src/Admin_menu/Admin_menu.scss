@@ -1,5 +1,6 @@
 .Admin_menu {
     width: 270px;
+    height: 100%;
     background-color: #72789C;
     transition: ease-in 1s height;
 
@@ -9,6 +10,7 @@
         line-height: 50px;
         background-color: #fafafa;
         width: 270px;
+        height: 100%;
         background-color: #72789C;
         transition: ease-in 1s height;
 
@@ -24,6 +26,7 @@
         z-index:200;
 
         .menu_list {
+            width: 100% !important;
             position: absolute;
             width: 100% !important;
             height: 0;

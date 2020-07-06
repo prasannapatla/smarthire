@@ -46,11 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-<<<<<<< HEAD
-VIRTUAL_ENV='/home/terralogic/Desktop/smarthire-coding/smarthire/myenv'
-=======
-VIRTUAL_ENV="/home/horntail/Desktop/SmartHire/smarthire-coding/smarthire/myenv"
->>>>>>> caa0317161ff0b20cf273bd96b7e9382158998e8
+VIRTUAL_ENV='/media/guruprasad/Files/Office/workspace/smarthire-coding/smarthire/myenv'
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

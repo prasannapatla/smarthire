@@ -13,6 +13,7 @@ var page = function (_this: any) {
                 <div className="row">
                     <Admin_menu />
                     <div className="col-sm-9 content">
+                        {/* <div className="data"> */}
                         {/* <Banner /> */}
                         <div className='page_header'>
                             <p className='que_text'>
@@ -36,6 +37,7 @@ var page = function (_this: any) {
                             </div>
                             <a id="button"><TiArrowUpThick className="backTop" /></a>
                         </div>
+                        {/* </div> */}
                     </div>
                 </div>
             </div>

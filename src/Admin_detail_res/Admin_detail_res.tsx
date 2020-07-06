@@ -58,15 +58,24 @@ class Admin_detail_res extends Myservice {
         this.load_res(this.params[0]);
     }
     this.myfilter();
-    $(document).ready(function () {
+    let ctx=this
+    $(document).ready(async function () {
       //@ts-ignore
-      html2canvas(document.querySelector(".content")).then(canvas => {
-        $("#screenshot").eq(0).html(canvas)
-        var download = $("#download")[0];
-        var image = $("#screenshot canvas")[0].toDataURL("image/png")
-          .replace("image/png", "image/octet-stream");
-        download.setAttribute("href", image);
-      });
+      // html2canvas(document.querySelector(".content")).then(canvas => {
+      //   $("#screenshot").eq(0).html(canvas)
+      //   var download = $("#download")[0];
+      //   var image = $("#screenshot canvas")[0].toDataURL("image/png")
+      //     .replace("image/png", "image/octet-stream");
+      //   download.setAttribute("href", image);
+      // });
+
+      var download = $("#download")[0];
+      let base64=await ctx.capture_html($(".content"))
+      alert(base64)
+      download.setAttribute("href", base64);
+      download.setAttribute('download', "Result.png");
+
+
     })
     super.componentDidMount();
   }

@@ -17,6 +17,7 @@
     "anychart-react": "^1.4.1",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.2",
+    "dom-to-image": "^2.6.0",
     "fork-ts-checker-webpack-plugin": "^1.5.1",
     "fs": "0.0.1-security",
     "history": "^4.10.1",
