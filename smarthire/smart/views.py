@@ -765,7 +765,7 @@ def ver_q(request):
             request.session["score"]=0   
         try:
             cursor = connection.cursor()
-            stmt="UPDATE smart_result_set SET ans = \'"+escape(str(ans))+"\',e_time=\'"+datetime.datetime.now().strftime("%H:%M:%S")+"\' WHERE user_id=\'"+str(Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"])+"\' and  que_id=\'"+str(qid)+"\' and exam_id=\'"+exam_id+"\' ;"
+            stmt="UPDATE smart_result_set SET ans = \'"+str(ans)+"\',e_time=\'"+datetime.datetime.now().strftime("%H:%M:%S")+"\' WHERE user_id=\'"+str(Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"])+"\' and  que_id=\'"+str(qid)+"\' and exam_id=\'"+exam_id+"\' ;"
           
             cursor.execute(stmt)
             print("UPDATE smart_result_set: "+str(cursor.rowcount)+"\n")
