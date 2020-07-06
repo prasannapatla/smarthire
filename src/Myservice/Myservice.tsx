@@ -6,7 +6,6 @@ var $ = require("jquery");
 import html2canvas from "html2canvas"
 var swal = require("sweetalert");
 var Swal = require("sweetalert2");
-var domtoimage = require("dom-to-image")
 
 class Myservice extends React.Component {
 
