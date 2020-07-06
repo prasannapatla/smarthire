@@ -15,10 +15,10 @@ var page = function (_this: any) {
     for (let row in orig_json) {
         let temp = [{
             x:"Correct", value: orig_json[row].correct, normal:  {
-                fill: "#1bc11b"       
+                fill: "#53C359"       
             }},
             {x:"Wrong", value: orig_json[row].wrong, normal:  {
-                fill: "#ff1f1f"       
+                fill: "#ff4d4d"       
             },
         }]
         pi_grap_str.push(<span><AnyChart
