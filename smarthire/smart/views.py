@@ -765,10 +765,13 @@ def ver_q(request):
             request.session["score"]=0   
         try:
             cursor = connection.cursor()
-            stmt="UPDATE smart_result_set SET ans = \'"+str(ans)+"\',e_time=\'"+datetime.datetime.now().strftime("%H:%M:%S")+"\' WHERE user_id=\'"+str(Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"])+"\' and  que_id=\'"+str(qid)+"\' and exam_id=\'"+exam_id+"\' ;"
+            # stmt="UPDATE smart_result_set SET ans = \'"+str(ans)+"\',e_time=\'"+datetime.datetime.now().strftime("%H:%M:%S")+"\' WHERE user_id=\'"+str(Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"])+"\' and  que_id=\'"+str(qid)+"\' and exam_id=\'"+exam_id+"\' ;"
+            # cursor.execute(stmt)
+            # print("UPDATE smart_result_set: "+str(cursor.rowcount)+"\n")
+
+            user_id=str(Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"])
+            Result_set.objects.filter(user_id=user_id,que_id=str(qid),exam_id=exam_id).update(ans=str(ans),e_time=datetime.datetime.now().strftime("%H:%M:%S"),)
           
-            cursor.execute(stmt)
-            print("UPDATE smart_result_set: "+str(cursor.rowcount)+"\n")
         except Exception as e:
             print(str(e))
 
@@ -1137,7 +1140,7 @@ def view_det_res(request):
         fields_dict["correct"]="q.ans AS 'Correct Answers'"
         fields_dict["submitted"]="IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted'"
         fields_dict["duration"]=""" ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration'"""
-        fields_dict["valid"]="IF(q.ans=rs.ans,1,0) AS 'Result'"
+        fields_dict["valid"]="IF(BINARY q.ans=rs.ans,1,0) AS 'Result'"
 
         fields_dict["totalduration"]="""SUM(IF(rs.s_time - rs.e_time < rs.s_time,
                 Round(Abs(rs.s_time - rs.e_time), 0), '-')) AS 'Total Duration'"""
@@ -1316,7 +1319,7 @@ def view_det_res(request):
         stmt+=" "+groups_by+" "
         stmt+=" "+having+" "
         stmt+=" "+orders_by+" "
-        stmt+=" ;"
+        stmt+=";"
         print("\n"+stmt+"\n")
 
         return HttpResponse(make_query(stmt),content_type="text")
@@ -1404,11 +1407,11 @@ def view_graph(request):
         fields_dict["correct"]="s_que.ans AS 'Correct Answers'"
         fields_dict["submitted"]="IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted'"
         fields_dict["duration"]=""" ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration'"""
-        fields_dict["valid"]="IF(s_que.ans=rs.ans,1,0) AS 'Result'"
+        fields_dict["valid"]="IF(BINARY s_que.ans=rs.ans,1,0) AS 'Result'"
 
         fields_dict["totalduration"]="""SUM(IF(rs.s_time - rs.e_time < rs.s_time,
                 Round(Abs(rs.s_time - rs.e_time), 0), '-')) AS 'Total Duration'"""
-        fields_dict["totalvalid"]="SUM(IF(s_que.ans=rs.ans,1,0)) AS 'Total Score'"
+        fields_dict["totalvalid"]="SUM(IF(BINARY s_que.ans=rs.ans,1,0)) AS 'Total Score'"
         fields_dict["date"]="rs.date_f AS 'Date'"
         fields_dict["category"]="s_cat.cat AS 'Category'"
         fields_dict["score"]="IF(su.score >= 0, su.score, '-') AS score"
@@ -1468,8 +1471,8 @@ def view_graph(request):
         stmt='''
         SELECT 
             s_cat.cat as category,
- 			SUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
-            SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+ 			SUM(IF(BINARY s_que.ans=rs.ans,1,0)) AS 'correct',
+            SUM(IF(BINARY s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
             count(*) AS Total,
             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
             
