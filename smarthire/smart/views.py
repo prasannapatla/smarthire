@@ -1141,7 +1141,7 @@ def view_det_res(request):
 
         fields_dict["totalduration"]="""SUM(IF(rs.s_time - rs.e_time < rs.s_time,
                 Round(Abs(rs.s_time - rs.e_time), 0), '-')) AS 'Total Duration'"""
-        fields_dict["totalvalid"]="SUM(IF(q.ans=rs.ans,1,0)) AS 'Total Score'"
+        fields_dict["totalvalid"]="SUM(IF(BINARY q.ans=rs.ans,1,0)) AS 'Total Score'"
         fields_dict["date"]="rs.date_f AS 'Date'"
         fields_dict["category"]="ct.cat AS 'Category'"
         fields_dict["score"]="IF(su.score >= 0, su.score, '-') AS score"
@@ -1198,7 +1198,7 @@ def view_det_res(request):
             q.question AS Questions,
             q.ans AS  'Correct Answer',
             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
-            IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+            IF(BINARY q.ans =rs.ans,'Correct','Wrong') AS 'Result',
             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
             ct.cat AS Category
         """  
@@ -1316,7 +1316,7 @@ def view_det_res(request):
         stmt+=" "+groups_by+" "
         stmt+=" "+having+" "
         stmt+=" "+orders_by+" "
-        stmt+=";"
+        stmt+=" ;"
         print("\n"+stmt+"\n")
 
         return HttpResponse(make_query(stmt),content_type="text")
