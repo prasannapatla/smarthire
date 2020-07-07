@@ -12,6 +12,18 @@ class Admin_register extends Myservice {
     super(props);
   }
 
+  timeout: any = null
+  timeout2: any = null
+
+  componentWillUnmount() {
+    if (this.temp_interval)
+      clearInterval(this.temp_interval)
+    if (this.timeout)
+      clearTimeout(this.timeout)
+    if (this.timeout2)
+      clearTimeout(this.timeout2)
+  }
+
   componentDidMount() {
     const realFileBtn = document.getElementById("real-file");
     const customBtn = document.getElementById("custom-button");
@@ -41,9 +53,13 @@ class Admin_register extends Myservice {
 
     this.get_exam("cur_exam");
     this.get_exam("cur_exam2");
+    $(".register_progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
     // if (window.location.href.match(/(http:\/\/127.0.0.1|(http:\/\/localhost))/gi))
     this.get_sse();
     let context = this;
+    if (this.timeout != null)
+      clearTimeout(this.timeout)
+
     this.timeout = setTimeout(() => {
       context.get_email_status(15000)
     }, 1000);
@@ -109,7 +125,8 @@ class Admin_register extends Myservice {
   }
 
 
-  register_user() {
+  register_user(e:any) {
+    e.preventDefault()
 
     if ($(".remail").val().trim() == "" || $(".rname").val() == "") {
       swal("Fill all necessary field", "", "warning")
@@ -146,9 +163,11 @@ class Admin_register extends Myservice {
       $("input[type='number']").val("");
       $("input[type='tel']").val("");
       $("input").eq(0).focus();
-      setTimeout(async () => {
-        await _this.fetch_data("/server/email_status_in_db/", "POST")
-        _this.retrive_email_status();
+      if (_this.timeout2 != null)
+        clearTimeout(_this.timeout2)
+      _this.timeout2 = setTimeout(async () => {
+        _this.fetch_data("/server/email_status_in_db/", "POST")       
+        _this.retrive_email_status()
       }, 10);
     }
   }
@@ -233,7 +252,6 @@ class Admin_register extends Myservice {
     }
   }
 
-  timeout: any = null
   json_obj: any
 
   get_email_status(sec: any) {
