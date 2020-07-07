@@ -133,7 +133,7 @@ class Admin_list_que extends Myservice {
     $(".val td").css({ "max-width": "250px" })
     $("td div").css({ "display": "inline", " margin-left": "15px" })
     $("td").css({ "padding-left": "20px" })
-    $(".que_ind pre").css({ "padding-left": "20px" })
+    $(".que_ind pre").css({ "padding-left": "30px" })
     $(".options").css({ "color": "grey", "width": "200px" })
 
     $(".delete").hide()

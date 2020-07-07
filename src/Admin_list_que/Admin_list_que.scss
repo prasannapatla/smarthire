@@ -221,4 +221,13 @@
         border: solid 2px #E5277E;
         font-size: 15px;
     }
+
+    .result{
+        pre{
+            white-space: pre-wrap;
+            background-color: rgba(230, 230, 230,0.5);
+            border-radius: 10px;
+            padding:10px;
+        }
+    }
 }
