@@ -11,9 +11,9 @@ var page = function (_this: any) {
                 <h2 className='header'>Smarthire</h2>
             </div>
 
-            <div className="login-reg-panel">
+           {/* <div className="login-reg-panel"> */}
                 <div className="white-panel"><br />
-                    <a  href="https://www.terralogic.com/">
+                    <a href="https://www.terralogic.com/">
                         <img src={logo} alt="Terralogic" className="avatar" />
                     </a>
                     <form id="log_form" >
@@ -26,9 +26,8 @@ var page = function (_this: any) {
                         </div>
                     </form>
                 </div>
-            </div>
+            {/* </div> */}
         </div>
     )
 }
 export default page;
-    

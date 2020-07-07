@@ -3,6 +3,10 @@ import './Admin_view_result.scss';
 import page from './Admin_view_resultHtml'
 import Myservice from '../Myservice/Myservice'
 import { string } from 'prop-types';
+import exam from '../assets/exam.jpg'
+import date from '../assets/date.jpg'
+import clock from '../assets/clock.jpg'
+import totalTime from '../assets/totaltime.jpg'
 //import jsPDF from 'jspdf'
 declare const require: any;
 const jsPDF = require('jspdf');
@@ -15,7 +19,14 @@ class Admin_view_result extends Myservice {
   constructor(props: any) {
     super(props);
   }
-
+  state = {
+    images: {
+      Exam: exam,
+      "Total Marks": exam,
+      Date:date,
+      "Total Time(Mins)":totalTime      
+    }
+  }
   componentDidMount() {
     if (this.allow_admin())
       return;
@@ -49,6 +60,7 @@ class Admin_view_result extends Myservice {
       });
 
     });
+    
 
 
     $("select").eq(0).focus()
@@ -62,9 +74,9 @@ class Admin_view_result extends Myservice {
   load_res = (eid: any = null) => {
     let str = ""
     if (eid != null)
-      str = this.fetch_data("/server/view_res/", "POST", "exam=" + eid+"&max="+$(".intake").val())
+      str = this.fetch_data("/server/view_res/", "POST", "exam=" + eid + "&max=" + $(".intake").val())
     else
-      str = this.fetch_data("/server/view_res/", "POST","max="+$(".intake").val())
+      str = this.fetch_data("/server/view_res/", "POST", "max=" + $(".intake").val())
     let json_obj
     try {
 
@@ -73,31 +85,31 @@ class Admin_view_result extends Myservice {
       return
     }
     //alert(str+"\n"+json_obj[0])
-    let txt = "<thead><tr><th>Id</th><th>Email</th><th>Total Duration(Mins)</th><th>Score</th><th>Coding score</th><th>Feedback</th><th  class='no_display'>View Details</th><th  class='no_display'>Delete User Details</th></tr></thead><tbody>"
+    let txt = "<thead><tr><th  class='no_display' style='border-top: none;border-right: none;border-left: none;'><div class='check'><label class='container1' style='margin-left:15px'><input type='checkbox' class='sel_all' id='checkbox'/><span class='checkmark'></span></label></div><div class='checked'></div></th><th style='border-top: none;border-left: none;border-right: none;font-size: 12px;'>Id</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Email</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Total Duration(Mins)</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Score</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Coding score</th><th style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>Feedback</th><th  class='no_display' style='border-top: none;border-right: none;border-left: none;font-size: 12px;'>View Details</th></tr></thead><tbody>"
     let val1: any, val2: any
     for (val1 in json_obj) {
-      let dur:any = 0;
+      let dur: any = 0;
       if (json_obj[val1]["Total Duration"] != "None")
-        dur = Math.floor(json_obj[val1]["Total Duration"]/60)+"Min "+json_obj[val1]["Total Duration"]%60+" Secs"
+        dur = Math.floor(json_obj[val1]["Total Duration"] / 60) + "Min " + json_obj[val1]["Total Duration"] % 60 + " Secs"
       txt += "<tr>"
-      txt += "<td >" + json_obj[val1]["ID"] + "</td>"
-      txt += "<td >" + json_obj[val1]["Username"] + "</td>"
-      txt += "<td >" + dur + "</td>"
+      txt += "<td  class='no_display' style='border-top: none;border-right: none;border-left: none;font-size:12px' val='" + json_obj[val1]["ID"] + "'><label class='container1' style='margin-left:30px'><input type='checkbox' class='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /><span class='checkmark' style='left: 53px;'></span></label></td>"
+      txt += "<td style='font-size:12px'>" + json_obj[val1]["ID"] + "</td>"
+      txt += "<td style='font-size:12px'>" + json_obj[val1]["Username"] + "</td>"
+      txt += "<td style='font-size:12px'>" + dur + "</td>"
       if (json_obj[val1]["Score"] != -1)
-        txt += "<td >" + json_obj[val1]["Score"] + "</td>"
+        txt += "<td style='font-size:12px'>" + json_obj[val1]["Score"] + "</td>"
       else
-        txt += "<td>NA</td>"
+        txt += "<td style='font-size:12px'>NA</td>"
       if (json_obj[val1]["Score2"] != -1)
-        txt += "<td >" + json_obj[val1]["Score2"] + "</td>"
+        txt += "<td style='font-size:12px'>" + json_obj[val1]["Score2"] + "</td>"
       else
-        txt += "<td>NA</td>"
+        txt += "<td style='font-size:12px'>NA</td>"
 
-      txt += "<td >" + json_obj[val1]["Feedback"] + "/5</td>"
+      txt += "<td style='font-size:12px'>" + json_obj[val1]["Feedback"] + "/5</td>"
       if (json_obj[val1]["Score"] != -1 || json_obj[val1]["Score2"] != -1)
-        txt += "<td  class='no_display' className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a>View Detail</a></u></td>"
+        txt += "<td  class='no_display' style='font-size:12px' className='lnk' val='" + json_obj[val1]["ID"] + "'><u><a style='color:#E5277D'>View Detail</a></u></td>"
       else
-        txt += "<td  class='no_display'>No Details</td>"
-      txt += "<td  class='no_display' style={{text-align:'center'}} val='" + json_obj[val1]["ID"] + "'><input type='checkbox' className='del_user' name='del' value='" + json_obj[val1]["ID"] + "' /></td>"
+        txt += "<td  style='font-size:12px' class='no_display'>No Details</td>"
       txt += "</tr></tbody>"
     }
 
@@ -105,7 +117,7 @@ class Admin_view_result extends Myservice {
     var context = this
 
     $(".result tbody").find("tr").each(function (this: any) {
-      $(this).find("td").eq(6).on("click", function (this: any) {
+      $(this).find("td").eq(7).on("click", function (this: any) {
         if ($(this).text().match("View Detail"))
           window.open("#admin_detail_res/?id=" + $(this).attr("val"))
       });
@@ -115,7 +127,8 @@ class Admin_view_result extends Myservice {
     $(".del_user_btn_complete").on("click", function (this: any) {
       var ids: any = []
       del_user.each(function (this: any) {
-        let checkbox = $(this).find("td").eq(7).find("input")
+        // alert( $(this).find("td").eq(0).html())
+        let checkbox = $(this).find("td").eq(0).find("label").find("input")
         if (checkbox.prop("checked"))
           ids.push(checkbox.val())
       });
@@ -138,6 +151,27 @@ class Admin_view_result extends Myservice {
       context.fetch_data("/server/remove_user/", "POST", "ids=" + ids.join(",") + "&all=" + "false");
       context.load_res($('.exam :selected').val());
     });
+    $(".delete").css({ "visibility": "hidden" })
+    $("input[type='checkbox']").click(function () {
+      $(".delete").css({ "visibility": "hidden" })
+      $("input[type='checkbox']").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".delete").css({ "visibility": "visible" })
+      });
+    });
+    $(".sel_all").click(function (this: any) {
+      $('.del_user').each(function (this: any) {
+        if ($(this).prop('checked'))
+          $(this).prop('checked', false);
+        else
+          $(this).prop('checked', true);
+      });
+      $(".delete").css({ "visibility": "hidden" })
+      $("input[type='checkbox']").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".delete").css({ "visibility": "visible" })
+      });
+    });
 
   }
 
@@ -155,7 +189,7 @@ class Admin_view_result extends Myservice {
     }
     let val1: any, val2: any
     let txt = ""
-    // txt = "<option value=\"all\">All</option>"
+    txt = "<option value=\"exam type\">Select exam</option>"
     for (val1 in json_obj) {
       txt += "<option  value=\"" + json_obj[val1]["id"] + "\">"
       txt += json_obj[val1]["e_name"] + "</option>"
@@ -183,16 +217,22 @@ class Admin_view_result extends Myservice {
         "<br /><span className='error' style={{color:'red',padding:'15px',margin:'10px',fontSize: '30px'}}'>Syntax error!</span><br />&nbsp");
     }
     let json_obj = JSON.parse(str);
-    let txt = "<tr>";
-    for (var val in json_obj[0]) {
-      txt += "<th>" + val + "</th>";
-    }
-    txt += "</tr>";
+    let txt = "";
+    // let txt = "<tr>";
+    // for (var val in json_obj[0]) {
+    //   txt += "<th>" + val + "</th>";
+    // }
+    // txt += "</tr>";
     let val1: any, val2: any;
     for (val1 in json_obj) {
       txt += "<tr>";
+      // for (val2 in json_obj[val1]){
+      //   alert(val2)
+      //   txt += "<td style='max-width: 100px;overflow-wrap: break-word'>" + json_obj[val1][val2] + "</td>";
+      // }
       for (val2 in json_obj[val1])
-        txt += "<td style='max-width: 100px;overflow-wrap: break-word'>" + json_obj[val1][val2] + "</td>";
+        txt += "<td style='max-width: 100px;'><div class='Exam_info'><img src='"+this.state.images[val2]+"' class='image'/><div class='exam_info_text'><b style='font-size:12px'>" + json_obj[val1][val2] + "</b><br/><span style='font-size:12px'>" + val2 + "</span></div></div></td>";
+
       txt += "</tr>";
     }
     $(".user_det").html(txt)
@@ -230,11 +270,11 @@ class Admin_view_result extends Myservice {
 
   };
 
-_print(this:any,sel:string){
-  this.print_div(sel)
-}
+  _print(this: any, sel: string) {
+    this.print_div(sel)
+  }
 
-  print_div(selecter:string) {
+  print_div(selecter: string) {
     // let w = window.open();
     // if(w!=null){
     //   w.document.write("<html><body>"+$(selecter).html()+"</html></body>");
@@ -252,7 +292,7 @@ _print(this:any,sel:string){
     $("input").show()
   }
 
-  download_excel(){
+  download_excel() {
     window.open("./details.xls")
   }
 

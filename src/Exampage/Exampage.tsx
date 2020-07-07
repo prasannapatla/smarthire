@@ -1,5 +1,3 @@
-
-
 import './Exampage.scss';
 import page from './ExampageHtml'
 import Myservice from '../Myservice/Myservice'
@@ -25,10 +23,30 @@ class Exampage extends Myservice {
         if (this.fetch_data("/server/exam_status/", "POST").match("closed")) {
             this.closeWin("Exam closed");
         }
-        window.onbeforeunload = function () {
+
+
+        window.addEventListener("beforeunload", function (e) {
             context.save_ans();
-            context.closeWin("Exam closed");
-        };
+            // context.closeWin("Exam closed")
+            // (e || window.event).returnValue = null;
+            // let ret=(e || window.event).returnValue
+            // if(ret==null){
+            //     swal("Exam closed", "", "info")
+            //     .then((value: any) => {
+            //         context.del_sess("login_status")
+            //         context.fetch_data("/server/exam_logout/", "POST")
+            //         ret=null
+            //     });
+            // }           
+            // return ret;
+        })
+
+        // $(document).ready(function () {
+        //     $(window).on("beforeunload", function() {
+
+        //     })
+        // })
+
         this.timeout = null;
         window.confirm = function (para = "!") {
             context.myalert(para)
@@ -38,6 +56,20 @@ class Exampage extends Myservice {
         document.addEventListener("contextmenu", event => event.preventDefault());
         document.addEventListener("keydown", event => event.preventDefault());
         this.load_que();
+
+        // $("input[name='a']").change(function (this: any) {
+        //     console.log("click", $(".save_btn").prop('disabled'))
+        //     $("input[type='radio']").each(function (this: any) {
+        //         if ($(this).prop('checked')) {
+        //             console.log("enable", $(".save_btn").prop('disabled'))
+        //             $(".save_btn").prop('disabled', false);
+        //             $(".save_btn").css({ "background-color": "#E5277E" })
+        //             return
+        //         }
+        //     });
+        // });
+
+        $(".save_btn").css({ "cursor": "not-allowed" })
         super.componentDidMount();
     }
 
@@ -47,10 +79,14 @@ class Exampage extends Myservice {
         super.componentDidUpdate();
     }
 
+
+
+
+
     timer = (dur = 3600) => {
         this.sec = dur
         this.timer1 = setInterval(() => {
-            $("#timer").html(parseInt((this.sec / 60).toString(), 10).toFixed(0) + ":" + this.sec % 60);
+            $("#timer").html(parseInt((this.sec / 60).toString(), 10).toFixed(0) + " Min : " + (this.sec % 60)+" Sec");
             this.sec--;
             if (this.sec == 5) {
                 this.save_ans();
@@ -88,6 +124,7 @@ class Exampage extends Myservice {
             }
             else {
                 $(".save_btn").prop('disabled', true);
+                $(".save_btn").css({ "cursor": "not-allowed" })
                 let data = str.split("&sep;");
                 // $("#opt1").attr("checked", "checked");
                 $("input[type='radio']").each(function (this: any) {
@@ -109,12 +146,22 @@ class Exampage extends Myservice {
                     if (context.timer1 == null) {
                         context.timer(data[data.length - 1]);
                     }
+                    // $(".save_btn").prop('disabled', false);
 
-                    $(".save_btn").prop('disabled', false);
-                });
+                    console.log("disbled", $(".save_btn").prop('disabled'))
+                    $("input[name='a']").change(function (this: any) {
+                        console.log("click", $(".save_btn").prop('disabled'))
+                        $("input[type='radio']").each(function (this: any) {
+                            if ($(this).prop('checked')) {
+                                console.log("enable", $(".save_btn").prop('disabled'))
+                                $(".save_btn").prop('disabled', false);
+                                $(".save_btn").css({ "cursor": "pointer" })
+                                return
+                            }
+                        });
+                    });
+                })
             }
-
-
     }
 
     save_ans = () => {
@@ -142,20 +189,21 @@ class Exampage extends Myservice {
             ans: answer
         }
         $(".save_btn").prop('disabled', true);
+        $(".save_btn").css({ "cursor": "not-allowed" })
         this.fetch_data("/server/ver/", "POST", null, json_str);
     }
 
-    // go_full_screen=(elem)=>{
-    //   if (elem.requestFullscreen) {
-    //     elem.requestFullscreen();
-    //   } else if (elem.msRequestFullscreen) {
-    //     elem.msRequestFullscreen();
-    //   } else if (elem.mozRequestFullScreen) {
-    //     elem.mozRequestFullScreen();
-    //   } else if (elem.webkitRequestFullscreen) {
-    //     elem.webkitRequestFullscreen();
-    //   }
-    // }
+    go_full_screen=(elem:any)=>{
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      }
+    }
 
 
 

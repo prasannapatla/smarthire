@@ -5,6 +5,7 @@ import { createBrowserHistory } from 'history'
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import '@sweetalert2/themes/dark/dark.css'
 import App from './App/App';
 import Not_found from './Not_found/Not_found';
 import Myservice from './Myservice/Myservice';
@@ -26,6 +27,7 @@ import Add_code from './Add_code/Add_code';
 import Code_populate from './Code_populate/Code_populate';
 import Admin_list_code_que from './Admin_list_code_que/Admin_list_code_que';
 import Users from './Users/Users';
+import Lgdesign from './Lgdesign/Lgdesign';
 let route_link
 try {
    let all_routes=require("./Routes/Routes").default
@@ -44,7 +46,7 @@ ReactDOM.render((
     <Router history={history}>
         <HashRouter>
             <Switch>
-				<Route exact path="/" component={Login} />
+				<Route exact path="/" component={Lgdesign} />
                 <Route exact path="/app" component={App} />
 				<Route path="/admin" component={Admin} />
 				<Route path="/admin_menu" component={Admin_menu} />
@@ -63,6 +65,7 @@ ReactDOM.render((
 				<Route path="/code_populate" component={Code_populate} />
 				<Route path="/admin_list_code_que" component={Admin_list_code_que} />
 				<Route path="/users" component={Users} />
+				<Route path="/lgdesign" component={Lgdesign} />
                 {route_link}
                 <Route component={Not_found} />
             </Switch>

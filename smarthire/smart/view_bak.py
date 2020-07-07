@@ -16,23 +16,23 @@
 
 
 from django.shortcuts import render 
-from django.http import HttpResponse
+from django.http import HttpResponse,FileResponse
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
-
+from django.apps import apps
 from django.http.response import StreamingHttpResponse as HttpResponse
      
-from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set,Admin_users
+from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set,Admin_users,Email_open_status
 from .serializers import UsersSerializer
 
 
 from django.db import connection
 import random
 import json
-import re,os
-import datetime,time,pytz
+import re,os,sys
+import datetime,time,pytz,psutil
 # from dateutil import tz
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
@@ -49,11 +49,11 @@ from multiprocessing import Manager
 # def user_signup(request):
 #     if request.method == 'POST':
 #         user_data = JSONParser().parse(request)
-#         user_serializer = UsersSerializer(data=user_data)
-#         if user_serializer.is_valid():
-#             if(user_serializer.save()):
-#             return JsonResponse(user_serializer.data, status=status.HTTP_201_CREATED) 
-#         return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         users = UsersSerializer(data=user_data)
+#         if users.is_valid():
+#             if(users.save()):
+#             return JsonResponse(users.data, status=status.HTTP_201_CREATED) 
+#         return JsonResponse(users.errors, status=status.HTTP_400_BAD_REQUEST)
   
  
 from django.contrib.auth.models import User
@@ -142,17 +142,21 @@ def view_admin(request):
 @csrf_exempt
 def remove_admin(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
-        if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())!=0:
+        if Admin_users.objects.filter(email=request.session["admin"],super_admin=True).count()!=0:
             try:
                 int_list=list(map(int,request.POST.get("ids").split(",")))
-                total_admin=len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())
-                admin_to_be_deleted=len(Admin_users.objects.filter(id__in=int_list,email=request.session["admin"],super_admin=True).values())
+                cur_user_listed=len(Admin_users.objects.filter(id__in=int_list,email=request.session["admin"],super_admin=True).values())
+                if cur_user_listed!=0:
+                    return HttpResponse("error&sep;You can't delete same account you have logged in",content_type="text")
+                total_admin=len(Admin_users.objects.filter(super_admin=True).values())
+                admin_to_be_deleted=len(Admin_users.objects.filter(id__in=int_list,super_admin=True).values())
                 if total_admin-admin_to_be_deleted==0:
                     return HttpResponse("error&sep;Not allowed to delete all the admins",content_type="text")
                 Admin_users.objects.filter(id__in=int_list).delete()
-                return HttpResponse("success&sep;deleted successfully",content_type="text")
+                return HttpResponse("success&sep;User Deleted Successfully",content_type="text")
             except Exception as e:
-                print(str(e))
+                print("remove_admin",str(e))
+                print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
                 return HttpResponse("error&sep;Failed to delete user",content_type="text")
         else:
             return HttpResponse("error&sep;You are not permitted to this operation",content_type="text")
@@ -205,20 +209,25 @@ def update_admin(request):
 def user_signup(request):
     if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
         try:
-            user_serializer = Users()
-            user_serializer.name=request.POST.get("name").strip()
+            users = Users()
+            users.name=request.POST.get("name").strip()
             email_id=request.POST.get("email").strip()
             regexp_str="^[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$"
             if not re.match(regexp_str,email_id):
                 return HttpResponse("error&sep;Invalid email id",content_type="text")
-            user_serializer.email=email_id
-            user_serializer.exam_id=request.POST.get("exam")
-            user_serializer.password=do_enc(email_id)
+            users.email=email_id
+            users.exam_id=request.POST.get("exam")
+            users.password=do_enc(email_id)
+            if not request.POST.get("mob").isnumeric():
+                return HttpResponse("error&sep;Incorrect value for mobile number "+request.POST.get("mob"),content_type="text")
+            if len(request.POST.get("mob"))!=10:
+                return HttpResponse("error&sep;Length of mobile number is incorrect",content_type="text")
+            users.mobile_no=request.POST.get("mob")
             if re.match("^(127\.0\.0\.1)|localhost",request.get_host()):
-                user_serializer.password=do_enc(email_id,"passme")
-            user_serializer.score=-1
-            user_serializer.save()
-            if user_serializer!=None:
+                users.password=do_enc(email_id,"passme")
+            users.score=-1
+            users.save()
+            if users!=None:
                 mythread=threading.Thread(target=delete_mail_delivery_status, args=(email_id,))
                 mythread.start()
                 # mythread.join()
@@ -239,6 +248,17 @@ def user_signup(request):
 def user_login(request):
     request.session["logged_in"]=None
     if request.method == 'POST' and 'email' in request.POST and 'password' in request.POST: 
+        try:
+            if Admin_users.objects.filter(super_admin=True).count()<=0:
+                email="admin@terralogic.com"
+                admin=Admin_users()
+                admin.name="Admin"
+                admin.email=email
+                admin.password=do_enc(email,"terralogic")
+                admin.super_admin=True
+                admin.save()
+        except:
+            pass
         try:
             request.session.clear()
             email_id=request.POST.get("email").strip().lower()
@@ -389,6 +409,23 @@ def add_exam(request):
         return HttpResponse("invalid req method",content_type="text")  
 
 @csrf_exempt
+def remaining_exam_duration(request): 
+    if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
+        try:
+            stmt="SELECT abs(TIMESTAMPDIFF(SECOND,se.start_date,se.end_date))-(duration+code_duration) as remaining FROM smart_exam as se WHERE id="+str(request.POST.get("exam"))+";"
+            remaining=json.loads(make_query(stmt))[0]
+            print(remaining)
+            return HttpResponse(json.dumps(remaining),content_type="text")  
+        except Exception as e:
+            print(str(e))
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
+    else:
+        return HttpResponse("error&sep;You are not allowed for do this operation",content_type="text")  
+
+        
+
+
+@csrf_exempt
 def add_que_set(request):  
     if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
         try:
@@ -451,11 +488,11 @@ def addque(request):
             if(request.POST.get("formated_para")!="nothing"):
                 sent_que+="\n"+"<pre>"+escape(request.POST.get("formated_para"))+"</pre>"
             questions.question=sent_que
-            questions.opt1=request.POST.get("opt1")
-            questions.opt2=request.POST.get("opt2")
-            questions.opt3=request.POST.get("opt3")
-            questions.opt4=request.POST.get("opt4")
-            questions.ans=request.POST.get("ans")
+            questions.opt1=escape(request.POST.get("opt1"))
+            questions.opt2=escape(request.POST.get("opt2"))
+            questions.opt3=escape(request.POST.get("opt3"))
+            questions.opt4=escape(request.POST.get("opt4"))
+            questions.ans=escape(request.POST.get("ans"))
             questions.cat_id=request.POST.get("cat")
             questions.save()
             if questions!=None:
@@ -680,6 +717,7 @@ def get_q(request):
             result_set.exam_id=exam_id
             result_set.date_f=datetime.date.today().strftime("%Y-%m-%d")
             result_set.s_time=datetime.datetime.now().strftime("%H:%M:%S")
+            result_set.e_time=datetime.datetime.now().strftime("%H:%M:%S")
             result_set.save()
             if result_set!=None:
                 print("\nsucess:")
@@ -835,16 +873,17 @@ def view_res(request):
             max="LIMIT "+request.POST.get("max")+";"
         if ('exam' in request.POST):
             stmt='''
- SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback from
+                SELECT t1.ID,Username,Score,coding_score AS Score2,IF(total_dur1,total_dur1,0)+IF(total_dur2,total_dur2,0) AS 'Total Duration',Feedback,mobile_no AS "Mobile No" from
                     (
                         SELECT 
                             su.id AS ID,
                             su.email AS Username,
                             su.score AS Score,      
                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
-                            SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time - rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time - rs.e_time)), 0),0)) AS total_dur1,
+                            SUM(IF(Round(Abs(TIME_TO_SEC(rs.s_time) - TIME_TO_SEC(rs.e_time)), 0),Round(Abs(TIME_TO_SEC(rs.s_time) -TIME_TO_SEC(rs.e_time)), 0),0)) AS total_dur1,
                             su.coding_score AS coding_score,
-                            su.feedback AS Feedback
+                            su.feedback AS Feedback,
+                            su.mobile_no
                 
                         FROM smart_result_set AS rs               
                             INNER JOIN smart_questions AS q
@@ -859,7 +898,7 @@ def view_res(request):
                         SELECT 
                             su.id AS ID  ,
                             count(*) AS count,
-                            SUM(IF(Round(Abs(TIME_TO_SEC(crs.s_time - crs.e_time)), 0),Round(Abs(TIME_TO_SEC(crs.s_time - crs.e_time)), 0),0)) AS total_dur2,
+                            SUM(IF(Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),Round(Abs(TIME_TO_SEC(crs.s_time) - TIME_TO_SEC(crs.e_time)), 0),0)) AS total_dur2,
                             SUM(crs.total_testcase_passed) AS score2
     
                         FROM smart_coding_result_set AS crs              
@@ -888,6 +927,7 @@ def view_res(request):
             worksheet.write(0, 3, label = 'Coding score', style=heading)
             worksheet.write(0, 4, label = 'Total Duration(Mins)', style=heading)
             worksheet.write(0, 5, label = 'Feedback', style=heading)
+            worksheet.write(0, 6, label = 'Mobile number', style=heading)
 
 
             for i in range(0,len(json_data)):
@@ -907,8 +947,9 @@ def view_res(request):
                 worksheet.write(i+1, 3, label = score2, style=body)
                 worksheet.write(i+1, 4, label = str(dur), style=body)
                 worksheet.write(i+1, 5, label = json_data[i]["Feedback"], style=body)
+                worksheet.write(i+1, 6, label = json_data[i]["Mobile No"], style=body)
 
-            for c in range(0,6):
+            for c in range(0,7):
                 worksheet.col(c).width = round(inch*1.5)
             worksheet.col(1).width = round(inch*3)
             path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/../"
@@ -980,7 +1021,7 @@ def default(o):
 
 
 
-def utc_to_ist(local):
+def utc_to_ist(local,native_format):
     # METHOD 1: Hardcode zones:
     from_zone = pytz.timezone('UTC')
     to_zone = pytz.timezone('Asia/Kolkata')
@@ -997,9 +1038,13 @@ def utc_to_ist(local):
     utc = utc.replace(tzinfo=from_zone)
 
     # Convert time zone
-    return utc.astimezone(to_zone).strftime("%Y-%m-%d %H:%M:%S")
+    if native_format:
+        return utc.astimezone(to_zone).strftime("%d/%m/%Y, %I:%M:%S:%p")
+    else:
+        return utc.astimezone(to_zone).strftime("%Y-%m-%d %H:%M:%S")
 
-def make_query(stmt):
+
+def make_query(stmt,native_format=False):
     cursor = connection.cursor() 
     try:
         cursor.execute(stmt)
@@ -1020,7 +1065,7 @@ def make_query(stmt):
             for value in val:
                 orig_val=unescape(str(value))
                 if re.search("^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}(.\d{1,6})?$",orig_val):
-                    orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val).group(0))
+                    orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val).group(0),native_format)
                 list1.update(OrderedDict({cursor.description[c][0]: orig_val}))
                 c+=1
             mylist.append(list1)
@@ -1096,7 +1141,7 @@ def view_det_res(request):
 
         fields_dict["totalduration"]="""SUM(IF(rs.s_time - rs.e_time < rs.s_time,
                 Round(Abs(rs.s_time - rs.e_time), 0), '-')) AS 'Total Duration'"""
-        fields_dict["totalvalid"]="SUM(IF(q.ans=rs.ans,1,0)) AS 'Total Score'"
+        fields_dict["totalvalid"]="SUM(IF(BINARY q.ans=rs.ans,1,0)) AS 'Total Score'"
         fields_dict["date"]="rs.date_f AS 'Date'"
         fields_dict["category"]="ct.cat AS 'Category'"
         fields_dict["score"]="IF(su.score >= 0, su.score, '-') AS score"
@@ -1153,7 +1198,7 @@ def view_det_res(request):
             q.question AS Questions,
             q.ans AS  'Correct Answer',
             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
-            IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+            IF(BINARY q.ans =rs.ans,'Correct','Wrong') AS 'Result',
             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
             ct.cat AS Category
         """  
@@ -1271,7 +1316,7 @@ def view_det_res(request):
         stmt+=" "+groups_by+" "
         stmt+=" "+having+" "
         stmt+=" "+orders_by+" "
-        stmt+=";"
+        stmt+=" ;"
         print("\n"+stmt+"\n")
 
         return HttpResponse(make_query(stmt),content_type="text")
@@ -1458,9 +1503,9 @@ def view_res_user(request):
         SELECT 
                     DISTINCT su.name AS Name,
                     su.email AS Username,
-                    su.score AS Score,
                     rs.date_f AS Date,
-                    s_exam.e_name AS Exam
+                    s_exam.e_name AS Exam,
+                    su.mobile_no AS "Mobile number"
                 
                 FROM   smart_users AS su
                     INNER JOIN smart_result_set AS rs
@@ -1775,6 +1820,22 @@ def send_cred(request):
                             <b>Password: </b><span style='color:red'><i>"""+do_dec(row["password"])+"""</i></span><br />
                             <a href='http://"""+request.get_host()+"""/#/?email="""+row["email"]+"""'>Click here to start Exam</a><br />
                         </div>
+                        <div class="gmail_signature" data-smartmail="gmail_signature">
+                        <div dir="ltr">
+                            <br> 
+                            <div>
+                            <div dir="ltr">
+                                <img src='http://"""+request.get_host()+"""/server/log/?email="""+row["email"]+"""' style="width:50px">Terralogic
+                                <br>
+                                <br> 
+                                <a href='http://"""+request.get_host()+"""' target="_blank">http://"""+request.get_host()+"""</a>
+                            </div>
+                            <div dir="ltr">
+                                <br>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                     """
                     # print(body)
                     for i in range(5):
@@ -1891,7 +1952,7 @@ def read_excel(file,use=1):
     else:
         wb = load_workbook(filename=BASE_DIR+file, read_only=True)
         ws = wb['Sheet1']
-        for i in range(2,ws.max_row):
+        for i in range(2,ws.max_row+1):
             temp=list()
             if len(ws[i])!=0:
                 for col in ws[i]:
@@ -1900,6 +1961,8 @@ def read_excel(file,use=1):
                 if "".join(temp).strip()!="" and len(temp)!=0:
                     data.append(temp)
     return data
+
+import traceback
 
 @csrf_exempt
 def bulk_reg(request):
@@ -1916,19 +1979,26 @@ def bulk_reg(request):
                 if not request.POST._mutable:
                     request.POST._mutable = True
                 for val in data:
-                    if len(val)>=2 and len(val)<=3:
+                    print(len(val))
+                    if len(val)>=2 and len(val)<=4:
                         request.POST["name"]=val[0]
                         request.POST["email"]=val[1]
-                        if len(val)==3:
-                            request.POST["exam"]=Exam.objects.filter(e_name=val[2]).values("id")[0]["id"] 
-                        responce=user_signup(request).__dict__
-                        resp+="\n"+val[1]+" : "+"".join(responce["_iterator"])
+                        request.POST["mob"]=str(round(val[2]))
+                        try:
+                            if len(val)==4:
+                                request.POST["exam"]=Exam.objects.filter(e_name=val[3]).values("id")[0]["id"] 
+                            responce=user_signup(request).__dict__
+                            resp+="\n"+val[1]+" : "+("".join(responce["_iterator"])).split("&sep;")[1]
+                        except Exception as e:
+                            print(traceback.format_exc())
+                            resp+="\nfor email "+val[1]+" given exam name "+val[3]+" is incorrect"
                         global_temp_update=resp
                     else:
                         resp+="\nInvalid data format"
-                global_temp_update=None
+                # global_temp_update=None
                 return HttpResponse( resp,content_type="text")
             except Exception as e:
+                print(traceback.format_exc())
                 return HttpResponse(resp+"\n"+str(e),content_type="text")
         else:            
             return HttpResponse("Invalid type of Req",content_type="text")
@@ -1956,11 +2026,11 @@ def bulk_que(request):
                         request.POST["formated_para"]=val[1]
                         if val[1]=="" or val[1]=="-" or val[1].lower()=="null" or val[1].lower()=="none":
                             request.POST["formated_para"]="nothing"
-                        request.POST["opt1"]=val[2]
-                        request.POST["opt2"]=val[3]
-                        request.POST["opt3"]=val[4]
-                        request.POST["opt4"]=val[5]
-                        request.POST["ans"]=val[int(val[6])+1]
+                        request.POST["opt1"]=escape(val[2])
+                        request.POST["opt2"]=escape(val[3])
+                        request.POST["opt3"]=escape(val[4])
+                        request.POST["opt4"]=escape(val[5])
+                        request.POST["ans"]=escape(val[int(val[6])+1])
                         if len(val)==8 and val[7]!="":
                             request.POST["cat"]=val[7]
                         responce=addque(request).__dict__
@@ -1973,7 +2043,7 @@ def bulk_que(request):
                         print(val)
                         resp+="\nInvalid data format"
                     global_temp_update=resp
-                global_temp_update=None
+                # global_temp_update=None
                 return HttpResponse( resp,content_type="text")
             except Exception as e:
                 return HttpResponse(resp+"\n"+str(e),content_type="text")
@@ -2028,7 +2098,7 @@ def bulk_code_que(request):
                     else:
                         resp+="\nInvalid data format"
                     global_temp_update=resp
-                global_temp_update=None
+                # global_temp_update=None
                 return HttpResponse( resp,content_type="text")
             except Exception as e:
                 return HttpResponse(resp+"\n"+str(e),content_type="text")
@@ -2038,16 +2108,63 @@ def bulk_code_que(request):
         return HttpResponse("Only admin can",content_type="text")
 
 
-import subprocess,os
+import subprocess,os,signal
 
-def run_cmd(cmd):
-    # print(cmd)
-    return subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read().decode()
+def run_cmd(cmd,process=None,username=None,max_time=0):
+    # out=subprocess.Popen(cmd,preexec_fn=os.setsid, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True)
+    out=subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+    if max_time!=0 and process!=None and username!=None:
+        threading.Thread(target=kill_after_max_dur, args=(process,username,max_time)).start()
+    # print("before return .............",os.getpgid(os.getpid()),os.getpid())
+    # if max_time!=0:
+    #     # mythread=threading.Thread(target=kill_after_max_dur, args=(out,2))
+    #     mythread=threading.Thread(target=kill_after_max_dur, args=(cmd,2))
+    #     mythread.start()
+    # print("just before return .............",out.pid,os.getpgid(out.pid))
+    err=out.stderr.read().decode()
+    print(err)
+    if err!=None and str(err).strip()!="":   
+        result=""
+        if str(err).lower().strip()=="killed":
+            result="Timeout" 
+        else:
+            result=err
+        output=out.stdout.read().decode()
+        if output!=None and output.strip()!="":
+            result+="\n"+output
+        return result
+    return out.stdout.read().decode()
+
+def kill_after_max_dur(process,user,max_time=5):
+    time.sleep(2)
+    print(run_cmd("sudo renice 20 -p $(pgrep -u api_test {})".format(process))) 
+    time.sleep(max_time)
+    if subprocess.Popen("pgrep -u {1} {0}".format(process,user), shell=True, stdout=subprocess.PIPE).stdout.read().decode().replace("\n"," ")!="":
+        print(run_cmd("sudo kill -9 $(pgrep -u {1} {0})".format(process,user)))
+
+
+#sudo pgrep -u api_test java
+
+
+# def kill(proc_pid):
+#     print("actual pid",run_cmd("pgrep java"))
+#     process = psutil.Process(proc_pid)
+#     print(process)
+#     for proc in process.children(recursive=True):
+#         print("children",proc.pid)
+#         proc.kill()
+#     return process.kill()
+
+# def kill_after_max_dur(process,max_time=5):
+#     time.sleep(max_time)
+#     print("killing "+str(process.pid)+"....",os.getpgid(process.pid))
+#     print(process.kill(),kill(process.pid))
+#     # print(os.killpg(os.getpgid(process.pid), signal.SIGHUP),os.killpg(os.getpgid(process.pid), signal.SIGTERM))
+    
 
 
 def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"):
     print("command: ",command)
-    txt=""
     path="/temp"
     user_home=path+"/"+username
     print("username: "+username)
@@ -2067,19 +2184,25 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
     cmd=""
     ext=""
     file_name=user_home+"/"+pgm_dir+pgm_name+"."
+    process=""
     if command=='cpp':
+        process="a.out"
         file_name+="cpp"
         cmd="g++ "+file_name+" -o "+user_home+"/a.out && "+pre_cmd+user_home+"/a.out"+" "+args
     elif command=='java':
+        process="java"
         file_name+="java"
         cmd="javac "+file_name+" && cd "+user_home+"/"+pgm_dir+" && "+pre_cmd+" java "+pgm_name+" "+args
     elif command=='py':
+        process="python"
         file_name+="py"
         cmd=pre_cmd+"python "+file_name+" "+args
     elif command=='py3':
+        process="python3"
         file_name+="py"
         cmd=pre_cmd+"python3 "+file_name+" "+args
     elif command=='js':
+        process="node"
         file_name+="js"
         cmd=pre_cmd+"node "+file_name+" "+args
     else:
@@ -2098,10 +2221,24 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
     # os.system("sudo chmod 777 "+file_name)           
     print(cmd)
     # print("Code: \n"+code)
-    txt="\n"+run_cmd(cmd)
+    attempt=0
+    out="No output"
+    while attempt<=10:
+        cpu_usage=psutil.cpu_percent()
+        if cpu_usage<=80:
+            print("cpu",cpu_usage)
+            out=run_cmd(cmd,process,username,30)
+            break
+        else:
+            print("Maximum (80%) CPU utilisition exceeded ({})".format(str(cpu_usage)))
+            out="Maximum (80%) CPU utilisition exceeded ({})".format(str(cpu_usage))
+        attempt+=1
+        time.sleep(0.5)
     # print(run_cmd("tree "+path+" && ls -l -R "+user_home))
     # print(txt)
-    return txt
+    return out
+
+
 
 @csrf_exempt
 def get_expected_output(request):
@@ -2110,6 +2247,19 @@ def get_expected_output(request):
         return HttpResponse(out,content_type="text")
     else:
         return HttpResponse("Only admin can",content_type="text")
+
+@csrf_exempt
+def get_code_count(request): 
+    if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
+        try:
+            stmt="SELECT COUNT(*) AS code_count FROM smart_code_questions"
+            code_count=json.loads(make_query(stmt))[0]
+            return HttpResponse(json.dumps(code_count),content_type="text")  
+        except Exception as e:
+            print(str(e))
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
+    else:
+        return HttpResponse("error&sep;You are not allowed for do this operation",content_type="text")
 
 @csrf_exempt
 def get_code_que(request):
@@ -2150,6 +2300,7 @@ def get_code_que(request):
                 crs.code_questions_id=int(cur_que[0])
                 crs.exam_id=int(user["exam"])
                 crs.s_time=datetime.datetime.now().strftime("%H:%M:%S")
+                crs.e_time=datetime.datetime.now().strftime("%H:%M:%S")
                 crs.save()
             except Exception as e:
                 print(str(e))
@@ -2180,6 +2331,7 @@ def ver_code_que(request):
                     cur_que=request.session["selected_code_questions"][request.session["que_cnt"]]
                     actual_output=""
                     score=0
+                    print(request.POST["code"])
                     if("inputs" in request.POST):
                         if (len(cur_que[4])>=1 and len(request.POST["inputs"])>=1) or len(cur_que[4])<1:
                             expected_output=escape(run_code(cur_que[3],unescape(cur_que[2]),"validater",cur_que[4],"",username+"/"))
@@ -2208,7 +2360,7 @@ def ver_code_que(request):
                         request.session["coding_score"]=0
                     request.session["coding_score"]+=score
                     e_time=datetime.datetime.now().strftime("%H:%M:%S")
-                    Coding_result_set.objects.filter(code_questions=int(cur_que[0])).update(user_code=escape(request.POST["code"]),lang=request.POST["cmd"],e_time=e_time,total_testcase_passed=score)
+                    Coding_result_set.objects.filter(user_id=str(user["id"]),code_questions=int(cur_que[0])).update(user_code=escape(request.POST["code"]),lang=request.POST["cmd"],e_time=e_time,total_testcase_passed=score)
                 else:
                     txt="&end;"
 
@@ -2218,20 +2370,7 @@ def ver_code_que(request):
             txt="&closed;"
     else:
         txt+="No user logged in"
-    # que = Questions.objects.all().values()
-    # for q in que:
-    #     txt+=str(q["id"])+" Q:"+str(Questions.objects.filter(id=q["id"]).update(question="<div>"+escape(q["question"][5:len(q["question"])-6])+"</div>"))
-    #     txt+="\n"
-    #     txt+=str(q["id"])+" opt1:"+str(Questions.objects.filter(id=q["id"]).update(opt1=escape(q["opt1"])))
-    #     txt+="\n"
-    #     txt+=str(q["id"])+" opt2:"+str(Questions.objects.filter(id=q["id"]).update(opt2=escape(q["opt2"])))
-    #     txt+="\n"
-    #     txt+=str(q["id"])+" opt3:"+str(Questions.objects.filter(id=q["id"]).update(opt3=escape(q["opt3"])))
-    #     txt+="\n"
-    #     txt+=str(q["id"])+" opt4:"+str(Questions.objects.filter(id=q["id"]).update(opt4=escape(q["opt4"])))
-    #     txt+=str(q["id"])+" ans:"+str(Questions.objects.filter(id=q["id"]).update(ans=escape(q["ans"])))
-    #     txt+="\n"
-    #     txt+="\n\n"
+   
     # get_inbox_mails("cxg@fg.fygdrt",request)
     return HttpResponse(txt,content_type="text")
 
@@ -2330,7 +2469,7 @@ def view_code_res(request):
                 crs.user_code AS 'User code',
                 crs.lang 'Programming language',
                 crs.total_testcase_passed AS "Number of testcase passed",
-                ABS(TIMEDIFF(crs.e_time,crs.s_time)) AS 'Duration'''+escape("(Mins)")+''''
+                ABS(TIME_TO_SEC(crs.e_time)-TIME_TO_SEC(crs.s_time)) AS 'Duration'''+escape("(Mins)")+''''
 
             FROM smart_coding_result_set AS crs
                 INNER JOIN smart_code_questions AS cq
@@ -2340,7 +2479,6 @@ def view_code_res(request):
                 WHERE su.id=\''''+request.POST.get("id")+'''\'
 
             '''
-
             return HttpResponse(make_query(stmt),content_type="text")
         else:
             return HttpResponse("Invalid req",content_type="text")
@@ -2510,7 +2648,7 @@ def get_all_exam_status(uid):
     
     '''.format(uid)
     # print(stmt)
-    return make_query(stmt)
+    return make_query(stmt,True)
 
 @csrf_exempt
 def all_exam_status(request): 
@@ -2524,4 +2662,115 @@ def all_exam_status(request):
         return HttpResponse("No user logged in: \n",content_type="text")
 
 
-    
+
+@csrf_exempt
+def log_request(request): 
+    email="Unknown"
+    if("email" in request.GET):
+        email=request.GET["email"]
+    path = os.getcwd()+"/public/Terralogo.png"
+    path = apps.get_app_config('smart').path+"/../../public/Terralogo.png"
+    ip="Unknown"
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    time=datetime.datetime.now().strftime("%Y-%m-%d-%I-%M-%S-%p")
+    print(ip,email,time,request.META['REMOTE_ADDR'],path)
+    # return HttpResponse(str(path),content_type="text")
+    try:
+        email_status=Email_open_status()
+        email_status.email=email
+        email_status.ip=ip
+        email_status.time=time
+        email_status.save()
+    except Exception as e:
+        print(str(e))        
+    try:
+        # return FileResponse(open(path, 'rb'), content_type="image/png")
+        return HttpResponse(open(path, 'rb'), content_type="image/png")
+    except Exception as e:
+        print(str(e))
+        return HttpResponse("No image",content_type="text/html")
+
+@csrf_exempt
+def server_test(request): 
+    return HttpResponse("Server is up",content_type="text/html")
+
+
+@csrf_exempt
+def test_code_exe(request): 
+    code='''
+class pgm {
+    public static void main(String args[]) {
+        int i = 0;
+        while (i<=100){
+            System.out.print("Hi" + (i++)+" ");
+
+        }
+        int n1=0,n2=1,n3,count=10;    
+        System.out.print(n1+" "+n2);//printing 0 and 1    
+        for(i=2;i<count;++i)//loop starts from 2 because 0 and 1 are already printed    
+        {    
+        n3=n1+n2;    
+        System.out.print(" "+n3);    
+        n1=n2;    
+        n2=n3;    
+        }    
+    }
+}
+    '''
+    # code='''
+    # #include <unistd.h>
+    # #include<stdio.h>  
+    # int main(){    
+    #     int i=0;
+    #     while(1){
+    #         printf("hi %d ",i++);
+    #     }
+    #     return 0;
+    # }
+    # '''
+
+#     code='''
+# import time
+# i=0
+# while True:
+# print("hi",i)
+#     i+=1
+#     time.sleep(0.10)
+#     '''
+
+    out=run_code("java",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
+    # out=run_code("cpp",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm"
+    # )
+    # out,pid=run_code("py3",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
+    print("output...\n",out)
+    return HttpResponse(out,content_type="text")
+
+
+@csrf_exempt
+def rebuild_que(request): 
+    if ("admin" in request.session) and (request.session["admin"]!=None):
+        que = Questions.objects.all().values()
+        txt=""
+        for q in que:
+            print(q["id"])
+            # txt+=str(q["id"])+" Q:"+str(Questions.objects.filter(id=q["id"]).update(question="<div>"+escape(q["question"][5:len(q["question"])-6])+"</div>"))
+            # txt+="\n"
+            txt+=str(q["id"])+" opt1:"+str(Questions.objects.filter(id=q["id"]).update(opt1=escape(unescape(q["opt1"]))))
+            txt+="\n"
+            txt+=str(q["id"])+" opt2:"+str(Questions.objects.filter(id=q["id"]).update(opt2=escape(unescape(q["opt2"]))))
+            txt+="\n"
+            txt+=str(q["id"])+" opt3:"+str(Questions.objects.filter(id=q["id"]).update(opt3=escape(unescape(q["opt3"]))))
+            txt+="\n"
+            txt+=str(q["id"])+" opt4:"+str(Questions.objects.filter(id=q["id"]).update(opt4=escape(unescape(q["opt4"]))))
+            txt+=str(q["id"])+" ans:"+str(Questions.objects.filter(id=q["id"]).update(ans=escape(unescape(q["ans"]))))
+            txt+="\n"
+            txt+="\n\n"
+        print(txt)
+        return HttpResponse(txt,content_type="text/html")
+
+    else:
+        return HttpResponse("Only allowed to admin \n",content_type="text")

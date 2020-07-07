@@ -20,9 +20,11 @@ class Code_editor extends Myservice {
     time_out: any = null
     sec: number = 0;
     timer1: any = null
-    blur:boolean = false;
+    blur: boolean = false;
 
     componentDidMount() {
+        if (this.allow_user())
+            return;
 
         this.c = 0;
         window.confirm = function (para = "!") {
@@ -49,22 +51,20 @@ class Code_editor extends Myservice {
         }
 
 
-        // $(window).blur(function () {
-        //     // alert( $('iframe').is(":focus"))
-        //     console.log("code", blur)
-        //     if (context.blur)
-        //         context.close_win()
-        // });
+        $(window).blur(function () {
+            // alert( $('iframe').is(":focus"))
+            console.log("code  blur", context.blur)
+            if (context.blur)
+                context.close_win()
+        });
 
         $("#pgm_lang").change(function () {
             context.hightlight_syntax();
         });
         this.on_elem_load("id", "frame_code", this.after_load.bind(this))
-
-
-        // document.addEventListener("contextmenu", event => event.preventDefault());
-        // document.addEventListener("keydown", event => event.preventDefault());
-
+       
+        //inspect disabled
+        this.disbale_inspect(document)
 
         this.set_sess("login_status", "logged in")
         this.go_full_screen(window.document);
@@ -73,20 +73,20 @@ class Code_editor extends Myservice {
             console.log("resize")
             context.toTop()
         });
-        // window.addEventListener("visibilitychange", () => {
-        //     console.log("visibilitychange")
-        //     if (window.document.visibilityState == 'hidden') {
-        //         if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
-        //             swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
-        //         if (window.screenX <= 0 || window.screenY <= 0)
-        //             context.close_win();
-        //     }
-        // });
+        window.addEventListener("visibilitychange", () => {
+            console.log("visibilitychange")
+            if (window.document.visibilityState == 'hidden') {
+                if (this.c >= 0 && this.c <= 2 && context.get_sess("login_status") != null)
+                    swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
+                if (window.screenX <= 0 || window.screenY <= 0)
+                    context.close_win();
+            }
+        });
         let n = 0;
-
-        window.onbeforeunload = function () {
-            context.submit_code();
-        };
+        let ctx = this
+        window.addEventListener("beforeunload", function (e) {
+            ctx.fetch_data("/server/submit_code/", "POST");
+        })
 
         super.componentDidMount();
     }
@@ -95,21 +95,62 @@ class Code_editor extends Myservice {
         super.componentDidUpdate();
     }
 
+
+    disbale_inspect(elem:any){
+        elem.addEventListener("contextmenu", (event:any) => event.preventDefault());
+        let inspect: any = []
+        elem.addEventListener("keydown", function (event:any) {
+            let k = event.keyCode
+            if (inspect.length >= 1000)
+                inspect.shift()
+            inspect.push(k)
+            if (event.ctrlKey && event.shiftKey && k == 73) {
+                inspect = []
+                event.preventDefault()
+                return false
+            }
+
+            if (k >= 112 && k <= 123) {
+                inspect = []
+                event.preventDefault()
+                return false
+            }
+
+            if (inspect.indexOf(16) != -1 && inspect.indexOf(17) != -1 && inspect.indexOf(73) != -1) {
+                inspect = []
+                event.preventDefault()
+                return false
+            }
+        })
+    }
+
     after_load() {
+         // @ts-ignore
+         let frame_document=document.getElementById('frame_code').contentWindow.document
+         console.log("frame_code........",frame_document)
+         // @ts-ignore
+         this.disbale_inspect(frame_document)
+
+
         this.load_sucess = true;
         let context = this
         let iframe = $('iframe')
         iframe.mouseover(function () {
             context.blur = false
-            console.log("frame  blur", blur)
+            console.log("frame  blur",  context.blur)
         });
         iframe.mouseout(function () {
             context.blur = true
-            console.log("frame  blur", blur)
+            console.log("frame  blur",  context.blur)
+            window.focus()
         });
         this.get_que();
+        iframe.contents().find("#editor").css({ "margin-left": "20px",
+        "margin-right": "20px",
+        "border-radius": "15px",
+        "border": "solid 2px #E5277E" ,"background-color":"red !important"});
+        iframe.contents().find("#toolbar_2").eq(0).css({ "margin-bottom": "-2px"})
     }
-
 
     componentWillMount() {
         let script = document.createElement("script");
@@ -137,7 +178,6 @@ class Code_editor extends Myservice {
                     if (context.sec_inc > 1 && !context.load_sucess) {
                         console.log(context.load_sucess)
                         window.location.reload();
-
                     }
                     if (context.sec_inc > 1) {
                         clearInterval(interval2)
@@ -206,7 +246,7 @@ class Code_editor extends Myservice {
         if (json_obj["score"] == 5)
             $(".testcase").css({ color: "green" })
         else if (json_obj["score"] > 0)
-            $(".testcase").css({ color: "yellow" })
+            $(".testcase").css({ color: "#ff9933" })
         else
             $(".testcase").css({ color: "red" })
         $(".loading").css({ visibility: "hidden" })
@@ -215,7 +255,7 @@ class Code_editor extends Myservice {
 
     get_que() {
         $("body").css({ cursor: "wait" })
-
+        $(".testcase").text("")
         let questions = this.fetch_data("/server/get_code_que/", "POST");
         console.log("--------que", questions)
         $("body").css({ cursor: "auto" })
@@ -316,6 +356,7 @@ class Code_editor extends Myservice {
 
     submit_code() {
         this.fetch_data("/server/submit_code/", "POST");
+        this.blur=false
         try {
             window.setval("code", "")
         } catch (error) {
@@ -324,7 +365,7 @@ class Code_editor extends Myservice {
         this.get_que();
         $('html, body').animate({
             scrollTop: 0
-          }, {
+        }, {
             duration: 200
         })
     }

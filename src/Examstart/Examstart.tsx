@@ -9,7 +9,7 @@ import emoji from '../assets/output-onlinepngtools.png'
 class Examstart extends Myservice {
   myWindow: any = null;
   c: number = 0;
-  timeout:any=null
+  timeout: any = null
   constructor(props: any) {
     super(props);
 
@@ -22,26 +22,26 @@ class Examstart extends Myservice {
     this.c = 0;
     document.addEventListener("contextmenu", event => event.preventDefault());
     var context = this
-    // window.onbeforeunload = function () {
-    //   context.fetch_data("/server/del/", "POST");
-    // }
+    window.onbeforeunload = function () {
+      context.fetch_data("/server/del/", "POST");
+    }
     this.available_exam();
-    this.timeout=setInterval(() => {
-      context.available_exam()      
+    this.timeout = setInterval(() => {
+      context.available_exam()
     }, 2000);
     this.disable_btns();
     window.onbeforeunload = function () {
-      if(context.timeout!=null)
-      clearInterval(context.timeout)
-  };
+      if (context.timeout != null)
+        clearInterval(context.timeout)
+    };
     super.componentDidMount();
   }
 
 
-  available_exam(){
-    let json_resp=null
+  available_exam() {
+    let json_resp = null
     try {
-      json_resp = JSON.parse(this.fetch_data("/server/all_exam_status/", "POST"))      
+      json_resp = JSON.parse(this.fetch_data("/server/all_exam_status/", "POST"))
     } catch (error) {
       return
     }
@@ -53,18 +53,20 @@ class Examstart extends Myservice {
     $(".start_date").text(json_resp[0]["start_date"])
     $(".end_date").text(json_resp[0]["end_date"])
     if (Number(json_resp[0].status_code) == 2) {
-        $(".mcq").hide()
-        $(".coding").css({width:"100%",float:"unset"})
+      $(".mcq").hide()
+      $(".coding").css({ width: "100%", float: "unset" })
     }
     if (Number(json_resp[0].status_code) == 1) {
-        $(".coding").hide()
-        $(".mcq").css({width:"100%",float:"unset"})
+      $(".coding").hide()
+      $(".mcq").css({ width: "100%", float: "unset" })
     }
     if (Number(json_resp[0].status_code) == 3) {
       $(".coding").hide()
-      $(".mcq").hide()
-      let text=`
-          <h1>Thank you</h1>      
+      $(".mcq,#title,#logout").hide()
+      let text = `
+      <br /><br />
+          <h1>Thank you for your participation</h1><br />
+          <h4>Results will be shared by the HR Team</h4>             
       `
       $(".instr").html(text)
       return false
@@ -84,8 +86,8 @@ class Examstart extends Myservice {
     this.myWindow = window.open("#" + page, "_blank", "fullscreen=yes, scrollbars=1");
     this.set_sess("login_status", "logged in")
     // // this.go_full_screen(this.myWindow.document.documentElement);
-    // document.addEventListener("contextmenu", event => event.preventDefault());
-    // document.addEventListener("keydown", event => event.preventDefault());
+    document.addEventListener("contextmenu", event => event.preventDefault());
+    document.addEventListener("keydown", event => event.preventDefault());
     this.go_full_screen(this.myWindow.document);
     this.toTop();
     this.go_full_screen(this.myWindow.document);
@@ -96,8 +98,8 @@ class Examstart extends Myservice {
     this.myWindow.addEventListener("blur", () => context.close_win());
     this.myWindow.addEventListener("visibilitychange", () => {
       if (this.myWindow.document.visibilityState == 'hidden') {
-        if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
-          swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
+        // if (this.c > 0 && this.c < 3 && context.get_sess("login_status") != null)
+        //   swal(4 - this.c + " Warning! \nIf you try to minimize or resize the window,Your exam will be closed", "", "warning")
         if (context.myWindow.screenX <= 0 || context.myWindow.screenY <= 0)
           context.close_win();
       }
@@ -109,9 +111,8 @@ class Examstart extends Myservice {
 
 
   openWin2 = () => {
-    let context=this
+    let context = this
     this.myWindow = window.open("#code_editor", "_blank", "fullscreen=yes, scrollbars=1");
-   
   }
 
   // redirect() {
@@ -119,13 +120,13 @@ class Examstart extends Myservice {
   // }
 
   toTop() {
-    this.myWindow.moveTo(0, 0);
-    this.myWindow.resizeTo(screen.availWidth, screen.availHeight)
-    this.myWindow.focus();
+    // this.myWindow.moveTo(0, 0);
+    // this.myWindow.resizeTo(screen.availWidth, screen.availHeight)
+    // this.myWindow.focus();
   }
 
   close_win = (): any => {
-    if (this.c >= 3) {
+    if (this.c > 1) {
       this.myWindow.close();
       this.available_exam();
       return
@@ -164,7 +165,7 @@ class Examstart extends Myservice {
     let context = this
     swal("Thanks for your rating!", `You rated us ${value}/5`, "success")
       .then(() => {
-        this.fetch_data("/server/feedback/","POST","feedback="+value)
+        this.fetch_data("/server/feedback/", "POST", "feedback=" + value)
         context.signout()
         return
       });
@@ -239,8 +240,8 @@ class Examstart extends Myservice {
   }
 
   signout() {
-    if(this.timeout!=null)
-    clearInterval(this.timeout)
+    if (this.timeout != null)
+      clearInterval(this.timeout)
     if (this.myWindow != null)
       this.myWindow.close()
     console.log("signout")

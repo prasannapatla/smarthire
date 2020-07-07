@@ -12,15 +12,54 @@ class Admin_register extends Myservice {
     super(props);
   }
 
+  timeout: any = null
+  timeout2: any = null
+
+  componentWillUnmount() {
+    if (this.temp_interval)
+      clearInterval(this.temp_interval)
+    if (this.timeout)
+      clearTimeout(this.timeout)
+    if (this.timeout2)
+      clearTimeout(this.timeout2)
+  }
+
   componentDidMount() {
+    const realFileBtn = document.getElementById("real-file");
+    const customBtn = document.getElementById("custom-button");
+    const customTxt = document.getElementById("custom-text");
+
+    //@ts-ignore
+    customBtn.addEventListener("click", function () {
+      //@ts-ignore
+      realFileBtn.click();
+    });
+
+    //@ts-ignore
+    realFileBtn.addEventListener("change", function () {
+      //@ts-ignore
+      if (realFileBtn.value) {
+        //@ts-ignore
+        customTxt.innerHTML = realFileBtn.value.match(
+          /[\/\\]([\w\d\s\.\-\(\)]+)$/
+        )[1];
+      } else {
+        //@ts-ignore
+        customTxt.innerHTML = "No file chosen, yet.";
+      }
+    });
     if (this.allow_admin())
       return;
 
     this.get_exam("cur_exam");
     this.get_exam("cur_exam2");
+    $(".register_progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
     // if (window.location.href.match(/(http:\/\/127.0.0.1|(http:\/\/localhost))/gi))
     this.get_sse();
     let context = this;
+    if (this.timeout != null)
+      clearTimeout(this.timeout)
+
     this.timeout = setTimeout(() => {
       context.get_email_status(15000)
     }, 1000);
@@ -55,18 +94,18 @@ class Admin_register extends Myservice {
       new this.Upload(file).doUpload();
       this.temp_interval = setInterval(
         () => {
-          $(".progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
+          $(".register_progress").html("<pre>" + this.fetch_data("/server/get_temp_update/", "POST") + "</pre>");
         }
         , 1000)
     }
     catch (err) {
-      swal(err, "Upload failed","error")
+      swal(err, "Upload failed", "error")
     }
   }
   callback(data: any, context: any) {
     clearInterval(context.temp_interval)
-    $(".progress").html("<pre>" + data + "</pre>")
-    swal("Uploaded", "","success")
+    $(".register_progress").html("<pre style='width: 50%'>" + data + "</pre>")
+    swal("Uploaded", "", "success")
   }
 
   componentDidUpdate() {
@@ -86,15 +125,16 @@ class Admin_register extends Myservice {
   }
 
 
-  register_user() {
+  register_user(e:any) {
+    e.preventDefault()
 
     if ($(".remail").val().trim() == "" || $(".rname").val() == "") {
       swal("Fill all necessary field", "", "warning")
       return false
     }
-    if($(".mob").val() == ""){
+    if ($(".mob").val() == "") {
       swal("Incorrect details", "", "warning").then(
-        (v:any)=>{
+        (v: any) => {
           $(".mob").focus()
         }
       )
@@ -114,16 +154,21 @@ class Admin_register extends Myservice {
       mob: $(".mob").val()
     }
 
-    this.show_msg(this.fetch_data("/server/signup/", "POST", null, json_str), this.on_reg,this)
+    this.show_msg(this.fetch_data("/server/signup/", "POST", null, json_str), this.on_reg, this)
   }
 
-  async on_reg(_this:any,status: any,v?:any) {
+  on_reg(_this: any, status: any, v?: any) {
     if (status.match("success")) {
       $("input[type='text']").val("");
       $("input[type='number']").val("");
+      $("input[type='tel']").val("");
       $("input").eq(0).focus();
-      await _this.fetch_data("/server/email_status_in_db/", "POST")
-      _this.retrive_email_status();
+      if (_this.timeout2 != null)
+        clearTimeout(_this.timeout2)
+      _this.timeout2 = setTimeout(async () => {
+        _this.fetch_data("/server/email_status_in_db/", "POST")       
+        _this.retrive_email_status()
+      }, 10);
     }
   }
 
@@ -207,7 +252,6 @@ class Admin_register extends Myservice {
     }
   }
 
-  timeout: any = null
   json_obj: any
 
   get_email_status(sec: any) {

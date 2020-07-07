@@ -12,6 +12,25 @@ class Admin_list_que extends Myservice {
   }
 
   componentDidMount() {
+    $(document).ready(function () {
+
+      var btn = $('#button');
+
+      $(window).scroll(function () {
+        if ($(window).scrollTop() > 100) {
+          $("#button").css({ "opacity": "1" })
+        } else {
+          $("#button").css({ "opacity": "0" })
+        }
+      });
+
+      btn.on('click', function (e: any) {
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, '100');
+      });
+
+    });
+
     if (this.allow_admin())
       return;
     this.load_cat();
@@ -26,9 +45,16 @@ class Admin_list_que extends Myservice {
     });
     $(".del_que_btn").on("click", function (this: any) {
       var ids: any = []
+      var count = 0;
       $(".que_sel").each(function (this: any) {
+        count = $(".que_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
+        if (count == 1) {
+          swal("Deleted " + count + " question", "", "success")
+        } else {
+          swal("Deleted " + count + " questions", "", "success")
+        }
       });
 
       context.fetch_data("/server/remove_questions/", "POST", null, "ids=" + ids.join(",") + "&from=all");
@@ -40,11 +66,14 @@ class Admin_list_que extends Myservice {
     });
 
     $(".sel_all").click(function (this: any) {
+      $(".delete").hide()
       $('input:checkbox').each(function (this: any) {
         if ($(this).prop('checked'))
           $(this).prop('checked', false);
         else
           $(this).prop('checked', true);
+        if ($(this).prop("checked"))
+          $(".delete").show()
       });
     });
 
@@ -79,53 +108,58 @@ class Admin_list_que extends Myservice {
     for (val1 in json_obj) {
       console.log(json_obj[val1]);
       txt += "<tr>"
-      txt += "<td colspan='4' class='que_ind' style='max-width:100%;text-indent:-20px;'><b>Q." + (count++) + " </b>" + json_obj[val1]["question"] + "</td>";
-      txt += "<td><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /></td>"
+      txt += "<td colspan='4' class='que_ind' style='max-width:100%;text-indent:-20px;'><div style='font-size: 12px'><b>Q." + (count++) + " </b></div><div class='ques1278' style='font-size: 12px'>" + json_obj[val1]["question"] + "</div></td>";
+      txt += "<td style='width:50px'><label class='container1'><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label></td>"
       txt += "</tr>"
       txt += "<tr class='val'>"
-
-      // if (json_obj[val1]["opt1"] == json_obj[val1]["ans"])
-      //   txt += "<td><b>" + json_obj[val1]["opt1"] + "</b></td>";
-      // else
-      //   txt += "<td>" + json_obj[val1]["opt1"] + "</td>";
-
-      // if (json_obj[val1]["opt2"] == json_obj[val1]["ans"])
-      //   txt += "<td><b>" + json_obj[val1]["opt2"] + "</b></td>";
-      // else
-      //   txt += "<td>" + json_obj[val1]["opt2"] + "</td>";
-
-      //   if (json_obj[val1]["opt3"] == json_obj[val1]["ans"])
-      //     txt += "<td><b>" + json_obj[val1]["opt3"] + "</b></td>";
-      //   else
-      //     txt += "<td>" + json_obj[val1]["opt3"] + "</td>";
-
-      //     if (json_obj[val1]["opt4"] == json_obj[val1]["ans"])
-      //       txt += "<td><b>" + json_obj[val1]["opt4"] + "</b></td>";
-      //     else
-      //       txt += "<td>" + json_obj[val1]["opt4"] + "</td>";
-
-      txt += "<td>A)" + json_obj[val1]["opt1"] + "</td>";
-      txt += "<td>B)" + json_obj[val1]["opt2"] + "</td>";
-      txt += "<td>C)" + json_obj[val1]["opt3"] + "</td>";
-      txt += "<td>D)" + json_obj[val1]["opt4"] + "</td>";
+      txt += "<td class='options' style='font-size: 12px'>A. " + json_obj[val1]["opt1"] + "</td>";
+      txt += "<td class='options' style='font-size: 12px'>B. " + json_obj[val1]["opt2"] + "</td>";
+      txt += "<td class='options' style='font-size: 12px'>C. " + json_obj[val1]["opt3"] + "</td>";
+      txt += "<td class='options' style='font-size: 12px'>D. " + json_obj[val1]["opt4"] + "</td>";
       let ans = ""
       if (json_obj[val1]["opt1"] == json_obj[val1]["ans"])
-        ans = "A)"
+        ans = "A. "
       else if (json_obj[val1]["opt2"] == json_obj[val1]["ans"])
-        ans = "B)"
+        ans = "B. "
       else if (json_obj[val1]["opt3"] == json_obj[val1]["ans"])
-        ans = "C)"
+        ans = "C. "
       else
-        ans = "D)"
-      txt += "</tr><tr><td>Category: " + json_obj[val1]["cat"] + "</td></tr>";
-      txt += "<tr><td>Answer: " + ans + json_obj[val1]["ans"] + "</td></tr><tr></tr><tr></tr>";
+        ans = "D. "
+      txt += "</tr><tr><td colspan='4' style='font-size: 12px'><b>Ans </b>: " + ans + json_obj[val1]["ans"] + "</td></tr>";
+      txt += "<tr><td colspan='4'style='font-size: 12px'><b>Category </b>: " + json_obj[val1]["cat"] + "</td></tr><tr></tr><tr></tr>";
 
     }
     $(".list_que").html(txt)
     $(".val td").css({ "max-width": "250px" })
-    $("td div").css({ "display": "inline" })
-    $("td").css({ "padding-left": "20px"})
-    $(".que_ind pre").css({ "padding-left": "20px"})
+    $("td div").css({ "display": "inline", " margin-left": "15px" })
+    $("td").css({ "padding-left": "20px" })
+    $(".que_ind pre").css({ "padding-left": "30px" })
+    $(".options").css({ "color": "grey", "width": "200px" })
+
+    $(".delete").hide()
+    $("input[type='checkbox']").click(function () {
+      $(".delete").hide()
+      $("input[type='checkbox']").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".delete").show()
+      });
+    });
+
+    // $(".sel_all").click(function (this: any) {
+    //   $('input:checkbox').each(function (this: any) {
+    //     console.log($(this).prop('checked'))
+    //     if ($(this).prop('checked'))
+    //       $(this).prop('checked', false);
+    //     else
+    //       $(this).prop('checked', true);
+    //   });
+    //   $(".delete").css({ "visibility": "hidden" })
+    //   $("input[type='checkbox']").each(function (this: any) {
+    //     if ($(this).prop("checked"))
+    //       $(".delete").css({ "visibility": "visible" })
+    //   });
+    // });
+
   };
 
   logout = () => {

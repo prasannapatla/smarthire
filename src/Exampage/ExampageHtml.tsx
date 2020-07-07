@@ -1,7 +1,9 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/terralogo.svg';
+// import logo from '../assets/terralogo.svg';
+import logo from "../assets/Terralogic_Logo.png"
+import { IoMdArrowRoundForward } from "react-icons/io";
 
 
 var page = function (_this: any) {
@@ -32,28 +34,30 @@ var page = function (_this: any) {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                    <label><input type="radio" name="a" id="opt1" /><span className="opt1"></span></label>
+                                <td className="td_1">
+                                    <label className="lab_1"><label className='container1'><input type="radio" name="a" id="opt1" /><span className='checkmark'></span></label><span className="opt1"></span></label>
                                 </td>
 
-                                <td>
-                                    <label><input type="radio" name="a" id="opt2" /><span className="opt2"></span></label>
+                                <td className="td_2">
+                                    <label className="lab_2"><label className='container1'><input type="radio" name="a" id="opt2" /><span className='checkmark'></span></label><span className="opt2"></span></label>
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <label><input type="radio" name="a" id="opt3" /><span className="opt3"></span></label>
+                                <td className="td_3">
+                                    <label className="lab_3"><label className='container1'><input type="radio" name="a" id="opt3" /><span className='checkmark'></span></label><span className="opt3"></span></label>
                                 </td>
 
-                                <td>
-                                    <label><input type="radio" name="a" id="opt4" /><span className="opt4"></span></label>
+                                <td className="td_4">
+                                    <label className="lab_4"><label className='container1'><input type="radio" name="a" id="opt4" /><span className='checkmark'></span></label><span className="opt4"></span></label>
                                 </td>
                             </tr>
                             <tr>
                                 <td colSpan={2}>
                                     <input type="hidden" id="id" />
+                                    <p style={{ marginTop: "25px", marginBottom: "unset" }}>Questions </p>
                                     <label className="pcount" id="cnt"> </label>
-                                    <input type="button" className="save_btn" onClick={_this.next_que.bind(_this)} value="Next" />
+                                    {/* <input type="button" className="save_btn" onClick={_this.next_que.bind(_this)} value="Next" /> */}
+                                    <button className="save_btn" onClick={_this.next_que.bind(_this)}><IoMdArrowRoundForward /> Next</button>
                                     {/* load_que() */}
                                 </td>
 

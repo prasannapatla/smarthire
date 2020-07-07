@@ -25,8 +25,8 @@ class Users(models.Model):
     name=models.CharField(max_length=32, blank=False)
     email=models.EmailField(unique=True, blank=False)
     password=models.CharField(max_length=70, blank=False)
-    score=models.CharField(max_length=5,blank=False,default=-1)
-    coding_score=models.CharField(max_length=5,blank=False,default=-1)
+    score=models.CharField(max_length=255,blank=False,default=-1)
+    coding_score=models.CharField(max_length=255,blank=False,default=-1)
     exam= models.ForeignKey(Exam,on_delete=models.CASCADE,default="null")  
     malpractices=models.IntegerField(blank=False,default=0)   
     email_sent_status=models.BooleanField(blank=False,default=False)
@@ -107,6 +107,10 @@ class Coding_result_set(models.Model):
 
 class Email_status(models.Model):
     status=models.TextField(blank=True,default="null")
+class Email_open_status(models.Model):
+    email=models.TextField(blank=True,default="null")
+    ip=models.TextField(blank=True,default="null")
+    time=models.TextField(blank=True,default="null")
 
 class Meta:  
         db_table = "users"

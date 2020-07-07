@@ -1,29 +1,35 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/terralogo.svg';
+import terraLogo from "../assets/Terralogic_Logo.png"
+import { FaClock ,FaFileCode,FaUser,FaTelegramPlane,FaPowerOff} from 'react-icons/fa';
+import {AiFillCode,AiOutlineMenu } from 'react-icons/ai';
+import {TiGroup } from 'react-icons/ti';
+import { IoIosPaper,IoIosJournal } from "react-icons/io";
 
 var page = function (_this: any) {
     return (
-        <div className="Admin_menu col-sm-3 menu">
+        <div className="Admin_menu">
             <div className="menu_list">
                 <div className="adm" style={{ textAlign: "center" }}>
-                    <Link to='/admin_view_result'><img src={logo} className="avatar" /><br /></Link>
-                    Control Panel
-                <hr />
+                    <Link to='https://www.terralogic.com'><img src={terraLogo} className="avatar" /><br /></Link>
                 </div>
+                <div className="menuIcon"><AiOutlineMenu onClick={_this.toggleMenu}/></div>
+                <br/>
                 <ul>
-                    <li><Link to='/admin_view_result'>View Results</Link></li>
-                    <li><Link to='/admin_add_cat'>Add Categories &amp; Exams</Link></li>
-                    <li><Link to='/admin'>Add Questions</Link></li>
-                    <li><Link to='/add_code'>Add Coding Problem Statement</Link></li>
-                    <li><Link to='/admin_list_que'>View Questions</Link></li>
-                    <li><Link to='/admin_list_code_que'>View coding Questions</Link></li>
-                    <li><Link to='/admin_que_set'>Populate Exam</Link></li>
-                    <li><Link to='/code_populate'>Populate Coding Exam</Link></li>
-                    <li><Link to='/admin_register'>Register Candidate</Link></li>
-                    <li><Link to='/users'>Admin users</Link></li>
-                    <li ><a href="javascript:void(0)" onClick={_this.user_logout.bind(_this)}>Logout</a> </li>
+                    <li><Link to='/admin_view_result'><IoIosPaper/>&nbsp;&nbsp;&nbsp;View Results</Link></li>
+                    <li><Link to='/admin_add_cat'><FaClock/>&nbsp;&nbsp;&nbsp;Add Categories &amp; Exams</Link></li>
+                    <li><Link to='/admin'><FaTelegramPlane/>&nbsp;&nbsp;&nbsp;Add Questions</Link></li>
+                    <li><Link to='/add_code'><AiFillCode/>&nbsp;&nbsp;&nbsp;Add Coding Problem Statement</Link></li>
+                    <li><Link to='/admin_list_que'><FaUser/>&nbsp;&nbsp;&nbsp;Questions</Link></li>
+                    <li><Link to='/admin_list_code_que'><FaTelegramPlane/>&nbsp;&nbsp;&nbsp;Coding Questions</Link></li>
+                    <li><Link to='/admin_que_set'><FaFileCode/>&nbsp;&nbsp;&nbsp;Populate Exam</Link></li>
+                    {/* <li><Link to='/code_populate'><IoIosJournal/>&nbsp;&nbsp;&nbsp;Populate Coding Exam</Link></li> */}
+                    <li><Link to='/admin_register'><FaUser/>&nbsp;&nbsp;&nbsp;Register Candidate</Link></li>
+                    <li><Link to='/users'><TiGroup/>&nbsp;&nbsp;&nbsp;Admin users</Link></li>
+                    {/* <br/> */}
+                    <li style={{marginTop:"45px"}}><a href="javascript:void(0)" onClick={_this.user_logout.bind(_this)}><FaPowerOff/>&nbsp;&nbsp;&nbsp;Logout</a> </li>
+                    <br/>
                 </ul>
             </div>
         </div>

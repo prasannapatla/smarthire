@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import loading from '../assets/loading2.gif';
 import logo from '../assets/terralogo.svg';
+import { FiCheckCircle } from 'react-icons/fi';
+import { AiFillCaretRight } from 'react-icons/ai';
 var page = function (_this: any) {
     return (
         <div className="Code_editor">
@@ -19,7 +21,7 @@ var page = function (_this: any) {
             <div className="question">
                 <div className="recv_que"></div><br /><br />
 
-                <b>Note:</b>primary class name should be pgm
+                <b>Note:</b> Primary class name should be pgm
             </div>
             <div className="top_line">
                 <div className="menues">
@@ -38,13 +40,13 @@ var page = function (_this: any) {
                 <thead>
                     <tr>
                         <th>
-                            <h2>Inputs:</h2>
-                            <input type='button' onClick={_this.run_code.bind(_this)} value="Run code" />
+                            <h2 className="input">Inputs</h2>
+                            <button className="run_code" onClick={_this.run_code.bind(_this)} ><AiFillCaretRight className="r_icon"/> Run code</button>
                             <img src={loading} className="loading" />
                         </th>
                         <th>
-                            <h2>Output:</h2>
-                            <input type='button' onClick={_this.submit_code.bind(_this)} value="Submit code" />
+                            <h2 className="output">Output</h2>
+                           
                         </th>
                     </tr>
                 </thead>
@@ -60,6 +62,9 @@ var page = function (_this: any) {
                     </tr>
                 </tbody>
             </table><br />
+            <div className="submit_div">
+            <button className="submit_code" onClick={_this.submit_code.bind(_this)} ><FiCheckCircle className="r_icon"/> Submit code</button>
+            </div>
             <h3 className="testcase"></h3><br />
         </div>
     )

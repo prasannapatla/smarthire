@@ -16,23 +16,23 @@
 
 
 from django.shortcuts import render 
-from django.http import HttpResponse
+from django.http import HttpResponse,FileResponse
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
-
+from django.apps import apps
 from django.http.response import StreamingHttpResponse as HttpResponse
      
-from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set,Admin_users
+from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set,Admin_users,Email_open_status
 from .serializers import UsersSerializer
 
 
 from django.db import connection
 import random
 import json
-import re,os
-import datetime,time,pytz
+import re,os,sys
+import datetime,time,pytz,psutil
 # from dateutil import tz
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
@@ -142,17 +142,21 @@ def view_admin(request):
 @csrf_exempt
 def remove_admin(request):
     if ("admin" in request.session) and (request.session["admin"]!=None):
-        if len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())!=0:
+        if Admin_users.objects.filter(email=request.session["admin"],super_admin=True).count()!=0:
             try:
                 int_list=list(map(int,request.POST.get("ids").split(",")))
-                total_admin=len(Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values())
-                admin_to_be_deleted=len(Admin_users.objects.filter(id__in=int_list,email=request.session["admin"],super_admin=True).values())
+                cur_user_listed=len(Admin_users.objects.filter(id__in=int_list,email=request.session["admin"],super_admin=True).values())
+                if cur_user_listed!=0:
+                    return HttpResponse("error&sep;You can't delete same account you have logged in",content_type="text")
+                total_admin=len(Admin_users.objects.filter(super_admin=True).values())
+                admin_to_be_deleted=len(Admin_users.objects.filter(id__in=int_list,super_admin=True).values())
                 if total_admin-admin_to_be_deleted==0:
                     return HttpResponse("error&sep;Not allowed to delete all the admins",content_type="text")
                 Admin_users.objects.filter(id__in=int_list).delete()
-                return HttpResponse("success&sep;deleted successfully",content_type="text")
+                return HttpResponse("success&sep;User Deleted Successfully",content_type="text")
             except Exception as e:
-                print(str(e))
+                print("remove_admin",str(e))
+                print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
                 return HttpResponse("error&sep;Failed to delete user",content_type="text")
         else:
             return HttpResponse("error&sep;You are not permitted to this operation",content_type="text")
@@ -244,6 +248,17 @@ def user_signup(request):
 def user_login(request):
     request.session["logged_in"]=None
     if request.method == 'POST' and 'email' in request.POST and 'password' in request.POST: 
+        try:
+            if Admin_users.objects.filter(super_admin=True).count()<=0:
+                email="admin@terralogic.com"
+                admin=Admin_users()
+                admin.name="Admin"
+                admin.email=email
+                admin.password=do_enc(email,"terralogic")
+                admin.super_admin=True
+                admin.save()
+        except:
+            pass
         try:
             request.session.clear()
             email_id=request.POST.get("email").strip().lower()
@@ -394,6 +409,23 @@ def add_exam(request):
         return HttpResponse("invalid req method",content_type="text")  
 
 @csrf_exempt
+def remaining_exam_duration(request): 
+    if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
+        try:
+            stmt="SELECT abs(TIMESTAMPDIFF(SECOND,se.start_date,se.end_date))-(duration+code_duration) as remaining FROM smart_exam as se WHERE id="+str(request.POST.get("exam"))+";"
+            remaining=json.loads(make_query(stmt))[0]
+            print(remaining)
+            return HttpResponse(json.dumps(remaining),content_type="text")  
+        except Exception as e:
+            print(str(e))
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
+    else:
+        return HttpResponse("error&sep;You are not allowed for do this operation",content_type="text")  
+
+        
+
+
+@csrf_exempt
 def add_que_set(request):  
     if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
         try:
@@ -539,7 +571,7 @@ def get_questions(request):
                             ON sq.cat_id = ct.id
             '''
           
-            return HttpResponse(make_query(stmt),content_type="text")
+            return HttpResponse(make_query(stmt,apply_unescape=False,apply_escape=False),content_type="text")
         elif(('type' in request.POST) and request.POST.get("type")=="exam"):
             stmt='''
             SELECT 
@@ -553,7 +585,7 @@ def get_questions(request):
             '''
 
           
-            return HttpResponse(make_query(stmt),content_type="text")
+            return HttpResponse(make_query(stmt,apply_unescape=False,apply_escape=False),content_type="text")
         else:
             stmt='''
             SELECT 
@@ -564,7 +596,7 @@ def get_questions(request):
                     WHERE ct.id=\''''+request.POST.get("id")+'''\'
             '''
           
-            return HttpResponse(make_query(stmt),content_type="text")
+            return HttpResponse(make_query(stmt,apply_unescape=False,apply_escape=False),content_type="text")
             # return HttpResponse(json.dumps([dict(item) for item in Questions.objects.filter(cat_id=request.POST.get("id")).values( 'question','id','opt1','opt2','opt3','opt4','ans')]),content_type="text")
     else:
         return HttpResponse("Invalid req",content_type="text")
@@ -685,6 +717,7 @@ def get_q(request):
             result_set.exam_id=exam_id
             result_set.date_f=datetime.date.today().strftime("%Y-%m-%d")
             result_set.s_time=datetime.datetime.now().strftime("%H:%M:%S")
+            result_set.e_time=datetime.datetime.now().strftime("%H:%M:%S")
             result_set.save()
             if result_set!=None:
                 print("\nsucess:")
@@ -725,21 +758,27 @@ def ver_q(request):
         exam_id=quetion_sent_arr[len(quetion_sent_arr)-1]
         #from stored values in session
         #print(str(quetion_sent_arr)+"\n")
-        print("In the DB")
+        print("In the DB/Correct answer")
         print("id="+quetion_sent_arr[0]+","+"ans="+quetion_sent_arr[len(quetion_sent_arr)-2]+"\n")
 
         if ("score" not in request.session):
             request.session["score"]=0   
         try:
             cursor = connection.cursor()
-            stmt="UPDATE smart_result_set SET ans = \'"+escape(str(ans))+"\',e_time=\'"+datetime.datetime.now().strftime("%H:%M:%S")+"\' WHERE user_id=\'"+str(Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"])+"\' and  que_id=\'"+str(qid)+"\' and exam_id=\'"+exam_id+"\' ;"
+            # stmt="UPDATE smart_result_set SET ans = \'"+str(ans)+"\',e_time=\'"+datetime.datetime.now().strftime("%H:%M:%S")+"\' WHERE user_id=\'"+str(Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"])+"\' and  que_id=\'"+str(qid)+"\' and exam_id=\'"+exam_id+"\' ;"
+            # cursor.execute(stmt)
+            # print("UPDATE smart_result_set: "+str(cursor.rowcount)+"\n")
+
+            user_id=str(Users.objects.filter(email=request.session["logged_in"]).values()[0]["id"])
+            Result_set.objects.filter(user_id=user_id,que_id=str(qid),exam_id=exam_id).update(ans=escape(str(ans)),e_time=datetime.datetime.now().strftime("%H:%M:%S"),)
           
-            cursor.execute(stmt)
-            print("UPDATE smart_result_set: "+str(cursor.rowcount)+"\n")
         except Exception as e:
             print(str(e))
 
         print("----Current score Before Match: "+str(request.session["score"]))
+
+
+        print("match cond--------- ",re.match("^"+re.escape(str(ans))+"$",quetion_sent_arr[len(quetion_sent_arr)-2]))
         if(re.match("^"+re.escape(str(ans))+"$",quetion_sent_arr[len(quetion_sent_arr)-2])):
             request.session["score"]+=1
             print("----Current score After Match:  "+str(request.session["score"]))
@@ -988,7 +1027,7 @@ def default(o):
 
 
 
-def utc_to_ist(local):
+def utc_to_ist(local,native_format):
     # METHOD 1: Hardcode zones:
     from_zone = pytz.timezone('UTC')
     to_zone = pytz.timezone('Asia/Kolkata')
@@ -1005,9 +1044,13 @@ def utc_to_ist(local):
     utc = utc.replace(tzinfo=from_zone)
 
     # Convert time zone
-    return utc.astimezone(to_zone).strftime("%Y-%m-%d %H:%M:%S")
+    if native_format:
+        return utc.astimezone(to_zone).strftime("%d/%m/%Y, %I:%M:%S:%p")
+    else:
+        return utc.astimezone(to_zone).strftime("%Y-%m-%d %H:%M:%S")
 
-def make_query(stmt):
+
+def make_query(stmt,native_format=False,apply_unescape=True,apply_escape=False):
     cursor = connection.cursor() 
     try:
         cursor.execute(stmt)
@@ -1026,9 +1069,14 @@ def make_query(stmt):
             c=0
             list1=OrderedDict()
             for value in val:
-                orig_val=unescape(str(value))
+                if apply_unescape:
+                    orig_val=unescape(str(value))
+                if apply_escape:
+                    orig_val=escape(str(value))
+                else:
+                    orig_val=str(value)
                 if re.search("^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}(.\d{1,6})?$",orig_val):
-                    orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val).group(0))
+                    orig_val=utc_to_ist(re.search("\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}", orig_val).group(0),native_format)
                 list1.update(OrderedDict({cursor.description[c][0]: orig_val}))
                 c+=1
             mylist.append(list1)
@@ -1100,11 +1148,11 @@ def view_det_res(request):
         fields_dict["correct"]="q.ans AS 'Correct Answers'"
         fields_dict["submitted"]="IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted'"
         fields_dict["duration"]=""" ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration'"""
-        fields_dict["valid"]="IF(q.ans=rs.ans,1,0) AS 'Result'"
+        fields_dict["valid"]="IF(BINARY q.ans=rs.ans,1,0) AS 'Result'"
 
         fields_dict["totalduration"]="""SUM(IF(rs.s_time - rs.e_time < rs.s_time,
                 Round(Abs(rs.s_time - rs.e_time), 0), '-')) AS 'Total Duration'"""
-        fields_dict["totalvalid"]="SUM(IF(q.ans=rs.ans,1,0)) AS 'Total Score'"
+        fields_dict["totalvalid"]="SUM(IF(BINARY q.ans=rs.ans,1,0)) AS 'Total Score'"
         fields_dict["date"]="rs.date_f AS 'Date'"
         fields_dict["category"]="ct.cat AS 'Category'"
         fields_dict["score"]="IF(su.score >= 0, su.score, '-') AS score"
@@ -1161,7 +1209,7 @@ def view_det_res(request):
             q.question AS Questions,
             q.ans AS  'Correct Answer',
             IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted Answer',
-            IF(q.ans =rs.ans,'Correct','Wrong') AS 'Result',
+            IF(BINARY q.ans =rs.ans,'Correct','Wrong') AS 'Result',
             ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration(sec)',
             ct.cat AS Category
         """  
@@ -1367,11 +1415,11 @@ def view_graph(request):
         fields_dict["correct"]="s_que.ans AS 'Correct Answers'"
         fields_dict["submitted"]="IF(rs.ans='undefined' or rs.ans='null','-',rs.ans) AS 'Submitted'"
         fields_dict["duration"]=""" ABS(TIMEDIFF(rs.s_time , rs.e_time)) AS 'Duration'"""
-        fields_dict["valid"]="IF(s_que.ans=rs.ans,1,0) AS 'Result'"
+        fields_dict["valid"]="IF(BINARY s_que.ans=rs.ans,1,0) AS 'Result'"
 
         fields_dict["totalduration"]="""SUM(IF(rs.s_time - rs.e_time < rs.s_time,
                 Round(Abs(rs.s_time - rs.e_time), 0), '-')) AS 'Total Duration'"""
-        fields_dict["totalvalid"]="SUM(IF(s_que.ans=rs.ans,1,0)) AS 'Total Score'"
+        fields_dict["totalvalid"]="SUM(IF(BINARY s_que.ans=rs.ans,1,0)) AS 'Total Score'"
         fields_dict["date"]="rs.date_f AS 'Date'"
         fields_dict["category"]="s_cat.cat AS 'Category'"
         fields_dict["score"]="IF(su.score >= 0, su.score, '-') AS score"
@@ -1431,8 +1479,8 @@ def view_graph(request):
         stmt='''
         SELECT 
             s_cat.cat as category,
- 			SUM(IF(s_que.ans=rs.ans,1,0)) AS 'correct',
-            SUM(IF(s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
+ 			SUM(IF(BINARY s_que.ans=rs.ans,1,0)) AS 'correct',
+            SUM(IF(BINARY s_que.ans<>rs.ans,1,0)) AS 'wrong' ,
             count(*) AS Total,
             SUM(ABS(TIMEDIFF(rs.s_time , rs.e_time))) AS duration
             
@@ -1783,6 +1831,22 @@ def send_cred(request):
                             <b>Password: </b><span style='color:red'><i>"""+do_dec(row["password"])+"""</i></span><br />
                             <a href='http://"""+request.get_host()+"""/#/?email="""+row["email"]+"""'>Click here to start Exam</a><br />
                         </div>
+                        <div class="gmail_signature" data-smartmail="gmail_signature">
+                        <div dir="ltr">
+                            <br> 
+                            <div>
+                            <div dir="ltr">
+                                <img src='http://"""+request.get_host()+"""/server/log/?email="""+row["email"]+"""' style="width:50px">Terralogic
+                                <br>
+                                <br> 
+                                <a href='http://"""+request.get_host()+"""' target="_blank">http://"""+request.get_host()+"""</a>
+                            </div>
+                            <div dir="ltr">
+                                <br>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                     """
                     # print(body)
                     for i in range(5):
@@ -1899,7 +1963,7 @@ def read_excel(file,use=1):
     else:
         wb = load_workbook(filename=BASE_DIR+file, read_only=True)
         ws = wb['Sheet1']
-        for i in range(2,ws.max_row):
+        for i in range(2,ws.max_row+1):
             temp=list()
             if len(ws[i])!=0:
                 for col in ws[i]:
@@ -2055,16 +2119,63 @@ def bulk_code_que(request):
         return HttpResponse("Only admin can",content_type="text")
 
 
-import subprocess,os
+import subprocess,os,signal
 
-def run_cmd(cmd):
-    # print(cmd)
-    return subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read().decode()
+def run_cmd(cmd,process=None,username=None,max_time=0):
+    # out=subprocess.Popen(cmd,preexec_fn=os.setsid, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True)
+    out=subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+    if max_time!=0 and process!=None and username!=None:
+        threading.Thread(target=kill_after_max_dur, args=(process,username,max_time)).start()
+    # print("before return .............",os.getpgid(os.getpid()),os.getpid())
+    # if max_time!=0:
+    #     # mythread=threading.Thread(target=kill_after_max_dur, args=(out,2))
+    #     mythread=threading.Thread(target=kill_after_max_dur, args=(cmd,2))
+    #     mythread.start()
+    # print("just before return .............",out.pid,os.getpgid(out.pid))
+    err=out.stderr.read().decode()
+    print(err)
+    if err!=None and str(err).strip()!="":   
+        result=""
+        if str(err).lower().strip()=="killed":
+            result="Timeout" 
+        else:
+            result=err
+        output=out.stdout.read().decode()
+        if output!=None and output.strip()!="":
+            result+="\n"+output
+        return result
+    return out.stdout.read().decode()
+
+def kill_after_max_dur(process,user,max_time=5):
+    time.sleep(2)
+    print(run_cmd("sudo renice 20 -p $(pgrep -u api_test {})".format(process))) 
+    time.sleep(max_time)
+    if subprocess.Popen("pgrep -u {1} {0}".format(process,user), shell=True, stdout=subprocess.PIPE).stdout.read().decode().replace("\n"," ")!="":
+        print(run_cmd("sudo kill -9 $(pgrep -u {1} {0})".format(process,user)))
+
+
+#sudo pgrep -u api_test java
+
+
+# def kill(proc_pid):
+#     print("actual pid",run_cmd("pgrep java"))
+#     process = psutil.Process(proc_pid)
+#     print(process)
+#     for proc in process.children(recursive=True):
+#         print("children",proc.pid)
+#         proc.kill()
+#     return process.kill()
+
+# def kill_after_max_dur(process,max_time=5):
+#     time.sleep(max_time)
+#     print("killing "+str(process.pid)+"....",os.getpgid(process.pid))
+#     print(process.kill(),kill(process.pid))
+#     # print(os.killpg(os.getpgid(process.pid), signal.SIGHUP),os.killpg(os.getpgid(process.pid), signal.SIGTERM))
+    
 
 
 def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"):
     print("command: ",command)
-    txt=""
     path="/temp"
     user_home=path+"/"+username
     print("username: "+username)
@@ -2084,19 +2195,25 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
     cmd=""
     ext=""
     file_name=user_home+"/"+pgm_dir+pgm_name+"."
+    process=""
     if command=='cpp':
+        process="a.out"
         file_name+="cpp"
         cmd="g++ "+file_name+" -o "+user_home+"/a.out && "+pre_cmd+user_home+"/a.out"+" "+args
     elif command=='java':
+        process="java"
         file_name+="java"
         cmd="javac "+file_name+" && cd "+user_home+"/"+pgm_dir+" && "+pre_cmd+" java "+pgm_name+" "+args
     elif command=='py':
+        process="python"
         file_name+="py"
         cmd=pre_cmd+"python "+file_name+" "+args
     elif command=='py3':
+        process="python3"
         file_name+="py"
         cmd=pre_cmd+"python3 "+file_name+" "+args
     elif command=='js':
+        process="node"
         file_name+="js"
         cmd=pre_cmd+"node "+file_name+" "+args
     else:
@@ -2115,10 +2232,24 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
     # os.system("sudo chmod 777 "+file_name)           
     print(cmd)
     # print("Code: \n"+code)
-    txt="\n"+run_cmd(cmd)
+    attempt=0
+    out="No output"
+    while attempt<=10:
+        cpu_usage=psutil.cpu_percent()
+        if cpu_usage<=80:
+            print("cpu",cpu_usage)
+            out=run_cmd(cmd,process,username,30)
+            break
+        else:
+            print("Maximum (80%) CPU utilisition exceeded ({})".format(str(cpu_usage)))
+            out="Maximum (80%) CPU utilisition exceeded ({})".format(str(cpu_usage))
+        attempt+=1
+        time.sleep(0.5)
     # print(run_cmd("tree "+path+" && ls -l -R "+user_home))
     # print(txt)
-    return txt
+    return out
+
+
 
 @csrf_exempt
 def get_expected_output(request):
@@ -2127,6 +2258,19 @@ def get_expected_output(request):
         return HttpResponse(out,content_type="text")
     else:
         return HttpResponse("Only admin can",content_type="text")
+
+@csrf_exempt
+def get_code_count(request): 
+    if  request.method == 'POST' and ("admin" in request.session) and (request.session["admin"]!=None):
+        try:
+            stmt="SELECT COUNT(*) AS code_count FROM smart_code_questions"
+            code_count=json.loads(make_query(stmt))[0]
+            return HttpResponse(json.dumps(code_count),content_type="text")  
+        except Exception as e:
+            print(str(e))
+            return HttpResponse("warning&sep;Enter valid details",content_type="text")  
+    else:
+        return HttpResponse("error&sep;You are not allowed for do this operation",content_type="text")
 
 @csrf_exempt
 def get_code_que(request):
@@ -2167,6 +2311,7 @@ def get_code_que(request):
                 crs.code_questions_id=int(cur_que[0])
                 crs.exam_id=int(user["exam"])
                 crs.s_time=datetime.datetime.now().strftime("%H:%M:%S")
+                crs.e_time=datetime.datetime.now().strftime("%H:%M:%S")
                 crs.save()
             except Exception as e:
                 print(str(e))
@@ -2527,7 +2672,7 @@ def get_all_exam_status(uid):
     
     '''.format(uid)
     # print(stmt)
-    return make_query(stmt)
+    return make_query(stmt,True)
 
 @csrf_exempt
 def all_exam_status(request): 
@@ -2541,4 +2686,115 @@ def all_exam_status(request):
         return HttpResponse("No user logged in: \n",content_type="text")
 
 
-    
+
+@csrf_exempt
+def log_request(request): 
+    email="Unknown"
+    if("email" in request.GET):
+        email=request.GET["email"]
+    path = os.getcwd()+"/public/Terralogo.png"
+    path = apps.get_app_config('smart').path+"/../../public/Terralogo.png"
+    ip="Unknown"
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    time=datetime.datetime.now().strftime("%Y-%m-%d-%I-%M-%S-%p")
+    print(ip,email,time,request.META['REMOTE_ADDR'],path)
+    # return HttpResponse(str(path),content_type="text")
+    try:
+        email_status=Email_open_status()
+        email_status.email=email
+        email_status.ip=ip
+        email_status.time=time
+        email_status.save()
+    except Exception as e:
+        print(str(e))        
+    try:
+        # return FileResponse(open(path, 'rb'), content_type="image/png")
+        return HttpResponse(open(path, 'rb'), content_type="image/png")
+    except Exception as e:
+        print(str(e))
+        return HttpResponse("No image",content_type="text/html")
+
+@csrf_exempt
+def server_test(request): 
+    return HttpResponse("Server is up",content_type="text/html")
+
+
+@csrf_exempt
+def test_code_exe(request): 
+    code='''
+class pgm {
+    public static void main(String args[]) {
+        int i = 0;
+        while (i<=100){
+            System.out.print("Hi" + (i++)+" ");
+
+        }
+        int n1=0,n2=1,n3,count=10;    
+        System.out.print(n1+" "+n2);//printing 0 and 1    
+        for(i=2;i<count;++i)//loop starts from 2 because 0 and 1 are already printed    
+        {    
+        n3=n1+n2;    
+        System.out.print(" "+n3);    
+        n1=n2;    
+        n2=n3;    
+        }    
+    }
+}
+    '''
+    # code='''
+    # #include <unistd.h>
+    # #include<stdio.h>  
+    # int main(){    
+    #     int i=0;
+    #     while(1){
+    #         printf("hi %d ",i++);
+    #     }
+    #     return 0;
+    # }
+    # '''
+
+#     code='''
+# import time
+# i=0
+# while True:
+# print("hi",i)
+#     i+=1
+#     time.sleep(0.10)
+#     '''
+
+    out=run_code("java",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
+    # out=run_code("cpp",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm"
+    # )
+    # out,pid=run_code("py3",code,"api_test",inputs=None,args="",pgm_dir="",pgm_name="pgm")
+    print("output...\n",out)
+    return HttpResponse(out,content_type="text")
+
+
+@csrf_exempt
+def rebuild_que(request): 
+    if ("admin" in request.session) and (request.session["admin"]!=None):
+        que = Questions.objects.all().values()
+        txt=""
+        for q in que:
+            print(q["id"])
+            # txt+=str(q["id"])+" Q:"+str(Questions.objects.filter(id=q["id"]).update(question="<div>"+unescape(q["question"][5:len(q["question"])-6])+"</div>"))
+            # txt+="\n"
+            txt+=str(q["id"])+" opt1:"+str(Questions.objects.filter(id=q["id"]).update(opt1=escape((q["opt1"]))))
+            txt+="\n"
+            txt+=str(q["id"])+" opt2:"+str(Questions.objects.filter(id=q["id"]).update(opt2=escape((q["opt2"]))))
+            txt+="\n"
+            txt+=str(q["id"])+" opt3:"+str(Questions.objects.filter(id=q["id"]).update(opt3=escape((q["opt3"]))))
+            txt+="\n"
+            txt+=str(q["id"])+" opt4:"+str(Questions.objects.filter(id=q["id"]).update(opt4=escape((q["opt4"]))))
+            txt+=str(q["id"])+" ans:"+str(Questions.objects.filter(id=q["id"]).update(ans=escape((q["ans"]))))
+            txt+="\n"
+            # txt+="\n\n"
+        print(txt)
+        return HttpResponse(txt,content_type="text/html")
+
+    else:
+        return HttpResponse("Only allowed to admin \n",content_type="text")

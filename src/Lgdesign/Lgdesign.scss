@@ -1,0 +1,179 @@
+.Vishdesign {
+
+   height: 100%;
+   background-color: #72779C;
+
+   .loginBg {
+      width: 100%;
+      min-height: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background: #72789C;
+      background-position: center;
+      position: fixed;
+      z-index: -100;
+   }
+
+   .logo {
+      margin-top: 13vh;
+      margin-left: 250px;
+      height: 60px;
+      width: 150px;
+      background-size: cover;
+      background-position: center center;
+   }
+
+   .description {
+      background: #72789C;
+      margin-top: 75px;
+      margin-left: 250px;
+      color: white;
+   }
+
+   .greetings {
+      background: #72789C;
+      font-size: 45px;
+      line-height: 95%;
+   }
+
+   .info {
+      font-size: 18px;
+   }
+
+   .rightTopContainer {
+      display: block;
+      position: relative;
+      background: #72789C;
+      height: fit-content;
+   }
+
+   .loginForm {
+      background: #72789C;
+      border-radius: 8px;
+      height: 80vh;
+      margin-top: 10vh;
+      margin-right: 10vw;
+      margin-left: 5vw;
+      text-align: center;
+      position: relative;
+   }
+
+   .svg_bg {
+      position: absolute;
+      left: 0;
+      border-radius: 13px;
+      margin-bottom: 20px;
+      // box-shadow: 5px 5px 10px -2px;
+      border-radius: 10px !important;
+      border-top-right-radius: 0px !important;
+   }
+
+   .svgForm {
+      fill: #FFFFFF;
+   }
+
+   .svgFormFold {
+      fill: #F6F7FB;
+      stroke: grey;
+      stroke-width: 0.1;
+      fill-Rule: evenodd;
+   }
+
+   .form {
+      position: relative;
+      background-color: #FFFFFF;
+      z-index: 10;
+      max-width: 380px;
+      width: 380px;
+      max-height: 520px;
+      height: 350px;
+      top: 60px
+   }
+
+   .formDetails {
+      padding-left: 30px;
+      padding-right: 30px;
+   }
+
+   .loginText {
+      text-align: left;
+      font-weight: bold;
+      font-size: 25px;
+      margin-bottom: 5px;
+   }
+
+   .detailsText {
+      text-align: left;
+      margin-bottom: 4px;
+      font-size: 15px;
+   }
+
+   .start {
+      margin-bottom: 20px !important;
+   }
+
+   input[type="text"],
+   input[type="password"] {
+      margin-top: 0px;
+      background-color: rgb(246, 247, 251) !important;
+      border-style: none;
+   }
+
+   .pwd {
+      margin-top: 20px;
+   }
+
+   #lemail {
+      background-color: #E8F0FE !important;
+      border: solid 2px #E8F0FE;
+   }
+
+   #lemail:focus {
+      outline: none;
+      border: solid 2px #E5277E;
+   }
+
+   #lpwd {
+      margin-top: 0px;
+      background-color: #E8F0FE !important;
+      border: solid 2px #E8F0FE;
+   }
+
+   #lpwd:focus {
+      outline: none;
+      border: solid 2px #E5277E;
+   }
+
+   .forgot-pwd {
+      margin-top: 10px;
+      float: right;
+      color: #E5277E !important;
+   }
+
+   .btn_style {
+      background-color: #E5277E;
+      margin-top: 35px;
+      margin-right: 0px !important;
+      // width: -webkit-fill-available;
+      width: 100%;
+      color: #FFFFFF;
+      font-size: 15px;
+      outline: none;
+      border-radius: 10px;
+      font-weight: bold;
+      border: solid 2px #E5277E;
+   }
+
+   .formBottom {
+      background-color: #F6F7FB;
+      position: relative;
+      z-index: 10;
+      max-height: 520px;
+      max-width: 380px;
+      width: 380px;
+      height: 40px;
+      margin-top: 130px;
+      border-bottom-left-radius: 13px;
+      border-bottom-right-radius: 13px;
+   }
+}

@@ -20,15 +20,39 @@ class Admim_add_cat extends Myservice {
 
   componentDidMount() {
 
+    $(document).ready(function () {
+
+      var btn = $('#button_up');
+
+      $(window).scroll(function () {
+        if ($(window).scrollTop() > 200) {
+          $("#button_up").css({ "opacity": "1" })
+        } else {
+          $("#button_up").css({ "opacity": "0" })
+        }
+      });
+      btn.on('click', function (e: any) {
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, '100');
+      });
+
+    });
     this.list_cat();
     this.list_exam();
     let context = this;
 
     $(".del_que_btn").on("click", function (this: any) {
       var ids: any = []
+      var count = 0
       $(".que_sel").each(function (this: any) {
+        count = $(".que_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
+        if (count == 1) {
+          swal("Deleted " + count + " question", "", "success")
+        } else {
+          swal("Deleted " + count + " questions", "", "success")
+        }
       });
       if (context.get_sess("type") == "cat")
         context.fetch_data("/server/remove_questions/", "POST", null, "ids=" + ids.join(",") + "&from=all");
@@ -39,18 +63,18 @@ class Admim_add_cat extends Myservice {
     });
 
 
-    $(".sel_all").click(function (this: any) {
-      $('input:checkbox').each(function (this: any) {
-        if ($(this).prop('checked'))
-          $(this).prop('checked', false);
-        else
-          $(this).prop('checked', true);
-      });
-    });
+    // $(".sel_all").click(function (this: any) {
+    //   $('input:checkbox').each(function (this: any) {
+    //     if ($(this).prop('checked'))
+    //       $(this).prop('checked', false);
+    //     else
+    //       $(this).prop('checked', true);
+    //   });
+    // });
 
 
     $("input").eq(0).focus()
-    $("input[type='date").click(function (this: any) {
+    $("input[type='date']").click(function (this: any) {
       $(this).focus()
     });
     $(document).ready(function () {
@@ -64,36 +88,62 @@ class Admim_add_cat extends Myservice {
         minDate: 0
       });
     });
-    
+
     // let context = this;
     $(".del_exam_btn").on("click", function (this: any) {
       var ids: any = []
+      var count = 0
       $(".exam_sel").each(function (this: any) {
+        count = $(".exam_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
+        if (count == 1) {
+          swal("Deleted " + count + " exam", "", "success")
+        } else {
+          swal("Deleted " + count + " exams", "", "success")
+        }
+
       });
-      if(ids.length>0)
+      if (ids.length > 0)
         context.fetch_data("/server/exam_del/", "POST", null, "ids=" + ids.join(","))
       else
-        swal("Select at least one checkbox","","warning")
+        swal("Select at least one checkbox", "", "warning")
       context.list_exam();
+     
     });
 
     $(".del_cat_btn").on("click", function () {
-
       var ids: any = []
+      var count = 0
       $(".cat_sel").each(function (this: any) {
-
+        count = $(".cat_sel:checked").length
         if ($(this).prop("checked"))
           ids.push($(this).val())
+        if (count == 1) {
+          swal("Successfully deleted " + count + " category", "", "success")
+        } else {
+          swal("Successfully deleted " + count + " categories", "", "success")
+        }
       });
-      if(ids.length>0)
+      if (ids.length > 0)
         context.fetch_data("/server/remove_cat/", "POST", null, "ids=" + ids.join(","));
       else
-        swal("Select at least one checkbox","","warning")
+        swal("Select at least one checkbox", "", "warning")
       context.list_cat();
     });
+    $(".sel_all").click(function (this: any) {
+      $(".del_que_btn").hide()
+      $('.que_sel').each(function (this: any) {
+        if ($(this).prop('checked'))
+          $(this).prop('checked', false);
+        else
+          $(this).prop('checked', true);
+        if ($(this).prop("checked"))
+          $(".del_que_btn").show()
+      });
+    });
     super.componentDidMount();
+
   }
 
   componentDidUpdate() {
@@ -101,9 +151,16 @@ class Admim_add_cat extends Myservice {
   }
 
   back() {
+
+    $(".back").css({ "display": "none" })
+    $(".heading").css({ "display": "none" })
+    $(".sel_all").css({ "display": "none" })
+    $(".del_que_btn").css({ "display": "none" })
+    $(".q_list").css({ "display": "none" })
+    $("#button_up").css({ "display": "none" })
     $(".sect").css({ "display": "block" })
-    $(".res").css({ "display": "none" })
-    $("button").css({ "display": "none" })
+    $(".data").css({"background-color":"#F6F7FB","padding": "unset" ,"border-radius": "0 ","box-shadow": "unset"})
+    $(".row").css({ "height": "100%" })
   }
   add = () => {
     let json_str = {
@@ -118,6 +175,7 @@ class Admim_add_cat extends Myservice {
       });
       $("cat").val("");
       this.list_cat();
+      $("#cat_add").val("")
     }
     else {
       swal({
@@ -135,13 +193,23 @@ class Admim_add_cat extends Myservice {
     $(".q_list").html(txt)
     $(".q_from").html(this.get_sess("q_from"))
     $(".sect").css({ "display": "none" })
-    $(".res").css({ "display": "block" })
+    $(".res").css({ "display": "table" })
+    $("#button_up").css({ "display": "block"})
     $("button").css({ "display": "inline", "margin-right": "20px" })
     $(".q_list").css({ "width": "100%" })
     $(".val td").css({ "max-width": "250px" })
-    $("td div").css({ "display": "inline" })
-    $("td").css({ "padding-left": "20px", "text-indent": "-20px" })
-    $("table").css({ "border-spacing": "10px" })
+    $("que_td div").css({ "display": "inline" })
+    $(".que_td").css({ "padding-left": "20px" ,"word-break": "break-word","vertical-align":"top", "width":"225px"})
+    $(".row").css({ "height": "max-content" })
+    $(".result").css({ "border-spacing": "10px" })
+    $(".del_que_btn").css({ "display": "none" })
+    $(".que_sel").click(function () {
+      $(".del_que_btn").css({ "display": "none" })
+      $(".que_sel").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".del_que_btn").css({ "display": "block" })
+      });
+    });
   }
 
 
@@ -164,6 +232,7 @@ class Admim_add_cat extends Myservice {
       });
       $("cat").val("");
       this.list_exam();
+      $(".examInfo").val("")
     }
     else {
       swal({
@@ -179,23 +248,46 @@ class Admim_add_cat extends Myservice {
     let context = this;
     let str = this.fetch_data("/server/getcat/", "POST");
     let json_obj = JSON.parse(str);
-    let txt = "<tr>";
-    txt += "<th>Availiable Categories</th>";
-    txt += "<th></th>";
-    txt += "<th>Delete</th>";
-    txt += "</tr>";
+
+    let txt="<table class='list_cat' style=' border-spacing: 0 ;'>";
+    txt+="<tr>"
+    txt+= "<th style='padding-top: 10px; padding-bottom:10px;font-size:15px'>Available Categories</th>";
+    txt+= "<th></th>";
+    txt+="</tr>"
+
     let val1: any, val2: any;
+    let i=0;
+    let total=Object.keys(json_obj).length
+    let middle=Math.ceil(total/2)
     for (val1 in json_obj) {
+      if(i==middle){
+        txt+="</table>"
+        txt+="<table class='list_cat'>";
+        txt+="<tr>"
+        txt+= "<th>&nbsp;</th>";
+        txt+="</tr>"
+        if(total%2!=0){
+          txt+="<tr>"
+          txt+= "<th></th>";
+          txt+="</tr>"
+          txt+="<tr>"
+          txt+= "<th></th>";
+          txt+="</tr>"
+        }       
+      }
       txt += "<tr>"
-      txt += "<td>" + json_obj[val1]["cat"] + "</td>";
-      txt += "<td><a class='cat_view' heading='" + json_obj[val1]["cat"] + "' val='" + json_obj[val1]["id"] + "'>View Detail</a></td>";
-      txt += "<td><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='cat_sel' /></td>";
+      txt += "<td style='height:30px; width:250px'><div class='check'><label class='container1'><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='cat_sel full' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["cat"] + "</div></td>";
+      // txt += "<td>" + json_obj[val1]["cat"] + "</td>";
+      txt += "<td><a class='cat_view' heading='" + json_obj[val1]["cat"] + "' val='" + json_obj[val1]["id"] + "'>Details</a></td>";
+
       txt += "</tr>"
+      i++;
     }
-    $(".list_cat").html(txt)
+    txt += "</table>"
+    $(".list_cat_parent").html(txt)
 
 
-   
+
 
     $("table .cat_view").on("click", function (this: any) {
       context.set_sess("type", "cat")
@@ -203,26 +295,63 @@ class Admim_add_cat extends Myservice {
       context.set_sess("q_from", $(this).attr("heading"))
       context.set_sess("type", "cat")
       context.display_que($(this).attr("val"), "cat")
+      $(".data").css({ "background-color": "#FFFFFF" })
+      $(".data").css({ "padding": "20px" })
+      $(".data").css({ "border-radius": "10px" })
+      $(".data").css({ "margin-bottom": "30px" })
+      $(".data").css({ "box-shadow": "0 5px 5px -6px" })
     });
+    $(".delete").css({ "visibility": "hidden" })
+    $(".cat_sel").click(function () {
+      $(".delete").css({ "visibility": "hidden" })
+      $(".cat_sel").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".delete").css({ "visibility": "visible" })
+      });
+    });
+
   };
 
   list_exam = () => {
     let str = this.fetch_data("/server/getexam/", "POST");
     let json_obj = JSON.parse(str);
-    let txt = "<tr>";
-    txt += "<th>Availiable Exams</th>";
-    txt += "<th></th>";
-    txt += "<th>Delete</th>";
-    txt += "</tr>";
+    let txt="<table class='list_exam' style=' border-spacing: 0 ;'>";
+    txt+="<tr>"
+    txt+= "<th style='padding-top: 10px; padding-bottom:10px;font-size:15px'>Available Exams</th>";
+    txt+= "<th></th>";
+    txt+="</tr>"
+
     let val1: any, val2: any;
+    let i=0;
+    let total=Object.keys(json_obj).length
+    let middle=Math.ceil(total/2)
     for (val1 in json_obj) {
+      if(i==middle){
+        txt+="</table>"
+        txt+="<table class='list_exam'>";
+        txt+="<tr>"
+        txt+= "<th>&nbsp;</th>";
+        txt+="</tr>"
+        if(total%2!=0){
+          txt+="<tr>"
+          txt+= "<th></th>";
+          txt+="</tr>"
+          txt+="<tr>"
+          txt+= "<th></th>";
+          txt+="</tr>"
+        }       
+      }
       txt += "<tr>"
-      txt += "<td>" + json_obj[val1]["e_name"] + "</td>";
-      txt += "<td><a class='exam_view' heading='" + json_obj[val1]["e_name"] + "' val='" + json_obj[val1]["id"] + "'>View Detail</a></td>";
-      txt += "<td><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='exam_sel' /></td>";
+      txt += "<td style='height:30px; width:250px' class='exam_name'><div class='check'><label class='container1'><input type='checkbox'  value='" + json_obj[val1]["id"] + "' class='exam_sel full' /><span class='checkmark'></span></label></div><div class='checked'>" + json_obj[val1]["e_name"] + "</div></td>";
+      // txt += "<td>" + json_obj[val1]["e_name"] + "</td>";
+      txt += "<td><a class='exam_view' heading='" + json_obj[val1]["e_name"] + "' val='" + json_obj[val1]["id"] + "'>Details</a></td>";
+
       txt += "</tr>"
+      i++;
     }
-    $(".list_exam").html(txt)
+    txt += "</table>"
+    $(".list_exam_parent").html(txt)
+    
 
     let context = this;
     // $(".del_exam_btn").on("click", function (this: any) {
@@ -245,6 +374,20 @@ class Admim_add_cat extends Myservice {
       context.set_sess("q_from", $(this).attr("heading"))
       context.display_que($(this).attr("val"), "exam")
       context.set_sess("type", "exam")
+      $(".data").css({ "background-color": "#FFFFFF" })
+      $(".data").css({ "padding": "20px" })
+      $(".data").css({ "border-radius": "10px" })
+      $(".data").css({ "margin-bottom": "30px" })
+      $(".data").css({ "box-shadow": "0 5px 5px -6px" })
+    });
+
+    $(".del_exam_btn").css({ "visibility": "hidden" })
+    $(".exam_sel").click(function () {
+      $(".del_exam_btn").css({ "visibility": "hidden" })
+      $(".exam_sel").each(function (this: any) {
+        if ($(this).prop("checked"))
+          $(".del_exam_btn").css({ "visibility": "visible" })
+      });
     });
 
   };
@@ -254,13 +397,14 @@ class Admim_add_cat extends Myservice {
     let str = this.fetch_data("/server/get_questions/", "POST", null, "id=" + id + "&type=" + type);
     let json_obj = JSON.parse(str);
     let txt = "<tr>";
-    txt += "<td colspan='4'></td><td>Delete</td></tr><tr>";
+    // txt += "<td colspan='5' class='que_td'></td><td>&nbsp;&nbsp;&nbsp;</td></tr><tr>";
     let val1: any, val2: any;
     for (val1 in json_obj) {
       console.log(json_obj[val1]);
       txt += "<tr>"
-      txt += "<td colspan='4' style='max-width:100%'><b>Q." + (count++) + " </b>" + json_obj[val1]["question"] + "</td>";
-      txt += "<td><input type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /></td>"
+      txt += "<td colspan='5' class='que_td' style='max-width:100%'><b>Q." + (count++) + " </b>" + json_obj[val1]["question"] + "</td>";
+      // txt += "<td><input type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel' /></td>"
+      txt += "<td class='que_td'><label class='container1'><input style=' vertical-align: middle' type='checkbox' value='" + json_obj[val1]["id"] + "' class='que_sel full' /><span class='checkmark'></span></label></td>"
       txt += "</tr>"
       txt += "<tr class='val'>"
 
@@ -284,10 +428,10 @@ class Admim_add_cat extends Myservice {
       //     else
       //       txt += "<td>" + json_obj[val1]["opt4"] + "</td>";
 
-      txt += "<td>A)" + json_obj[val1]["opt1"] + "</td>";
-      txt += "<td>B)" + json_obj[val1]["opt2"] + "</td>";
-      txt += "<td>C)" + json_obj[val1]["opt3"] + "</td>";
-      txt += "<td>D)" + json_obj[val1]["opt4"] + "</td>";
+      txt += "<td class='que_td'>A)" + json_obj[val1]["opt1"] + "</td>";
+      txt += "<td class='que_td'>B)" + json_obj[val1]["opt2"] + "</td>";
+      txt += "<td class='que_td'>C)" + json_obj[val1]["opt3"] + "</td>";
+      txt += "<td class='que_td'>D)" + json_obj[val1]["opt4"] + "</td>";
       let ans = ""
       if (json_obj[val1]["opt1"] == json_obj[val1]["ans"])
         ans = "A)"
@@ -297,10 +441,12 @@ class Admim_add_cat extends Myservice {
         ans = "C)"
       else
         ans = "D)"
-      txt += "</tr><tr><td>Category: " + json_obj[val1]["cat"] + "</td></tr>";
-      txt += "<tr><td>Answer: " + ans + json_obj[val1]["ans"] + "</td></tr><tr></tr><tr></tr>";
+      txt += "</tr><tr><td class='que_td'>Category: " + json_obj[val1]["cat"] + "</td></tr>";
+      txt += "<tr><td class='que_td'>Answer: " + ans + json_obj[val1]["ans"] + "</td></tr><tr></tr><tr></tr>";
 
     }
+
+
     return txt;
   };
 
@@ -314,6 +460,7 @@ class Admim_add_cat extends Myservice {
       page(this)
     )
   }
+
 }
 
 export default Admim_add_cat;

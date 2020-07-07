@@ -30,6 +30,11 @@ class Code_populate extends Myservice {
             txt += json_obj[val1]["e_name"] + "</option>"
         }
         $("#" + id).html(txt)
+        let ctx=this
+        $("#" + id).change(function(this:any){
+          var remaining = JSON.parse(ctx.fetch_data("/server/rem_exam_dur/","POST",null,"exam=" + $(this).children("option:selected").val()))
+          $(".remaining").text((remaining.remaining/60).toFixed(0)+" Mins.")
+        });
     }
 
     create_que_set() {
@@ -48,7 +53,12 @@ class Code_populate extends Myservice {
         }
         let dur = $('#dur').val()
         let total = $('#total').val()
-        this.show_msg(this.fetch_data("/server/add_code_que_set/", "POST", "exam="+exam_id+"&dur="+dur+"&total="+total, null));
+        // this.show_msg(this.fetch_data("/server/add_code_que_set/", "POST", "exam="+exam_id+"&dur="+dur+"&total="+total, null));
+        //sweet alert top right
+        let status = this.fetch_data("/server/add_code_que_set/", "POST", "exam="+exam_id+"&dur="+dur+"&total="+total, null).split("&sep;")
+        this.notify(status[1],status[0])
+        $(".remaining").text("")
+        this.get_exam("exam");
     }
 
     render() {

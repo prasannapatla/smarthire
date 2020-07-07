@@ -1,6 +1,25 @@
+html {
+  background-color: #f6f7fb;
+}
+
 body {
   opacity: 1;
   transition: opacity 2s;
+}
+body * {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+}
+
+.content {
+  /* display: table; */
+}
+
+html,
+body,
+#root,
+.container {
+  height: 100%;
 }
 
 td,
@@ -11,35 +30,36 @@ a {
   font-size: 14px;
 }
 
-tr a {
+/* tr a {
   text-decoration: underline !important;
   color: rgb(2, 91, 173) !important;
-}
+} */
 
-.heading {
+/* .heading {
   font-size: 16px;
   text-align: left;
   text-transform: capitalize;
-}
+} */
 
 .sect th {
   text-transform: capitalize;
 }
 
-.heading,
+/* .heading,
 .sect td,
 .sect th {
   color: black;
   padding-left: 10px;
-}
+} */
 
 .container {
   min-width: 100%;
   margin: 0px;
   /* padding: 10px !important; */
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0px !important;
+  /* margin-bottom: 10px;*/
 }
+
 /* .container .row{
   display: table;
 }
@@ -49,12 +69,13 @@ tr a {
 /* .row {
   padding-left: -15px !important;
   padding-right: -15px !important;
+  background-color: #FFFFFF;
 } */
-
 
 .content {
   /* background-color: #fafafa; */
   height: 100%;
+  padding-right: unset;
   /* background-image: linear-gradient(to bottom right, #ede7f6, #c5cae9); */
 }
 
@@ -65,13 +86,17 @@ tr a {
     margin-right: auto;
   }
 } */
-
+/* 
 .data {
   height: 100%;
   background-color:#fafafa;
   margin-bottom: 20px;
   padding-bottom: 50px;
   min-height:500px;
+}*/
+
+.data {
+  margin-top: 40px;
 }
 
 input[type="checkbox"] {
@@ -83,7 +108,7 @@ input[type="checkbox"] {
   margin-right: 5px;
   width: 15px !important;
   height: 15px !important;
-  content: '';
+  content: "";
   display: inline-block;
   visibility: visible;
   border: 2px solid white;
@@ -96,7 +121,7 @@ input[type="checkbox"] {
   background-color: #fbe9e7;
 }
 
-input[type='checkbox']:checked {
+input[type="checkbox"]:checked {
   background-color: #43a047;
 }
 
@@ -104,14 +129,19 @@ input[type='checkbox']:checked {
   /*  overflow-y: auto; */
   min-width: 300px;
   width: 100%;
-  margin-left: 5px;
-  margin-right: 5px;
+}
+
+input[type="number"] {
+  background-color: #e9ebf8 !important;
+  outline: none;
 }
 
 input[type="text"],
 input[type="number"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="tel"] {
+  /* width: 30%; */
   width: 100%;
   margin-top: 10px;
   border: 2px solid #b8b8b8;
@@ -120,16 +150,17 @@ input[type="password"] {
   padding-bottom: 8px;
   padding-left: 10px;
   font-size: 16px;
+  background-color: #e9ebf8;
 }
 
 textarea {
   width: 100%;
   max-width: 100%;
-  min-width: 100%;
+  /* min-width: 100%; */
   margin-top: 10px;
   border: 2px solid #b8b8b8;
   border-radius: 5px;
-  min-height: 100px;
+  /* min-height: 100px; */
   color: black;
   font-size: 16px;
 }
@@ -138,28 +169,29 @@ input[type="button"],
 input[type="submit"],
 input[type="reset"],
 select {
-  background-color: rgb(184, 184, 184);
+  background-color: #e9ebf8;
   color: black;
   padding: 8px;
   padding-left: 10px;
   padding-right: 15px;
   border-radius: 5px;
   margin-top: 10px;
-  border:2px;
-  border-top:solid 2px silver;
-  border-left:solid 2px silver;
-  border-right:solid 2px gray;
-  border-bottom:solid 2px gray;
+  border: 2px;
+  border-top: solid 2px silver;
+  border-left: solid 2px silver;
+  border-right: solid 2px gray;
+  border-bottom: solid 2px gray;
 }
 
-input[type="button"] ,select,button{
-  margin-right: 20px !important;
+input[type="button"],
+select,
+button {
+  margin-right: 12px !important;
 }
 
-* input[type="button"]{
+* input[type="button"] {
   margin-left: 0px;
 }
-
 
 input[type="radio"] {
   -ms-transform: scale(1.5);
@@ -173,7 +205,7 @@ input[type="radio"] {
   width: 15px;
   height: 15px;
   border-radius: 50px;
-  content: '';
+  content: "";
   display: inline-block;
   visibility: visible;
   border: 1px solid black;
@@ -184,14 +216,12 @@ input[type="radio"] {
   background-color: white;
 }
 
-input[type='radio']:checked {
+input[type="radio"]:checked {
   background-color: gray;
 }
 
 .sect {
   border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
 }
 
 input[type="button"],
@@ -210,25 +240,26 @@ a:hover {
 .swal-footer {
   background-color: rgb(245, 248, 250);
   margin-top: 32px;
-  border-top: 1px solid #E9EEF1;
+  border-top: 1px solid #e9eef1;
   overflow: hidden;
 }
 
-input[type='text'],
+/* input[type='text'],
 input[type='number'],
 input[type='button'],
 input[type='submit'],
 input[type='date'] {
   min-width: 150px;
-}
+} */
 
-input[type='checkbox'] {
+input[type="checkbox"] {
   max-width: 40px;
 }
 
-input[type='number'] {
-  min-width: 20px;
+input[type="number"] {
+  /* min-width: 20px; */
   max-width: 150px;
+  font-size: 12px;
   margin-top: 0px;
 }
 
@@ -246,19 +277,81 @@ th,
   color: rgb(44, 44, 44) !important;
   font-weight: bolder;
 }
+
 /* tr td:first-child{
   padding-right: 20px;
   text-align: left;
 } */
 
-tr td:first-child input[type="checkbox"]{
+tr td:first-child input[type="checkbox"] {
   margin-left: 0px;
 }
-.pre_tag{
-  background-color: #e9ecf1;
-  padding-top:5px;
-  padding-bottom:5px;
-  padding-left:15px;
-  padding-right:15px;
+
+.checkmark {
+  box-shadow: inset 0 0 2px;
+  cursor: pointer;
 }
 
+.pre_tag {
+  background-color: #e9ecf1;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+select {
+  min-width: 150px;
+  height: 38px;
+}
+.content {
+  margin-left: 2%;
+}
+button {
+  font-size: 15px;
+  border-radius: 10px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  font-size: 14px;
+  visibility: hidden;
+  width: max-content;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  /* Position the tooltip */
+  position: relative;
+  top: 20px;
+  left: 20px;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+#root .content {
+  /* width: calc(100% - 270px) !important; */
+  /* margin-left: 280px !important; */
+}
+
+@media only screen and (max-width: 1200px) {
+ 
+  .content {
+    /* width: 93.33%; */
+    width: 100% !important;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: auto;
+  }
+}
