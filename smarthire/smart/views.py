@@ -64,8 +64,8 @@ KEY="This is a key123"
 
 
 IMAP_SERVER='imap.gmail.com'
-EMAIL_HOST_USER = 'terralogic.smarthire@gmail.com'
-EMAIL_HOST_PASSWORD = 'vjtohoaprxvfxfab'
+EMAIL_HOST_USER = 'smarthire@terralogic.com'
+EMAIL_HOST_PASSWORD = 'T3rr@l0g!c'
 
 
 def do_enc(email_id,password=None):    

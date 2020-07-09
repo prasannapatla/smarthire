@@ -92,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'smarthireuser',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'T3rr@l0g!c',
         'HOST': 'localhost',
         'PORT': '3306',
        
@@ -102,8 +102,8 @@ DATABASES = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'terralogic.smarthire@gmail.com'
-EMAIL_HOST_PASSWORD = 'vjtohoaprxvfxfab'
+EMAIL_HOST_USER = 'smarthire@terralogic.com'
+EMAIL_HOST_PASSWORD = 'T3rr@l0g!c'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 IMAP_SERVER='imap.gmail.com'
