@@ -2102,7 +2102,7 @@ def bulk_code_que(request):
                             request.POST["lang"]=lang
                         for i in range(1,5):
                             try:                            
-                                request.POST["exp_out_"+str(i)]=str(escape(run_code(request.POST["lang"],request.POST["code"],"validater",request.POST["t_inp_"+str(i)])))
+                                request.POST["exp_out_"+str(i)]=str((run_code(request.POST["lang"],request.POST["code"],"validater",request.POST["t_inp_"+str(i)])))
                             except Exception as e:
                                 resp+="\n"+str(e)+"\n"
                         responce=addcode(request).__dict__
@@ -2469,10 +2469,10 @@ def addcode(request):
             code_que.test_input2=request.POST.get("t_inp_2")
             code_que.test_input3=request.POST.get("t_inp_3")
             code_que.test_input4=request.POST.get("t_inp_4")
-            code_que.expected_output1=unescape(request.POST.get("exp_out_1"))
-            code_que.expected_output2=unescape(request.POST.get("exp_out_2"))
-            code_que.expected_output3=unescape(request.POST.get("exp_out_3"))
-            code_que.expected_output4=unescape(request.POST.get("exp_out_4"))
+            code_que.expected_output1=request.POST.get("exp_out_1")
+            code_que.expected_output2=request.POST.get("exp_out_2")
+            code_que.expected_output3=request.POST.get("exp_out_3")
+            code_que.expected_output4=request.POST.get("exp_out_4")
             code_que.save()
             if code_que!=None:
                 return HttpResponse("success",content_type="text")
