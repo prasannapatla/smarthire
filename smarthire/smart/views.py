@@ -170,7 +170,6 @@ def update_admin(request):
         pwd=""
         try:
             test=Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values()
-            print(len(test),test)
             pwd=request.POST.get("password").strip()
             if len(pwd)<4 or len(pwd)>10:
                 return HttpResponse("error&sep;Invalid password length",content_type="text")
@@ -181,7 +180,8 @@ def update_admin(request):
             email=""
             try:
                 email=Admin_users.objects.filter(id=request.POST.get("uid")).values()[0]["email"]
-                if len(Admin_users.objects.filter(super_admin=True).values())==1 and int(request.POST.get("super_admin"))==0:
+                # if Threre is only one admin & current user is admin & trying to remove him from super admin
+                if len(Admin_users.objects.filter(super_admin=True).values())==1 and len(Admin_users.objects.filter(id=request.POST.get("uid"),super_admin=True).values()) and int(request.POST.get("super_admin"))==0 :
                     return HttpResponse("error&sep;There should be at least one admin - "+email,content_type="text")
                 password=do_enc(email,pwd)
                 Admin_users.objects.filter(id=request.POST.get("uid")).update(password=password,super_admin=request.POST.get("super_admin"))
