@@ -170,7 +170,6 @@ def update_admin(request):
         pwd=""
         try:
             test=Admin_users.objects.filter(email=request.session["admin"],super_admin=True).values()
-            print(len(test),test)
             pwd=request.POST.get("password").strip()
             if len(pwd)<4 or len(pwd)>10:
                 return HttpResponse("error&sep;Invalid password length",content_type="text")
@@ -181,7 +180,8 @@ def update_admin(request):
             email=""
             try:
                 email=Admin_users.objects.filter(id=request.POST.get("uid")).values()[0]["email"]
-                if len(Admin_users.objects.filter(super_admin=True).values())==1 and int(request.POST.get("super_admin"))==0:
+                # if Threre is only one admin & current user is admin & trying to remove him from super admin
+                if len(Admin_users.objects.filter(super_admin=True).values())==1 and len(Admin_users.objects.filter(id=request.POST.get("uid"),super_admin=True).values()) and int(request.POST.get("super_admin"))==0 :
                     return HttpResponse("error&sep;There should be at least one admin - "+email,content_type="text")
                 password=do_enc(email,pwd)
                 Admin_users.objects.filter(id=request.POST.get("uid")).update(password=password,super_admin=request.POST.get("super_admin"))
@@ -2094,13 +2094,15 @@ def bulk_code_que(request):
                         if len(val)==8:
                             lang=val[7].lower()
                             if lang=="python":
+                                lang="py"
+                            elif lang=="python3":
                                 lang="py3"
                             elif lang=="javascript":
                                 lang="js"                        
                             request.POST["lang"]=lang
                         for i in range(1,5):
                             try:                            
-                                request.POST["exp_out_"+str(i)]=str(escape(run_code(request.POST["lang"],request.POST["code"],"validater",request.POST["t_inp_"+str(i)])))
+                                request.POST["exp_out_"+str(i)]=str((run_code(request.POST["lang"],request.POST["code"],"validater",request.POST["t_inp_"+str(i)])))
                             except Exception as e:
                                 resp+="\n"+str(e)+"\n"
                         responce=addcode(request).__dict__
@@ -2205,9 +2207,9 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
         file_name+="java"
         cmd="javac "+file_name+" && cd "+user_home+"/"+pgm_dir+" && "+pre_cmd+" java "+pgm_name+" "+args
     elif command=='py':
-        process="python"
+        process="python2"
         file_name+="py"
-        cmd=pre_cmd+"python "+file_name+" "+args
+        cmd=pre_cmd+"python2 "+file_name+" "+args
     elif command=='py3':
         process="python3"
         file_name+="py"

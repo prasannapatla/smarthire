@@ -70,7 +70,7 @@ class Add_code extends Myservice {
         super.componentDidMount();
     }
     callback(data: any, _this: any) {
-        $(".exp_op" + $(_this).attr('id').split("_")[2]).text(data)
+        $(".exp_op" + $(_this).attr('id').split("_")[2]).html(data)
         $("body *").css({ cursor: "auto" })
     }
 
