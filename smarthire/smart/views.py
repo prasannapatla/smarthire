@@ -2094,6 +2094,8 @@ def bulk_code_que(request):
                         if len(val)==8:
                             lang=val[7].lower()
                             if lang=="python":
+                                lang="py"
+                            elif lang=="python3":
                                 lang="py3"
                             elif lang=="javascript":
                                 lang="js"                        
@@ -2205,9 +2207,9 @@ def run_code(command,code,username,inputs=None,args="",pgm_dir="",pgm_name="pgm"
         file_name+="java"
         cmd="javac "+file_name+" && cd "+user_home+"/"+pgm_dir+" && "+pre_cmd+" java "+pgm_name+" "+args
     elif command=='py':
-        process="python"
+        process="python2"
         file_name+="py"
-        cmd=pre_cmd+"python "+file_name+" "+args
+        cmd=pre_cmd+"python2 "+file_name+" "+args
     elif command=='py3':
         process="python3"
         file_name+="py"
