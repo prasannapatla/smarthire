@@ -1928,7 +1928,7 @@ def upload(myfile):
     os.system("sudo chown -R :www-data "+UPLOAD_DIR)
     os.system("sudo chmod 777 -R "+UPLOAD_DIR)
     fs = FileSystemStorage(location=UPLOAD_DIR)
-    filename = fs.save(myfile.name, myfile)
+    filename = fs.save(myfile.name.replace(" ","_"), myfile)
     os.system("sudo chmod 777 -R "+UPLOAD_DIR)
     return fs.url(filename)
 
@@ -1984,6 +1984,7 @@ def bulk_reg(request):
                 return HttpResponse("Invalid file format",content_type="text")
             uploaded=upload(request.FILES['file'])
             resp=str(uploaded)
+            print("file uploaded loc=",resp)
             try:
                 data=read_excel(uploaded,0)
                 # resp+="\n"+str(data)
