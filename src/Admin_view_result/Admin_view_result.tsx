@@ -43,11 +43,11 @@ class Admin_view_result extends Myservice {
         });
       });
       $(".intake").on("keyup", function (this: any) {
-        // let eid=$('.exam :selected').val()
-        // if(eid!="exam type")
-        //   context.load_res($('.exam :selected').val());
-        // else
-        // context.load_res();
+        let eid=$('.exam :selected').val()
+        if(eid!="exam type")
+          context.load_res($('.exam :selected').val());
+        else
+        context.load_res();
       });
       $(".intake").on("change", function (this: any) {
         let eid=$('.exam :selected').val()
