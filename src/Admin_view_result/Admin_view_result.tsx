@@ -56,13 +56,18 @@ class Admin_view_result extends Myservice {
         else {
           context.view_user_det($('.exam :selected').val(), null);
         }
-        context.load_res($('.exam :selected').val());
+
+        let eid=$('.exam :selected').val()
+        if(eid!="exam type")
+          context.load_res($('.exam :selected').val());
+        else
+        context.load_res();
       });
 
     });
     
 
-
+    context.load_res();
     $("select").eq(0).focus()
     super.componentDidMount();
   }
