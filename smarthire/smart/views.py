@@ -976,7 +976,8 @@ def view_res(request):
                             SUM(IF(q.ans=rs.ans,1,0)) AS score1,
                             SUM(Round(Abs(TIMEDIFF(rs.s_time , rs.e_time)), 0)) AS total_dur,
                             su.coding_score AS coding_score,
-                            su.feedback AS Feedback
+                            su.feedback AS Feedback,
+                            su.mobile_no
                 
                         FROM smart_result_set AS rs               
                             INNER JOIN smart_questions AS q
@@ -999,8 +1000,53 @@ def view_res(request):
                     ON t1.id=t2.id
                     ORDER BY score1+IF(score2 is NULL,0,score2) DESC,total_dur   
             '''+max
-          
-            return HttpResponse(make_query(stmt),content_type="text")
+            resp=make_query(stmt)
+            json_data=json.loads(resp)
+            workbook = xlwt.Workbook(encoding = 'ascii')
+            worksheet = workbook.add_sheet('Smarthire')
+
+            heading=set_xl_color(workbook,"head_color", 245, 66, 152,True)
+            body=set_xl_color(workbook,"body_color",  27, 11, 77,False)
+            inch=3333 # 3333 = 1" (one inch).
+
+
+
+            worksheet.write(0, 0, label = 'User ID', style=heading)
+            worksheet.write(0, 1, label = 'Email', style=heading)
+            worksheet.write(0, 2, label = 'Score', style=heading)
+            worksheet.write(0, 3, label = 'Coding score', style=heading)
+            worksheet.write(0, 4, label = 'Total Duration(Mins)', style=heading)
+            worksheet.write(0, 5, label = 'Feedback', style=heading)
+            worksheet.write(0, 6, label = 'Mobile number', style=heading)
+
+
+            for i in range(0,len(json_data)):
+                score1=json_data[i]["Score"]
+                score2=json_data[i]["Score2"]
+                if score1=="-1":
+                    score1="NA"
+                if score2=="-1":
+                    score2="NA"
+                dur=0
+                if json_data[i]["Total Duration"]!="None":
+                    print(json_data[i]["Total Duration"])
+                    dur=round(float(json_data[i]["Total Duration"])/60)
+                worksheet.write(i+1, 0, label = json_data[i]["ID"], style=body)
+                worksheet.write(i+1, 1, label = json_data[i]["Username"], style=body)
+                worksheet.write(i+1, 2, label =score1, style=body)
+                worksheet.write(i+1, 3, label = score2, style=body)
+                worksheet.write(i+1, 4, label = str(dur), style=body)
+                worksheet.write(i+1, 5, label = json_data[i]["Feedback"], style=body)
+
+            for c in range(0,7):
+                worksheet.col(c).width = round(inch*1.5)
+            worksheet.col(1).width = round(inch*3)
+            path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/../"
+            print(path)
+            workbook.save(path+'./docs/details.xls')
+            workbook.save(path+'./public/details.xls')
+            os.system("sudo chmod 777  "+path+"./docs/details.xls "+path+"./public/details.xls")
+            return HttpResponse(resp,content_type="text")
     else:
         return HttpResponse("Invalid req",content_type="text")
 
