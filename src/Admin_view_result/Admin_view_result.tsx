@@ -43,10 +43,18 @@ class Admin_view_result extends Myservice {
         });
       });
       $(".intake").on("keyup", function (this: any) {
-        context.load_res($('.exam :selected').val())
+        // let eid=$('.exam :selected').val()
+        // if(eid!="exam type")
+        //   context.load_res($('.exam :selected').val());
+        // else
+        // context.load_res();
       });
       $(".intake").on("change", function (this: any) {
-        context.load_res($('.exam :selected').val())
+        let eid=$('.exam :selected').val()
+        if(eid!="exam type")
+          context.load_res($('.exam :selected').val());
+        else
+        context.load_res();
       });
 
       $(".exam").change(function (this: any) {
@@ -56,13 +64,18 @@ class Admin_view_result extends Myservice {
         else {
           context.view_user_det($('.exam :selected').val(), null);
         }
-        context.load_res($('.exam :selected').val());
+
+        let eid=$('.exam :selected').val()
+        if(eid!="exam type")
+          context.load_res($('.exam :selected').val());
+        else
+        context.load_res();
       });
 
     });
     
 
-
+    context.load_res(null,10);
     $("select").eq(0).focus()
     super.componentDidMount();
   }
@@ -71,12 +84,12 @@ class Admin_view_result extends Myservice {
     super.componentDidUpdate();
   }
 
-  load_res = (eid: any = null) => {
+  load_res = (eid: any = null,max:any="-1") => {
     let str = ""
     if (eid != null)
       str = this.fetch_data("/server/view_res/", "POST", "exam=" + eid + "&max=" + $(".intake").val())
     else
-      str = this.fetch_data("/server/view_res/", "POST", "max=" + $(".intake").val())
+      str = this.fetch_data("/server/view_res/", "POST", "max=" + (Number(max)>=0?max:$(".intake").val()))
     let json_obj
     try {
 
