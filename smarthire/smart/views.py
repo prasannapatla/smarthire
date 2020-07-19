@@ -919,7 +919,7 @@ def view_res(request):
             print(stmt)
             resp=make_query(stmt)
             json_data=json.loads(resp)
-            print(json_data[0].keys())
+            # print(json_data[0].keys())
             workbook = xlwt.Workbook(encoding = 'ascii')
             worksheet = workbook.add_sheet('Smarthire')
 
@@ -1007,7 +1007,7 @@ def view_res(request):
             print(stmt)
             resp=make_query(stmt)
             json_data=json.loads(resp)
-            print(json_data[0].keys())
+            # print(json_data[0].keys())
             workbook = xlwt.Workbook(encoding = 'ascii')
             worksheet = workbook.add_sheet('Smarthire')
 
