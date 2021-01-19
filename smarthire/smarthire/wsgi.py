@@ -27,9 +27,15 @@ sys.path.append('/var/www/smarthire/smarthire/myenv/lib/python3.6/site-packages'
 from django.core.wsgi import get_wsgi_application 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'smarthire.settings')
+<<<<<<< HEAD
 os.system("sudo chown -R :www-data /var/www/smarthire")
 os.system("sudo chmod 770 -R /var/www/smarthire/")
 os.system("sudo chmod 775 -R /var/www/smarthire/smarthire/myenv")
+=======
+# os.system("sudo chown -R :www-data /var/www/smarthire")
+# os.system("sudo chmod 770 -R /var/www/smarthire/")
+# os.system("sudo chmod 775 -R /var/www/smarthire/smarthire/myenv")
+>>>>>>> 6e47736cff6428ec161eaa72bfb6a9f50cf6db40
 try: 
     application = get_wsgi_application() 
 except Exception: 
