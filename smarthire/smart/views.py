@@ -279,7 +279,11 @@ def user_login(request):
                 pass              
 
             try:
-                uid=Users.objects.filter(email=email_id).values()[0]["id"]
+                _user=Users.objects.filter(email=email_id).values()[0]
+                uid=_user["id"]
+                exam_id=_user["exam_id"]
+                if Selected_questions.objects.filter(exam=exam_id).count()==0 and Selected_code_questions.objects.filter(exam=exam_id).count()==0:
+                    return HttpResponse("Questions are not prepared yet",content_type="text")
                 if int(json.loads(get_all_exam_status(uid))[0]["status_code"])==3:
                     return HttpResponse("You have already attended exam",content_type="text")
             except:
