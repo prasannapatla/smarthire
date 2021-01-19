@@ -49,11 +49,11 @@ var page = function (_this: any) {
                                         <select id="cur_exam2" className="cur_exam2"></select>
                                         <button className="send" onClick={_this.send_password.bind(_this)}><b style={{ marginRight: "5px" }}><FaPlus style={{ color: "#FFFFFF" }} /> Send</b></button>
                                     </div>
-                                    <b style={{ fontSize: '15px'}}>Failed emails: </b><br />
+                                    <b style={{ fontSize: '15px'}}>Unsent emails: </b><br />
                                     <pre className='refresh_status' id='refresh_status' ></pre>
                                     <pre id="email_status" className='email_status'></pre>
 
-                                    <b style={{ fontSize: '15px'}}>Email sent status: </b><br />
+                                    <b style={{ fontSize: '15px'}}>Last email sent status: </b><br />
                                     <pre className='server_side_resp' id="server_side_resp"></pre>
                                 </form>
                             </div>
