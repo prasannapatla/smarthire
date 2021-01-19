@@ -5,3 +5,10 @@ smarthire/myenv.7z
 uploads
 access.log
 error.log
+
+node_modules_old
+docs
+
+**/__pycache__
+*.pyc 
+smarthire/myenv
