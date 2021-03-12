@@ -1746,8 +1746,9 @@ def get_inbox_mails(mail_id,request):
         # print("---End---",threading.current_thread().ident)
     except Exception as e:
         # print("get_inbox_mails-"+str(e))
-        print('get_inbox_mails-\tError on line {}'.format(
-            sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+        # print('get_inbox_mails-\tError on line {}'.format(
+        #     sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+        pass
 
 def delete_mail_delivery_status(mail_id):
     try:
@@ -1881,16 +1882,45 @@ def send_cred(request):
                     users=Users.objects.filter(exam=request.POST.get("exam"),email_sent_status=False).values()
                     print("sending failed...")
 
+                from_zone = pytz.timezone('UTC')
+                to_zone = pytz.timezone('Asia/Kolkata')
+                
+
+             
+
                 for row in users:  
-                    print(row) 
+                    print(row)
                     mythread=threading.Thread(target=delete_mail_delivery_status, args=(row["email"],))
                     mythread.start()
-                    mythread.join()          
+                    mythread.join()    
+
+                    exam_starts_at="No data"
+                    exam_ends_at="No data"
+                    duration_of_exam="No data"
+                    try:
+                        users_exam=Exam.objects.filter(id=row["exam_id"]).values().first()
+                        # print("////////////////------- users_exam",users_exam)
+                        # exam_starts_at=datetime.now(tz).strftime("%Y_%m_%d-%H_%M_%S") #users_exam["start_date"]
+                        exam_starts_at = users_exam["start_date"]
+                        exam_starts_at = exam_starts_at.replace(tzinfo=from_zone)                   
+                        exam_starts_at=exam_starts_at.astimezone(to_zone).strftime("%d/%m/%Y, %I:%M:%S:%p")
+
+                        exam_ends_at = users_exam["end_date"]
+                        exam_ends_at = exam_ends_at.replace(tzinfo=from_zone)    
+                        exam_ends_at=exam_ends_at.astimezone(to_zone).strftime("%d/%m/%Y, %I:%M:%S:%p")
+
+                        duration_of_exam=users_exam["duration"]/60
+                    except Exception as e:
+                        print("send cred",str(e))
+
                     body="""
                         <h2>Your Credentials are:</h2>
                         <div style='font-size:15px;'>
                             <b>Email: </b><span style='color:red'>"""+row["email"]+"""</span><br />
                             <b>Password: </b><span style='color:red'><i>"""+do_dec(row["password"])+"""</i></span><br />
+                            <b>Exam starts at:</b>"""+exam_starts_at+"""<br />
+                            <b>Exam ends at:</b>"""+exam_ends_at+"""<br />
+                            <b>Duration of exam:</b>"""+str(duration_of_exam)+"""mins<br />
                             <a href='http://"""+request.get_host()+"""/#/?email="""+row["email"]+"""'>Click here to start Exam</a><br />
                         </div>
                         <div class="gmail_signature" data-smartmail="gmail_signature">
@@ -1933,6 +1963,7 @@ def send_cred(request):
                 return HttpResponse("Mail sent successfully",content_type="text")
             except Exception as e:
                 print("-------------Main Exce "+str(e))
+                print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
                 email_sending_status=False
                 return HttpResponse("fail",content_type="text")
         else:
