@@ -1978,17 +1978,20 @@ def cur_email_status(request):
 from django.core.files.storage import FileSystemStorage
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"/../"
+BASE_DIR="/var/www/smarthire/"
 MEDIA_URL = './uploads/'
 UPLOAD_DIR = os.path.abspath(os.path.join(BASE_DIR, MEDIA_URL))
 
 
 def upload(myfile):
+    print("-------",UPLOAD_DIR,myfile.name,"----------")
     os.system("sudo chown -R :www-data "+UPLOAD_DIR)
     os.system("sudo chmod 777 -R "+UPLOAD_DIR)
     fs = FileSystemStorage(location=UPLOAD_DIR)
     filename = fs.save(myfile.name.replace(" ","_"), myfile)
     os.system("sudo chmod 777 -R "+UPLOAD_DIR)
-    return fs.url(filename)
+    #return fs.url(filename)
+    return MEDIA_URL+filename
 
 global_temp_update=None
 
