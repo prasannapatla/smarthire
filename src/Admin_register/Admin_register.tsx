@@ -61,7 +61,7 @@ class Admin_register extends Myservice {
       clearTimeout(this.timeout)
 
     this.timeout = setTimeout(() => {
-      context.get_email_status(15000)
+      context.get_email_status(30000)
     }, 1000);
 
     $("#cur_exam").change(function (this: any) {
@@ -69,7 +69,9 @@ class Admin_register extends Myservice {
     });
 
     $(".cur_exam2").change(function () {
-      context.get_email_status(15000);
+      setTimeout(() => {
+        context.get_email_status(30000);
+      }, 1);
     });
 
     $("input").eq(0).focus()

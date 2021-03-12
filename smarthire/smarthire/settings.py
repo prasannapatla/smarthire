@@ -87,12 +87,24 @@ WSGI_APPLICATION = 'smarthire.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'smarthireuser',
+#         'USER': 'root',
+#         'PASSWORD': 'T3rr@l0g!c',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+       
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'smarthireuser',
         'USER': 'root',
-        'PASSWORD': 'T3rr@l0g!c',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
        

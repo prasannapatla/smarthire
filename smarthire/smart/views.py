@@ -69,21 +69,23 @@ EMAIL_HOST_PASSWORD = 'T3rr@l0g!c'
 
 
 def do_enc(email_id,password=None):    
-    obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
+    # obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
     if password==None:
         password = User.objects.make_random_password(length=6) 
-    sha_code=hashlib.sha256(email_id.strip().encode()).hexdigest()
-    enc_pwd=obj.encrypt(password+(16-len(password))*"=")
-    return sha_code[:10]+base64.b64encode(enc_pwd).decode()
+    # sha_code=hashlib.sha256(email_id.strip().encode()).hexdigest()
+    # enc_pwd=obj.encrypt(password+(16-len(password))*"=")
+    # return sha_code[:10]+base64.b64encode(enc_pwd).decode()
+    return password
 
 def do_dec(password): 
-    try:
-        enc_pwd=base64.b64decode(password[10:].encode())
-        obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
-        return str(obj.decrypt(enc_pwd).decode("utf-8")).replace("=","")
-    except Exception as e:
-        print(str(e))
-        return "Failed"
+    # try:
+    #     enc_pwd=base64.b64decode(password[10:].encode())
+    #     obj = AES.new(KEY, AES.MODE_CBC, 'This is an IV456')
+    #     return str(obj.decrypt(enc_pwd).decode("utf-8")).replace("=","")
+    # except Exception as e:
+    #     print(str(e))
+    #     return "Failed"
+    return password
 
 @csrf_exempt
 def add_admin(request):
@@ -223,8 +225,8 @@ def user_signup(request):
             if len(request.POST.get("mob"))!=10:
                 return HttpResponse("error&sep;Length of mobile number is incorrect",content_type="text")
             users.mobile_no=request.POST.get("mob")
-            if re.match("^(127\.0\.0\.1)|localhost",request.get_host()):
-                users.password=do_enc(email_id,"passme")
+            # if re.match("^(127\.0\.0\.1)|localhost",request.get_host()):
+            #     users.password=do_enc(email_id,"passme")
             users.score=-1
             users.save()
             if users!=None:
@@ -1743,7 +1745,9 @@ def get_inbox_mails(mail_id,request):
         mail.logout()
         # print("---End---",threading.current_thread().ident)
     except Exception as e:
-        print("get_inbox_mails-"+str(e))
+        # print("get_inbox_mails-"+str(e))
+        print('get_inbox_mails-\tError on line {}'.format(
+            sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
 
 def delete_mail_delivery_status(mail_id):
     try:
@@ -1951,7 +1955,7 @@ def sent_cred(request):
             data+="data: \n\n"
         else:
             data="data:  \n\n"
-        print(data)
+        # print(data)
         return HttpResponse(data,content_type='text/event-stream')
     else:
         print("Only for admin\n")
