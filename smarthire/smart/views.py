@@ -26,6 +26,8 @@ from django.http.response import StreamingHttpResponse as HttpResponse
      
 from .models import Users,Questions,Categories,Selected_questions,Exam,Result_set,Email_status,Code_questions,Selected_code_questions,Coding_result_set,Admin_users,Email_open_status
 from .serializers import UsersSerializer
+from django.db import connection
+
 
 
 from django.db import connection
@@ -1693,7 +1695,7 @@ def add_mails(status):
 
 
 
-def get_inbox_mails(mail_id,request): 
+def get_inbox_mails(mail_id): 
     global email_delivery_status,thread_stop
     try:
         # print("---Start---",threading.current_thread().ident)
@@ -1714,10 +1716,12 @@ def get_inbox_mails(mail_id,request):
         total=len(id_list)           
         print(mail_id,"delivary total: ",total) 
         print(mail_id,"send_to total: ",len(list(data2[0].split())))
+        print(len(list(data2[0].split()))==0 or len(id_list)>0)
         if len(list(data2[0].split()))==0 or len(id_list)>0:
             Users.objects.filter(email=mail_id).update(email_sent_status=False)
         else:
-            Users.objects.filter(email=mail_id).update(email_sent_status=True)             
+            Users.objects.filter(email=mail_id).update(email_sent_status=True)   
+        Users.objects.filter(email=mail_id).update(email_sent_iterations=len(list(data2[0].split())))            
         if len(id_list)==0:
             print("--------------------No mails--Thread aborted...")
             mail.close()
@@ -1746,9 +1750,11 @@ def get_inbox_mails(mail_id,request):
         # print("---End---",threading.current_thread().ident)
     except Exception as e:
         # print("get_inbox_mails-"+str(e))
-        # print('get_inbox_mails-\tError on line {}'.format(
-        #     sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+        print('get_inbox_mails-\tError on line {}'.format(
+            sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
         pass
+    finally:
+        connection.close()
 
 def delete_mail_delivery_status(mail_id):
     try:
@@ -1825,12 +1831,20 @@ def check_email_status(request):
         if not thread.isAlive():
             threads.pop(ind)
         ind+=1
+    
     for user in users:
-        threads.append(threading.Thread(target=get_inbox_mails, args=(user['email'],request,)))
+       
+        threads.append(threading.Thread(target=get_inbox_mails, args=(user['email'],)))
+        
+    email_counter=1
     for thread in threads:
         try:
             if not thread.isAlive():
+                email_counter+=1
+                time.sleep(0.1)
                 thread.start()
+                if email_counter%10==0:
+                    time.sleep(5)
         except Exception as e:
             print("email status: "+str(e))
     # for thread in threads:

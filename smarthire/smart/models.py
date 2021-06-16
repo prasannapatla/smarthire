@@ -30,6 +30,8 @@ class Users(models.Model):
     exam= models.ForeignKey(Exam,on_delete=models.CASCADE,default="null")  
     malpractices=models.IntegerField(blank=False,default=0)   
     email_sent_status=models.BooleanField(blank=False,default=False)
+    email_sent_iterations=models.IntegerField(blank=False,default=False)
+    email_delivery_status=models.BooleanField(blank=False,default=False)
     feedback=models.IntegerField(blank=False,default=0) 
     mobile_no=models.CharField(max_length=10, blank=False,default=None,unique=True)
 
