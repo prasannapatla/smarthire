@@ -11,6 +11,7 @@ import sample from '../assets/Bulk_coding_que_upload.xlsx'
 
 
 var page = function (_this: any) {
+    
     return (
         <div className="Add_code">
             <div className="container">

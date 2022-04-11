@@ -60,14 +60,17 @@ from multiprocessing import Manager
  
 from django.contrib.auth.models import User
 import hashlib 
-from Crypto.Cipher import AES
+# from Crypto.Cipher import AES
 import base64
 KEY="This is a key123"
 
 
 IMAP_SERVER='imap.gmail.com'
 EMAIL_HOST_USER = 'smarthire@terralogic.com'
-EMAIL_HOST_PASSWORD = 'T3rr@l0g!c'
+# EMAIL_HOST_PASSWORD = 'ntolydtysjntzeit'
+EMAIL_HOST_PASSWORD='tcykxtfvdmtdyylr'
+
+# ntolydtysjntzeit
 
 
 def do_enc(email_id,password=None):    
